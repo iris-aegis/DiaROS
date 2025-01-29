@@ -332,7 +332,7 @@ rqt_graph           rqt_msg             rqt_py_console      rqt_srv
 
 ### 6.2 rqt_graph
 ```
-$ ros2 run rpt_graph rqt_graph
+$ ros2 run rqt_graph rqt_graph
 ```
 
 ### 6.3 rqt_plot
