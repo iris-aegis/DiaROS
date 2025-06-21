@@ -160,3 +160,40 @@ cython_debug/
 #.idea/
 
 /DiaROS/DiaROS_ros/tmp/
+
+# ROS2 bag files
+rosbag2_*/
+*.bag
+*.bag.orig
+*.bag.active
+*.db3
+*.db3-shm
+*.db3-wal
+**/rosbag2_*/**
+
+# Audio input files
+model_input_sound.wav
+model_input_sound.raw
+
+# ROS2 build and install directories (contain sensitive API keys)
+*/build/
+*/install/
+*/log/
+
+# API keys and credentials
+*.env
+.env.*
+**/colcon_command_prefix_*.sh.env
+credentials/
+*.key
+*.token
+*.auth
+*.credentials
+
+# Google Cloud credentials
+google-credentials*.json
+service-account*.json
+
+# Colcon specific ignore patterns
+COLCON_IGNORE
+.colcon_ignore
