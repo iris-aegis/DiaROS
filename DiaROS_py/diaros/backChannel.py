@@ -16,7 +16,8 @@ from threading import Thread, Lock, Event
 from queue import Queue
 import sys
 from transformers import Wav2Vec2ForSequenceClassification, Wav2Vec2FeatureExtractor
-from playsound import playsound
+import pygame
+pygame.mixer.init()
 
 # ROSから音声チャンクを受け取るためのグローバルキュー
 stream_queue = Queue()

@@ -1,6 +1,7 @@
 # TurtTaking,back_channelのプログラムをDiaROS内に入れる開発 Unityにjsonファイルで共有する 一旦履歴諦め
 from datetime import datetime, timedelta
-from playsound import playsound
+import pygame
+pygame.mixer.init()
 import shutil
 import os
 import json
@@ -109,7 +110,18 @@ class SpeechSynthesis():
         self.response_pause_length = 1
         self.prev_response_time = datetime.now()
 
-        playsound("power_calibration.wav", True)#アナウンス文を読み上げる
+        # power_calibration.wavは無効化
+    
+    def play_sound(self, filename, block=True):
+        """pygame.mixerを使用して音声ファイルを再生"""
+        try:
+            pygame.mixer.music.load(filename)
+            pygame.mixer.music.play()
+            if block:
+                while pygame.mixer.music.get_busy():
+                    pygame.time.wait(100)
+        except Exception as e:
+            print(f"音声再生エラー: {e}")
     
     def trim_wav(self, input_file, output_file, trim_duration=0.1):# VOICEVOXのノイズ除去用
         # 入力ファイルを開く
@@ -251,9 +263,9 @@ class SpeechSynthesis():
 
             # ここで音声ファイルを再生
             # try:
-            #     playsound(tts_file, True)
+            #     self.play_sound(tts_file, True)
             # except Exception as e:
-            #     print(f"playsound error: {e}")
+            #     print(f"音声再生エラー: {e}")
 
             # 終了時間を記録
             end_time = datetime.now()
@@ -266,7 +278,7 @@ class SpeechSynthesis():
             
             # if self.sound_available == False:
             #     if datetime.now() - self.prev_response_time > timedelta(seconds=self.response_pause_length):
-            #         playsound(tts_file, True)
+            #         self.play_sound(tts_file, True)
             #         self.prev_response_time = datetime.now() 
             # os.remove(tts_file)
             self.speak_end = True

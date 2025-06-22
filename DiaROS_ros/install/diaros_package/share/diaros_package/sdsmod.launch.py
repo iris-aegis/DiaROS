@@ -58,6 +58,7 @@ def generate_launch_description():
         Node(
             package='diaros_package',
             executable='ros2_speech_synthesis',
+            name='ros2_speech_synthesis',
             output='screen'
         ),
         Node(

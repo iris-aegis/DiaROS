@@ -2,7 +2,9 @@ import sys
 import socket
 import time
 from datetime import datetime, timedelta
-from playsound import playsound
+import pygame
+pygame.mixer.pre_init(frequency=22050, size=-16, channels=2, buffer=512)
+pygame.mixer.init()
 import random
 import numpy as np
 import webrtcvad
@@ -39,6 +41,25 @@ class DialogManagement:
     def get_audio_length(self, filename):
         audio = AudioSegment.from_wav(filename)
         return len(audio) / 1000.0  # 長さを秒単位で返す
+    
+    def play_sound(self, filename, block=True):
+        """pygame.mixerを使用して音声ファイルを再生"""
+        try:
+            if not os.path.exists(filename):
+                print(f"音声ファイルが見つかりません: {filename}")
+                return False
+                
+            pygame.mixer.music.load(filename)
+            pygame.mixer.music.play()
+            
+            if block:
+                while pygame.mixer.music.get_busy():
+                    pygame.time.wait(100)
+            
+            return True
+        except Exception as e:
+            print(f"音声再生エラー: {e}")
+            return False
 
     def __init__(self):
         self.word = ""
@@ -183,6 +204,7 @@ class DialogManagement:
                     last_handled_tt_time = tt_time
                     continue
                 if probability >= turn_taking_threshold:
+                    self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
                     # ここで音声合成ファイル名があればそれを再生
                     if hasattr(self, 'latest_synth_filename') and self.latest_synth_filename:
                         wav_path = self.latest_synth_filename
@@ -193,8 +215,7 @@ class DialogManagement:
                             duration_sec = 2.0
                         sys.stdout.write(f"[TT] 合成音声再生 duration_sec={duration_sec}\n")
                         sys.stdout.flush()
-                        playsound(wav_path, True)
-                        self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
+                        self.play_sound(wav_path, False)  # ノンブロッキング再生
                         last_response_end_time = time.time() + duration_sec
                         is_playing_response = True
                         next_back_channel_after_response = last_response_end_time + back_channel_cooldown_length
@@ -211,6 +232,7 @@ class DialogManagement:
 
             # 相槌音声再生終了後にpendingしていた応答判定があれば処理
             if is_playing_backchannel and last_backchannel_end_time is not None and time.time() >= last_backchannel_end_time:
+                self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
                 is_playing_backchannel = False
                 last_backchannel_end_time = None
                 if pending_tt_data is not None:
@@ -227,8 +249,7 @@ class DialogManagement:
                                     duration_sec = 2.0
                                 sys.stdout.write(f"[TT] 合成音声再生(pending) duration_sec={duration_sec}\n")
                                 sys.stdout.flush()
-                                playsound(wav_path, True)
-                                self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
+                                self.play_sound(wav_path, False)  # ノンブロッキング再生
                                 self.latest_synth_filename = ""
                                 last_response_end_time = time.time() + duration_sec
                                 is_playing_response = True
@@ -242,7 +263,7 @@ class DialogManagement:
                                     duration_sec = 2.0
                                 sys.stdout.write(f"[TT] 再生音声長 duration_sec={duration_sec}\n")
                                 sys.stdout.flush()
-                                playsound(wav_path, True)
+                                self.play_sound(wav_path, False)  # ノンブロッキング再生
                                 self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
                                 self.static_response_index += 1
                                 if self.static_response_index >= len(self.static_response_files):
@@ -271,7 +292,7 @@ class DialogManagement:
                         wav_path = f"static_back_channel_{random.randint(1, 2)}.wav"
                         audio = AudioSegment.from_wav(wav_path)
                         duration_sec = len(audio) / 1000.0
-                        playsound(wav_path, True)
+                        self.play_sound(wav_path, False)  # ノンブロッキング相槌再生
                         last_back_channel_time = time.time()
                         is_playing_backchannel = True
                         last_backchannel_end_time = last_back_channel_time + duration_sec
@@ -398,7 +419,8 @@ class DialogManagement:
                     else:
                         self.additional_asr_start_time = datetime.now()
                         sys.stdout.write('\nadditional start' + '\n')
-                        # playsound("additional_asr_response.wav", True)
+                        if os.path.exists("additional_asr_response.wav"):
+                            self.play_sound("additional_asr_response.wav", False)
                         # print(f"The length of the audio file is {self.system_response_length} seconds.")
                     
             time_difference = datetime.now() - self.prev_response_time
@@ -437,7 +459,8 @@ class DialogManagement:
 
                     except FileNotFoundError:
                         pass
-                        # playsound("additional_asr_response.wav", True)
+                        if os.path.exists("additional_asr_response.wav"):
+                            self.play_sound("additional_asr_response.wav", False)
                 else:
                     self.additional_asr_start_time = datetime.now()
                     sys.stdout.write('\nadditional start' + '\n')
