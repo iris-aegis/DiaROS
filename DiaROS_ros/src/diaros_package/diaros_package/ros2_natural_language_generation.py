@@ -34,11 +34,6 @@ class RosNaturalLanguageGeneration(Node):
             nlg_msg.reply = self.naturalLanguageGeneration.last_reply
             self.pub_nlg.publish(nlg_msg)  # ここでNLG生成文をNLGtoSSトピックで送信
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply
-        else:
-            # トピックを確実に作成するため、空メッセージを定期的に送信
-            nlg_msg = Inlg()
-            nlg_msg.reply = "dummy"
-            self.pub_nlg.publish(nlg_msg)
         mm = Imm()
         mm.mod = "nlg"
         # self.pub_mm.publish(mm)
