@@ -1,6 +1,7 @@
 import rclpy
 import threading
 import sys
+from datetime import datetime
 from rclpy.node import Node
 from interfaces.msg import Idm
 from interfaces.msg import Inlg
@@ -21,6 +22,10 @@ class RosNaturalLanguageGeneration(Node):
         words = list(msg.words)
         # すべて空文字列なら送らない
         if words and any(w.strip() for w in words):
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}][NLG] 音声認識結果受信時刻: {timestamp}\n")
+            sys.stdout.write(f"[{timestamp}][NLG] 受信した音声認識結果リスト: {words}\n")
             self.naturalLanguageGeneration.update(words)
             
     def ping(self):
@@ -32,6 +37,10 @@ class RosNaturalLanguageGeneration(Node):
         ):
             nlg_msg = Inlg()
             nlg_msg.reply = self.naturalLanguageGeneration.last_reply
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}][NLG] 対話生成結果送信時刻: {timestamp}\n")
+            sys.stdout.write(f"[{timestamp}][NLG] 送信する対話生成内容: {nlg_msg.reply}\n")
             self.pub_nlg.publish(nlg_msg)  # ここでNLG生成文をNLGtoSSトピックで送信
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply
         mm = Imm()
