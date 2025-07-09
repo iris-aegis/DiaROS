@@ -96,9 +96,9 @@ class RealtimeAizuchiPredictor:
                     output = self.model(**inputs).logits
                 # 学習時と同じくシグモイドで確率化
                 probability = torch.sigmoid(output).item()
-                end_time = time.time()
-                processing_time = (end_time - start_time) * 1000
-                result = (probability, processing_time)
+                # end_time = time.time()
+                # processing_time = (end_time - start_time) * 1000
+                result = (probability, 0.0)  # processing_timeを0に固定
             except Exception as e:
                 sys.stdout.write(f"処理中にエラーが発生しました: {e}\n")
                 import traceback

@@ -11,6 +11,8 @@ STREAMING_LIMIT = 10000
 
 # グローバル共有キュー
 stream_queue = queue.Queue()
+# ROS Publisher のグローバル参照
+ros_publisher = None
 
 class SpeechInput:
     def __init__(self, rate, chunk_size, device):
@@ -60,10 +62,39 @@ class SpeechInput:
         self._audio_interface.terminate()
 
     def _fill_buffer(self, in_data, *args, **kwargs):
-        sys.stdout.flush()
+        # 音声データの具体的な値でデータ追跡用ログ
+        import time
+        from datetime import datetime
+        import numpy as np
+        
+        # 音声データを浮動小数点配列に変換
+        audio_np = np.frombuffer(in_data, dtype=np.float32)
+        # データ識別用: 先頭3サンプルの値でデータを特定
+        data_id = f"{audio_np[0]:.6f},{audio_np[1]:.6f},{audio_np[2]:.6f}" if len(audio_np) >= 3 else "short_data"
+        
+        # SDS音声取得タイムスタンプをログ出力（10回に1回）
+        capture_timestamp = time.time()
+        if not hasattr(self, 'capture_log_counter'):
+            self.capture_log_counter = 0
+        self.capture_log_counter += 1
+        if self.capture_log_counter % 10 == 0:
+            timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            sys.stdout.write(f"[🎙️ SDS_CAPTURE] {timestamp_str} | ID:{data_id} | T:{capture_timestamp:.6f}\n")
+            sys.stdout.flush()
+        
+        # キューにデータを追加
         stream_queue.put(in_data)
         self._buff.put(in_data)
-        # ROS通信処理は削除
+        
+        # queueに追加されたことをROS側に通知
+        if ros_publisher is not None:
+            try:
+                # 通知用の関数を呼び出し（非ブロッキング）
+                ros_publisher._notify_new_data()
+            except Exception as e:
+                # コールバック内でのエラーはログ出力のみ
+                pass
+        
         return None, pyaudio.paContinue
 
     def generator(self):

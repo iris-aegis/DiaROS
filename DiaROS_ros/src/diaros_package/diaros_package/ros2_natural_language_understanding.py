@@ -21,6 +21,7 @@ class RosNaturalLanguageUnderstanding(Node):
         sys.stdout.write('LanguageUnderstanding start up.\n')
         sys.stdout.write('=====================================================\n')
 
+
     def send(self, asr):
         dm = Iasr()
         dm.you = asr.you

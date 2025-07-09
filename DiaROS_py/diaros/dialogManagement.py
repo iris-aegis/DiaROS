@@ -3,7 +3,8 @@ import socket
 import time
 from datetime import datetime, timedelta
 import pygame
-pygame.mixer.pre_init(frequency=22050, size=-16, channels=2, buffer=512)
+# Docker環境用の低遅延設定
+pygame.mixer.pre_init(frequency=22050, size=-16, channels=2, buffer=256)
 pygame.mixer.init()
 import random
 import numpy as np
@@ -31,10 +32,10 @@ import glob
 class DialogManagement:
     # グローバル変数を定義
     audio_queue = queue.Queue()  # マイクからの音声データを保存するキュー
-    # 設定
+    # 設定 - Docker環境用低遅延化
     mic_sample_rate = 48000
     sample_rate     = 16000
-    frame_duration  = 30  # ms
+    frame_duration  = 20  # ms (30→20に短縮)
     CHUNK           = int(mic_sample_rate * frame_duration / 1000)
 
     ### 音声ファイル長計測関数 ###
@@ -48,13 +49,19 @@ class DialogManagement:
             if not os.path.exists(filename):
                 print(f"音声ファイルが見つかりません: {filename}")
                 return False
+            
+            # 既存の音楽が再生中の場合は停止してメモリを解放
+            if pygame.mixer.music.get_busy():
+                pygame.mixer.music.stop()
                 
             pygame.mixer.music.load(filename)
             pygame.mixer.music.play()
             
             if block:
                 while pygame.mixer.music.get_busy():
-                    pygame.time.wait(100)
+                    pygame.time.wait(10)  # Docker環境では短い間隔でチェック
+                # 再生完了後にリソースを解放
+                pygame.mixer.music.unload()
             
             return True
         except Exception as e:
@@ -120,6 +127,7 @@ class DialogManagement:
         self.latest_synth_filename = None # 追加: 音声合成ファイル名を保存する変数
 
         self.prev_asr_you = ""  # 直前のASR結果をインスタンス変数に
+        self.last_response_update_asr = ""  # 前回response_updateがTrueになった時のASR結果
 
     def run(self):
         prev = ""
@@ -163,6 +171,10 @@ class DialogManagement:
         power_calibration = True
 
         DEBUG = True
+        
+        # メモリクリーンアップカウンター
+        cleanup_counter = 0
+        CLEANUP_INTERVAL = 10000  # 10000ループごとにクリーンアップ
 
 
         BAR_MEM = 20  # バーの長さ
@@ -170,20 +182,30 @@ class DialogManagement:
         RESET = "\033[0m"
 
         while True:
+            # 定期的なメモリクリーンアップ
+            cleanup_counter += 1
+            if cleanup_counter >= CLEANUP_INTERVAL:
+                # pygame.mixerのクリーンアップ
+                if not pygame.mixer.music.get_busy():
+                    pygame.mixer.quit()
+                    pygame.mixer.init()
+                cleanup_counter = 0
+            
             # ここでNLG用にASR結果をwordにセット
             if self.asr["you"]:
-                # 文字単位で差分を計算
-                diff = list(difflib.ndiff(self.prev_asr_you, self.asr["you"]))
+                # 前回response_updateがTrueになった時のASR結果と比較
+                diff = list(difflib.ndiff(self.last_response_update_asr, self.asr["you"]))
                 changed_chars = sum(1 for d in diff if d.startswith('+ ') or d.startswith('- '))
-                # 直前のASR結果と異なる場合のみ判定
-                if changed_chars >= 5 and self.asr["you"] != self.prev_asr_you:
+                # 前回response_updateがTrueになった時のASR結果と5文字以上変わった場合のみ判定
+                if changed_chars >= 5 and self.asr["you"] != self.last_response_update_asr:
                     self.word = self.asr["you"]
                     self.response_update = True
-                    self.prev_asr_you = self.asr["you"]
+                    self.last_response_update_asr = self.asr["you"]  # 更新時のASR結果を保存
                     sys.stdout.write(f"ASR結果: {self.asr['you']}\n")
                     sys.stdout.flush()
                 else:
                     self.response_update = False
+                self.prev_asr_you = self.asr["you"]  # 直前のASR結果は常に更新
             else:
                 self.response_update = False
 
@@ -232,7 +254,6 @@ class DialogManagement:
 
             # 相槌音声再生終了後にpendingしていた応答判定があれば処理
             if is_playing_backchannel and last_backchannel_end_time is not None and time.time() >= last_backchannel_end_time:
-                self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
                 is_playing_backchannel = False
                 last_backchannel_end_time = None
                 if pending_tt_data is not None:
@@ -250,6 +271,7 @@ class DialogManagement:
                                 sys.stdout.write(f"[TT] 合成音声再生(pending) duration_sec={duration_sec}\n")
                                 sys.stdout.flush()
                                 self.play_sound(wav_path, False)  # ノンブロッキング再生
+                                self.asr_history = []  # ★TT応答再生時のみ履歴を初期化
                                 self.latest_synth_filename = ""
                                 last_response_end_time = time.time() + duration_sec
                                 is_playing_response = True
@@ -320,6 +342,9 @@ class DialogManagement:
                 if DEBUG:sys.stdout.flush()
                 
                 self.power_calib_list.append(self.sa["power"])
+                # メモリリーク防止: キャリブレーションリストを制限
+                if len(self.power_calib_list) > 200:
+                    self.power_calib_list.pop(0)
                 time_difference = datetime.now() - thread_start_time
                 if time_difference >= timedelta(seconds=2.0):
                     self.power_calib_ave = statistics.mean(self.power_calib_list)
@@ -384,8 +409,8 @@ class DialogManagement:
             if self.additional_asr_start_time == False and voice_available == False and user_spoken == True and time_difference >= timedelta(seconds=1.5):# ユーザが過去に一度話していて、現在は黙っていて、1.5s無声のとき
                 time_difference = datetime.now() - self.prev_response_time
                 if time_difference >= timedelta(seconds=self.system_response_length + 1.0): # システムが話し終わるまで応答しない
-                    if DEBUG:sys.stdout.write('\n'+f"1.5秒の無音で応答した時刻{datetime.now()}\n")
-                    if DEBUG:sys.stdout.flush()
+                    # if DEBUG:sys.stdout.write('\n'+f"1.5秒の無音で応答した時刻{datetime.now()}\n")
+                    # if DEBUG:sys.stdout.flush()
                     
                     # ./tmp/ ディレクトリ内の .wav ファイルを名前順にソート
                     filenames = sorted(glob.glob("./tmp/*.wav"))
@@ -419,14 +444,14 @@ class DialogManagement:
                     else:
                         self.additional_asr_start_time = datetime.now()
                         sys.stdout.write('\nadditional start' + '\n')
-                        if os.path.exists("additional_asr_response.wav"):
-                            self.play_sound("additional_asr_response.wav", False)
+                        # if os.path.exists("additional_asr_response.wav"):
+                        #     self.play_sound("additional_asr_response.wav", False)
                         # print(f"The length of the audio file is {self.system_response_length} seconds.")
                     
             time_difference = datetime.now() - self.prev_response_time
             if self.additional_asr_start_time == False and time_difference >= timedelta(seconds=self.system_response_length + 1.0) and prev != self.asr["you"] and self.asr["is_final"]: # 音声認識結果で発話の同定を行った上でAPIが発話終了判定を出したとき
-                if DEBUG:sys.stdout.write("\n"+f"APIの発話終了判定で応答を返す\n")
-                if DEBUG:sys.stdout.flush()
+                # if DEBUG:sys.stdout.write("\n"+f"APIの発話終了判定で応答を返す\n")
+                # if DEBUG:sys.stdout.flush()
                 prev = self.asr["you"] # システムが応答・相槌を返答する
                 carry = ""
                 self.prev_response_time = datetime.now()
@@ -459,8 +484,8 @@ class DialogManagement:
 
                     except FileNotFoundError:
                         pass
-                        if os.path.exists("additional_asr_response.wav"):
-                            self.play_sound("additional_asr_response.wav", False)
+                        # if os.path.exists("additional_asr_response.wav"):
+                        #     self.play_sound("additional_asr_response.wav", False)
                 else:
                     self.additional_asr_start_time = datetime.now()
                     sys.stdout.write('\nadditional start' + '\n')
@@ -478,8 +503,10 @@ class DialogManagement:
                     words.append(self.asr_history[idx])
                     idx -= 25
                 words.reverse()  # 古いもの→新しいもの
-            sys.stdout.write(f"[pubDM] 送信する音声認識履歴リスト: {words}\n")
-            sys.stdout.flush()
+            # now = datetime.now()
+            # timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            # sys.stdout.write(f"[{timestamp}][pubDM] 送信する音声認識履歴リスト: {words}\n")
+            # sys.stdout.flush()
             return { "words": words, "update": True}
         else:
             return { "words": [], "update": False}
@@ -489,6 +516,9 @@ class DialogManagement:
         self.asr["you"] = asr["you"]
         self.asr["is_final"] = asr["is_final"]
         self.asr_history.append(self.asr["you"])  # 追加: 新たな音声認識結果を受信するたびに履歴に追加
+        # メモリリーク防止: 履歴を最大500個に制限
+        if len(self.asr_history) > 500:
+            self.asr_history = self.asr_history[-250:]  # 最新250個を保持
 
     def updateSA(self, sa):
         self.sa["prevgrad"] = sa["prevgrad"]

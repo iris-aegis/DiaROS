@@ -23,6 +23,11 @@ class RosSpeechSynthesis(Node):
 
     def play(self, nlg):
         text = str(nlg.reply)
+        # 対話生成結果受信時のログ出力
+        # now = datetime.now()
+        # timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+        # sys.stdout.write(f"[{timestamp}][SS] 受信した対話生成内容: {nlg.reply}\n")
+        # sys.stdout.flush()
         wav_path = self.speechSynthesis.run(text)
         # 音声合成後、ファイル名をIssでpublish
         # wav_msg = SynthWav()

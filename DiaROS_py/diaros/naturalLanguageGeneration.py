@@ -24,6 +24,7 @@ class NaturalLanguageGeneration:
         # OpenAI APIキーを環境変数から設定
         openai.api_key = os.environ.get("OPENAI_API_KEY")
 
+
     def update(self, words):
         # wordsはリスト型
         self.words = words
@@ -86,6 +87,7 @@ class NaturalLanguageGeneration:
                 # 生成文を標準出力
                 print(f"[NLG生成文] {res}")
                 sys.stdout.flush()
+                
                 self.update_flag = False
             # last_replyが空でない場合のみros2_natural_language_generation.pyで送信される
             time.sleep(0.01)

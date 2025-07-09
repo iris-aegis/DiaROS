@@ -175,6 +175,10 @@ rosbag2_*/
 model_input_sound.wav
 model_input_sound.raw
 
+# Model input sound files (generated during inference)
+model_input_sound_*.wav
+model_input_sound_*.raw
+
 # ROS2 build and install directories (contain sensitive API keys)
 */build/
 */install/

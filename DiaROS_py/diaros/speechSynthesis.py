@@ -10,6 +10,7 @@ import wave
 import sys
 import numpy as np
 import time
+import subprocess
 
 ### VAD ###
 import queue
@@ -111,6 +112,31 @@ class SpeechSynthesis():
         self.prev_response_time = datetime.now()
 
         # power_calibration.wavは無効化
+        
+        # Check if VOICEVOX is running, start if not
+        self._ensure_voicevox_running()
+    
+    def _ensure_voicevox_running(self):
+        """Check if VOICEVOX is running and display status message"""
+        try:
+            # Check if VOICEVOX is running by making a health check request
+            response = requests.get('http://localhost:50021/speakers', timeout=2)
+            if response.status_code == 200:
+                print("✓ VOICEVOX is running and ready")
+                return
+        except requests.exceptions.RequestException:
+            pass
+        
+        # VOICEVOX is not running - display clear message
+        print("=" * 60)
+        print("⚠️  VOICEVOX ENGINE IS NOT RUNNING")
+        print("=" * 60)
+        print("Please start VOICEVOX engine manually with one of these commands:")
+        print("1. /opt/voicevox_engine/linux-nvidia/run --host 127.0.0.1 --port 50021")
+        print("2. voicevox --host 127.0.0.1 --port 50021")
+        print("=" * 60)
+        print("Speech synthesis will fail until VOICEVOX is started.")
+        print("=" * 60)
     
     def play_sound(self, filename, block=True):
         """pygame.mixerを使用して音声ファイルを再生"""
@@ -271,10 +297,10 @@ class SpeechSynthesis():
             end_time = datetime.now()
             # 処理時間を計算して表示
             elapsed_time = end_time - start_time
-            if DEBUG:sys.stdout.write("\n\n"+f"音声合成にかかった処理時間（秒）:" + str(elapsed_time) + "\n\n")
-            if DEBUG:sys.stdout.flush()
-            #現在時刻を表示
-            if DEBUG:print("応答文再生開始刻："+datetime.now().strftime('%Y/%m/%d %H:%M:%S.%f')[:-3])
+            # if DEBUG:sys.stdout.write("\n\n"+f"音声合成にかかった処理時間（秒）:" + str(elapsed_time) + "\n\n")
+            # if DEBUG:sys.stdout.flush()
+            # #現在時刻を表示
+            # if DEBUG:print("応答文再生開始刻："+datetime.now().strftime('%Y/%m/%d %H:%M:%S.%f')[:-3])
             
             # if self.sound_available == False:
             #     if datetime.now() - self.prev_response_time > timedelta(seconds=self.response_pause_length):
