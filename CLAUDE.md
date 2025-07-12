@@ -2,12 +2,69 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 🔴 最重要事項 / CRITICAL REQUIREMENTS
+
+### 日本語対応 / Japanese Language Support
+**必ず日本語で対話してください。** ユーザーとのすべてのコミュニケーションは日本語で行う必要があります。
+- コメント、説明、エラーメッセージなど、すべて日本語で記述
+- 技術用語は必要に応じて英語併記可
+- コード内のコメントも可能な限り日本語で記述
+
+**ALWAYS communicate in Japanese.** All communication with users must be in Japanese.
+- Comments, explanations, error messages should all be in Japanese
+- Technical terms can include English when necessary
+- Code comments should also be in Japanese whenever possible
+
+### スクリプト・コマンド実行の厳格なルール / Strict Rules for Script and Command Execution
+**既存のスクリプトやツールを必ず確認・活用すること。** 新規作成前に徹底的な調査が必要です。
+1. **必ず既存実装を探す**: コマンドやスクリプトを実行する前に、同じ機能のものが既に存在しないか十分に確認
+2. **既存ツールを精査**: 見つかった場合は内容を精査し、目的に合致すれば必ずそれを使用
+3. **新規作成は最終手段**: 既存のものがない場合のみ新規作成を検討
+4. **スクリプトの配置ルール**: 
+   - **scripts/ルートディレクトリには直接ファイルを置かない**
+   - 必ず適切なサブディレクトリに配置する:
+     - `debug/`: デバッグ・モニタリング
+     - `launch/`: 起動スクリプト
+     - `setup/`: セットアップ・設定
+     - `test/`: テストスクリプト
+     - `utils/`: その他ユーティリティ
+
+### 改行コードの統一 / Line Ending Consistency
+**すべてのシェルスクリプトはLF（Unix形式）で作成すること。**
+- Windowsの改行コード（CRLF）は使用禁止
+- 新規作成時は必ずLFを使用
+- エディタの設定を確認してLFに統一
+
+**重要：スクリプト作成時の手順**
+1. 必ずWriteツールで作成すること（Editツールは改行コードが不正になる場合がある）
+2. 作成後、以下のコマンドで改行コードを確認・修正：
+   ```bash
+   # 改行コードの確認
+   file /path/to/script.sh
+   
+   # CRLFをLFに変換（macOS）
+   sed -i '' 's/\r$//' /path/to/script.sh
+   
+   # または dos2unix を使用
+   dos2unix /path/to/script.sh
+   ```
+3. 実行権限を付与：
+   ```bash
+   chmod +x /path/to/script.sh
+   ```
+
+### パスの汎用性維持 / Path Portability
+**絶対パスは使用禁止。** 公開リポジトリとして配布されるため、汎用性を保つこと。
+- スクリプト内では相対パスを使用
+- 環境依存の絶対パスは避ける
+- ユーザー固有のパスをハードコードしない
+
 ## Essential Commands
 
 ### System Setup and Build
 ```bash
 # Setup ROS2 environment (required before any ROS commands)
-cd /home/DiaROS/DiaROS_deep_model/DiaROS_ros
+cd DiaROS_ros
 source /opt/ros/foxy/setup.bash  # or your ROS2 installation path
 source ./install/local_setup.bash
 
@@ -22,6 +79,24 @@ cd ../DiaROS_py
 python -m pip install . --user
 ```
 
+### Quick Setup Scripts
+```bash
+# Setup ROS2 environment (automated)
+./scripts/setup/setup_ros2_env.sh
+
+# Setup API keys
+./scripts/setup/setup_api.sh
+
+# Test API connection
+./scripts/setup/setup_api.sh test
+
+# Download Gemma model for local LLM
+./scripts/setup/download_gemma_model.sh
+
+# Setup ChatGPT API
+./scripts/setup/setup_chatgpt_api.sh
+```
+
 ### Running the System
 ```bash
 # Primary command to launch the spoken dialog system
@@ -32,6 +107,24 @@ ros2 launch diaros_package sdsmod.launch.py mic:=false
 
 # Run with muted microphone
 ros2 launch diaros_package sdsmod.launch.py mic:=mute
+```
+
+### Launch Scripts (Cross-Platform)
+```bash
+# Universal launcher (macOS & Linux)
+./scripts/launch/launch_diaros.sh
+
+# Launch with ChatGPT API
+./scripts/launch/launch_diaros_chatgpt.sh
+
+# Launch with local LLM
+./scripts/launch/launch_diaros_local.sh
+
+# Launch in quiet mode (minimal output)
+./scripts/launch/launch_diaros_quiet.sh
+
+# Quick start with Pixi
+./scripts/launch/pixi_diaros_quick_start.sh
 ```
 
 ### Development and Debugging
@@ -53,6 +146,47 @@ ros2 run rqt_graph rqt_graph
 
 # Plot topic data
 ros2 run rqt_plot rqt_plot
+```
+
+### Debug Scripts
+```bash
+# Debug full DiaROS flow
+./scripts/debug/debug_diaros_flow.py
+./scripts/debug/debug_diaros_flow.sh
+
+# Measure end-to-end latency
+./scripts/debug/measure_e2e_latency.py
+
+# Monitor system performance
+./scripts/debug/monitor.sh
+
+# Test specific components
+./scripts/debug/test_asr_to_dm.py
+./scripts/debug/test_dm_flow.py
+./scripts/debug/test_nlg_response.py
+./scripts/debug/test_turn_taking.py
+```
+
+### Test Scripts
+```bash
+# Test DiaROS response system
+./scripts/test/test_diaros_response.py
+./scripts/test/test_diaros_response.sh
+
+# Test audio components
+./scripts/test/test_audio_playback.py
+./scripts/test/test_audio_simple.py
+./scripts/test/test_pyaudio_pulse.py
+
+# Test API connections
+./scripts/test/quick_api_test.py
+./scripts/test/test_api_nlg.py
+./scripts/test/test_api_nlg.sh
+./scripts/test/test_openai_direct.py
+./scripts/test/test_fast_llm.py
+
+# Set default microphone
+./scripts/test/set_default_mic.py
 ```
 
 ## High-Level Architecture
@@ -97,22 +231,99 @@ Defines ROS2 message types for dialog system communication.
 
 ## API Requirements
 
-The system requires external API keys:
-- **A3RT Talk API**: For chat response generation
+### 高速応答生成API (High-Speed Response Generation)
+DiaROSでは対話リズム維持のため、1500ms以内の応答が必要です。以下のAPIを推奨：
+
+**推奨API (優先順位順):**
+- **OpenAI API (ChatGPT)**: ~500-1000ms、最も高速で安定
+- **Anthropic API (Claude)**: ~800-1200ms、高品質応答
+- **ローカルモデル**: ~2000-5000ms、オフライン動作可能（非推奨）
+
+**API設定方法:**
+```bash
+# 1. APIセットアップスクリプト実行（推奨）
+./scripts/setup/setup_api.sh
+
+# 2. 手動設定
+export OPENAI_API_KEY="sk-your-openai-api-key"
+export ANTHROPIC_API_KEY="sk-ant-your-anthropic-api-key"
+```
+
+### 音声認識API
 - **Google Speech-to-Text API**: For speech recognition
 
 Set environment variables:
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/google/credentials.json"
-export A3RT_APIKEY="/path/to/a3rt/apikey.data"
 ```
+
+### Local LLM Options (No API Keys Required)
+- **Gemma 2**: Default local model (google/gemma-2-2b-it)
+- **Rinna Small**: Lightweight option
+- **StableLM**: Alternative local model
+
+Configure local LLM:
+```bash
+# Use Gemma 2 (default)
+export DIAROS_LLM_MODEL=gemma2
+
+# Use lightweight Rinna model
+export DIAROS_LLM_MODEL=rinna-small
+
+# Set device for local models
+export DIAROS_DEVICE=cuda  # or 'cpu', 'mps' (macOS)
+```
+
+### 応答時間最適化設定
+システム起動時に以下の優先順位で自動選択：
+1. OpenAI API（設定済みの場合）
+2. Anthropic API（設定済みの場合）  
+3. ローカルモデル（APIキー未設定時）
+
+**応答時間警告**: 1500ms超過時に警告メッセージを表示
 
 ## Development Environment
 
-- **OS**: Ubuntu 20.04+ 
-- **ROS2**: Foxy (primary tested version)
-- **Python**: 3.8.13 (managed via pyenv)
-- **Key Dependencies**: PyAudio, aubio, torch, transformers, rclpy
+- **OS**: Ubuntu 20.04+ (Linux) or macOS (with Pixi)
+- **ROS2**: Foxy (primary tested version) or Humble
+- **Python**: 3.8.13+ (managed via pyenv) or 3.9+ (Pixi)
+- **Key Dependencies**: PyAudio, aubio, torch, transformers, rclpy, openai, anthropic, VOICEVOX
+
+### Platform-Specific Setup
+
+#### macOS with Pixi
+```bash
+# Install Pixi package manager
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Setup Pixi workspace
+./scripts/setup/setup_pixi_ros2.sh
+
+# Launch with Pixi
+./scripts/launch/pixi_diaros_quick_start.sh
+```
+
+#### Linux (Traditional)
+```bash
+# Install ROS2 Foxy/Humble
+sudo apt update
+sudo apt install ros-foxy-desktop
+
+# Setup environment
+./scripts/setup/setup_ros2_env.sh
+
+# Install dependencies
+pip install -r DiaROS_ros/requirements.txt
+```
+
+#### Docker Support
+```bash
+# Setup Docker audio
+./scripts/setup/docker_audio_setup.sh
+
+# Get Docker installation script
+./scripts/setup/get-docker.sh
+```
 
 ## System Architecture Flow
 
@@ -126,3 +337,58 @@ export A3RT_APIKEY="/path/to/a3rt/apikey.data"
 8. **Backchannel**: Generates appropriate listener responses during speech
 
 The modular ROS2 architecture allows individual components to be developed, tested, and debugged independently while maintaining real-time communication capabilities.
+
+## プロジェクト構造 / Project Structure
+
+### 音声ファイルの場所 / Audio File Locations
+- **相槌音声**: `DiaROS_ros/static_back_channel_*.wav`
+- **静的応答**: `DiaROS_ros/static_response_source/static_response_*.wav`
+- **ランダム応答**: `DiaROS_ros/static_response_random/static_response_random_*.wav`
+- **長い質問サンプル**: `DiaROS_ros/static_long_question/static_long_question*.wav`
+- **合成音声**: `DiaROS_ros/tmp/*.wav`
+- **システム音声**: `DiaROS_ros/start_announce.wav`, `DiaROS_ros/end_announce.wav`
+- **キャリブレーション音声**: `DiaROS_ros/power_calibration.wav`
+
+### 設定ファイル / Configuration Files
+- **RQT監視設定**: `config/rqt_diaros_monitoring.perspective`
+- **Conda環境**: `DiaROS_ros/conda_DiaROS_*.yml`
+- **Python環境**: `DiaROS_ros/environment.yml`
+
+## Utility Scripts
+
+### Scripts Directory Structure
+```
+scripts/
+├── debug/          # Debugging and monitoring tools
+├── launch/         # Cross-platform launch scripts
+├── setup/          # Environment and dependency setup
+├── test/           # Testing and validation tools
+└── utils/          # General utilities
+```
+
+### Key Utilities
+- **run_diaros_native_macos.py**: Native macOS runner
+- **run_ros2_tool.sh**: ROS2 tool wrapper
+- **static_response_shuffle.py**: Response randomization tool
+
+### Audio Resources
+The system includes various audio files for testing and responses:
+- **power_calibration.wav**: Audio calibration file
+- **start_announce.wav / end_announce.wav**: Session notifications
+- **static_back_channel_*.wav**: Backchannel responses
+- **static_response_*.wav**: Pre-recorded responses
+- **static_long_question/**: Long-form question samples
+
+### Configuration
+- **rqt_diaros_monitoring.perspective**: RQT monitoring configuration
+- **conda_DiaROS_*.yml**: Conda environment files
+- **environment.yml**: Python environment specification
+
+## Important Notes
+
+- The system supports both microphone input and ROS2 bag replay
+- All audio processing runs in real-time with low latency
+- The launch scripts handle cross-platform compatibility
+- Debug scripts provide detailed system monitoring
+- Test scripts validate individual components
+- VOICEVOX is used for speech synthesis and must be running

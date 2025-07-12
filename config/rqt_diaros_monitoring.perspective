@@ -1,0 +1,123 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "type": "repr",
+          "repr": "b'\\x01\\xd9\\xd0\\xcb\\x00\\x03\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x07\\x80\\x00\\x00\\x04\\xa0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x07\\x80\\x00\\x00\\x04\\xa0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x07\\x80\\x00\\x00\\x00\\x00'"
+        },
+        "state": {
+          "type": "repr",
+          "repr": "b'\\x00\\x00\\x00\\xff\\x00\\x00\\x00\\x00\\xfd\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\x00\\x00\\x00\\x02\\xab\\x00\\x00\\x02\\xa0s\\xfd\\x00\\x00\\x00\\x02\\xfd\\x00\\x00\\x00\\x00\\x00\\x00\\x02\\xcb\\x00\\x00\\x02\\xa0s\\xfc\\x00\\x00\\x00\\x03\\xfb\\x00\\x00\\x00\\x14\\x00T\\x00o\\x00p\\x00i\\x00c\\x00s\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xa9\\x00\\x00\\x00U\\x00\\xff\\xff\\xff\\xfb\\x00\\x00\\x00\\x14\\x00P\\x00l\\x00o\\x00t\\x00@\\x00U\\x007\\x009\\x00a\\x00e\\x01\\x00\\x00\\x00\\xab\\x00\\x00\\x01\\xfe\\x00\\x00\\x00\\x82\\x00\\xff\\xff\\xff\\xfb\\x00\\x00\\x00\\x1c\\x00G\\x00r\\x00a\\x00p\\x00h\\x00@\\x005\\x007\\x009\\x00a\\x00e\\x00-\\x002\\x01\\x00\\x00\\x04\\xab\\x00\\x00\\x01}\\x00\\x00\\x00\\xea\\x00\\xff\\xff\\xff\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xfc\\x01\\x00\\x00\\x00\\x03\\xfb\\x00\\x00\\x00\\x18\\x00M\\x00e\\x00t\\x00a\\x00D\\x00a\\x00t\\x00a\\x00@\\x001\\x003\\x005\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00f\\x00\\x00\\x00f\\x00\\xff\\xff\\xff\\xfb\\x00\\x00\\x00\\x1a\\x00L\\x00o\\x00g\\x00g\\x00i\\x00n\\x00g\\x00@\\x001\\x003\\x005\\x00-\\x002\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00g\\x00\\x00\\x00f\\x00\\xff\\xff\\xff\\xfb\\x00\\x00\\x00\\x18\\x00R\\x00e\\x00c\\x00o\\x00n\\x00f\\x00i\\x00g\\x00@\\x001\\x003\\x005\\x01\\x00\\x00\\x00g\\x00\\x00\\x00f\\x00\\xff\\xff\\xff\\x00\\x00\\x00\\x03\\x00\\x00\\x07\\x80\\x00\\x00\\x00\\x84\\xfc\\x01\\x00\\x00\\x00\\x01\\xfb\\x00\\x00\\x00 \\x00T\\x00o\\x00o\\x00l\\x00B\\x00a\\x00r\\x00A\\x00r\\x00e\\x00a\\x00@\\x001\\x003\\x005\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x07\\x80\\x00\\x00\\x00:\\x00\\xff\\xff\\xff\\x00\\x00\\x02&\\x00\\x00\\x02\\xa0s\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\x08\\x00\\x00\\x00\\x02\\xfc\\x00\\x00\\x00\\x00'"
+        }
+      },
+      "groups": {
+        "dock_widget_PlotWidget": {
+          "keys": {
+            "dockable": {
+              "type": "repr",
+              "repr": "True"
+            },
+            "parent": {
+              "type": "repr",
+              "repr": "'mainwindow'"
+            },
+            "dock_widget_title": {
+              "type": "repr",
+              "repr": "'Plot@579ae'"
+            }
+          },
+          "groups": {
+            "plugin": {
+              "keys": {
+                "instance_id": {
+                  "type": "repr",
+                  "repr": "'579ae'"
+                },
+                "plugin_name": {
+                  "type": "repr",
+                  "repr": "'rqt_plot/Plot'"
+                }
+              },
+              "groups": {
+                "plugin_settings": {
+                  "keys": {
+                    "autoscroll": {
+                      "type": "repr",
+                      "repr": "True"
+                    },
+                    "topics": {
+                      "type": "repr",
+                      "repr": "'/mic_audio_float32/data[0];/ASRtoNLU/you;/DMtoNLG/response;/SStoDM/result'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dock_widget_TopicWidget": {
+          "keys": {
+            "dockable": {
+              "type": "repr",
+              "repr": "True"
+            },
+            "parent": {
+              "type": "repr",
+              "repr": "'mainwindow'"
+            },
+            "dock_widget_title": {
+              "type": "repr",
+              "repr": "'Topics'"
+            }
+          },
+          "groups": {
+            "plugin": {
+              "keys": {
+                "instance_id": {
+                  "type": "repr",
+                  "repr": "'135'"
+                },
+                "plugin_name": {
+                  "type": "repr",
+                  "repr": "'rqt_topic/TopicPlugin'"
+                }
+              }
+            }
+          }
+        },
+        "dock_widget_GraphWidget": {
+          "keys": {
+            "dockable": {
+              "type": "repr",
+              "repr": "True"
+            },
+            "parent": {
+              "type": "repr",
+              "repr": "'mainwindow'"
+            },
+            "dock_widget_title": {
+              "type": "repr",
+              "repr": "'Graph@579ae-2'"
+            }
+          },
+          "groups": {
+            "plugin": {
+              "keys": {
+                "instance_id": {
+                  "type": "repr",
+                  "repr": "'579ae-2'"
+                },
+                "plugin_name": {
+                  "type": "repr",
+                  "repr": "'rqt_graph/RosGraph'"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

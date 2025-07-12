@@ -1,0 +1,464 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00030000000000640000018f000008dd0000093300000064000001b4000008dd0000093300000001000000000f0000000064000001b4000008dd00000933')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "     d     3 d     3      d     3"
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd00000001000000030000087a00000756fc0100000008fc00000000000004e80000022d00fffffffc0200000002fc0000001400000390000000ab0100001afa000000000200000002fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000000ffffffff0000009000fffffffb0000004c007200710074005f0074006f007000690063005f005f0054006f0070006900630050006c007500670069006e005f005f0031005f005f0054006f0070006900630057006900640067006500740100000000ffffffff0000006c00fffffffb00000044007200710074005f00670072006100700068005f005f0052006f007300470072006100700068005f005f0031005f005f0052006f0073004700720061007000680055006901000003aa000003c0000000c300fffffffb0000004c007200710074005f0063006f006e0073006f006c0065005f005f0043006f006e0073006f006c0065005f005f0031005f005f0043006f006e0073006f006c0065005700690064006700650074010000011b000001b60000000000000000fc0000040c000006580000000000fffffffc0200000001fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0032005f005f00440061007400610050006c006f00740057006900640067006500740100000014000003210000000000000000fc000004ee0000038c0000019400fffffffc0200000005fb0000004c007200710074005f0074006f007000690063005f005f0054006f0070006900630050006c007500670069006e005f005f0032005f005f0054006f00700069006300570069006400670065007401000000140000035d0000000000000000fb00000034007200710074005f006200610067005f005f004200610067005f005f0031005f005f0042006100670057006900640067006500740100000014000007560000008900fffffffb0000003c007200710074005f006200610067005f005f004200610067005f005f0031005f005f002f004200430074006f0044004d005f005f0050006c006f00740100000169000002230000000000000000fb0000003c007200710074005f006200610067005f005f004200610067005f005f0031005f005f002f004e004c00470074006f00530053005f005f0052006100770100000392000000ab0000000000000000fb0000003e007200710074005f006200610067005f005f004200610067005f005f0031005f005f002f0041005300520074006f004e004c0055005f005f0052006100770100000538000002a00000000000000000fb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0031005f005f0049006d0061006700650056006900650077005700690064006700650074010000052e000001960000000000000000fb0000003e007200710074005f006200610067005f005f004200610067005f005f0031005f005f002f0044004d0074006f004e004c0047005f005f0050006c006f00740100000d490000016f0000000000000000fb0000003c007200710074005f006200610067005f005f004200610067005f005f0031005f005f002f0044004d0074006f004e004c0047005f005f005200610077010000042e000000da0000000000000000fb0000003c007200710074005f006200610067005f005f004200610067005f005f0031005f005f002f004e004c00550074006f0044004d005f005f005200610077010000050e000000d900000000000000000000087a0000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                     -                    Brqt_plot__Plot__1__DataPlotWidget          Lrqt_topic__TopicPlugin__1__TopicWidget          Drqt_graph__RosGraph__1__RosGraphUi          Lrqt_console__Console__1__ConsoleWidget            X                                              !                 Lrqt_topic__TopicPlugin__2__TopicWidget          4rqt_bag__Bag__1__BagWidget          <rqt_bag__Bag__1__/BCtoDM__Plot          <rqt_bag__Bag__1__/NLGtoSS__Raw          >rqt_bag__Bag__1__/ASRtoNLU__Raw          Zrqt_image_view__ImageView__1__ImageViewWidget          >rqt_bag__Bag__1__/DMtoNLG__Plot          <rqt_bag__Bag__1__/DMtoNLG__Raw          <rqt_bag__Bag__1__/NLUtoDM__Raw                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'rqt_bag/Bag': [1], 'rqt_graph/RosGraph': [1], 'rqt_plot/Plot': [1], 'rqt_topic/TopicPlugin': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__rqt_bag__Bag__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__": {
+              "keys": {},
+              "groups": {
+                "ASRtoNLU__Raw": {
+                  "keys": {
+                    "dock_widget_title": {
+                      "repr": "'/ASRtoNLU__Raw'",
+                      "type": "repr"
+                    },
+                    "dockable": {
+                      "repr": "'true'",
+                      "type": "repr"
+                    },
+                    "parent": {
+                      "repr": "None",
+                      "type": "repr"
+                    }
+                  },
+                  "groups": {}
+                },
+                "BCtoDM__Plot": {
+                  "keys": {
+                    "dock_widget_title": {
+                      "repr": "'/BCtoDM__Plot'",
+                      "type": "repr"
+                    },
+                    "dockable": {
+                      "repr": "'true'",
+                      "type": "repr"
+                    },
+                    "parent": {
+                      "repr": "None",
+                      "type": "repr"
+                    }
+                  },
+                  "groups": {}
+                },
+                "DMtoNLG__Raw": {
+                  "keys": {
+                    "dock_widget_title": {
+                      "repr": "'/DMtoNLG__Raw'",
+                      "type": "repr"
+                    },
+                    "dockable": {
+                      "repr": "'true'",
+                      "type": "repr"
+                    },
+                    "parent": {
+                      "repr": "None",
+                      "type": "repr"
+                    }
+                  },
+                  "groups": {}
+                },
+                "NLGtoSS__Raw": {
+                  "keys": {
+                    "dock_widget_title": {
+                      "repr": "'/NLGtoSS__Raw'",
+                      "type": "repr"
+                    },
+                    "dockable": {
+                      "repr": "'true'",
+                      "type": "repr"
+                    },
+                    "parent": {
+                      "repr": "None",
+                      "type": "repr"
+                    }
+                  },
+                  "groups": {}
+                },
+                "NLUtoDM__Raw": {
+                  "keys": {
+                    "dock_widget_title": {
+                      "repr": "'/NLUtoDM__Raw'",
+                      "type": "repr"
+                    },
+                    "dockable": {
+                      "repr": "'true'",
+                      "type": "repr"
+                    },
+                    "parent": {
+                      "repr": "None",
+                      "type": "repr"
+                    }
+                  },
+                  "groups": {}
+                }
+              }
+            },
+            "dock_widget__BagWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Bag'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_console__Console__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ConsoleWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Console'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "exclude_filters": {
+                  "repr": "'severity'",
+                  "type": "repr"
+                },
+                "filter_splitter": {
+                  "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff0000000100000002000000d9000000d90100000009010000000200')",
+                  "type": "repr(QByteArray.hex)",
+                  "pretty-print": "               "
+                },
+                "highlight_filters": {
+                  "repr": "'message'",
+                  "type": "repr"
+                },
+                "message_limit": {
+                  "repr": "'20000'",
+                  "type": "repr"
+                },
+                "paused": {
+                  "repr": "'false'",
+                  "type": "repr"
+                },
+                "settings_exist": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "show_highlighted_only": {
+                  "repr": "'false'",
+                  "type": "repr"
+                },
+                "table_splitter": {
+                  "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000001000000020000008a000001bb0100000009010000000200')",
+                  "type": "repr(QByteArray.hex)",
+                  "pretty-print": "               "
+                }
+              },
+              "groups": {
+                "exclude_filter_0": {
+                  "keys": {
+                    "enabled": {
+                      "repr": "'true'",
+                      "type": "repr"
+                    },
+                    "itemlist": {
+                      "repr": "''",
+                      "type": "repr"
+                    }
+                  },
+                  "groups": {}
+                },
+                "highlight_filter_0": {
+                  "keys": {
+                    "enabled": {
+                      "repr": "'true'",
+                      "type": "repr"
+                    },
+                    "regex": {
+                      "repr": "'false'",
+                      "type": "repr"
+                    },
+                    "text": {
+                      "repr": "''",
+                      "type": "repr"
+                    }
+                  },
+                  "groups": {}
+                }
+              }
+            }
+          }
+        },
+        "plugin__rqt_graph__RosGraph__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__RosGraphUi": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Node Graph'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "actionlib_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "auto_fit_graph_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "dead_sinks_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "filter_line_edit_text": {
+                  "repr": "'/'",
+                  "type": "repr"
+                },
+                "graph_type_combo_box_index": {
+                  "repr": "2",
+                  "type": "repr"
+                },
+                "group_image_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "group_tf_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "hide_dynamic_reconfigure_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "hide_tf_nodes_check_box_state": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "highlight_connections_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "leaf_topics_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "namespace_cluster_spin_box_value": {
+                  "repr": "2",
+                  "type": "repr"
+                },
+                "quiet_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "topic_filter_line_edit_text": {
+                  "repr": "'/'",
+                  "type": "repr"
+                },
+                "unreachable_check_box_state": {
+                  "repr": "True",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__1": {
+          "keys": {},
+          "groups": {
+            "plugin": {
+              "keys": {
+                "color_scheme": {
+                  "repr": "'-1'",
+                  "type": "repr"
+                },
+                "dynamic_range": {
+                  "repr": "'false'",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "'10'",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "''",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "'0'",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "'false'",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "'0'",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "'false'",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "'false'",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "''",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "'false'",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_plot__Plot__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__DataPlotWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'MatPlot'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "autoscroll": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "plot_type": {
+                  "repr": "1",
+                  "type": "repr"
+                },
+                "topics": {
+                  "repr": "['/mic_audio_float32/data[0]', '/TTtoDM/confidence']",
+                  "type": "repr"
+                },
+                "x_limits": {
+                  "repr": "[65.94820335155637, 70.17033338546753]",
+                  "type": "repr"
+                },
+                "y_limits": {
+                  "repr": "[-1.207974712320307, 1.2219971947426875]",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_topic__TopicPlugin__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__TopicWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Topic Monitor'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "tree_widget_header_state": {
+                  "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff0000000000000001000000000000000501000000000000000000000006200000000100000005000000c8000004d4000000060101000100000000000000000600000064ffffffff000000810000000300000006000000a00000000100000003000000d900000001000000030000006200000001000000030000002b0000000100000003000002ce0000000100000003000000000000000100000003000003e800000000c8')",
+                  "type": "repr(QByteArray.hex)",
+                  "pretty-print": "                                                                                    "
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

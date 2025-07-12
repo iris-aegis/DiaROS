@@ -201,3 +201,6 @@ service-account*.json
 # Colcon specific ignore patterns
 COLCON_IGNORE
 .colcon_ignore
+
+# Ignore DiaROS_imamoto directory
+DiaROS_imamoto/

@@ -54,7 +54,6 @@ class MicPublisher(Node):
                 
                 # データ追跡用: 先頭3サンプルの値でデータを特定
                 data_id = f"{float_array[0]:.6f},{float_array[1]:.6f},{float_array[2]:.6f}" if len(float_array) >= 3 else "short_data"
-                from datetime import datetime
                 # timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
                 # sys.stdout.write(f"[📤 QUEUE_GET] {timestamp_str} | キューから取得 | ID:{data_id} | queue_size:{stream_queue.qsize()}\n")
                 # sys.stdout.flush()
@@ -98,9 +97,9 @@ class MicPublisher(Node):
         data_id = f"{combined_data[0]:.6f},{combined_data[1]:.6f},{combined_data[2]:.6f}" if len(combined_data) >= 3 else "short_data"
         
         # マイク入力遅延測定用ログ出力（毎回表示）
-        # timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        # sys.stdout.write(f"[🎤 MIC_INPUT] {timestamp_str} | 送信#{self.send_count} | ID:{data_id} | pending:{batch_size}\n")
-        # sys.stdout.flush()
+        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        sys.stdout.write(f"[🎤 MIC_INPUT] {timestamp_str} | 送信#{self.send_count} | ID:{data_id} | pending:{batch_size} | combined_len:{len(combined_data)}\n")
+        sys.stdout.flush()
         
         # バッファをクリア
         self.pending_data = []

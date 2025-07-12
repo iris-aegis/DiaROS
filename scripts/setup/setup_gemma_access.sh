@@ -1,0 +1,23 @@
+#!/bin/bash
+# Gemma 2モデルへのアクセス設定スクリプト
+
+echo "=== Gemma 2モデルアクセス設定 ==="
+echo ""
+echo "以下の手順でGemma 2モデルへのアクセス権限を取得してください："
+echo ""
+echo "1. Webブラウザで以下のURLにアクセス："
+echo "   https://huggingface.co/google/gemma-2-2b-it"
+echo ""
+echo "2. HuggingFaceアカウントでログイン"
+echo ""
+echo "3. モデルページで「Agree and access repository」ボタンをクリック"
+echo ""
+echo "4. ターミナルで以下を実行："
+echo "   huggingface-cli login"
+echo ""
+echo "5. ブラウザに表示されるトークンをコピーして貼り付け"
+echo ""
+echo "現在のログイン状態:"
+huggingface-cli whoami 2>&1 || echo "未ログイン"
+echo ""
+echo "完了したら、再度DiaROSを起動してください。"
