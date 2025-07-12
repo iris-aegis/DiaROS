@@ -1,2 +1,0 @@
-int8 result
-float32 confidence
