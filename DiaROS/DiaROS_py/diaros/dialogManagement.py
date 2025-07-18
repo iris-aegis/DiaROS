@@ -125,9 +125,28 @@ class DialogManagement:
         self.latest_bc_data = None
         self.latest_bc_time = None
         self.latest_synth_filename = None # 追加: 音声合成ファイル名を保存する変数
+        self.latest_dialogue_result = ""  # ★追加: 最新の対話生成結果を保存
+        
+        # ★対話生成時刻情報を保存する変数
+        self.latest_request_id = 0
+        self.latest_worker_name = ""
+        self.latest_start_timestamp_ns = 0
+        self.latest_completion_timestamp_ns = 0
+        self.latest_inference_duration_ms = 0.0
 
         self.prev_asr_you = ""  # 直前のASR結果をインスタンス変数に
         self.last_response_update_asr = ""  # 前回response_updateがTrueになった時のASR結果
+    
+    def calculate_dialogue_timing(self, current_time_ns):
+        """対話生成開始・完了からの経過時間を計算"""
+        if self.latest_start_timestamp_ns == 0 or self.latest_completion_timestamp_ns == 0:
+            return None, None
+        
+        # ナノ秒からミリ秒に変換
+        start_elapsed_ms = (current_time_ns - self.latest_start_timestamp_ns) / 1_000_000
+        completion_elapsed_ms = (current_time_ns - self.latest_completion_timestamp_ns) / 1_000_000
+        
+        return start_elapsed_ms, completion_elapsed_ms
 
     def run(self):
         prev = ""
@@ -196,18 +215,20 @@ class DialogManagement:
                 # 前回response_updateがTrueになった時のASR結果と比較
                 diff = list(difflib.ndiff(self.last_response_update_asr, self.asr["you"]))
                 changed_chars = sum(1 for d in diff if d.startswith('+ ') or d.startswith('- '))
-                # 前回response_updateがTrueになった時のASR結果と5文字以上変わった場合のみ判定
-                if changed_chars >= 5 and self.asr["you"] != self.last_response_update_asr:
+                # 前回response_updateがTrueになった時のASR結果と1文字以上変わった場合のみ判定
+                if changed_chars >= 1 and self.asr["you"] != self.last_response_update_asr:
                     self.word = self.asr["you"]
                     self.response_update = True
                     self.last_response_update_asr = self.asr["you"]  # 更新時のASR結果を保存
-                    sys.stdout.write(f"ASR結果: {self.asr['you']}\n")
+                    # asr_historyとresponse_updateの値を出力
+                    # print(f"[DEBUG] asr_history: {self.asr_history}")
+                    # print(f"[DEBUG] response_update: {self.response_update}")
+                    # sys.stdout.write(f"ASR結果: {self.asr['you']}\n")  # コメントアウト：頻繁出力を避ける
                     sys.stdout.flush()
-                else:
-                    self.response_update = False
+                    # asr_historyとresponse_updateの値を出力
+                    # print(f"[DEBUG] asr_history: {self.asr_history}")
+                    # print(f"[DEBUG] response_update: {self.response_update}")
                 self.prev_asr_you = self.asr["you"]  # 直前のASR結果は常に更新
-            else:
-                self.response_update = False
 
             # TTデータの判定・再生
             if self.latest_tt_data is not None and self.latest_tt_time != last_handled_tt_time:
@@ -235,8 +256,19 @@ class DialogManagement:
                             duration_sec = len(audio) / 1000.0
                         except Exception:
                             duration_sec = 2.0
+                        # ★ここで[DEBUG-speechSynthesis]形式で時刻情報を出力
+                        now_dt = datetime.now()
+                        timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
+                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] 時刻情報受信:\n")
+                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] start_ns: {self.latest_start_timestamp_ns}\n")
+                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] completion_ns: {self.latest_completion_timestamp_ns}\n")
+                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] request_id: {self.latest_request_id}\n")
+                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] worker_name: {self.latest_worker_name}\n")
+                        sys.stdout.flush()
+                        # ...既存の再生・タイミング分析出力...
                         sys.stdout.write(f"[TT] 合成音声再生 duration_sec={duration_sec}\n")
                         sys.stdout.flush()
+                        # ...existing code...
                         self.play_sound(wav_path, False)  # ノンブロッキング再生
                         last_response_end_time = time.time() + duration_sec
                         is_playing_response = True
@@ -244,8 +276,6 @@ class DialogManagement:
                         self.latest_synth_filename = ""
                     else:
                         sys.stdout.write("[ERROR] 合成音声ファイル名がありません\n")
-                else:
-                    self.response_update = False
                 last_handled_tt_time = tt_time
             # 応答音声再生終了後にフラグをリセット
             if is_playing_response and last_response_end_time is not None and time.time() >= last_response_end_time:
@@ -268,8 +298,19 @@ class DialogManagement:
                                     duration_sec = len(audio) / 1000.0
                                 except Exception:
                                     duration_sec = 2.0
+                                # ★ここで[DEBUG-speechSynthesis]形式で時刻情報を出力
+                                now_dt = datetime.now()
+                                timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
+                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] 時刻情報受信:\n")
+                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] start_ns: {self.latest_start_timestamp_ns}\n")
+                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] completion_ns: {self.latest_completion_timestamp_ns}\n")
+                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] request_id: {self.latest_request_id}\n")
+                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] worker_name: {self.latest_worker_name}\n")
+                                sys.stdout.flush()
+                                # ...既存の再生・タイミング分析出力...
                                 sys.stdout.write(f"[TT] 合成音声再生(pending) duration_sec={duration_sec}\n")
                                 sys.stdout.flush()
+                                # ...existing code...
                                 self.play_sound(wav_path, False)  # ノンブロッキング再生
                                 self.asr_history = []  # ★TT応答再生時のみ履歴を初期化
                                 self.latest_synth_filename = ""
@@ -285,6 +326,24 @@ class DialogManagement:
                                     duration_sec = 2.0
                                 sys.stdout.write(f"[TT] 再生音声長 duration_sec={duration_sec}\n")
                                 sys.stdout.flush()
+                                
+                                # ★応答音声再生時刻と対話生成結果を出力（静的応答）
+                                now = datetime.now()
+                                timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+                                current_time_ns = int(now.timestamp() * 1_000_000_000)
+                                
+                                sys.stdout.write(f"[{timestamp}][音声再生開始] {wav_path}\n")
+                                if hasattr(self, 'latest_dialogue_result') and self.latest_dialogue_result:
+                                    sys.stdout.write(f"[{timestamp}][対話内容] {self.latest_dialogue_result}\n")
+                                    # ★対話生成時刻との差分を計算・出力（対話生成結果がある場合のみ）
+                                    start_elapsed_ms, completion_elapsed_ms = self.calculate_dialogue_timing(current_time_ns)
+                                    if start_elapsed_ms is not None and completion_elapsed_ms is not None:
+                                        sys.stdout.write(f"[{timestamp}][タイミング分析] 対話生成開始から{start_elapsed_ms:.1f}ms, 完了から{completion_elapsed_ms:.1f}ms経過\n")
+                                        sys.stdout.write(f"[{timestamp}][対話生成情報] ID:{self.latest_request_id}, Worker:{self.latest_worker_name}, 推論時間:{self.latest_inference_duration_ms:.1f}ms\n")
+                                else:
+                                    sys.stdout.write(f"[{timestamp}][対話内容] （静的応答）\n")
+                                sys.stdout.flush()
+                                
                                 self.play_sound(wav_path, False)  # ノンブロッキング再生
                                 self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
                                 self.static_response_index += 1
@@ -494,7 +553,11 @@ class DialogManagement:
     def pubDM(self):
         if self.response_update is True:
             self.response_update = False
-            # 最新から25個ずつ遡る（例: -1, -26, -51, ...）
+            # asr_historyとresponse_updateの値を出力
+            # print(f"[DEBUG] asr_history: {self.asr_history}")
+            # print(f"[DEBUG] response_update: {self.response_update}")
+            
+            # ★旧方式（復活）: 25個おきに遡る間隔送信
             words = []
             n = len(self.asr_history)
             if n > 0:
@@ -503,9 +566,13 @@ class DialogManagement:
                     words.append(self.asr_history[idx])
                     idx -= 25
                 words.reverse()  # 古いもの→新しいもの
-            # now = datetime.now()
-            # timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            # sys.stdout.write(f"[{timestamp}][pubDM] 送信する音声認識履歴リスト: {words}\n")
+            
+            # ★新方式（コメントアウト）: 全履歴を送信（間を開けずに全ての音声認識結果を送信）
+            # words = self.asr_history.copy()  # 全履歴をそのまま送信
+            
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            # sys.stdout.write(f"[{timestamp}][pubDM] 送信する音声認識履歴リスト（25個おき、全{len(words)}件）: {words}\n")
             # sys.stdout.flush()
             return { "words": words, "update": True}
         else:
@@ -516,6 +583,9 @@ class DialogManagement:
         self.asr["you"] = asr["you"]
         self.asr["is_final"] = asr["is_final"]
         self.asr_history.append(self.asr["you"])  # 追加: 新たな音声認識結果を受信するたびに履歴に追加
+        # asr_historyとresponse_updateの値を出力
+        # print(f"[DEBUG] asr_history: {self.asr_history}")
+        # print(f"[DEBUG] response_update: {self.response_update}")
         # メモリリーク防止: 履歴を最大500個に制限
         if len(self.asr_history) > 500:
             self.asr_history = self.asr_history[-250:]  # 最新250個を保持
@@ -530,9 +600,34 @@ class DialogManagement:
     def updateSS(self, ss):
         self.ss["is_speaking"] = ss["is_speaking"]  # test
         self.ss["timestamp"] = ss["timestamp"]
+        
         # 追加: 音声合成ファイル名を受信したらTT閾値超え時に再生用に保存
         if "filename" in ss and ss["filename"]:
             self.latest_synth_filename = ss["filename"]
+        # ★追加: 対話生成結果を受信して保存
+        if "dialogue_text" in ss and ss["dialogue_text"]:
+            self.latest_dialogue_result = ss["dialogue_text"]
+        
+        # ★対話生成時刻情報を受信・保存（デバッグ出力追加）
+        if "request_id" in ss:
+            self.latest_request_id = ss["request_id"]
+        if "worker_name" in ss:
+            self.latest_worker_name = ss["worker_name"]
+        if "start_timestamp_ns" in ss:
+            self.latest_start_timestamp_ns = ss["start_timestamp_ns"]
+            # デバッグ出力：時刻情報受信確認
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            print(f"[{timestamp}][DEBUG] start_timestamp_ns受信: {self.latest_start_timestamp_ns}")
+        if "completion_timestamp_ns" in ss:
+            self.latest_completion_timestamp_ns = ss["completion_timestamp_ns"]
+            # デバッグ出力：時刻情報受信確認
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            print(f"[{timestamp}][DEBUG] completion_timestamp_ns受信: {self.latest_completion_timestamp_ns}")
+        if "inference_duration_ms" in ss:
+            self.latest_inference_duration_ms = ss["inference_duration_ms"]
+            
         # print(f"[ROS2] {ss['timestamp']}")
         if self.ss["is_speaking"] is True:
             self.speaking_time = datetime.now()

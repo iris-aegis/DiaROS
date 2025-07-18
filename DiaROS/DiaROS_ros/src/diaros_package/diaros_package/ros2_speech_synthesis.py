@@ -18,17 +18,43 @@ class RosSpeechSynthesis(Node):
         # self.pub_ss = self.create_publisher(Iss, 'SStoDR', 1)
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         # self.pub_wav = self.create_publisher(SynthWav, 'SynthWav', 1)  # ← 削除
-        self.timer = self.create_timer(0.02, self.send)
+        self.timer = self.create_timer(0.0005, self.send)
         self.is_speaking = False
 
     def play(self, nlg):
-        text = str(nlg.reply)
-        # 対話生成結果受信時のログ出力
-        # now = datetime.now()
-        # timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-        # sys.stdout.write(f"[{timestamp}][SS] 受信した対話生成内容: {nlg.reply}\n")
+        # ★NLGから受信したデータを辞書形式でspeechSynthesisに渡す
+        nlg_data = {
+            "reply": nlg.reply,
+            "source_words": list(nlg.source_words),  # ★音声認識結果リストも渡す
+            "request_id": nlg.request_id,  # リクエストID
+            "worker_name": nlg.worker_name,  # ワーカースレッド名
+            "start_timestamp_ns": nlg.start_timestamp_ns,  # 開始時刻（ナノ秒）
+            "completion_timestamp_ns": nlg.completion_timestamp_ns,  # 完了時刻（ナノ秒）
+            "inference_duration_ms": nlg.inference_duration_ms  # 推論時間（ミリ秒）
+        }
+        
+        # デバッグ出力：NLGからの時刻情報受信確認
+        now = datetime.now()
+        timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+        print(f"[{timestamp}][DEBUG-SS] NLG受信 start_ns: {nlg.start_timestamp_ns}")
+        print(f"[{timestamp}][DEBUG-SS] NLG受信 completion_ns: {nlg.completion_timestamp_ns}")
+        print(f"[{timestamp}][DEBUG-SS] NLG受信 request_id: {nlg.request_id}")
+        print(f"[{timestamp}][DEBUG-SS] NLG受信 worker_name: {nlg.worker_name}")
+        sys.stdout.flush()
+        
+        # ★Inlgメッセージ受信確認のデバッグ出力（コメントアウト：応答時のみ表示）
+        # print(f"[DEBUG][ros2_SS] Inlg受信 - request_id:{nlg.request_id}, worker:{nlg.worker_name}")
+        # print(f"[DEBUG][ros2_SS] Inlg受信 - start_ns:{nlg.start_timestamp_ns}, completion_ns:{nlg.completion_timestamp_ns}")
+        # print(f"[DEBUG][ros2_SS] Inlg受信 - inference_ms:{nlg.inference_duration_ms}")
         # sys.stdout.flush()
+        
+        self.speechSynthesis.updateNLG(nlg_data)
+        
+        text = str(nlg.reply)
         wav_path = self.speechSynthesis.run(text)
+        # ★合成済みファイル名を必ずlast_tts_fileにセット
+        if wav_path:
+            self.speechSynthesis.last_tts_file = wav_path
         # 音声合成後、ファイル名をIssでpublish
         # wav_msg = SynthWav()
         # wav_msg.filename = wav_path if wav_path else ""
@@ -53,6 +79,49 @@ class RosSpeechSynthesis(Node):
             ss.filename = self.speechSynthesis.last_tts_file if self.speechSynthesis.last_tts_file else ""
         else:
             ss.filename = ""
+        
+        # ★対話生成結果を送信
+        if hasattr(self.speechSynthesis, 'txt'):
+            ss.dialogue_text = self.speechSynthesis.txt if self.speechSynthesis.txt else ""
+        else:
+            ss.dialogue_text = ""
+        
+        # ★対話生成時刻情報を送信（デバッグ出力追加）
+        if hasattr(self.speechSynthesis, 'request_id'):
+            ss.request_id = self.speechSynthesis.request_id
+        else:
+            ss.request_id = 0
+            
+        if hasattr(self.speechSynthesis, 'worker_name'):
+            ss.worker_name = self.speechSynthesis.worker_name
+        else:
+            ss.worker_name = ""
+            
+        if hasattr(self.speechSynthesis, 'start_timestamp_ns'):
+            ss.start_timestamp_ns = self.speechSynthesis.start_timestamp_ns
+        else:
+            ss.start_timestamp_ns = 0
+            
+        if hasattr(self.speechSynthesis, 'completion_timestamp_ns'):
+            ss.completion_timestamp_ns = self.speechSynthesis.completion_timestamp_ns
+        else:
+            ss.completion_timestamp_ns = 0
+            
+        if hasattr(self.speechSynthesis, 'inference_duration_ms'):
+            ss.inference_duration_ms = self.speechSynthesis.inference_duration_ms
+        else:
+            ss.inference_duration_ms = 0.0
+            
+        # デバッグ出力：DMへの時刻情報送信確認（音声合成完了時のみ）
+        if ss.is_speaking:
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            print(f"[{timestamp}][DEBUG-SS-send] DM送信 start_ns: {ss.start_timestamp_ns}")
+            print(f"[{timestamp}][DEBUG-SS-send] DM送信 completion_ns: {ss.completion_timestamp_ns}")
+            print(f"[{timestamp}][DEBUG-SS-send] DM送信 request_id: {ss.request_id}")
+            print(f"[{timestamp}][DEBUG-SS-send] DM送信 worker_name: {ss.worker_name}")
+            sys.stdout.flush()
+            
         self.pub_ss.publish(ss)
         self.speechSynthesis.speak_end = False
 

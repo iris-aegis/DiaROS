@@ -107,27 +107,27 @@ class SpeechSynthesis():
         os.mkdir(self.TMP_DIR)
 
         self.speak_end = False
-
         self.response_pause_length = 1
         self.prev_response_time = datetime.now()
-
+        self.source_words = []
+        self.last_tts_file = ""  # 直近の合成ファイル名を記録
         # power_calibration.wavは無効化
-        
+
         # Check if VOICEVOX is running, start if not
         self._ensure_voicevox_running()
-    
+        # Check if VOICEVOX is running on GPU
+        self._check_voicevox_gpu()
+
     def _ensure_voicevox_running(self):
         """Check if VOICEVOX is running and display status message"""
         try:
-            # Check if VOICEVOX is running by making a health check request
+            import requests
             response = requests.get('http://localhost:50021/speakers', timeout=2)
             if response.status_code == 200:
                 print("✓ VOICEVOX is running and ready")
                 return
-        except requests.exceptions.RequestException:
+        except Exception:
             pass
-        
-        # VOICEVOX is not running - display clear message
         print("=" * 60)
         print("⚠️  VOICEVOX ENGINE IS NOT RUNNING")
         print("=" * 60)
@@ -137,7 +137,30 @@ class SpeechSynthesis():
         print("=" * 60)
         print("Speech synthesis will fail until VOICEVOX is started.")
         print("=" * 60)
-    
+
+    def _check_voicevox_gpu(self):
+        """VOICEVOXがGPU上で動作しているか確認し、警告を出す"""
+        try:
+            import subprocess
+            result = subprocess.run(['nvidia-smi', '--query-compute-apps=pid,process_name,gpu_uuid', '--format=csv,noheader'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            found = False
+            for line in result.stdout.splitlines():
+                if 'voicevox' in line.lower() or 'voicevox_engine' in line.lower():
+                    found = True
+                    break
+            if found:
+                print("✓ VOICEVOX ENGINE is running on GPU (nvidia-smi detected)")
+            else:
+                print("=" * 60)
+                print("⚠️  VOICEVOX ENGINE IS NOT RUNNING ON GPU (nvidia-smi did not detect it)")
+                print("=" * 60)
+                print("Please ensure you are using the GPU version of VOICEVOX engine.")
+                print("If you are using the CPU version, synthesis will be slow.")
+                print("=" * 60)
+        except Exception as e:
+            print("Could not check GPU status (nvidia-smi not available or error).")
+            # print(e)
+
     def play_sound(self, filename, block=True):
         """pygame.mixerを使用して音声ファイルを再生"""
         try:
@@ -168,101 +191,60 @@ class SpeechSynthesis():
                 output_wav.writeframes(input_wav.readframes(params.nframes - trim_frames))
 
     def run(self, text):
-        response_cnt = 0
-        print(f'TTS:{text}')
-        sys.stdout.flush()
+        """NLGから受信したテキストを即座に音声合成し、ファイル名を返す（同期処理）"""
         tts_file = None
         try:
-            # VOICEVOXパターン
             speaker = 60
-            # 開始時間を記録
             start_time = datetime.now()
-
             host = "localhost"
             port = 50021
             params = (
                 ('text', text),
                 ('speaker', speaker),
             )
-            # 音声合成のリクエストを送るJSONのプリセットを要求
             response1 = requests.post(
                 f'http://{host}:{port}/audio_query',
                 params=params
             )
-            # response1からJSONオブジェクトを取得
             response1_data = response1.json()
-            
-            # 発話前後の無音時間でリップシンクを調整
             response1_data["prePhonemeLength"] = 0.275
             response1_data["postPhonemeLength"] = 0.0
-
-            # 変更したJSONオブジェクトを文字列に変換
             modified_json_str = json.dumps(response1_data)
-            
-            ### Unity送信用 ###
-            # 時系列音素抽出用変数
             all_segments = []
-
-            # アクセントフレーズ内の全てのモーラに対して処理
             for accent_phrase in response1_data['accent_phrases']:
                 for mora in accent_phrase['moras']:
                     vowel_type = mora['vowel']
-        #                     # moraごとのconsonant_length, vowel_length, vowelを表示
                     consonant_length = mora['consonant_length']
                     vowel_length = mora['vowel_length']
-        #                     vowel = mora['vowel']
-        #                     print(f"Consonant Length: {consonant_length}, Vowel Length: {vowel_length}, Vowel: {vowel}")
-        #                     # 各モーラのvowelを連結
-        #                     all_vowels += mora['vowel']
-                    
                     if consonant_length is None:
-        #                         speech_seconds += vowel_length
                         duration = vowel_length
                     else:
-        #                         speech_seconds += consonant_length + vowel_length
                         duration = vowel_length + consonant_length
-                    
                     segment = {
                         "vowel_type": vowel_type,
                         "length": duration
                     }
-                    all_segments.append(segment)# データを配列形式に整形
-
+                    all_segments.append(segment)
                 pause = 0.0
-                # "pause_mora" フィールドが辞書である場合の処理を追加
                 if isinstance(accent_phrase['pause_mora'], dict):
                     pause_mora = accent_phrase['pause_mora']
-                    pause_consonant = pause_mora['consonant']
                     pause_consonant_length = pause_mora['consonant_length']
                     pause_vowel_length = pause_mora['vowel_length']
-        #                     print(pause_consonant)
-                    
                     if pause_consonant_length is not None:
-        #                         speech_seconds += pause_consonant_length
                         pause += pause_consonant_length
                     if pause_vowel_length is not None:
-        #                         speech_seconds += pause_vowel_length
                         pause += pause_vowel_length
-
                     pause_segment = {
                         "vowel_type": "silent_vowel",
                         "length": pause
                     }
-                    all_segments.append(pause_segment)# データを配列形式に整形
+                    all_segments.append(pause_segment)
             wrapped_data = {"data": all_segments}
             json_str = json.dumps(wrapped_data)
-            if DEBUG:print(json_str)
-            ###---###
-
-            ### Unityから読み込める形式でjsonファイルに保存 ###
-            #Use the current date and time to create a unique file name
-            current_time = datetime.now().strftime("%Y%m%d%H%M%S")
-            
+            current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
             json_file = './tmp/' + str(current_time) + '.json'
             with open(json_file, 'w', encoding='utf-8') as f:
                 json.dump(wrapped_data, f, ensure_ascii=False, indent=4)
-            ###---###
-
             headers = {'Content-Type': 'application/json',}
             response2 = requests.post(
                 f'http://{host}:{port}/synthesis',
@@ -270,62 +252,63 @@ class SpeechSynthesis():
                 params=params,
                 data=modified_json_str.encode('utf-8')
             )
-
-            ### jsonファイルが先に作成されるのでjsonファイルが作成された時刻に名前を合わせる
             input_file = './{}/input_{}.wav'.format(self.TMP_DIR, current_time)
-
-            wf = wave.open(input_file, 'wb')
-            wf.setnchannels(1)
-            wf.setsampwidth(2)
-            wf.setframerate(24000)
-            wf.writeframes(response2.content)
-            wf.close()
-
-            if DEBUG:print("Length of audio data: ", len(response2.content))
-            if DEBUG:print("Status code: ", response2.status_code)
-
+            with wave.open(input_file, 'wb') as wf:
+                wf.setnchannels(1)
+                wf.setsampwidth(2)
+                wf.setframerate(24000)
+                wf.writeframes(response2.content)
             tts_file = './tmp/' + str(current_time) + '.wav'
             self.trim_wav(input_file, tts_file)
-
-            # ここで音声ファイルを再生
-            # try:
-            #     self.play_sound(tts_file, True)
-            # except Exception as e:
-            #     print(f"音声再生エラー: {e}")
-
-            # 終了時間を記録
-            end_time = datetime.now()
-            # 処理時間を計算して表示
-            elapsed_time = end_time - start_time
-            # if DEBUG:sys.stdout.write("\n\n"+f"音声合成にかかった処理時間（秒）:" + str(elapsed_time) + "\n\n")
-            # if DEBUG:sys.stdout.flush()
-            # #現在時刻を表示
-            # if DEBUG:print("応答文再生開始刻："+datetime.now().strftime('%Y/%m/%d %H:%M:%S.%f')[:-3])
-            
-            # if self.sound_available == False:
-            #     if datetime.now() - self.prev_response_time > timedelta(seconds=self.response_pause_length):
-            #         self.play_sound(tts_file, True)
-            #         self.prev_response_time = datetime.now() 
-            # os.remove(tts_file)
             self.speak_end = True
-            self.last_tts_file = tts_file  # 直近の合成ファイル名を記録
-
-            # Unityに口形素列を送信
-            # if self.sound_available == False:
-            #     if datetime.now() - self.prev_response_time > timedelta(seconds=self.response_pause_length):
-                    # Unityから読み込める形式でファイルに保存
-                    # with open('data.json', 'w', encoding='utf-8') as f:
-                    #     json.dump(json_str, f, ensure_ascii=False, indent=4)
-                    # dummy_signal = "animation start"
-                    # client.sendto(dummy_signal.encode('utf-8'),(HOST,PORT))
-                    # self.prev_response_time = datetime.now() 
-
-            return tts_file
+            self.last_tts_file = tts_file  # 最新の合成ファイル名を常に保持
         except Exception as e:
             print('VOICEVOXerror: VOICEVOX sound is not generated. Do you launch VOICEVOX?')
             print(e.args)
             self.last_tts_file = ""
-            return None
+            self.speak_end = True
+        return self.last_tts_file
+
+    def updateNLG(self, nlg):
+        """NLGからテキストと音声認識結果を受信"""
+        if nlg.get("reply"):
+            self.txt = nlg["reply"]
+            # ★時刻情報を保存
+            self.request_id = nlg.get("request_id", 0)
+            self.worker_name = nlg.get("worker_name", "")
+            self.start_timestamp_ns = nlg.get("start_timestamp_ns", 0)
+            self.completion_timestamp_ns = nlg.get("completion_timestamp_ns", 0)
+            self.inference_duration_ms = nlg.get("inference_duration_ms", 0.0)
+            
+            # デバッグ出力：時刻情報受信確認
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            print(f"[{timestamp}][DEBUG-speechSynthesis] 時刻情報受信:")
+            print(f"[{timestamp}][DEBUG-speechSynthesis] start_ns: {self.start_timestamp_ns}")
+            print(f"[{timestamp}][DEBUG-speechSynthesis] completion_ns: {self.completion_timestamp_ns}")
+            print(f"[{timestamp}][DEBUG-speechSynthesis] request_id: {self.request_id}")
+            print(f"[{timestamp}][DEBUG-speechSynthesis] worker_name: {self.worker_name}")
+            sys.stdout.flush()
+            
+            # ★受信データを標準出力で確認（コメントアウト：応答時のみ表示）
+            # from datetime import datetime
+            # now = datetime.now()
+            # timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            # print(f"[{timestamp}][NLG受信確認] request_id:{self.request_id}, worker:{self.worker_name}")
+            # print(f"[{timestamp}][NLG受信確認] start_ns:{self.start_timestamp_ns}, completion_ns:{self.completion_timestamp_ns}")
+            # print(f"[{timestamp}][NLG受信確認] inference_ms:{self.inference_duration_ms}")
+            # sys.stdout.flush()
+            
+            # ★音声認識結果リストを受信・保存（コメントアウト：頻繁出力を避ける）
+            if nlg.get("source_words"):
+                self.source_words = nlg["source_words"]
+                # print(f"[SS] 音声認識結果リスト受信: {len(self.source_words)}個")
+                # print(f"[SS] 対話生成根拠となった音声認識履歴（全{len(self.source_words)}個）:")
+                # for i, word in enumerate(self.source_words):
+                #     print(f"    [{i+1:3d}] {word}")
+                # sys.stdout.flush()
+            else:
+                self.source_words = []
 
 if __name__ == "__main__":
     tts = SpeechSynthesis()

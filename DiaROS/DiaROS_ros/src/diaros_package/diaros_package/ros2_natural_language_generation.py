@@ -27,6 +27,21 @@ class RosNaturalLanguageGeneration(Node):
         if hasattr(self.naturalLanguageGeneration, "last_reply") and self.naturalLanguageGeneration.last_reply != self.last_sent_reply:
             nlg_msg = Inlg()
             nlg_msg.reply = self.naturalLanguageGeneration.last_reply
+            # ★音声認識結果リストも送信
+            if hasattr(self.naturalLanguageGeneration, "source_words"):
+                nlg_msg.source_words = self.naturalLanguageGeneration.source_words
+            else:
+                nlg_msg.source_words = []
+            
+            # ★新しい時刻情報フィールドを送信
+            nlg_msg.request_id = getattr(self.naturalLanguageGeneration, "request_id", 0)
+            nlg_msg.worker_name = getattr(self.naturalLanguageGeneration, "worker_name", "")
+            nlg_msg.start_timestamp_ns = getattr(self.naturalLanguageGeneration, "start_timestamp_ns", 0)
+            nlg_msg.completion_timestamp_ns = getattr(self.naturalLanguageGeneration, "completion_timestamp_ns", 0)
+            nlg_msg.inference_duration_ms = getattr(self.naturalLanguageGeneration, "inference_duration_ms", 0.0)
+            
+            print(f"[DEBUG] NLG送信 - request_id: {nlg_msg.request_id}, start: {nlg_msg.start_timestamp_ns}, completion: {nlg_msg.completion_timestamp_ns}")
+            
             self.pub_nlg.publish(nlg_msg)  # ここでNLG生成文をNLGtoSSトピックで送信
             # self.pub_nlg_dr.publish(nlg_msg)  # ← コメントアウト
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply

@@ -107,6 +107,41 @@ ros2 launch diaros_package sdsmod.launch.py mic:=false
 
 # Run with muted microphone
 ros2 launch diaros_package sdsmod.launch.py mic:=mute
+
+# Run without NLG node (for distributed setup)
+ros2 launch diaros_package sdsmod.launch.py nlg:=false
+```
+
+### 分散実行構成 / Distributed Execution Configuration
+**重要**: このシステムは分散実行に対応しています。特にNLG（自然言語生成）を別PCで実行することが可能です。
+
+#### NLG分散実行セットアップ
+1. **メインPC（音声処理・対話管理）**:
+   ```bash
+   # NLGノードを除外して起動
+   ros2 launch diaros_package sdsmod.launch.py nlg:=false
+   ```
+
+2. **NLG専用PC（対話生成処理）**:
+   ```bash
+   # NLGノードのみを実行
+   ros2 run diaros_package ros2_natural_language_generation
+   ```
+
+#### 分散実行時の注意事項
+- **ROS_DOMAIN_ID**: 両PC間で同一のROS_DOMAIN_IDを設定
+- **ネットワーク設定**: ROS2のマルチキャスト通信が可能なネットワーク環境
+- **同期**: 時刻同期（NTP）を推奨（タイミング分析の精度向上）
+- **レイテンシ**: ネットワーク遅延を考慮した応答時間設定
+
+#### 環境変数設定例
+```bash
+# 両PCで同一設定
+export ROS_DOMAIN_ID=0
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+
+# NLG専用PCでAPI設定
+export OPENAI_API_KEY="sk-your-openai-api-key"
 ```
 
 ### Launch Scripts (Cross-Platform)
@@ -125,6 +160,10 @@ ros2 launch diaros_package sdsmod.launch.py mic:=mute
 
 # Quick start with Pixi
 ./scripts/launch/pixi_diaros_quick_start.sh
+
+# Launch without speech input (for bag replay)
+./scripts/launch/launch_diaros_no_speech_input.sh
+./scripts/launch/launch_diaros_no_speech_input_simple.sh
 ```
 
 ### Development and Debugging
@@ -135,11 +174,11 @@ ros2 topic list
 # Monitor topic communication in real-time
 ros2 topic echo [topic_name]
 
-# Record system communication for debugging
-ros2 bag record [topic1] [topic2] ... [topicN]
+# Record system communication for debugging (saved to log directory)
+ros2 bag record [topic1] [topic2] ... [topicN] -o ../log/recording_name
 
 # Replay recorded communication
-ros2 bag play [bag_file_name]
+ros2 bag play ../log/[bag_file_name]
 
 # Visualize node communication graph
 ros2 run rqt_graph rqt_graph
@@ -217,9 +256,14 @@ ROS2 wrappers that enable:
 - `ros2_automatic_speech_recognition`: Speech-to-text conversion
 - `ros2_natural_language_understanding`: Intent understanding (passthrough)
 - `ros2_dialog_management`: Central dialog coordinator
+- `ros2_natural_language_generation`: Response generation *(可分散実行 - conditional on `nlg` parameter)*
 - `ros2_speech_synthesis`: Text-to-speech conversion
 - `ros2_turn_taking`: Turn-taking control
 - `ros2_back_channel`: Backchannel response generation
+
+#### 分散実行用パラメータ:
+- `mic:=false`: speech_inputノードを無効化（音声ファイル再生用）
+- `nlg:=false`: NLGノードを無効化（別PCでのNLG実行用）
 
 #### Custom Message Interfaces (`interfaces/`)
 Defines ROS2 message types for dialog system communication.
@@ -331,12 +375,16 @@ pip install -r DiaROS_ros/requirements.txt
 2. **Recognition**: acoustic_analysis → automatic_speech_recognition
 3. **Understanding**: speech_recognition → natural_language_understanding  
 4. **Dialog Management**: Central coordinator managing all dialog flow
-5. **Response Generation**: dialog_management → natural_language_generation
+5. **Response Generation**: dialog_management → natural_language_generation *(可分散実行)*
 6. **Speech Output**: response → speech_synthesis → audio output
 7. **Turn Management**: turn_taking monitors and controls speaking turns
 8. **Backchannel**: Generates appropriate listener responses during speech
 
-The modular ROS2 architecture allows individual components to be developed, tested, and debugged independently while maintaining real-time communication capabilities.
+### 分散実行時のアーキテクチャ
+**メインPC**: 1-4, 6-8の処理を担当  
+**NLG専用PC**: 5の自然言語生成処理を担当
+
+The modular ROS2 architecture allows individual components to be developed, tested, and debugged independently while maintaining real-time communication capabilities. **Components can also be distributed across multiple machines for performance optimization.**
 
 ## プロジェクト構造 / Project Structure
 
@@ -345,9 +393,13 @@ The modular ROS2 architecture allows individual components to be developed, test
 - **静的応答**: `DiaROS_ros/static_response_source/static_response_*.wav`
 - **ランダム応答**: `DiaROS_ros/static_response_random/static_response_random_*.wav`
 - **長い質問サンプル**: `DiaROS_ros/static_long_question/static_long_question*.wav`
-- **合成音声**: `DiaROS_ros/tmp/*.wav`
+- **合成音声**: `DiaROS_ros/tmp/*.wav` (一時ファイル、Gitに含まれない)
 - **システム音声**: `DiaROS_ros/start_announce.wav`, `DiaROS_ros/end_announce.wav`
 - **キャリブレーション音声**: `DiaROS_ros/power_calibration.wav`
+
+### ログファイルの場所 / Log File Locations
+- **ROSBagファイル**: `log/diaros_*/`, `log/rosbag2_*/` (録画データ)
+- **対話セッション**: `log/mic_only_recording/`, `log/all_topic_recording/` (音声・全トピック録画)
 
 ### 設定ファイル / Configuration Files
 - **RQT監視設定**: `config/rqt_diaros_monitoring.perspective`

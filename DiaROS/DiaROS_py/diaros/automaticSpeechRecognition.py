@@ -261,15 +261,15 @@ class AutomaticSpeechRecognition:
         else:
             audio_id = hashlib.md5(audio_np.astype(np.float32).tobytes()).hexdigest()[:8]
         
-        # ASR音声受信をログ出力（毎回）
-        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        
-        # データ対応確認用: 先頭5サンプルの具体的な値を表示
-        sample_values = audio_np[:5].tolist() if len(audio_np) >= 5 else audio_np.tolist()
-        sample_str = '[' + ','.join([f'{v:.6f}' for v in sample_values]) + ']'
-        
-        sys.stdout.write(f"[🧠 ASR_RECEIVE] {timestamp_str} | {asr_receive_timestamp:.6f} | {sample_str}\n")
-        sys.stdout.flush()
+        # ASR音声受信をログ出力（コメントアウト）
+        # timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        # 
+        # # データ対応確認用: 先頭5サンプルの具体的な値を表示
+        # sample_values = audio_np[:5].tolist() if len(audio_np) >= 5 else audio_np.tolist()
+        # sample_str = '[' + ','.join([f'{v:.6f}' for v in sample_values]) + ']'
+        # 
+        # sys.stdout.write(f"[🧠 ASR_RECEIVE] {timestamp_str} | {asr_receive_timestamp:.6f} | {sample_str}\n")
+        # sys.stdout.flush()
         
         # メタデータ付きでキューに追加
         audio_metadata = {

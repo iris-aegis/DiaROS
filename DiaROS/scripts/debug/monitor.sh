@@ -249,6 +249,7 @@ show_menu() {
     echo "==================================="
     echo "=== 基本ROS2ツール ==="
     echo "1. rqt (Full GUI Dashboard)"
+    echo "1a. rqt_bag専用起動（正常なレコーディング保証）"
     echo "2. rqt_graph (Node Communication Graph)"
     echo "3. rqt_plot (Real-time Data Plotting)"
     echo "4. rqt_topic (Topic Monitor)"
@@ -310,9 +311,14 @@ show_menu() {
     echo "42. X11環境診断"
     echo "43. X11接続修復"
     echo ""
-    echo "44. Exit"
+    echo "=== rosbag2修復ツール ==="
+    echo "44. rosbag2レコーディング問題修正"
+    echo "45. rqt_bag専用セットアップ（バックグラウンド監視付き）"
+    echo ""
+    echo ""
+    echo "46. Exit"
     echo "==================================="
-    echo -n "選択してください [1-44, 36a, 36b]: "
+    echo -n "選択してください [1-46, 1a, 36a, 36b]: "
 }
 
 # 環境に応じた準備
@@ -413,7 +419,20 @@ while true; do
     case $choice in
         1)
             echo "rqtを起動中..."
+            
+            # rqt_bag専用の環境設定
+            export QT_X11_NO_MITSHM=1
+            export ROSBAG2_STORAGE_PLUGIN=rosbag2_storage_sqlite3
+            export ROSBAG2_CONVERTER=rosbag2_converter_default
+            
+            echo "🔧 rqt_bag対応設定を適用しました"
             run_gui_command "rqt"
+            ;;
+        "1a")
+            echo "🚀 rqt_bag専用起動を開始中..."
+            SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+            DIAROS_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+            "$DIAROS_ROOT/scripts/utils/launch_rqt_bag_proper.sh"
             ;;
         2)
             echo "rqt_graphを起動中..."
@@ -449,11 +468,11 @@ while true; do
             
             timestamp=$(date +%Y%m%d_%H%M%S)
             if [ "$topics" = "all" ]; then
-                echo "全トピックを録画中: diaros_$timestamp"
-                run_command "ros2 bag record -a -o diaros_$timestamp"
+                echo "全トピックを録画中: ../log/diaros_$timestamp"
+                run_command "ros2 bag record -a -o ../log/diaros_$timestamp"
             else
-                echo "指定トピックを録画中: diaros_$timestamp"
-                run_command "ros2 bag record $topics -o diaros_$timestamp"
+                echo "指定トピックを録画中: ../log/diaros_$timestamp"
+                run_command "ros2 bag record $topics -o ../log/diaros_$timestamp"
             fi
             ;;
         9)
@@ -501,9 +520,9 @@ while true; do
         17)
             echo "DiaROS対話セッションを録画中..."
             timestamp=$(date +%Y%m%d_%H%M%S)
-            echo "録画ファイル: diaros_dialog_$timestamp"
+            echo "録画ファイル: ../log/diaros_dialog_$timestamp"
             echo "Ctrl+Cで録画を停止"
-            run_command "ros2 bag record /mic_audio_float32 /AAtoDM /ASRtoNLU /NLUtoDM /DMtoNLG /NLGtoSS /SStoDM /TTtoDM /BCtoDM -o diaros_dialog_$timestamp"
+            run_command "ros2 bag record /mic_audio_float32 /AAtoDM /ASRtoNLU /NLUtoDM /DMtoNLG /NLGtoSS /SStoDM /TTtoDM /BCtoDM -o ../log/diaros_dialog_$timestamp"
             ;;
         18)
             echo "DiaROS対話フローグラフを生成中..."
@@ -831,6 +850,23 @@ EOF
             fix_x11_connection
             ;;
         44)
+            echo "🔧 rosbag2レコーディング問題を修正中..."
+            SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+            DIAROS_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+            cd "$DIAROS_ROOT/DiaROS_ros"
+            "$DIAROS_ROOT/scripts/utils/fix_rosbag_recording.sh"
+            echo ""
+            echo "Enterキーを押して続行..."
+            read -r
+            ;;
+        45)
+            echo "🚀 rqt_bag専用セットアップを起動中..."
+            SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+            DIAROS_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+            cd "$DIAROS_ROOT/DiaROS_ros"
+            "$DIAROS_ROOT/scripts/utils/setup_rqt_bag_recording.sh"
+            ;;
+        46)
             echo "終了します..."
             exit 0
             ;;

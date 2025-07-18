@@ -107,8 +107,8 @@ class RosAutomaticSpeechRecognition(Node):
             self.pub_asr.publish(asr)
             
             # ASR認識結果の遅延測定ログ出力
-            sys.stdout.write(f"[🧠 ASR_OUTPUT] {timestamp_str} | 認識結果: '{asr.you}' | is_final: {asr.is_final}\n")
-            sys.stdout.flush()
+            # sys.stdout.write(f"[🧠 ASR_OUTPUT] {timestamp_str} | 認識結果: '{asr.you}' | is_final: {asr.is_final}\n")
+            # sys.stdout.flush()
             
             # ASR結果を発行した後にビープ音を再生
             # self._play_beep()

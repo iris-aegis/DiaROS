@@ -159,7 +159,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/DiaROS/DiaROS_ros/tmp/
+# DiaROS temporary files
+DiaROS_ros/tmp/
+DiaROS_py/diaros/tmp/
 
 # ROS2 bag files
 rosbag2_*/
@@ -170,6 +172,7 @@ rosbag2_*/
 *.db3-shm
 *.db3-wal
 **/rosbag2_*/**
+**/metadata.yaml
 
 # Audio input files
 model_input_sound.wav

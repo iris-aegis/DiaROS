@@ -44,7 +44,8 @@ class RosDialogManagement(Node):
         new = {
             "is_speaking": ss.is_speaking,
             "timestamp": ss.timestamp,
-            "filename": ss.filename  # ← 追加: 合成音声ファイル名を渡す
+            "filename": ss.filename,  # ← 追加: 合成音声ファイル名を渡す
+            "dialogue_text": ss.dialogue_text  # ★追加: 対話生成結果を渡す
         }
         # print(f"[SSトピック受信] is_speaking: {new['is_speaking']} / timestamp: {new['timestamp']}")  # 確認用
         self.dialogManagement.updateSS(new)
@@ -84,13 +85,12 @@ class RosDialogManagement(Node):
 
         if dm_result_update is True:
             dm.words = words
+            # ここでpublish内容を標準出力（コメントアウト：出力量削減）
+            # print(f"[DM publish] 音声認識履歴を送信（全{len(words)}件）: {dm.words}")
+            # sys.stdout.flush()
         else:
             dm.words = ["", "", ""]
         self.prev_word = words[0] if words else "" #  現状はprev_wordは使っていない
-        #print(dm.words)
-        # ここでpublish内容を標準出力
-        # print(f"[DM publish] {dm.words}")
-        # sys.stdout.flush()
         self.pub_dm.publish(dm)
 
     def aa_update(self, msg):

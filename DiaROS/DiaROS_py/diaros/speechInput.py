@@ -79,15 +79,15 @@ class SpeechInput:
         else:
             audio_id = hashlib.md5(str(capture_timestamp).encode()).hexdigest()[:8]
         
-        # SDS音声取得タイムスタンプをログ出力（毎回）
-        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        
-        # データ対応確認用: 先頭5サンプルの具体的な値を表示
-        sample_values = audio_np[:5].tolist() if len(audio_np) >= 5 else audio_np.tolist()
-        sample_str = '[' + ','.join([f'{v:.6f}' for v in sample_values]) + ']'
-        
-        sys.stdout.write(f"[🎙️ MIC_CAPTURE] {timestamp_str} | {capture_timestamp:.6f} | {sample_str}\n")
-        sys.stdout.flush()
+        # SDS音声取得タイムスタンプをログ出力（コメントアウト）
+        # timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        # 
+        # # データ対応確認用: 先頭5サンプルの具体的な値を表示
+        # sample_values = audio_np[:5].tolist() if len(audio_np) >= 5 else audio_np.tolist()
+        # sample_str = '[' + ','.join([f'{v:.6f}' for v in sample_values]) + ']'
+        # 
+        # sys.stdout.write(f"[🎙️ MIC_CAPTURE] {timestamp_str} | {capture_timestamp:.6f} | {sample_str}\n")
+        # sys.stdout.flush()
         
         # 音声データにIDとタイムスタンプを付与してキューに追加
         audio_data_with_metadata = {
