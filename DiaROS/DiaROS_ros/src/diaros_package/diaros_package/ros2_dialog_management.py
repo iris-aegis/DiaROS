@@ -40,6 +40,11 @@ class RosDialogManagement(Node):
         new = { "you": dm.you, "is_final": dm.is_final }
         self.dialogManagement.updateASR(new)
         
+        # デバッグ用：ASR結果受信ログ
+        if dm.you:  # 空でない場合のみ表示
+            print(f"[🔊 DM] ASR受信: '{dm.you}' (is_final: {dm.is_final})")
+            sys.stdout.flush()
+        
     def ss_update(self, ss):# test
         new = {
             "is_speaking": ss.is_speaking,
@@ -77,7 +82,7 @@ class RosDialogManagement(Node):
         # sys.stdout.flush()
         self.dialogManagement.updateBC(data)  # dialogManagement.py側でupdateBCを実装しておくこと
 
-    def callback(self): #  連続して相槌を打てるようにした
+    def callback(self):
         dm = Idm()
         pub_dm_return = self.dialogManagement.pubDM()
         words = pub_dm_return['words']
@@ -85,13 +90,12 @@ class RosDialogManagement(Node):
 
         if dm_result_update is True:
             dm.words = words
-            # ここでpublish内容を標準出力（コメントアウト：出力量削減）
-            # print(f"[DM publish] 音声認識履歴を送信（全{len(words)}件）: {dm.words}")
-            # sys.stdout.flush()
-        else:
-            dm.words = ["", "", ""]
-        self.prev_word = words[0] if words else "" #  現状はprev_wordは使っていない
-        self.pub_dm.publish(dm)
+            # デバッグ用：DM→NLG送信ログ
+            print(f"[🚀 DM→NLG] 音声認識履歴送信（全{len(words)}件）: {dm.words}")
+            sys.stdout.flush()
+            self.prev_word = words[0] if words else ""
+            self.pub_dm.publish(dm)
+
 
     def aa_update(self, msg):
         new = {

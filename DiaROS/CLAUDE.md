@@ -206,6 +206,21 @@ ros2 run rqt_plot rqt_plot
 ./scripts/debug/test_turn_taking.py
 ```
 
+### 総合計時間計測システム
+```bash
+# 時刻同期セットアップ（各PCで実行）
+sudo ./scripts/setup/setup_time_sync.sh
+
+# 計測データの可視化
+python3 ./scripts/debug/timing_visualizer.py timeline.json plot
+
+# 詳細レポート生成
+python3 ./scripts/debug/timing_visualizer.py timeline.json report
+
+# 実装ガイド
+./scripts/timing_implementation_guide.md
+```
+
 ### Test Scripts
 ```bash
 # Test DiaROS response system

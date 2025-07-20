@@ -10,6 +10,7 @@ from datetime import datetime
 
 from diaros.speechInput import stream_queue, SpeechInput
 import diaros.speechInput as speechInput_module
+from diaros.timing_integration import start_timing_session, log_audio_frame_received
 
 class MicPublisher(Node):
     def __init__(self):
@@ -22,6 +23,10 @@ class MicPublisher(Node):
         self.last_send_time = time.time()
         self.batch_size_threshold = 3  # 3個以上溜まったらまとめて送信
         self.time_threshold = 0.01  # 10ms以上経過したら強制送信
+        
+        # 時間計測用
+        self.current_session_id = None
+        self.frame_count = 0
         
         
         # speechInput側からの通知を受けるため自身を登録
@@ -95,6 +100,13 @@ class MicPublisher(Node):
                     batch_timestamps.append(receive_timestamp)
                 
                 self.pending_data.append(float_array)
+                
+                # 時間計測: 最新音声フレーム受信記録
+                self.frame_count += 1
+                if self.current_session_id is None:
+                    self.current_session_id = start_timing_session()
+                log_audio_frame_received(self.current_session_id, self.frame_count)
+                
             except queue.Empty:
                 break
         

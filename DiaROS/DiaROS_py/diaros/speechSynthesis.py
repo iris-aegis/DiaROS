@@ -11,6 +11,7 @@ import sys
 import numpy as np
 import time
 import subprocess
+from diaros.timing_integration import get_timing_logger, log_audio_playback_start, end_timing_session
 
 ### VAD ###
 import queue
@@ -112,6 +113,10 @@ class SpeechSynthesis():
         self.source_words = []
         self.last_tts_file = ""  # 直近の合成ファイル名を記録
         # power_calibration.wavは無効化
+        
+        # 時間計測用
+        self.timing_logger = get_timing_logger()
+        self.current_session_id = None
 
         # Check if VOICEVOX is running, start if not
         self._ensure_voicevox_running()
@@ -164,11 +169,27 @@ class SpeechSynthesis():
     def play_sound(self, filename, block=True):
         """pygame.mixerを使用して音声ファイルを再生"""
         try:
+            # 時間計測: 音声再生開始
+            if self.current_session_id is None:
+                sessions = self.timing_logger.session_data
+                if sessions:
+                    self.current_session_id = list(sessions.keys())[-1]  # 最新セッション
+            
+            if self.current_session_id:
+                log_audio_playback_start(self.current_session_id, filename)
+            
             pygame.mixer.music.load(filename)
             pygame.mixer.music.play()
+            
             if block:
                 while pygame.mixer.music.get_busy():
                     pygame.time.wait(100)
+                
+                # 時間計測: セッション終了（音声再生完了）
+                if self.current_session_id:
+                    total_ms = end_timing_session(self.current_session_id, "音声再生完了")
+                    print(f"🎉 対話セッション完了: 総計時間 {total_ms:.1f}ms")
+                    
         except Exception as e:
             print(f"音声再生エラー: {e}")
     

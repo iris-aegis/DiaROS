@@ -8,6 +8,7 @@ from interfaces.msg import Imm
 from diaros.speechSynthesis import SpeechSynthesis
 # from interfaces.msg import Time
 from datetime import datetime
+from diaros.timing_integration import get_timing_logger, log_tts_start, log_tts_complete, log_audio_playback_start, end_timing_session
 
 class RosSpeechSynthesis(Node):
     def __init__(self, speechSynthesis):
@@ -20,6 +21,11 @@ class RosSpeechSynthesis(Node):
         # self.pub_wav = self.create_publisher(SynthWav, 'SynthWav', 1)  # ← 削除
         self.timer = self.create_timer(0.0005, self.send)
         self.is_speaking = False
+        
+        # 時間計測用
+        self.timing_logger = get_timing_logger()
+        self.current_session_id = None
+        self.tts_start_time = None
 
     def play(self, nlg):
         # ★NLGから受信したデータを辞書形式でspeechSynthesisに渡す
@@ -50,8 +56,25 @@ class RosSpeechSynthesis(Node):
         
         self.speechSynthesis.updateNLG(nlg_data)
         
+        # 時間計測: セッションID取得とTTS開始
+        if self.current_session_id is None:
+            sessions = self.timing_logger.session_data
+            if sessions:
+                self.current_session_id = list(sessions.keys())[-1]  # 最新セッション
+        
         text = str(nlg.reply)
+        
+        # 時間計測: 音声合成開始
+        if self.current_session_id:
+            self.tts_start_time = time.time()
+            log_tts_start(self.current_session_id, text)
+        
         wav_path = self.speechSynthesis.run(text)
+        
+        # 時間計測: 音声合成完了
+        if self.current_session_id and self.tts_start_time:
+            tts_duration_ms = (time.time() - self.tts_start_time) * 1000
+            log_tts_complete(self.current_session_id, wav_path or "synthesis_failed", tts_duration_ms)
         # ★合成済みファイル名を必ずlast_tts_fileにセット
         if wav_path:
             self.speechSynthesis.last_tts_file = wav_path

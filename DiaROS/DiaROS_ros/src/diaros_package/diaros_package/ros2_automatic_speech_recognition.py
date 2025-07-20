@@ -11,6 +11,7 @@ from std_msgs.msg import Float32MultiArray
 from diaros.automaticSpeechRecognition import AutomaticSpeechRecognition
 import numpy as np
 import pygame
+from diaros.timing_integration import get_timing_logger, log_asr_start, log_asr_complete
 
 class RosAutomaticSpeechRecognition(Node):
     def __init__(self, automaticSpeechRecognition):
@@ -23,6 +24,11 @@ class RosAutomaticSpeechRecognition(Node):
         
         # 遅延測定用変数
         self.audio_receive_count = 0
+        
+        # 時間計測用
+        self.timing_logger = get_timing_logger()
+        self.current_session_id = None
+        self.asr_start_time = None
         
         # ビープ音機能の初期化
         self._init_beep_sound()
@@ -92,6 +98,16 @@ class RosAutomaticSpeechRecognition(Node):
         # sys.stdout.write(f"[🔊 ASR_RECEIVE] {timestamp_str} | 受信#{self.audio_receive_count} | ID:{data_id}\n")
         # sys.stdout.flush()
         
+        # 時間計測: 音声認識開始（最初の音声データ受信時）
+        if self.current_session_id is None:
+            # セッションIDを取得（speech_inputから継続）
+            sessions = self.timing_logger.session_data
+            if sessions:
+                self.current_session_id = list(sessions.keys())[-1]  # 最新セッション
+                if self.asr_start_time is None:
+                    self.asr_start_time = time.time()
+                    log_asr_start(self.current_session_id)
+        
         self.automaticSpeechRecognition.update_audio(audio_np)
 
     def callback(self):
@@ -104,6 +120,12 @@ class RosAutomaticSpeechRecognition(Node):
             asr = Iasr()
             asr.you = asr_result['you']
             asr.is_final = asr_result['is_final']
+            
+            # 時間計測: 音声認識完了
+            if self.current_session_id and self.asr_start_time:
+                asr_duration_ms = (time.time() - self.asr_start_time) * 1000
+                log_asr_complete(self.current_session_id, asr.you, asr_duration_ms)
+            
             self.pub_asr.publish(asr)
             
             # ASR認識結果の遅延測定ログ出力

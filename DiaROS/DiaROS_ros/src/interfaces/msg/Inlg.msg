@@ -5,3 +5,4 @@ string worker_name
 int64 start_timestamp_ns
 int64 completion_timestamp_ns
 float64 inference_duration_ms
+string session_id
