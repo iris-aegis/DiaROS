@@ -1,0 +1,16 @@
+FROM gemma3:27b
+
+# GPU層数を最大に設定（全層をGPUで実行）
+PARAMETER num_gpu_layers 999
+
+# 並列処理の設定
+PARAMETER num_parallel 2
+
+# コンテキストサイズ
+PARAMETER num_ctx 8192
+
+# GPU使用量の最適化
+PARAMETER num_thread 4
+
+# システムプロンプト（推論スピード優先）
+SYSTEM You are a helpful assistant optimized for fast response generation.

@@ -5,11 +5,15 @@ import json
 import sys
 import os
 import time
-from datetime import datetime
+import threading
+from datetime import datetime, timedelta
+from queue import Queue, Empty
+from concurrent.futures import ThreadPoolExecutor
 import openai
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_ollama import ChatOllama
+from .timeTracker import get_time_tracker
 
 class NaturalLanguageGeneration:
     def __init__(self):
@@ -20,13 +24,58 @@ class NaturalLanguageGeneration:
         self.dialogue_history = []
         self.user_speak_is_final = False
         self.last_reply = ""  # 生成した対話文をここに格納
-
-        sys.stdout.write('NaturalLanguageGeneration  start up.\n')
+        self.last_source_words = []  # 対話生成の元にした音声認識結果を格納
+        
+        # ROS2 bag記録用の追加情報
+        self.last_request_id = 0
+        self.last_worker_name = ""
+        self.last_start_timestamp_ns = 0
+        self.last_completion_timestamp_ns = 0
+        self.last_inference_duration_ms = 0.0
+        
+        # 新しい時刻情報フィールド初期化
+        self.request_id = 0
+        self.worker_name = ""
+        self.start_timestamp_ns = 0
+        self.completion_timestamp_ns = 0
+        self.inference_duration_ms = 0.0
+        
+        # 接続エラー制御用
+        self.connection_error_count = 0
+        self.last_connection_error_time = None
+        self.connection_error_suppress_until = None
+        
+        # タイムトラッカー初期化
+        self.time_tracker = get_time_tracker("nlg_pc")
+        self.current_session_id = None
+        
+        # 並列処理用の設定（一時的にコメントアウト）
+        # self.inference_queue = Queue()  # 推論リクエストのキュー
+        # self.result_queue = Queue()     # 推論結果のキュー
+        # self.request_counter = 0        # リクエストカウンター
+        # self.last_request_time = None   # 最後のリクエスト時刻
+        # self.executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="NLG-Worker")
+        
+        # Ollamaモデルを初期化時に1回だけ作成（再利用）
+        sys.stdout.write('[NLG] Ollama ChatOllamaモデルを初期化中...\n')
+        sys.stdout.flush()
+        self.ollama_model = ChatOllama(
+            model="gemma3:12b"
+        )
+        sys.stdout.write('[NLG] ✅ ChatOllamaモデル初期化完了\n')
+        sys.stdout.flush()
+        
+        sys.stdout.write('NaturalLanguageGeneration (単一プロセス start up.\n')
         sys.stdout.write('=====================================================\n')
         # OpenAI APIキーを環境変数から設定
         openai.api_key = os.environ.get("OPENAI_API_KEY")
 
     def update(self, query):
+        # 接続エラー抑制中は新しいリクエストを受け付けない
+        # now = datetime.now()
+        # if self.connection_error_suppress_until and now < self.connection_error_suppress_until:
+        #     return
+            
         # 音声認識結果がリストの場合はプロンプトに埋め込む
         self.asr_results = None
         # 空リストまたは全て空文字列なら何もしない
@@ -42,9 +91,21 @@ class NaturalLanguageGeneration:
                 return
             self.query = query
             self.asr_results = None
+
+        now = datetime.now()  # ← ここを追加
+
+        # 単一スレッドで即座に推論実行
+        sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🚀 推論開始\n")
+        sys.stdout.flush()
+        
+        # 直接推論を実行
+        self._perform_simple_inference(query)
+        
         self.update_flag = True
-        # sys.stdout.write(f"[NLG] update() called with query: {self.query}\n")
-        # sys.stdout.flush()
+        
+    def set_session_id(self, session_id: str):
+        """セッションIDを設定"""
+        self.current_session_id = session_id
 
 
     # def generate_dialogue(self, query):
@@ -63,120 +124,238 @@ class NaturalLanguageGeneration:
     #     sys.stdout.flush()
     #     return response_res
     
-    def run(self):
-        DEBUG = True
-        response_cnt = 0
-        # LangChainセットアップ
-        ollama_model = ChatOllama(
-            model="gemma3:27b",
-            max_tokens=4096,
-            temperature=0.2,
-            top_p=0.9
-        )
-        while True:
-            if self.update_flag:
-                query = self.query
-                try:
-                    res = ""  # resを必ず初期化
-                    if self.asr_results and isinstance(self.asr_results, list) and len(self.asr_results) >= 1:
-                        if all((not x or x.strip() == "") for x in self.asr_results):
-                            self.last_reply = ""
-                            self.update_flag = False
-                            continue
-                        # 音声認識結果をすべて列挙
-                        asr_lines = []
-                        for idx, asr in enumerate(self.asr_results):
-                            asr_lines.append(f"認識結果{idx+1}: {asr}")
-                        asr_block = "\n".join(asr_lines)
-                        prompt = (
-"""
-あなたは、ユーザーの不完全な音声入力を正確に理解し、その内容に対して親しみやすく応答する対話型AIです。あなたはユーザー（男性）の友達である、優しく明るい性格の女性アンドロイドとして振る舞い、雑談をしている状況を想定して応答します。
-
-まず、"human"から与えられる複数の音声認識結果（認識結果1, 認識結果2, ...）をもとに、以下のルールに従ってユーザーの本来の発話を正確に推定してください。
-
-- 各認識結果はCERが20%の音声認識器によって得られたものなので、音声認識誤りを訂正してください。
-- 認識結果に含まれる `<unk>` は、いわゆるアンノウンタグであり、認識できなかった部分を示します。文脈からその部分を適切に補完するか、あるいは不要であれば無視するように判断してください。
-- 認識結果に含まれる `[雑音]` はその区間に雑音があったことを示し、`[無音]` は無音区間であったことをそれぞれ示します。これらの記号自体は意味のある発話内容ではないため、最終的な予測発話に含めないでください。これらの記号は、発話が途切れたり不明瞭だったりする箇所を示唆する可能性がありますので、前後の文脈を踏まえて自然な発話となるよう適切に処理してください。
-- 各認識結果の情報を最大限に活用し、内容を正確に反映させてください。
-- 認識結果が重複している箇所は、不自然にならないように適切に統合してください。
-- 認識結果の間に欠落していると思われる箇所は、前後の文脈に沿って自然に補完してください。
-- 元の発話の意図を損なわないように、流暢で一貫性のある日本語の文章としてください。
-- 単なる結合ではなく、最も確からしい元の発話を予測してください。
-
-推定した発話内容をもとに、以下の条件でアンドロイドとして応答してください。
-
-- ペルソナ: あなたはユーザー（男性）の友達である、優しく明るい性格の女性アンドロイドです。
-- シチュエーション: ユーザーと雑談をしています。
-- 応答形式: 応答は必ず一言かつ一文で、20文字以内にしてください。
-- 口調: 親しみを込めた、明るく優しい、自然な会話口調（例：友達に話すようなタメ口、またはそれに近いくだけた話し方）でお願いします。
-"""
-                        )
-                        # LangChainでリクエスト
-                        messages = [("system", prompt)]
-                        for line in asr_lines:
-                            messages.append(("human", line))
-                        query = ChatPromptTemplate.from_messages(messages)
-                        chain = query | ollama_model | StrOutputParser()
-                        res = chain.invoke({})
-                        # 音声認識結果リストも一緒に表示
-                        sys.stdout.write(f"[NLG ASRリスト] {self.asr_results}\n")
-                        sys.stdout.flush()
-                    else:
-                        if not query or (isinstance(query, list) and all((not x or x.strip() == "") for x in query)):
-                            self.last_reply = ""
-                            self.update_flag = False
-                            continue
-                        if query == "dummy":
-                            res = "はい"
-                        else:
-                            if query in ("user_speak_is_final"):
-                                sys.stdout.write('対話履歴作成\n')
-                                sys.stdout.flush()
-                                self.user_speak_is_final = True
-                                query = query.replace("user_speak_is_final", "", 1)
-                            if ":" in query:
-                                response_cnt = int(query.split(":", 1)[0])
-                                query = query.split(":", 1)[1]
-                            sys.stdout.write(f"[NLG] query: {query}\n")
-
-                            text_input = query
-                            sys.stdout.write(f"[NLG] input {text_input}\n")
-                            sys.stdout.flush()
-                            start_time = datetime.now()
-                            role = "優しい性格のアンドロイドとして、ユーザの発話に対して相手を労るような返答のみを２０文字以内でしてください。"
-
-                            messages = [
-                                ("system", role),
-                                ("human", text_input)
-                            ]
-                            query_prompt = ChatPromptTemplate.from_messages(messages)
-                            chain = query_prompt | ollama_model | StrOutputParser()
-                            res = chain.invoke({})
-                            sys.stdout.write("[NLG生成文] " + res + "\n")
-                            sys.stdout.flush()
-                            if ":" in res:
-                                res = res.split(":", 1)[1]
-                            if self.user_speak_is_final:
-                                self.dialogue_history.append("usr:" + query)
-                                self.dialogue_history.append("sys:" + res)
-                                self.user_speak_is_final = False
-                                if len(self.dialogue_history) > 5:
-                                    self.dialogue_history = self.dialogue_history[-4:]
-                                sys.stdout.write('対話履歴完了\n')
-                                sys.stdout.flush()
-                    # 改行を除去して1行にする
-                    self.last_reply = res.replace('\n', '').replace('\r', '')
-                    now = datetime.now()
-                    timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[{timestamp}][NLG] 対話生成完了時刻: {timestamp}\n")
-                    print(f"[NLG生成文] {self.last_reply}")
-                    sys.stdout.flush()
-                except Exception as e:
+    def _perform_simple_inference(self, query):
+        """シンプルな単一スレッド推論"""
+        start_time = datetime.now()
+        
+        # 推論開始チェックポイント
+        if self.current_session_id:
+            self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "inference_start", {
+                "query_type": "list" if isinstance(query, list) else "string",
+                "query_length": len(query) if isinstance(query, list) else len(str(query))
+            })
+        
+        try:
+            # 初期化済みのOllamaモデルを使用
+            ollama_model = self.ollama_model
+            
+            res = ""  # resを必ず初期化
+            asr_results = self.asr_results
+            
+            if asr_results and isinstance(asr_results, list) and len(asr_results) >= 1:
+                if all((not x or x.strip() == "") for x in asr_results):
                     self.last_reply = ""
-                    sys.stdout.write(f"[NLG ERROR] {e}\n")
+                    self.last_source_words = []
+                    return
+                
+                # 音声認識結果をすべて列挙
+                asr_lines = []
+                for idx, asr in enumerate(asr_results):
+                    asr_lines.append(f"認識結果{idx+1}: {asr}")
+                
+                # プロンプトを外部ファイルから読み込み
+                current_dir = os.path.dirname(os.path.abspath(__file__))
+                prompt_file_path = os.path.join(current_dir, "prompts", "asr_dialogue_prompt.txt")
+                
+                if not os.path.exists(prompt_file_path):
+                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/asr_dialogue_prompt.txt"
+                    if os.path.exists(workspace_path):
+                        prompt_file_path = workspace_path
+                
+                try:
+                    with open(prompt_file_path, 'r', encoding='utf-8') as f:
+                        prompt = f.read()
+                    if not prompt.strip():
+                        sys.stdout.write(f"[NLG ERROR] プロンプトファイルが空です: {prompt_file_path}\n")
+                        sys.stdout.flush()
+                        return
+                except FileNotFoundError:
+                    sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {prompt_file_path}\n")
                     sys.stdout.flush()
-                self.update_flag = False
+                    return
+                except Exception as e:
+                    sys.stdout.write(f"[NLG ERROR] プロンプトファイル読み込みエラー: {prompt_file_path} - {e}\n")
+                    sys.stdout.flush()
+                    return
+                
+                # LangChainでリクエスト
+                messages = [("system", prompt)]
+                for line in asr_lines:
+                    messages.append(("human", line))
+                query_prompt = ChatPromptTemplate.from_messages(messages)
+                chain = query_prompt | ollama_model | StrOutputParser()
+                
+                # LLM呼び出し
+                llm_start_time = datetime.now()
+                sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 Ollama推論開始\n")
+                sys.stdout.flush()
+                
+                # LLM推論開始チェックポイント
+                if self.current_session_id:
+                    self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "llm_start", {
+                        "model": "gemma3:12b",
+                        "prompt_type": "asr_dialogue"
+                    })
+                
+                res = chain.invoke({})
+                
+                llm_end_time = datetime.now()
+                llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ Ollama推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                sys.stdout.flush()
+                
+                # LLM推論完了チェックポイント
+                if self.current_session_id:
+                    self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "llm_complete", {
+                        "model": "gemma3:12b",
+                        "llm_duration_ms": llm_duration,
+                        "response_length": len(res)
+                    })
+                
+                source_words = asr_results
+                
             else:
+                if not query or (isinstance(query, list) and all((not x or x.strip() == "") for x in query)):
+                    self.last_reply = ""
+                    self.last_source_words = []
+                    return
+                elif query == "dummy":
+                    res = "はい"
+                    source_words = [str(query)]
+                else:
+                    text_input = query
+                    role = "優しい性格のアンドロイドとして、ユーザーの発話に対して相手を労るような返答のみを２０文字以内でしてください。"
+
+                    messages = [
+                        ("system", role),
+                        ("human", text_input)
+                    ]
+                    query_prompt = ChatPromptTemplate.from_messages(messages)
+                    chain = query_prompt | ollama_model | StrOutputParser()
+                    
+                    llm_start_time = datetime.now()
+                    sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 Ollama推論開始\n")
+                    sys.stdout.flush()
+                    
+                    res = chain.invoke({})
+                    
+                    llm_end_time = datetime.now()
+                    llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ Ollama推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                    sys.stdout.flush()
+                    
+                    if ":" in res:
+                        res = res.split(":", 1)[1]
+                    
+                    source_words = [str(query)]
+            
+            # 改行を除去して1行にする
+            res = res.replace('\n', '').replace('\r', '')
+            
+            end_time = datetime.now()
+            total_duration = (end_time - start_time).total_seconds() * 1000
+            
+            # 結果を設定
+            self.last_reply = res
+            self.last_source_words = source_words
+            
+            # タイミング情報を設定
+            self.request_id = 1
+            self.worker_name = "nlg-single"
+            self.start_timestamp_ns = int(start_time.timestamp() * 1_000_000_000)
+            self.completion_timestamp_ns = int(end_time.timestamp() * 1_000_000_000)
+            self.inference_duration_ms = total_duration
+            
+            # 成功時は接続エラーカウントをリセット
+            self.connection_error_count = 0
+            self.connection_error_suppress_until = None
+            
+            # 推論完了チェックポイント
+            if self.current_session_id:
+                self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "inference_complete", {
+                    "total_duration_ms": total_duration,
+                    "response": res,
+                    "source_words": source_words
+                })
+            
+            sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🏁 処理完了 (総時間: {total_duration:.1f}ms): {res}\n")
+            sys.stdout.flush()
+            
+        except Exception as e:
+            end_time = datetime.now()
+            
+            # 接続エラーの場合は特別処理
+            error_str = str(e)
+            is_connection_error = (
+                "[Errno 111] Connection refused" in error_str or
+                "llama runner process has terminated" in error_str or
+                "broken pipe" in error_str or
+                "status code: 500" in error_str
+            )
+            
+            if is_connection_error:
+                self.connection_error_count += 1
+                # 連続接続エラーが5回以上なら30秒間リクエスト抑制
+                if self.connection_error_count >= 5:
+                    self.connection_error_suppress_until = end_time + timedelta(seconds=30)
+                    if self.connection_error_count == 5:  # 初回抑制時のみログ出力
+                        sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG WARNING] 🚫 連続接続エラー検出。30秒間リクエスト抑制します\n")
+                        sys.stdout.flush()
+                # 接続エラーは詳細ログを抑制
+                if self.connection_error_count <= 3:  # 最初の3回のみログ出力
+                    sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG ERROR] ❌ 接続エラー: Ollama接続失敗\n")
+                    sys.stdout.flush()
+            else:
+                # 接続エラー以外の場合はカウントリセット
+                self.connection_error_count = 0
+                self.connection_error_suppress_until = None
+                sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG ERROR] ❌ 推論エラー: {e}\n")
+                sys.stdout.flush()
+            
+            # エラー時のフォールバック応答（固定応答のみ）
+            if is_connection_error:
+                # Ollamaサーバーエラー時は簡単な固定応答のみ
+                fallback_responses = [
+                    "そうですね。",
+                    "なるほど。", 
+                    "わかりました。",
+                    "はい。",
+                    "そうなんですね。"
+                ]
+                import random
+                fallback_response = random.choice(fallback_responses)
+                
+                self.last_reply = fallback_response
+                self.last_source_words = query if isinstance(query, list) else [str(query)]
+                
+                # フォールバック時のタイミング情報設定
+                self.request_id = 999  # 固定応答ID
+                self.worker_name = "static-fallback"
+                self.start_timestamp_ns = int(start_time.timestamp() * 1_000_000_000)
+                self.completion_timestamp_ns = int(end_time.timestamp() * 1_000_000_000)
+                self.inference_duration_ms = (end_time - start_time).total_seconds() * 1000
+                
+                if self.connection_error_count <= 3:
+                    sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG FALLBACK] 🔄 固定応答フォールバック: {fallback_response}\n")
+                    sys.stdout.flush()
+            else:
+                # その他のエラー時は空の結果を設定
                 self.last_reply = ""
-                self.update_flag = False
-            time.sleep(0.01)
+                self.last_source_words = []
+
+    # 並列処理版（一時的にコメントアウト）
+    # def _perform_inference_old(self, request):
+    #     """推論を実行する並列処理関数"""
+    #     # ... (省略) ...
+
+    def run(self):
+        sys.stdout.write("[NLG] 単一スレッドシステム開始\n")
+        sys.stdout.flush()
+        
+        while True:
+            # 単一スレッドシステムでは特に処理なし
+            time.sleep(0.01)  # 10ms待機
+
+if __name__ == "__main__":
+    gen = NaturalLanguageGeneration()
+    gen.run()

@@ -14,6 +14,7 @@
 
 // Include directives for member types
 // Member `words`
+// Member `session_id`
 #include "rosidl_runtime_c/string_functions.h"
 
 #ifdef __cplusplus
@@ -90,7 +91,7 @@ bool interfaces__msg__Idm__rosidl_typesupport_introspection_c__resize_function__
   return rosidl_runtime_c__String__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_member_array[1] = {
+static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_member_array[2] = {
   {
     "words",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -107,13 +108,30 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Idm__r
     interfaces__msg__Idm__rosidl_typesupport_introspection_c__fetch_function__Idm__words,  // fetch(index, &value) function pointer
     interfaces__msg__Idm__rosidl_typesupport_introspection_c__assign_function__Idm__words,  // assign(index, value) function pointer
     interfaces__msg__Idm__rosidl_typesupport_introspection_c__resize_function__Idm__words  // resize(index) function pointer
+  },
+  {
+    "session_id",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__Idm, session_id),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_members = {
   "interfaces__msg",  // message namespace
   "Idm",  // message name
-  1,  // number of fields
+  2,  // number of fields
   sizeof(interfaces__msg__Idm),
   interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_member_array,  // message members
   interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_init_function,  // function to initialize message memory (memory has to be allocated)

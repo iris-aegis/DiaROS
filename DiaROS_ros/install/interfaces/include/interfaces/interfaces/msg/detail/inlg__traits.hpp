@@ -29,6 +29,66 @@ inline void to_flow_style_yaml(
   {
     out << "reply: ";
     rosidl_generator_traits::value_to_yaml(msg.reply, out);
+    out << ", ";
+  }
+
+  // member: source_words
+  {
+    if (msg.source_words.size() == 0) {
+      out << "source_words: []";
+    } else {
+      out << "source_words: [";
+      size_t pending_items = msg.source_words.size();
+      for (auto item : msg.source_words) {
+        rosidl_generator_traits::value_to_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
+        }
+      }
+      out << "]";
+    }
+    out << ", ";
+  }
+
+  // member: request_id
+  {
+    out << "request_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.request_id, out);
+    out << ", ";
+  }
+
+  // member: worker_name
+  {
+    out << "worker_name: ";
+    rosidl_generator_traits::value_to_yaml(msg.worker_name, out);
+    out << ", ";
+  }
+
+  // member: start_timestamp_ns
+  {
+    out << "start_timestamp_ns: ";
+    rosidl_generator_traits::value_to_yaml(msg.start_timestamp_ns, out);
+    out << ", ";
+  }
+
+  // member: completion_timestamp_ns
+  {
+    out << "completion_timestamp_ns: ";
+    rosidl_generator_traits::value_to_yaml(msg.completion_timestamp_ns, out);
+    out << ", ";
+  }
+
+  // member: inference_duration_ms
+  {
+    out << "inference_duration_ms: ";
+    rosidl_generator_traits::value_to_yaml(msg.inference_duration_ms, out);
+    out << ", ";
+  }
+
+  // member: session_id
+  {
+    out << "session_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.session_id, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -44,6 +104,86 @@ inline void to_block_style_yaml(
     }
     out << "reply: ";
     rosidl_generator_traits::value_to_yaml(msg.reply, out);
+    out << "\n";
+  }
+
+  // member: source_words
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    if (msg.source_words.size() == 0) {
+      out << "source_words: []\n";
+    } else {
+      out << "source_words:\n";
+      for (auto item : msg.source_words) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "- ";
+        rosidl_generator_traits::value_to_yaml(item, out);
+        out << "\n";
+      }
+    }
+  }
+
+  // member: request_id
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "request_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.request_id, out);
+    out << "\n";
+  }
+
+  // member: worker_name
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "worker_name: ";
+    rosidl_generator_traits::value_to_yaml(msg.worker_name, out);
+    out << "\n";
+  }
+
+  // member: start_timestamp_ns
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "start_timestamp_ns: ";
+    rosidl_generator_traits::value_to_yaml(msg.start_timestamp_ns, out);
+    out << "\n";
+  }
+
+  // member: completion_timestamp_ns
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "completion_timestamp_ns: ";
+    rosidl_generator_traits::value_to_yaml(msg.completion_timestamp_ns, out);
+    out << "\n";
+  }
+
+  // member: inference_duration_ms
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "inference_duration_ms: ";
+    rosidl_generator_traits::value_to_yaml(msg.inference_duration_ms, out);
+    out << "\n";
+  }
+
+  // member: session_id
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "session_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.session_id, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

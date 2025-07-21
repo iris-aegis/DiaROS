@@ -37,7 +37,52 @@ void Inlg_fini_function(void * message_memory)
   typed_message->~Inlg();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember Inlg_message_member_array[1] = {
+size_t size_function__Inlg__source_words(const void * untyped_member)
+{
+  const auto * member = reinterpret_cast<const std::vector<std::string> *>(untyped_member);
+  return member->size();
+}
+
+const void * get_const_function__Inlg__source_words(const void * untyped_member, size_t index)
+{
+  const auto & member =
+    *reinterpret_cast<const std::vector<std::string> *>(untyped_member);
+  return &member[index];
+}
+
+void * get_function__Inlg__source_words(void * untyped_member, size_t index)
+{
+  auto & member =
+    *reinterpret_cast<std::vector<std::string> *>(untyped_member);
+  return &member[index];
+}
+
+void fetch_function__Inlg__source_words(
+  const void * untyped_member, size_t index, void * untyped_value)
+{
+  const auto & item = *reinterpret_cast<const std::string *>(
+    get_const_function__Inlg__source_words(untyped_member, index));
+  auto & value = *reinterpret_cast<std::string *>(untyped_value);
+  value = item;
+}
+
+void assign_function__Inlg__source_words(
+  void * untyped_member, size_t index, const void * untyped_value)
+{
+  auto & item = *reinterpret_cast<std::string *>(
+    get_function__Inlg__source_words(untyped_member, index));
+  const auto & value = *reinterpret_cast<const std::string *>(untyped_value);
+  item = value;
+}
+
+void resize_function__Inlg__source_words(void * untyped_member, size_t size)
+{
+  auto * member =
+    reinterpret_cast<std::vector<std::string> *>(untyped_member);
+  member->resize(size);
+}
+
+static const ::rosidl_typesupport_introspection_cpp::MessageMember Inlg_message_member_array[8] = {
   {
     "reply",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
@@ -54,13 +99,132 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember Inlg_message_
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
+  },
+  {
+    "source_words",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    true,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, source_words),  // bytes offset in struct
+    nullptr,  // default value
+    size_function__Inlg__source_words,  // size() function pointer
+    get_const_function__Inlg__source_words,  // get_const(index) function pointer
+    get_function__Inlg__source_words,  // get(index) function pointer
+    fetch_function__Inlg__source_words,  // fetch(index, &value) function pointer
+    assign_function__Inlg__source_words,  // assign(index, value) function pointer
+    resize_function__Inlg__source_words  // resize(index) function pointer
+  },
+  {
+    "request_id",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, request_id),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "worker_name",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, worker_name),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "start_timestamp_ns",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, start_timestamp_ns),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "completion_timestamp_ns",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, completion_timestamp_ns),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "inference_duration_ms",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_DOUBLE,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, inference_duration_ms),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "session_id",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, session_id),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers Inlg_message_members = {
   "interfaces::msg",  // message namespace
   "Inlg",  // message name
-  1,  // number of fields
+  8,  // number of fields
   sizeof(interfaces::msg::Inlg),
   Inlg_message_member_array,  // message members
   Inlg_init_function,  // function to initialize message memory (memory has to be allocated)

@@ -35,25 +35,42 @@ struct Idm_
 
   explicit Idm_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   {
-    (void)_init;
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
+    {
+      this->session_id = "";
+    }
   }
 
   explicit Idm_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
+  : session_id(_alloc)
   {
-    (void)_init;
-    (void)_alloc;
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
+    {
+      this->session_id = "";
+    }
   }
 
   // field types and members
   using _words_type =
     std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>>;
   _words_type words;
+  using _session_id_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _session_id_type session_id;
 
   // setters for named parameter idiom
   Type & set__words(
     const std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>> & _arg)
   {
     this->words = _arg;
+    return *this;
+  }
+  Type & set__session_id(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->session_id = _arg;
     return *this;
   }
 
@@ -100,6 +117,9 @@ struct Idm_
   bool operator==(const Idm_ & other) const
   {
     if (this->words != other.words) {
+      return false;
+    }
+    if (this->session_id != other.session_id) {
       return false;
     }
     return true;

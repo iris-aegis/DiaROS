@@ -21,16 +21,32 @@ namespace msg
 namespace builder
 {
 
+class Init_Idm_session_id
+{
+public:
+  explicit Init_Idm_session_id(::interfaces::msg::Idm & msg)
+  : msg_(msg)
+  {}
+  ::interfaces::msg::Idm session_id(::interfaces::msg::Idm::_session_id_type arg)
+  {
+    msg_.session_id = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::interfaces::msg::Idm msg_;
+};
+
 class Init_Idm_words
 {
 public:
   Init_Idm_words()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  ::interfaces::msg::Idm words(::interfaces::msg::Idm::_words_type arg)
+  Init_Idm_session_id words(::interfaces::msg::Idm::_words_type arg)
   {
     msg_.words = std::move(arg);
-    return std::move(msg_);
+    return Init_Idm_session_id(msg_);
   }
 
 private:

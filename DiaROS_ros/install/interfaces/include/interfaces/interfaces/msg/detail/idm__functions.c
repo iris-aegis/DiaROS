@@ -13,6 +13,7 @@
 
 // Include directives for member types
 // Member `words`
+// Member `session_id`
 #include "rosidl_runtime_c/string_functions.h"
 
 bool
@@ -23,6 +24,11 @@ interfaces__msg__Idm__init(interfaces__msg__Idm * msg)
   }
   // words
   if (!rosidl_runtime_c__String__Sequence__init(&msg->words, 0)) {
+    interfaces__msg__Idm__fini(msg);
+    return false;
+  }
+  // session_id
+  if (!rosidl_runtime_c__String__init(&msg->session_id)) {
     interfaces__msg__Idm__fini(msg);
     return false;
   }
@@ -37,6 +43,8 @@ interfaces__msg__Idm__fini(interfaces__msg__Idm * msg)
   }
   // words
   rosidl_runtime_c__String__Sequence__fini(&msg->words);
+  // session_id
+  rosidl_runtime_c__String__fini(&msg->session_id);
 }
 
 bool
@@ -48,6 +56,12 @@ interfaces__msg__Idm__are_equal(const interfaces__msg__Idm * lhs, const interfac
   // words
   if (!rosidl_runtime_c__String__Sequence__are_equal(
       &(lhs->words), &(rhs->words)))
+  {
+    return false;
+  }
+  // session_id
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->session_id), &(rhs->session_id)))
   {
     return false;
   }
@@ -65,6 +79,12 @@ interfaces__msg__Idm__copy(
   // words
   if (!rosidl_runtime_c__String__Sequence__copy(
       &(input->words), &(output->words)))
+  {
+    return false;
+  }
+  // session_id
+  if (!rosidl_runtime_c__String__copy(
+      &(input->session_id), &(output->session_id)))
   {
     return false;
   }

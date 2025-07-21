@@ -13,6 +13,9 @@
 
 // Include directives for member types
 // Member `reply`
+// Member `source_words`
+// Member `worker_name`
+// Member `session_id`
 #include "rosidl_runtime_c/string_functions.h"
 
 bool
@@ -23,6 +26,25 @@ interfaces__msg__Inlg__init(interfaces__msg__Inlg * msg)
   }
   // reply
   if (!rosidl_runtime_c__String__init(&msg->reply)) {
+    interfaces__msg__Inlg__fini(msg);
+    return false;
+  }
+  // source_words
+  if (!rosidl_runtime_c__String__Sequence__init(&msg->source_words, 0)) {
+    interfaces__msg__Inlg__fini(msg);
+    return false;
+  }
+  // request_id
+  // worker_name
+  if (!rosidl_runtime_c__String__init(&msg->worker_name)) {
+    interfaces__msg__Inlg__fini(msg);
+    return false;
+  }
+  // start_timestamp_ns
+  // completion_timestamp_ns
+  // inference_duration_ms
+  // session_id
+  if (!rosidl_runtime_c__String__init(&msg->session_id)) {
     interfaces__msg__Inlg__fini(msg);
     return false;
   }
@@ -37,6 +59,16 @@ interfaces__msg__Inlg__fini(interfaces__msg__Inlg * msg)
   }
   // reply
   rosidl_runtime_c__String__fini(&msg->reply);
+  // source_words
+  rosidl_runtime_c__String__Sequence__fini(&msg->source_words);
+  // request_id
+  // worker_name
+  rosidl_runtime_c__String__fini(&msg->worker_name);
+  // start_timestamp_ns
+  // completion_timestamp_ns
+  // inference_duration_ms
+  // session_id
+  rosidl_runtime_c__String__fini(&msg->session_id);
 }
 
 bool
@@ -48,6 +80,40 @@ interfaces__msg__Inlg__are_equal(const interfaces__msg__Inlg * lhs, const interf
   // reply
   if (!rosidl_runtime_c__String__are_equal(
       &(lhs->reply), &(rhs->reply)))
+  {
+    return false;
+  }
+  // source_words
+  if (!rosidl_runtime_c__String__Sequence__are_equal(
+      &(lhs->source_words), &(rhs->source_words)))
+  {
+    return false;
+  }
+  // request_id
+  if (lhs->request_id != rhs->request_id) {
+    return false;
+  }
+  // worker_name
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->worker_name), &(rhs->worker_name)))
+  {
+    return false;
+  }
+  // start_timestamp_ns
+  if (lhs->start_timestamp_ns != rhs->start_timestamp_ns) {
+    return false;
+  }
+  // completion_timestamp_ns
+  if (lhs->completion_timestamp_ns != rhs->completion_timestamp_ns) {
+    return false;
+  }
+  // inference_duration_ms
+  if (lhs->inference_duration_ms != rhs->inference_duration_ms) {
+    return false;
+  }
+  // session_id
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->session_id), &(rhs->session_id)))
   {
     return false;
   }
@@ -65,6 +131,32 @@ interfaces__msg__Inlg__copy(
   // reply
   if (!rosidl_runtime_c__String__copy(
       &(input->reply), &(output->reply)))
+  {
+    return false;
+  }
+  // source_words
+  if (!rosidl_runtime_c__String__Sequence__copy(
+      &(input->source_words), &(output->source_words)))
+  {
+    return false;
+  }
+  // request_id
+  output->request_id = input->request_id;
+  // worker_name
+  if (!rosidl_runtime_c__String__copy(
+      &(input->worker_name), &(output->worker_name)))
+  {
+    return false;
+  }
+  // start_timestamp_ns
+  output->start_timestamp_ns = input->start_timestamp_ns;
+  // completion_timestamp_ns
+  output->completion_timestamp_ns = input->completion_timestamp_ns;
+  // inference_duration_ms
+  output->inference_duration_ms = input->inference_duration_ms;
+  // session_id
+  if (!rosidl_runtime_c__String__copy(
+      &(input->session_id), &(output->session_id)))
   {
     return false;
   }
