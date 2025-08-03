@@ -59,8 +59,16 @@ class NaturalLanguageGeneration:
         # Ollamaモデルを初期化時に1回だけ作成（再利用）
         sys.stdout.write('[NLG] Ollama ChatOllamaモデルを初期化中...\n')
         sys.stdout.flush()
+        self.model_name = "gemma3:12b"  # 使用するモデル名を指定
         self.ollama_model = ChatOllama(
-            model="gemma3:12b"
+            model=self.model_name,
+            verbose=True,  # 詳細ログ有効化
+            temperature=0.7,  # 応答の多様性
+            top_p=0.9,  # サンプリング設定
+            num_predict=1024,  # 最大生成トークン数
+            keep_alive="5m",  # モデルをメモリに保持する時間
+            # ollamaコマンドの--verboseオプションを有効化
+            additional_kwargs={"verbose": True}
         )
         sys.stdout.write('[NLG] ✅ ChatOllamaモデル初期化完了\n')
         sys.stdout.flush()
@@ -155,10 +163,10 @@ class NaturalLanguageGeneration:
                 
                 # プロンプトを外部ファイルから読み込み
                 current_dir = os.path.dirname(os.path.abspath(__file__))
-                prompt_file_path = os.path.join(current_dir, "prompts", "asr_dialogue_prompt.txt")
+                prompt_file_path = os.path.join(current_dir, "prompts", "example_dialog_prompt.txt")
                 
                 if not os.path.exists(prompt_file_path):
-                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/asr_dialogue_prompt.txt"
+                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/example_dialog_prompt.txt"
                     if os.path.exists(workspace_path):
                         prompt_file_path = workspace_path
                 
@@ -178,36 +186,95 @@ class NaturalLanguageGeneration:
                     sys.stdout.flush()
                     return
                 
-                # LangChainでリクエスト
-                messages = [("system", prompt)]
-                for line in asr_lines:
-                    messages.append(("human", line))
-                query_prompt = ChatPromptTemplate.from_messages(messages)
-                chain = query_prompt | ollama_model | StrOutputParser()
+                # プロンプト作成（ASR結果を組み込み）
+                full_prompt = f"{prompt}\n\nASR結果: {', '.join(asr_results)}"
                 
                 # LLM呼び出し
                 llm_start_time = datetime.now()
-                sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 Ollama推論開始\n")
-                sys.stdout.flush()
-                
+                sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 Ollama推論開始\n")                
                 # LLM推論開始チェックポイント
                 if self.current_session_id:
                     self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "llm_start", {
-                        "model": "gemma3:12b",
-                        "prompt_type": "asr_dialogue"
+                        "model": self.model_name,
+                        "prompt_type": "asr_dialogue",
+                        "prompt_length": len(prompt),
+                        "asr_count": len(asr_results)
                     })
                 
-                res = chain.invoke({})
-                
-                llm_end_time = datetime.now()
-                llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
-                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ Ollama推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
-                sys.stdout.flush()
+                # Ollama APIを直接呼び出して対話生成と統計情報を取得
+                try:
+                    import requests
+                    api_response = requests.post('http://localhost:11434/api/generate', 
+                        json={
+                            'model': self.model_name,
+                            'prompt': full_prompt,
+                            'stream': False,
+                            'options': {
+                                'temperature': 0.7,
+                                'top_p': 0.9,
+                                'num_predict': 50
+                            }
+                        },
+                        timeout=30
+                    )
+                    
+                    if api_response.status_code == 200:
+                        api_data = api_response.json()
+                        res = api_data.get('response', '')
+                        
+                        # 詳細統計情報をログ出力
+                        llm_end_time = datetime.now()
+                        llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+                        
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ Ollama推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                        
+                        # Verbose統計情報
+                        if 'total_duration' in api_data:
+                            total_duration_ms = api_data['total_duration'] / 1_000_000
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] かかった時間: {total_duration_ms/1000:.6f}s\n")
+                        
+                        if 'load_duration' in api_data:
+                            load_duration_ms = api_data['load_duration'] / 1_000_000
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] モデルロード時間: {load_duration_ms:.3f}ms\n")
+                        
+                        if 'prompt_eval_count' in api_data and 'prompt_eval_duration' in api_data:
+                            prompt_tokens = api_data['prompt_eval_count']
+                            prompt_eval_ms = api_data['prompt_eval_duration'] / 1_000_000
+                            tokens_per_sec = prompt_tokens / (prompt_eval_ms / 1000) if prompt_eval_ms > 0 else 0
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 入力プロンプトのトークン数: {prompt_tokens} token(s)\n")
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 入力プロンプトの処理時間: {prompt_eval_ms:.3f}ms\n")
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 入力プロンプトの処理トークン/s: {tokens_per_sec:.2f} tokens/s\n")
+                        
+                        if 'eval_count' in api_data and 'eval_duration' in api_data:
+                            output_tokens = api_data['eval_count']
+                            eval_ms = api_data['eval_duration'] / 1_000_000
+                            output_tokens_per_sec = output_tokens / (eval_ms / 1000) if eval_ms > 0 else 0
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] モデル出力のトークン数: {output_tokens} token(s)\n")
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] モデル出力にかかった時間: {eval_ms/1000:.6f}s\n")
+                            sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] モデル出力の処理トークン/s: {output_tokens_per_sec:.2f} tokens/s\n")
+                        
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
+                        sys.stdout.flush()
+                    else:
+                        # API呼び出し失敗時はエラーメッセージを設定
+                        res = "申し訳ありません、応答の生成に失敗しました。"
+                        llm_end_time = datetime.now()
+                        llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ❌ Ollama API呼び出し失敗 (status: {api_response.status_code})\n")
+                        sys.stdout.flush()
+                        
+                except Exception as api_error:
+                    # API呼び出し失敗時はエラーメッセージを設定
+                    res = "申し訳ありません、応答の生成に失敗しました。"
+                    llm_end_time = datetime.now()
+                    llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ❌ Ollama API呼び出しエラー: {api_error}\n")
+                    sys.stdout.flush()
                 
                 # LLM推論完了チェックポイント
                 if self.current_session_id:
                     self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "llm_complete", {
-                        "model": "gemma3:12b",
+                        "model": self.model_name,
                         "llm_duration_ms": llm_duration,
                         "response_length": len(res)
                     })
@@ -233,15 +300,13 @@ class NaturalLanguageGeneration:
                     query_prompt = ChatPromptTemplate.from_messages(messages)
                     chain = query_prompt | ollama_model | StrOutputParser()
                     
-                    llm_start_time = datetime.now()
-                    sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 Ollama推論開始\n")
-                    sys.stdout.flush()
-                    
+                    llm_start_time = datetime.now()                    
                     res = chain.invoke({})
                     
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
                     sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ Ollama推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
                     sys.stdout.flush()
                     
                     if ":" in res:

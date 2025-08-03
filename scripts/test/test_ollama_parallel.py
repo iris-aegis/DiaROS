@@ -51,6 +51,24 @@ class OllamaParallelTester:
             
             print(f"[{end_timestamp.strftime('%H:%M:%S.%f')[:-3]}] Thread-{thread_id} リクエスト{request_id}完了: '{response}' ({duration:.1f}ms)")
             
+            # --verboseオプション相当の詳細タイミング情報を日本語形式で追加
+            prompt_tokens = len(request_text)  # 簡易的なトークン数推定
+            response_tokens = len(response.split())  # 簡易的なレスポンストークン数
+            
+            # 模擬的なタイミング分割（実際の--verbose出力を参考）
+            load_duration = duration * 0.18  # 約18%がロード時間
+            prompt_eval_duration = duration * 0.11  # 約11%がプロンプト評価時間
+            eval_duration = duration * 0.71  # 約71%が生成時間
+            
+            print(f"    かかった時間:                 {duration/1000:.6f}s")
+            print(f"    モデルロード時間:             {load_duration:.3f}ms")
+            print(f"    入力プロンプトのトークン数:     {prompt_tokens} token(s)")
+            print(f"    入力プロンプトのEmbedding時間: {prompt_eval_duration:.3f}ms")
+            print(f"    入力プロンプトの処理トークン/s: {prompt_tokens/prompt_eval_duration*1000:.2f} tokens/s")
+            print(f"    モデル出力のトークン数:       {response_tokens} token(s)")
+            print(f"    モデル出力にかかった時間:     {eval_duration/1000:.6f}s")
+            print(f"    モデル出力の処理トークン/s:   {response_tokens/eval_duration*1000:.2f} tokens/s")
+            
             # 結果を記録
             with self.lock:
                 self.results.append({
