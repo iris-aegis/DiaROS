@@ -68,11 +68,16 @@ class RosNaturalLanguageGeneration(Node):
             self.naturalLanguageGeneration.update(words)
             
     def ping(self):
+        # デバッグ用ログ追加
+        current_reply = self.naturalLanguageGeneration.last_reply
+        
         # 応答が生成されたらpublish
         if (
             self.naturalLanguageGeneration.last_reply != self.last_sent_reply
             and self.naturalLanguageGeneration.last_reply != ""
         ):
+            sys.stdout.write(f"[DEBUG] ✅ 送信条件満たされました!\n")
+            sys.stdout.flush()
             nlg_msg = Inlg()
             nlg_msg.reply = self.naturalLanguageGeneration.last_reply
             # 対話生成の元にした音声認識結果も送信

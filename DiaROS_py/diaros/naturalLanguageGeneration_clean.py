@@ -1,8 +1,10 @@
+# 一旦履歴諦め
+
 # ============================================================
 # モデル設定 - ここでモデルを切り替え
 # ============================================================
-# 使用するモデルを選択: "gemma3:4b", "gemma3:12b", "gemma3:27b", "gpt-3.5-turbo"
-MODEL_NAME = "gemma3:4b"  # デフォルト: gemma3:4b（軽量・高速）
+# 使用するモデルを選択: "gpt-3.5-turbo" または "gemma3:12b"
+MODEL_NAME = "gemma3:12b"  # デフォルト: gemma3:12b
 # ============================================================
 
 import requests
@@ -66,9 +68,9 @@ class NaturalLanguageGeneration:
         # モデル初期化（ファイル上部のMODEL_NAMEを使用）
         self.model_name = MODEL_NAME
 
-        if self.model_name.startswith("gemma3:"):
-            # Ollama gemma3系モデルの初期化（4b, 12b, 27bなど全て対応）
-            sys.stdout.write(f'[NLG] Ollama {self.model_name}モデルを初期化中...\n')
+        if self.model_name == "gemma3:12b":
+            # Ollama gemma3:12bの初期化
+            sys.stdout.write('[NLG] Ollama gemma3:12bモデルを初期化中...\n')
             sys.stdout.flush()
             self.ollama_model = ChatOllama(
                 model=self.model_name,
@@ -84,7 +86,7 @@ class NaturalLanguageGeneration:
                     "num_batch": 3072
                 }
             )
-            sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了\n')
+            sys.stdout.write('[NLG] ✅ gemma3:12bモデル初期化完了\n')
             sys.stdout.flush()
 
         elif self.model_name == "gpt-3.5-turbo":
@@ -176,7 +178,7 @@ class NaturalLanguageGeneration:
     #     return response_res
     
     def _perform_simple_inference(self, query):
-        """シンプルな単一スレッド推論 (gemma3:12b使用)"""
+        """シンプルな単一スレッド推論 (GPT-3.5-turbo使用)"""
         start_time = datetime.now()
 
         # 推論開始チェックポイント
@@ -187,8 +189,8 @@ class NaturalLanguageGeneration:
             })
 
         try:
-            # gemma3:12bを使用
-            ollama_model = self.ollama_model
+            # GPT-3.5-turboを使用（Ollamaコードはコメントアウト）
+            # ollama_model = self.ollama_model
 
             res = ""  # resを必ず初期化
             asr_results = self.asr_results
@@ -234,7 +236,7 @@ class NaturalLanguageGeneration:
                 
                 # LLM呼び出し
                 llm_start_time = datetime.now()
-                sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 {self.model_name}推論開始\n")
+                sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 GPT-3.5-turbo推論開始\n")
                 # LLM推論開始チェックポイント
                 if self.current_session_id:
                     self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "llm_start", {
@@ -244,20 +246,76 @@ class NaturalLanguageGeneration:
                         "asr_count": len(asr_results)
                     })
 
-                # Ollama gemma3:12bを使用（LangChain経由）
+                # GPT-3.5-turbo APIを直接呼び出して対話生成（ストリーミングモード）
                 try:
-                    messages = [
-                        ("system", prompt),
-                        ("human", f"ASR結果: {', '.join(asr_results)}")
-                    ]
-                    query_prompt = ChatPromptTemplate.from_messages(messages)
-                    chain = query_prompt | ollama_model | StrOutputParser()
+                    # OpenAI Chat Completion API v1.0+ (ストリーミング)
+                    from openai import OpenAI
+                    client = OpenAI(api_key=openai.api_key)
 
-                    res = chain.invoke({})
+                    response_stream = client.chat.completions.create(
+                        model=self.model_name,
+                        messages=[
+                            {"role": "system", "content": prompt},
+                            {"role": "user", "content": f"ASR結果: {', '.join(asr_results)}"}
+                        ],
+                        temperature=0.7,
+                        max_tokens=100,  # 短い応答用
+                        stream=True  # ストリーミングモードを有効化
+                    )
 
+                    # ストリーミングレスポンスを処理
+                    res = ""
+                    token_count = 0
+                    first_token_time = None
+                    last_token_time = llm_start_time
+                    token_times = []  # 各トークンの時間差を記録
+
+                    # ストリーミングレスポンスを逐次処理
+                    for chunk in response_stream:
+                        current_time = datetime.now()
+
+                        # チャンクからコンテンツを取得 (OpenAI v1.0+ API)
+                        if chunk.choices and len(chunk.choices) > 0:
+                            delta = chunk.choices[0].delta
+                            token_fragment = delta.content if delta.content else ''
+                        else:
+                            token_fragment = ''
+
+                        if token_fragment:
+                            token_count += 1
+
+                            # Time to First Token (TTFT) を計測
+                            if first_token_time is None:
+                                first_token_time = current_time
+                                ttft_ms = (first_token_time - llm_start_time).total_seconds() * 1000
+                                sys.stdout.write(f"[{current_time.strftime('%H:%M:%S.%f')[:-3]}][NLG TOKEN] 🎯 最初のトークン受信 (TTFT: {ttft_ms:.1f}ms)\n")
+                                sys.stdout.flush()
+
+                            # Inter-Token Latency (ITL) を計測
+                            itl_ms = (current_time - last_token_time).total_seconds() * 1000
+                            token_times.append(itl_ms)
+
+                            # トークンごとの詳細ログ出力
+                            sys.stdout.write(f"[{current_time.strftime('%H:%M:%S.%f')[:-3]}][NLG TOKEN] #{token_count}: '{token_fragment}' (ITL: {itl_ms:.1f}ms)\n")
+                            sys.stdout.flush()
+
+                            res += token_fragment
+                            last_token_time = current_time
+
+                    # ストリーミング完了
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {self.model_name}推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+
+                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ GPT-3.5-turbo推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+
+                    # トークン統計情報
+                    if token_count > 0 and first_token_time:
+                        avg_itl = sum(token_times) / len(token_times) if token_times else 0
+                        ttft_ms = (first_token_time - llm_start_time).total_seconds() * 1000
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG STATS] 📊 トークン数: {token_count}\n")
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG STATS] 📊 TTFT (最初のトークンまで): {ttft_ms:.1f}ms\n")
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG STATS] 📊 平均ITL (トークン間隔): {avg_itl:.1f}ms\n")
+
                     sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
                     sys.stdout.flush()
 
@@ -266,9 +324,9 @@ class NaturalLanguageGeneration:
                     res = "申し訳ありません、応答の生成に失敗しました。"
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ❌ {self.model_name} API呼び出しエラー: {api_error}\n")
+                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ❌ GPT-3.5-turbo API呼び出しエラー: {api_error}\n")
                     sys.stdout.flush()
-
+                
                 # LLM推論完了チェックポイント
                 if self.current_session_id:
                     self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "llm_complete", {
