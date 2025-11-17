@@ -1,8 +1,45 @@
 # ============================================================
 # モデル設定 - ここでモデルを切り替え
 # ============================================================
-# 使用するモデルを選択: "gemma3:4b", "gemma3:12b", "gemma3:27b", "gpt-3.5-turbo"
-MODEL_NAME = "gemma3:4b"  # デフォルト: gemma3:4b（軽量・高速）
+# 【OpenAI API モデル】クラウドAPI、高速・高品質
+# MODEL_NAME = "gpt-3.5-turbo-0125"    # 587ms - 最速・最安・安定（推奨）
+MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
+# MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
+# MODEL_NAME = "gpt-oss:20b"
+# 【Ollama ローカルモデル】オフライン動作、GPU必要
+# MODEL_NAME = "gemma3:4b"             # 軽量・高速
+# MODEL_NAME = "gemma3:12b"            # 高品質
+# MODEL_NAME = "gemma3:27b"            # 最高品質
+
+# ============================================================
+# プロンプトファイル名の設定 - ここでプロンプトを切り替え
+# ============================================================
+# 【対話生成プロンプト】音声認識結果から対話応答を生成
+# PROMPT_FILE_NAME = "dialog_simple.txt"       # シンプル版（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_predict.txt"      # 発話予測付き（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_tag.txt"          # タグ処理付き
+# PROMPT_FILE_NAME = "dialog_tag_ver2.txt"          # タグ処理付き
+PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
+# PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
+
+# PROMPT_FILE_NAME = "dialog_phone.txt"        # 電話対話用
+
+# 【音声認識結果の補正・補完プロンプト】音声認識結果の修正のみ
+# PROMPT_FILE_NAME = "fix_asr_simple.txt"      # シンプル版（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "fix_asr.txt"             # 標準版
+# PROMPT_FILE_NAME = "fix_asr_example.txt"     # 例示付き
+# PROMPT_FILE_NAME = "fix_asr_all.txt"     #
+
+# 【タイミング調整プロンプト】
+# PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用
+# PROMPT_FILE_NAME = "WebRTCVAD_timing_example.txt"   # WebRTCVADタイミング例
+# PROMPT_FILE_NAME = "powerbase_timing_example.txt"   # パワーベースタイミング例
+
+# 【テスト用プロンプト】
+# PROMPT_FILE_NAME = "remdis_test.txt"         # テスト用（シンプル）
+
 # ============================================================
 
 import requests
@@ -26,7 +63,6 @@ class NaturalLanguageGeneration:
         
         self.query = ""
         self.update_flag = False
-        self.dialogue_history = []
         self.user_speak_is_final = False
         self.last_reply = ""  # 生成した対話文をここに格納
         self.last_source_words = []  # 対話生成の元にした音声認識結果を格納
@@ -66,30 +102,51 @@ class NaturalLanguageGeneration:
         # モデル初期化（ファイル上部のMODEL_NAMEを使用）
         self.model_name = MODEL_NAME
 
-        if self.model_name.startswith("gemma3:"):
-            # Ollama gemma3系モデルの初期化（4b, 12b, 27bなど全て対応）
+        if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+            # Ollama モデルの初期化（gemma3系、gpt-oss系）
             sys.stdout.write(f'[NLG] Ollama {self.model_name}モデルを初期化中...\n')
             sys.stdout.flush()
-            self.ollama_model = ChatOllama(
-                model=self.model_name,
-                verbose=True,  # 詳細ログ有効化
-                temperature=0.7,  # 応答の多様性
-                top_p=0.9,  # サンプリング設定
-                num_predict=50,  # 最大生成トークン数（短縮）
-                keep_alive="10m",  # モデルをメモリに保持する時間（延長）
-                # メモリ効率化とパフォーマンス最適化
-                additional_kwargs={
+
+            # gpt-ossは推論モデルなので非常に大きなトークン数が必要
+            if self.model_name.startswith("gpt-oss:"):
+                num_predict = 2000  # 推論トークン + 応答トークン（複雑なプロンプト対応）
+                sys.stdout.write(f'[NLG] ⚠️  gpt-oss:20bは推論モデルのため、応答に時間がかかります (num_predict={num_predict})\n')
+                sys.stdout.flush()
+            else:
+                num_predict = 200  # gemma3系の出力文字制限を伸ばす（50→200）
+
+            # gpt-oss:20bの高速化設定（推論を最小限に）
+            if self.model_name.startswith("gpt-oss:"):
+                temperature = 0.3  # より決定的に（推論を減らす）
+                additional_kwargs = {
+                    "verbose": True,
+                    "num_ctx": 4096,
+                    "num_batch": 3072,
+                    "think": "low"  # 推論モード最小化（高速化）
+                }
+            else:
+                temperature = 0.7  # gemma3系は標準設定
+                additional_kwargs = {
                     "verbose": True,
                     "num_ctx": 4096,
                     "num_batch": 3072
                 }
+
+            self.ollama_model = ChatOllama(
+                model=self.model_name,
+                verbose=True,  # 詳細ログ有効化
+                temperature=temperature,  # 応答の多様性
+                top_p=0.9,  # サンプリング設定
+                num_predict=num_predict,  # 最大生成トークン数
+                keep_alive="10m",  # モデルをメモリに保持する時間（延長）
+                additional_kwargs=additional_kwargs
             )
-            sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了\n')
+            sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了 (num_predict={num_predict})\n')
             sys.stdout.flush()
 
-        elif self.model_name == "gpt-3.5-turbo":
-            # GPT-3.5-turbo設定
-            sys.stdout.write('[NLG] GPT-3.5-turboモデルを初期化中...\n')
+        elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1") or self.model_name.startswith("chatgpt-"):
+            # OpenAI API設定（GPT-5, GPT-4, GPT-3.5, o1など全てのOpenAIモデル）
+            sys.stdout.write(f'[NLG] OpenAI {self.model_name}モデルを初期化中...\n')
             sys.stdout.flush()
 
             # OpenAI APIキーを環境変数から設定
@@ -99,11 +156,23 @@ class NaturalLanguageGeneration:
                 sys.stdout.flush()
                 raise ValueError("OPENAI_API_KEY が設定されていません")
             else:
-                sys.stdout.write('[NLG] ✅ GPT-3.5-turboモデル初期化完了\n')
+                sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了\n')
                 sys.stdout.flush()
 
         else:
             raise ValueError(f"未対応のモデル: {self.model_name}")
+
+        # プロンプトファイルの存在確認
+        self.prompt_file_name = PROMPT_FILE_NAME
+        prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
+        self.prompt_file_path = os.path.join(prompt_dir, self.prompt_file_name)
+
+        if os.path.exists(self.prompt_file_path):
+            sys.stdout.write(f'[NLG] ✅ プロンプトファイル確認: {self.prompt_file_name}\n')
+            sys.stdout.flush()
+        else:
+            sys.stdout.write(f'[NLG WARNING] ⚠️  プロンプトファイルが見つかりません: {self.prompt_file_path}\n')
+            sys.stdout.flush()
 
         sys.stdout.write('NaturalLanguageGeneration (単一プロセス) start up.\n')
         sys.stdout.write(f'使用モデル: {self.model_name}\n')
@@ -158,23 +227,6 @@ class NaturalLanguageGeneration:
         """セッションIDを設定"""
         self.current_session_id = session_id
 
-
-    # def generate_dialogue(self, query):
-    #     sys.stdout.write('対話履歴作成\n')
-    #     sys.stdout.flush()
-    #     response_res = self.response(query)
-    #     dialogue_res = response_res
-    #     if ":" in dialogue_res:
-    #         dialogue_res = dialogue_res.split(":")[1]
-    #     self.dialogue_history.append("usr:" + query)
-    #     self.dialogue_history.append("sys:" + dialogue_res)
-    #     # self.dialogue_historyの最後から４つの要素を保存
-    #     if len(self.dialogue_history) > 5:
-    #         self.dialogue_history = self.dialogue_history[-4:]
-    #     sys.stdout.write('対話履歴作成\n')
-    #     sys.stdout.flush()
-    #     return response_res
-    
     def _perform_simple_inference(self, query):
         """シンプルな単一スレッド推論 (gemma3:12b使用)"""
         start_time = datetime.now()
@@ -187,9 +239,6 @@ class NaturalLanguageGeneration:
             })
 
         try:
-            # gemma3:12bを使用
-            ollama_model = self.ollama_model
-
             res = ""  # resを必ず初期化
             asr_results = self.asr_results
 
@@ -198,39 +247,53 @@ class NaturalLanguageGeneration:
                     self.last_reply = ""
                     self.last_source_words = []
                     return
-                
+
+                # 特定プロンプトファイル使用時は [雑音][無音]<unk> を除去
+                noise_tag_removal_prompts = [
+                    "dialog_simple.txt",
+                    "fix_asr_simple.txt",
+                    "dialog_predict.txt",
+                    "dialog_explain.txt",
+                    "dialog_example.txt"
+                ]
+
+                if self.prompt_file_name in noise_tag_removal_prompts:
+                    # 不要なタグを除去
+                    cleaned_asr_results = []
+                    for asr in asr_results:
+                        # [雑音]、[無音]、<unk>を除去
+                        cleaned = asr.replace("[雑音]", "").replace("[無音]", "").replace("<unk>", "")
+                        cleaned = cleaned.strip()
+                        if cleaned:  # 空文字列でない場合のみ追加
+                            cleaned_asr_results.append(cleaned)
+
+                    # クリーニング後のリストを使用
+                    asr_results_for_prompt = cleaned_asr_results if cleaned_asr_results else asr_results
+                else:
+                    # その他のプロンプトではそのまま使用
+                    asr_results_for_prompt = asr_results
+
                 # 音声認識結果をすべて列挙
                 asr_lines = []
-                for idx, asr in enumerate(asr_results):
+                for idx, asr in enumerate(asr_results_for_prompt):
                     asr_lines.append(f"認識結果{idx+1}: {asr}")
-                
-                # プロンプトを外部ファイルから読み込み
-                current_dir = os.path.dirname(os.path.abspath(__file__))
-                prompt_file_path = os.path.join(current_dir, "prompts", "remdis_test_prompt.txt")
-                
-                if not os.path.exists(prompt_file_path):
-                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/remdis_test_prompt.txt"
-                    if os.path.exists(workspace_path):
-                        prompt_file_path = workspace_path
-                
+
+                # プロンプトを外部ファイルから読み込み（設定したファイル名を使用）
                 try:
-                    with open(prompt_file_path, 'r', encoding='utf-8') as f:
+                    with open(self.prompt_file_path, 'r', encoding='utf-8') as f:
                         prompt = f.read()
                     if not prompt.strip():
-                        sys.stdout.write(f"[NLG ERROR] プロンプトファイルが空です: {prompt_file_path}\n")
+                        sys.stdout.write(f"[NLG ERROR] プロンプトファイルが空です: {self.prompt_file_path}\n")
                         sys.stdout.flush()
                         return
                 except FileNotFoundError:
-                    sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {prompt_file_path}\n")
+                    sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {self.prompt_file_path}\n")
                     sys.stdout.flush()
                     return
                 except Exception as e:
-                    sys.stdout.write(f"[NLG ERROR] プロンプトファイル読み込みエラー: {prompt_file_path} - {e}\n")
+                    sys.stdout.write(f"[NLG ERROR] プロンプトファイル読み込みエラー: {self.prompt_file_path} - {e}\n")
                     sys.stdout.flush()
                     return
-                
-                # プロンプト作成（ASR結果を組み込み）
-                full_prompt = f"{prompt}\n\nASR結果: {', '.join(asr_results)}"
                 
                 # LLM呼び出し
                 llm_start_time = datetime.now()
@@ -244,16 +307,68 @@ class NaturalLanguageGeneration:
                         "asr_count": len(asr_results)
                     })
 
-                # Ollama gemma3:12bを使用（LangChain経由）
+                # モデルタイプに応じた推論処理
                 try:
-                    messages = [
-                        ("system", prompt),
-                        ("human", f"ASR結果: {', '.join(asr_results)}")
-                    ]
-                    query_prompt = ChatPromptTemplate.from_messages(messages)
-                    chain = query_prompt | ollama_model | StrOutputParser()
+                    if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+                        # Ollama モデル（gemma3系、gpt-oss系 - LangChain経由）
+                        messages = [
+                            ("system", prompt),
+                            ("human", f"ぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}")
+                        ]
+                        query_prompt = ChatPromptTemplate.from_messages(messages)
+                        chain = query_prompt | self.ollama_model | StrOutputParser()
+                        res = chain.invoke({})
 
-                    res = chain.invoke({})
+                    elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
+                        # OpenAI API（GPT-5, GPT-4, o1など）
+                        messages = [
+                            {"role": "system", "content": prompt},
+                            {"role": "user", "content": f"ぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}"}
+                        ]
+
+                        # デバッグ用ログ
+                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字\n")
+                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] 音声認識結果数: {len(asr_results_for_prompt)}\n")
+                        sys.stdout.flush()
+
+                        # モデルタイプ別の最適化設定
+                        if self.model_name.startswith("gpt-4.1"):
+                            # GPT-4.1系: 最速540ms
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=50,
+                                temperature=0.3
+                            )
+                        elif "chat-latest" in self.model_name:
+                            # GPT-5-chat-latest: 推論最小化版
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=50
+                            )
+                        elif self.model_name.startswith("gpt-5") or self.model_name.startswith("o1"):
+                            # GPT-5/o1: 推論モデル
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=500,
+                                reasoning_effort="low"
+                            )
+                        else:
+                            # GPT-4o系: 標準
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_tokens=50,
+                                temperature=0.3
+                            )
+
+                        res = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
+
+                        # デバッグ用ログ
+                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] API応答長: {len(res)}文字\n")
+                        sys.stdout.flush()
 
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
@@ -291,25 +406,69 @@ class NaturalLanguageGeneration:
                     text_input = query
                     role = "優しい性格のアンドロイドとして、ユーザーの発話に対して相手を労るような返答のみを２０文字以内でしてください。"
 
-                    messages = [
-                        ("system", role),
-                        ("human", text_input)
-                    ]
-                    query_prompt = ChatPromptTemplate.from_messages(messages)
-                    chain = query_prompt | ollama_model | StrOutputParser()
-                    
-                    llm_start_time = datetime.now()                    
-                    res = chain.invoke({})
-                    
+                    llm_start_time = datetime.now()
+
+                    if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+                        # Ollama gemma3系モデル（LangChain経由）
+                        messages = [
+                            ("system", role),
+                            ("human", text_input)
+                        ]
+                        query_prompt = ChatPromptTemplate.from_messages(messages)
+                        chain = query_prompt | self.ollama_model | StrOutputParser()
+                        res = chain.invoke({})
+
+                    elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
+                        # OpenAI API（GPT-5, GPT-4, o1など）
+                        messages = [
+                            {"role": "system", "content": role},
+                            {"role": "user", "content": text_input}
+                        ]
+
+                        # モデルタイプ別の最適化設定
+                        if self.model_name.startswith("gpt-4.1"):
+                            # GPT-4.1系: 最速540ms
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=50,
+                                temperature=0.3
+                            )
+                        elif "chat-latest" in self.model_name:
+                            # GPT-5-chat-latest: 推論最小化版
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=50
+                            )
+                        elif self.model_name.startswith("gpt-5") or self.model_name.startswith("o1"):
+                            # GPT-5/o1: 推論モデル
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=500,
+                                reasoning_effort="low"
+                            )
+                        else:
+                            # GPT-4o系: 標準
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_tokens=50,
+                                temperature=0.3
+                            )
+
+                        res = response.choices[0].message.content.strip()
+
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ Ollama推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {self.model_name}推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
                     sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
                     sys.stdout.flush()
-                    
+
                     if ":" in res:
                         res = res.split(":", 1)[1]
-                    
+
                     source_words = [str(query)]
             
             # 改行を除去して1行にする
@@ -426,9 +585,6 @@ class NaturalLanguageGeneration:
             })
         
         try:
-            # 初期化済みのOllamaモデルを使用
-            ollama_model = self.ollama_model
-            
             res = ""  # resを必ず初期化
             asr_results = self.asr_results if hasattr(self, 'asr_results') else None
             
@@ -445,10 +601,10 @@ class NaturalLanguageGeneration:
                 
                 # プロンプトを外部ファイルから読み込み
                 current_dir = os.path.dirname(os.path.abspath(__file__))
-                prompt_file_path = os.path.join(current_dir, "prompts", "example_dialog_prompt.txt")
-                
+                prompt_file_path = os.path.join(current_dir, "prompts", "example_dialog.txt")
+
                 if not os.path.exists(prompt_file_path):
-                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/example_dialog_prompt.txt"
+                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/example_dialog.txt"
                     if os.path.exists(workspace_path):
                         prompt_file_path = workspace_path
                 
@@ -468,8 +624,8 @@ class NaturalLanguageGeneration:
                     sys.stdout.flush()
                     return
                 
-                # プロンプト作成（ASR結果を組み込み）
-                full_prompt = f"{prompt}\n\nASR結果: {', '.join(asr_results)}"
+                # プロンプト作成（音声認識結果を組み込み）
+                full_prompt = f"{prompt}\n\nぶつ切りの音声認識結果: {', '.join(asr_results)}"
                 
                 # LLM呼び出し
                 llm_start_time = datetime.now()
@@ -631,25 +787,69 @@ class NaturalLanguageGeneration:
                     text_input = query
                     role = "優しい性格のアンドロイドとして、ユーザーの発話に対して相手を労るような返答のみを２０文字以内でしてください。"
 
-                    messages = [
-                        ("system", role),
-                        ("human", text_input)
-                    ]
-                    query_prompt = ChatPromptTemplate.from_messages(messages)
-                    chain = query_prompt | ollama_model | StrOutputParser()
-                    
-                    llm_start_time = datetime.now()                    
-                    res = chain.invoke({})
-                    
+                    llm_start_time = datetime.now()
+
+                    if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+                        # Ollama gemma3系モデル（LangChain経由）
+                        messages = [
+                            ("system", role),
+                            ("human", text_input)
+                        ]
+                        query_prompt = ChatPromptTemplate.from_messages(messages)
+                        chain = query_prompt | self.ollama_model | StrOutputParser()
+                        res = chain.invoke({})
+
+                    elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
+                        # OpenAI API（GPT-5, GPT-4, o1など）
+                        messages = [
+                            {"role": "system", "content": role},
+                            {"role": "user", "content": text_input}
+                        ]
+
+                        # モデルタイプ別の最適化設定
+                        if self.model_name.startswith("gpt-4.1"):
+                            # GPT-4.1系: 最速540ms
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=50,
+                                temperature=0.3
+                            )
+                        elif "chat-latest" in self.model_name:
+                            # GPT-5-chat-latest: 推論最小化版
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=50
+                            )
+                        elif self.model_name.startswith("gpt-5") or self.model_name.startswith("o1"):
+                            # GPT-5/o1: 推論モデル
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_completion_tokens=500,
+                                reasoning_effort="low"
+                            )
+                        else:
+                            # GPT-4o系: 標準
+                            response = openai.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages,
+                                max_tokens=50,
+                                temperature=0.3
+                            )
+
+                        res = response.choices[0].message.content.strip()
+
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {worker_name} Ollama推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {worker_name} {self.model_name}推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
                     sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] {worker_name} 生成応答: '{res}'\n")
                     sys.stdout.flush()
-                    
+
                     if ":" in res:
                         res = res.split(":", 1)[1]
-                    
+
                     source_words = [str(query)]
             
             # 改行を除去して1行にする

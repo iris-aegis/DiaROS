@@ -52,8 +52,8 @@ class DockerTimeTracker:
                 "status": "active"
             }
         
-        timestamp_str = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        print(f"[DockerTimeTracker] セッション開始: {session_id} @ {timestamp_str}")
+        # timestamp_str = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+        # print(f"[DockerTimeTracker] セッション開始: {session_id} @ {timestamp_str}")
     
     def add_checkpoint(self, session_id: str, component: str, event: str, metadata: Optional[Dict] = None):
         """チェックポイントを追加（Docker環境最適化）"""
@@ -81,9 +81,9 @@ class DockerTimeTracker:
             self.sessions[session_id]["checkpoints"].append(checkpoint)
             
             # デバッグ出力（相対時間も表示）
-            timestamp_str = datetime.fromtimestamp(timestamp_ns / 1_000_000_000).strftime('%H:%M:%S.%f')[:-3]
-            print(f"[DockerTimeTracker] チェックポイント: {session_id[:8]} - {component}.{event}")
-            print(f"                      絶対時刻: {timestamp_str}, 相対時間: {relative_time_ns/1_000_000:.3f}ms")
+            # timestamp_str = datetime.fromtimestamp(timestamp_ns / 1_000_000_000).strftime('%H:%M:%S.%f')[:-3]
+            # print(f"[DockerTimeTracker] チェックポイント: {session_id[:8]} - {component}.{event}")
+            # print(f"                      絶対時刻: {timestamp_str}, 相対時間: {relative_time_ns/1_000_000:.3f}ms")
     
     def end_session(self, session_id: str, component: str):
         """セッションを終了"""

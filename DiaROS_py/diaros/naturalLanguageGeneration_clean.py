@@ -208,10 +208,10 @@ class NaturalLanguageGeneration:
                 
                 # プロンプトを外部ファイルから読み込み
                 current_dir = os.path.dirname(os.path.abspath(__file__))
-                prompt_file_path = os.path.join(current_dir, "prompts", "remdis_test_prompt.txt")
-                
+                prompt_file_path = os.path.join(current_dir, "prompts", "remdis_test.txt")
+
                 if not os.path.exists(prompt_file_path):
-                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/remdis_test_prompt.txt"
+                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/remdis_test.txt"
                     if os.path.exists(workspace_path):
                         prompt_file_path = workspace_path
                 
@@ -231,8 +231,8 @@ class NaturalLanguageGeneration:
                     sys.stdout.flush()
                     return
                 
-                # プロンプト作成（ASR結果を組み込み）
-                full_prompt = f"{prompt}\n\nASR結果: {', '.join(asr_results)}"
+                # プロンプト作成（音声認識結果を組み込み）
+                full_prompt = f"{prompt}\n\n音声認識結果: {', '.join(asr_results)}"
                 
                 # LLM呼び出し
                 llm_start_time = datetime.now()
@@ -256,7 +256,7 @@ class NaturalLanguageGeneration:
                         model=self.model_name,
                         messages=[
                             {"role": "system", "content": prompt},
-                            {"role": "user", "content": f"ASR結果: {', '.join(asr_results)}"}
+                            {"role": "user", "content": f"音声認識結果: {', '.join(asr_results)}"}
                         ],
                         temperature=0.7,
                         max_tokens=100,  # 短い応答用
@@ -503,10 +503,10 @@ class NaturalLanguageGeneration:
                 
                 # プロンプトを外部ファイルから読み込み
                 current_dir = os.path.dirname(os.path.abspath(__file__))
-                prompt_file_path = os.path.join(current_dir, "prompts", "example_dialog_prompt.txt")
-                
+                prompt_file_path = os.path.join(current_dir, "prompts", "example_dialog.txt")
+
                 if not os.path.exists(prompt_file_path):
-                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/example_dialog_prompt.txt"
+                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/example_dialog.txt"
                     if os.path.exists(workspace_path):
                         prompt_file_path = workspace_path
                 
@@ -526,8 +526,8 @@ class NaturalLanguageGeneration:
                     sys.stdout.flush()
                     return
                 
-                # プロンプト作成（ASR結果を組み込み）
-                full_prompt = f"{prompt}\n\nASR結果: {', '.join(asr_results)}"
+                # プロンプト作成（音声認識結果を組み込み）
+                full_prompt = f"{prompt}\n\n音声認識結果: {', '.join(asr_results)}"
                 
                 # LLM呼び出し
                 llm_start_time = datetime.now()

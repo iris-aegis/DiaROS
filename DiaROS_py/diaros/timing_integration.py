@@ -77,8 +77,8 @@ class TimingLogger:
             
             with open(timeline_file, 'w', encoding='utf-8') as f:
                 json.dump(timeline_data, f, ensure_ascii=False, indent=2)
-            
-            print(f"[TimingLogger] イベント記録: {session_id[:8]} - {event_type}")
+
+            # print(f"[TimingLogger] イベント記録: {session_id[:8]} - {event_type}")
             
         except Exception as e:
             print(f"[TimingLogger] イベント記録エラー: {e}")
@@ -107,8 +107,8 @@ def start_timing_session() -> str:
     
     # タイムラインファイル作成
     logger.create_timeline_file(session_id)
-    
-    print(f"[TimingIntegration] セッション開始: {session_id}")
+
+    # print(f"[TimingIntegration] セッション開始: {session_id}")
     return session_id
 
 def log_nlg_start(session_id: str, dialogue_context: str = ""):
