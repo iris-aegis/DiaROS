@@ -3,19 +3,11 @@
 # ============================================================
 # 【OpenAI API モデル】クラウドAPI、高速・高品質
 # MODEL_NAME = "gpt-3.5-turbo-0125"    # 587ms - 最速・最安・安定（推奨）
-<<<<<<< HEAD
 # MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
 MODEL_NAME = "gemma3:4b"             # 軽量・高速
-=======
-MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
-# MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
-# MODEL_NAME = "gpt-oss:20b"
-# 【Ollama ローカルモデル】オフライン動作、GPU必要
-# MODEL_NAME = "gemma3:4b"             # 軽量・高速
->>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 # MODEL_NAME = "gemma3:12b"            # 高品質
 # MODEL_NAME = "gemma3:27b"            # 最高品質
 
@@ -27,11 +19,7 @@ MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
 # PROMPT_FILE_NAME = "dialog_predict.txt"      # 発話予測付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_tag.txt"          # タグ処理付き
 # PROMPT_FILE_NAME = "dialog_tag_ver2.txt"          # タグ処理付き
-<<<<<<< HEAD
 # PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
-=======
-PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
->>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 # PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
@@ -43,13 +31,10 @@ PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタ
 # PROMPT_FILE_NAME = "fix_asr.txt"             # 標準版
 # PROMPT_FILE_NAME = "fix_asr_example.txt"     # 例示付き
 # PROMPT_FILE_NAME = "fix_asr_all.txt"     #
-<<<<<<< HEAD
 # PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"     #
 # PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
 # PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
 PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短い相槌のみ）
-=======
->>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 
 # 【タイミング調整プロンプト】
 # PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用
@@ -135,11 +120,7 @@ class NaturalLanguageGeneration:
                 sys.stdout.write(f'[NLG] ⚠️  gpt-oss:20bは推論モデルのため、応答に時間がかかります (num_predict={num_predict})\n')
                 sys.stdout.flush()
             else:
-<<<<<<< HEAD
                 num_predict = 10  # gemma3系は10トークンで統一（短い相槌用）
-=======
-                num_predict = 200  # gemma3系の出力文字制限を伸ばす（50→200）
->>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 
             # gpt-oss:20bの高速化設定（推論を最小限に）
             if self.model_name.startswith("gpt-oss:"):
@@ -253,7 +234,6 @@ class NaturalLanguageGeneration:
         """セッションIDを設定"""
         self.current_session_id = session_id
 
-<<<<<<< HEAD
     def generate_first_stage(self, query):
         """First stage: 常に相槌を生成（音声認識結果が来るたびに実行）"""
         start_time = datetime.now()
@@ -480,12 +460,6 @@ class NaturalLanguageGeneration:
         """シンプルな単一スレッド推論 (gemma3:12b使用)"""
         start_time = datetime.now()
 
-=======
-    def _perform_simple_inference(self, query):
-        """シンプルな単一スレッド推論 (gemma3:12b使用)"""
-        start_time = datetime.now()
-
->>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
         # 推論開始チェックポイント
         if self.current_session_id:
             self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "inference_start", {
