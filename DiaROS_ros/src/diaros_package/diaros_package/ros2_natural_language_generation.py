@@ -120,7 +120,7 @@ class RosNaturalLanguageGeneration(Node):
             nlg_msg.reply = self.naturalLanguageGeneration.first_stage_response
             nlg_msg.stage = "first"  # first_stage相槌であることを明示
             nlg_msg.source_words = []
-            nlg_msg.session_id = self.current_session_id or ""
+            nlg_msg.session_id = str(self.current_session_id) if self.current_session_id else ""
             nlg_msg.request_id = 0
             nlg_msg.worker_name = "nlg-first-stage"
             nlg_msg.start_timestamp_ns = 0
@@ -160,7 +160,12 @@ class RosNaturalLanguageGeneration(Node):
             nlg_msg.start_timestamp_ns = getattr(self.naturalLanguageGeneration, "start_timestamp_ns", 0)
             nlg_msg.completion_timestamp_ns = getattr(self.naturalLanguageGeneration, "completion_timestamp_ns", 0)
             nlg_msg.inference_duration_ms = getattr(self.naturalLanguageGeneration, "inference_duration_ms", 0.0)
-            nlg_msg.session_id = getattr(self.naturalLanguageGeneration, "current_session_id", self.current_session_id or "")
+
+            # session_idは文字列型を保証
+            session_id_value = getattr(self.naturalLanguageGeneration, "current_session_id", None)
+            if session_id_value is None:
+                session_id_value = self.current_session_id
+            nlg_msg.session_id = str(session_id_value) if session_id_value else ""
 
             # NLG処理完了チェックポイント
             if self.current_session_id:
