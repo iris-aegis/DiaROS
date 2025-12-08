@@ -39,16 +39,21 @@ struct Idm_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->session_id = "";
+      this->stage = "";
+      this->turn_taking_decision_timestamp_ns = 0ll;
     }
   }
 
   explicit Idm_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-  : session_id(_alloc)
+  : session_id(_alloc),
+    stage(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->session_id = "";
+      this->stage = "";
+      this->turn_taking_decision_timestamp_ns = 0ll;
     }
   }
 
@@ -59,6 +64,12 @@ struct Idm_
   using _session_id_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _session_id_type session_id;
+  using _stage_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _stage_type stage;
+  using _turn_taking_decision_timestamp_ns_type =
+    int64_t;
+  _turn_taking_decision_timestamp_ns_type turn_taking_decision_timestamp_ns;
 
   // setters for named parameter idiom
   Type & set__words(
@@ -71,6 +82,18 @@ struct Idm_
     const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
     this->session_id = _arg;
+    return *this;
+  }
+  Type & set__stage(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->stage = _arg;
+    return *this;
+  }
+  Type & set__turn_taking_decision_timestamp_ns(
+    const int64_t & _arg)
+  {
+    this->turn_taking_decision_timestamp_ns = _arg;
     return *this;
   }
 
@@ -120,6 +143,12 @@ struct Idm_
       return false;
     }
     if (this->session_id != other.session_id) {
+      return false;
+    }
+    if (this->stage != other.stage) {
+      return false;
+    }
+    if (this->turn_taking_decision_timestamp_ns != other.turn_taking_decision_timestamp_ns) {
       return false;
     }
     return true;

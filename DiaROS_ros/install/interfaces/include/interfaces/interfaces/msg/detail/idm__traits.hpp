@@ -47,6 +47,20 @@ inline void to_flow_style_yaml(
   {
     out << "session_id: ";
     rosidl_generator_traits::value_to_yaml(msg.session_id, out);
+    out << ", ";
+  }
+
+  // member: stage
+  {
+    out << "stage: ";
+    rosidl_generator_traits::value_to_yaml(msg.stage, out);
+    out << ", ";
+  }
+
+  // member: turn_taking_decision_timestamp_ns
+  {
+    out << "turn_taking_decision_timestamp_ns: ";
+    rosidl_generator_traits::value_to_yaml(msg.turn_taking_decision_timestamp_ns, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -82,6 +96,26 @@ inline void to_block_style_yaml(
     }
     out << "session_id: ";
     rosidl_generator_traits::value_to_yaml(msg.session_id, out);
+    out << "\n";
+  }
+
+  // member: stage
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "stage: ";
+    rosidl_generator_traits::value_to_yaml(msg.stage, out);
+    out << "\n";
+  }
+
+  // member: turn_taking_decision_timestamp_ns
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "turn_taking_decision_timestamp_ns: ";
+    rosidl_generator_traits::value_to_yaml(msg.turn_taking_decision_timestamp_ns, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

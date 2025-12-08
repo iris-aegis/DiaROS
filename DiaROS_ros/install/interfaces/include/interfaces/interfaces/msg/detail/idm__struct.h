@@ -20,6 +20,7 @@ extern "C"
 // Include directives for member types
 // Member 'words'
 // Member 'session_id'
+// Member 'stage'
 #include "rosidl_runtime_c/string.h"
 
 /// Struct defined in msg/Idm in the package interfaces.
@@ -27,6 +28,8 @@ typedef struct interfaces__msg__Idm
 {
   rosidl_runtime_c__String__Sequence words;
   rosidl_runtime_c__String session_id;
+  rosidl_runtime_c__String stage;
+  int64_t turn_taking_decision_timestamp_ns;
 } interfaces__msg__Idm;
 
 // Struct for a sequence of interfaces__msg__Idm.

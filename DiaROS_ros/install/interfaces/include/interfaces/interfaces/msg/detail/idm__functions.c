@@ -14,6 +14,7 @@
 // Include directives for member types
 // Member `words`
 // Member `session_id`
+// Member `stage`
 #include "rosidl_runtime_c/string_functions.h"
 
 bool
@@ -32,6 +33,12 @@ interfaces__msg__Idm__init(interfaces__msg__Idm * msg)
     interfaces__msg__Idm__fini(msg);
     return false;
   }
+  // stage
+  if (!rosidl_runtime_c__String__init(&msg->stage)) {
+    interfaces__msg__Idm__fini(msg);
+    return false;
+  }
+  // turn_taking_decision_timestamp_ns
   return true;
 }
 
@@ -45,6 +52,9 @@ interfaces__msg__Idm__fini(interfaces__msg__Idm * msg)
   rosidl_runtime_c__String__Sequence__fini(&msg->words);
   // session_id
   rosidl_runtime_c__String__fini(&msg->session_id);
+  // stage
+  rosidl_runtime_c__String__fini(&msg->stage);
+  // turn_taking_decision_timestamp_ns
 }
 
 bool
@@ -63,6 +73,16 @@ interfaces__msg__Idm__are_equal(const interfaces__msg__Idm * lhs, const interfac
   if (!rosidl_runtime_c__String__are_equal(
       &(lhs->session_id), &(rhs->session_id)))
   {
+    return false;
+  }
+  // stage
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->stage), &(rhs->stage)))
+  {
+    return false;
+  }
+  // turn_taking_decision_timestamp_ns
+  if (lhs->turn_taking_decision_timestamp_ns != rhs->turn_taking_decision_timestamp_ns) {
     return false;
   }
   return true;
@@ -88,6 +108,14 @@ interfaces__msg__Idm__copy(
   {
     return false;
   }
+  // stage
+  if (!rosidl_runtime_c__String__copy(
+      &(input->stage), &(output->stage)))
+  {
+    return false;
+  }
+  // turn_taking_decision_timestamp_ns
+  output->turn_taking_decision_timestamp_ns = input->turn_taking_decision_timestamp_ns;
   return true;
 }
 
