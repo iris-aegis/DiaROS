@@ -541,7 +541,6 @@ class NaturalLanguageGeneration:
                 # モデルタイプに応じた推論処理
                 try:
                     if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
-<<<<<<< HEAD
                         # Ollama モデル（API直接呼び出し、ストリーミング有効）
                         full_prompt = f"{prompt}\n\nぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}"
 
@@ -605,16 +604,6 @@ class NaturalLanguageGeneration:
                             sys.stdout.write(f"[NLG ERROR] Ollama API呼び出しエラー: {api_error}\n")
                             sys.stdout.flush()
                             res = "申し訳ありません、応答の生成に失敗しました。"
-=======
-                        # Ollama モデル（gemma3系、gpt-oss系 - LangChain経由）
-                        messages = [
-                            ("system", prompt),
-                            ("human", f"ぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}")
-                        ]
-                        query_prompt = ChatPromptTemplate.from_messages(messages)
-                        chain = query_prompt | self.ollama_model | StrOutputParser()
-                        res = chain.invoke({})
->>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 
                     elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                         # OpenAI API（GPT-5, GPT-4, o1など）
