@@ -73,7 +73,9 @@ class NaturalLanguageGeneration:
 
         # 二段階応答生成用の変数
         self.first_stage_response = ""  # first_stageで生成した相槌を保存
-        
+        self.current_stage = "first"  # first または second
+        self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒）
+
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
         self.last_worker_name = ""

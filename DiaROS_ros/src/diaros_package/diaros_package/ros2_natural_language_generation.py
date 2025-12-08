@@ -48,6 +48,12 @@ class RosNaturalLanguageGeneration(Node):
         stage = getattr(msg, 'stage', 'single')  # 'first', 'second', 'single'のいずれか
         turn_taking_ts = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
 
+        # ★新規：stage情報をNLGクラスに保存
+        self.naturalLanguageGeneration._incoming_stage = stage
+
+        # ★新規：TurnTaking判定時刻をNLGクラスに保存
+        self.naturalLanguageGeneration.turn_taking_decision_timestamp_ns = turn_taking_ts
+
         # すべて空文字列なら送らない
         if words and any(w.strip() for w in words):
             now = datetime.now()
