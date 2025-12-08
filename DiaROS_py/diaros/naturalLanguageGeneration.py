@@ -3,11 +3,19 @@
 # ============================================================
 # 【OpenAI API モデル】クラウドAPI、高速・高品質
 # MODEL_NAME = "gpt-3.5-turbo-0125"    # 587ms - 最速・最安・安定（推奨）
+<<<<<<< HEAD
+# MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
+# MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
+# MODEL_NAME = "gpt-oss:20b"
+# 【Ollama ローカルモデル】オフライン動作、GPU必要
+MODEL_NAME = "gemma3:4b"             # 軽量・高速
+=======
 MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
 # MODEL_NAME = "gemma3:4b"             # 軽量・高速
+>>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 # MODEL_NAME = "gemma3:12b"            # 高品質
 # MODEL_NAME = "gemma3:27b"            # 最高品質
 
@@ -19,7 +27,11 @@ MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
 # PROMPT_FILE_NAME = "dialog_predict.txt"      # 発話予測付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_tag.txt"          # タグ処理付き
 # PROMPT_FILE_NAME = "dialog_tag_ver2.txt"          # タグ処理付き
+<<<<<<< HEAD
+# PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
+=======
 PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
+>>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 # PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
@@ -31,6 +43,13 @@ PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタ
 # PROMPT_FILE_NAME = "fix_asr.txt"             # 標準版
 # PROMPT_FILE_NAME = "fix_asr_example.txt"     # 例示付き
 # PROMPT_FILE_NAME = "fix_asr_all.txt"     #
+<<<<<<< HEAD
+# PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"     #
+# PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
+# PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
+PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短い相槌のみ）
+=======
+>>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 
 # 【タイミング調整プロンプト】
 # PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用
@@ -60,12 +79,15 @@ from .timeTracker import get_time_tracker
 class NaturalLanguageGeneration:
     def __init__(self):
         self.rc = { "word": "" }
-        
+
         self.query = ""
         self.update_flag = False
         self.user_speak_is_final = False
         self.last_reply = ""  # 生成した対話文をここに格納
         self.last_source_words = []  # 対話生成の元にした音声認識結果を格納
+
+        # 二段階応答生成用の変数
+        self.first_stage_response = ""  # first_stageで生成した相槌を保存
         
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
@@ -113,7 +135,11 @@ class NaturalLanguageGeneration:
                 sys.stdout.write(f'[NLG] ⚠️  gpt-oss:20bは推論モデルのため、応答に時間がかかります (num_predict={num_predict})\n')
                 sys.stdout.flush()
             else:
+<<<<<<< HEAD
+                num_predict = 10  # gemma3系は10トークンで統一（短い相槌用）
+=======
                 num_predict = 200  # gemma3系の出力文字制限を伸ばす（50→200）
+>>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 
             # gpt-oss:20bの高速化設定（推論を最小限に）
             if self.model_name.startswith("gpt-oss:"):
@@ -227,10 +253,239 @@ class NaturalLanguageGeneration:
         """セッションIDを設定"""
         self.current_session_id = session_id
 
+<<<<<<< HEAD
+    def generate_first_stage(self, query):
+        """First stage: 常に相槌を生成（音声認識結果が来るたびに実行）"""
+        start_time = datetime.now()
+
+        try:
+            asr_results = query if isinstance(query, list) else [str(query)]
+
+            if not asr_results or all((not x or x.strip() == "") for x in asr_results):
+                self.first_stage_response = ""
+                return
+
+            # LLM呼び出し
+            llm_start_time = datetime.now()
+            sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE] 🤖 相槌生成開始\n")
+
+            try:
+                if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+                    # Ollama APIを直接呼び出してTTFT計測（ストリーミング）
+                    import requests
+
+                    prompt_build_start = datetime.now()
+                    # 超シンプルなプロンプト
+                    simple_prompt = f"短い相槌を一つ: {', '.join(asr_results[:2])}"
+                    prompt_build_end = datetime.now()
+                    sys.stdout.write(f"[{prompt_build_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] プロンプト構築: {(prompt_build_end - prompt_build_start).total_seconds() * 1000:.1f}ms\n")
+                    sys.stdout.write(f"[{prompt_build_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] プロンプト長: {len(simple_prompt)}文字\n")
+                    sys.stdout.flush()
+
+                    # Ollama API直接呼び出し（ストリーミング）
+                    api_start = datetime.now()
+                    response = requests.post(
+                        'http://localhost:11434/api/generate',
+                        json={
+                            'model': self.model_name,
+                            'prompt': simple_prompt,
+                            'stream': True,
+                            'options': {
+                                'temperature': 0.3,
+                                'num_predict': 10,
+                                'num_ctx': 512,
+                                'num_batch': 256
+                            }
+                        },
+                        stream=True,
+                        timeout=30
+                    )
+
+                    res = ""
+                    first_token_time = None
+                    token_count = 0
+
+                    for line in response.iter_lines():
+                        if line:
+                            try:
+                                chunk_data = json.loads(line)
+                                token_fragment = chunk_data.get('response', '')
+
+                                if token_fragment:
+                                    token_count += 1
+
+                                    # Time to First Token (TTFT) 計測
+                                    if first_token_time is None:
+                                        first_token_time = datetime.now()
+                                        ttft_ms = (first_token_time - api_start).total_seconds() * 1000
+                                        sys.stdout.write(f"[{first_token_time.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] 🎯 TTFT (Time to First Token): {ttft_ms:.1f}ms\n")
+                                        sys.stdout.flush()
+
+                                    res += token_fragment
+
+                                # 完了チェック
+                                if chunk_data.get('done', False):
+                                    api_end = datetime.now()
+                                    total_time = (api_end - api_start).total_seconds() * 1000
+
+                                    # 詳細メトリクス取得
+                                    load_duration = chunk_data.get('load_duration', 0) / 1e6  # ns → ms
+                                    prompt_eval_duration = chunk_data.get('prompt_eval_duration', 0) / 1e6
+                                    eval_duration = chunk_data.get('eval_duration', 0) / 1e6
+                                    prompt_eval_count = chunk_data.get('prompt_eval_count', 0)
+                                    eval_count = chunk_data.get('eval_count', 0)
+
+                                    sys.stdout.write(f"[{api_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] LLM推論時間（総計）: {total_time:.1f}ms\n")
+                                    sys.stdout.write(f"[{api_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] トークン数: {token_count}\n")
+                                    sys.stdout.write(f"[{api_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] ⚙️ load_duration: {load_duration:.1f}ms\n")
+                                    sys.stdout.write(f"[{api_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] ⚙️ prompt_eval_duration: {prompt_eval_duration:.1f}ms ({prompt_eval_count} tokens)\n")
+                                    sys.stdout.write(f"[{api_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] ⚙️ eval_duration: {eval_duration:.1f}ms ({eval_count} tokens)\n")
+                                    sys.stdout.write(f"[{api_end.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE DEBUG] ⚠️ オーバーヘッド分析: TTFT({ttft_ms:.1f}ms) - prompt_eval({prompt_eval_duration:.1f}ms) - load({load_duration:.1f}ms) = {ttft_ms - prompt_eval_duration - load_duration:.1f}ms\n")
+                                    sys.stdout.flush()
+                                    break
+
+                            except json.JSONDecodeError:
+                                continue
+
+                elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
+                    # 超シンプルなプロンプト
+                    simple_prompt = f"短い相槌を一つ: {', '.join(asr_results[:2])}"
+
+                    messages = [
+                        {"role": "system", "content": simple_prompt},
+                        {"role": "user", "content": "上記の音声認識結果から相槌を一つ出力してください。"}
+                    ]
+                    response = openai.chat.completions.create(
+                        model=self.model_name,
+                        messages=messages,
+                        max_completion_tokens=20,
+                        temperature=0.3
+                    )
+                    res = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
+
+                # 相槌の後処理: 改行・句読点除去
+                res = res.replace('\n', '').replace('\r', '').replace('。', '').replace('、', '').strip()
+
+                llm_end_time = datetime.now()
+                llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+
+                self.first_stage_response = res
+                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG FIRST_STAGE] ✅ 相槌生成完了 ({llm_duration:.1f}ms): '{res}'\n")
+                sys.stdout.flush()
+
+            except Exception as api_error:
+                sys.stdout.write(f"[NLG ERROR] first_stage生成エラー: {api_error}\n")
+                sys.stdout.flush()
+                self.first_stage_response = "うん"  # フォールバック
+
+        except Exception as e:
+            sys.stdout.write(f"[NLG ERROR] first_stage処理エラー: {e}\n")
+            sys.stdout.flush()
+            self.first_stage_response = "うん"  # フォールバック
+
+    def generate_second_stage(self, query):
+        """Second stage: turnTakingが応答判定を出したら実行"""
+        start_time = datetime.now()
+
+        try:
+            asr_results = query if isinstance(query, list) else [str(query)]
+
+            if not asr_results or all((not x or x.strip() == "") for x in asr_results):
+                self.last_reply = ""
+                self.last_source_words = []
+                return
+
+            # プロンプトファイル読み込み
+            prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
+            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage.txt')
+
+            try:
+                with open(second_stage_prompt_path, 'r', encoding='utf-8') as f:
+                    prompt_template = f.read()
+
+                # {first_stage_response} を実際の相槌に置換（エスケープ不要）
+                # プロンプトと音声認識結果を直接結合
+                prompt_with_backchannel = prompt_template.replace('{first_stage_response}', self.first_stage_response)
+                prompt = f"{prompt_with_backchannel}\n\n# 先ほど打った相槌\n{self.first_stage_response}\n\n# 音声認識結果\nぶつ切りの音声認識結果: {', '.join(asr_results)}"
+
+            except FileNotFoundError:
+                sys.stdout.write(f"[NLG ERROR] second_stageプロンプトが見つかりません: {second_stage_prompt_path}\n")
+                sys.stdout.flush()
+                return
+
+            # LLM呼び出し
+            llm_start_time = datetime.now()
+            sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🤖 本応答生成開始（相槌: '{self.first_stage_response}'）\n")
+
+            try:
+                if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+                    messages = [
+                        ("system", prompt),
+                        ("human", "上記の音声認識結果から本応答を生成してください。")
+                    ]
+                    query_prompt = ChatPromptTemplate.from_messages(messages)
+                    chain = query_prompt | self.ollama_model | StrOutputParser()
+                    res = chain.invoke({})
+
+                elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
+                    messages = [
+                        {"role": "system", "content": prompt},
+                        {"role": "user", "content": "上記の音声認識結果から本応答を生成してください。"}
+                    ]
+                    response = openai.chat.completions.create(
+                        model=self.model_name,
+                        messages=messages,
+                        max_completion_tokens=50,
+                        temperature=0.3
+                    )
+                    res = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
+
+                # 改行除去
+                res = res.replace('\n', '').replace('\r', '')
+
+                llm_end_time = datetime.now()
+                llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+                total_duration = (llm_end_time - start_time).total_seconds() * 1000
+
+                # 最終的な応答は本応答のみ（メインPC側でfirst_stageは既に再生されている）
+                final_response = res
+
+                self.last_reply = final_response
+                self.last_source_words = asr_results
+
+                # タイミング情報を設定
+                self.request_id = 1
+                self.worker_name = "nlg-two-stage"
+                self.start_timestamp_ns = int(start_time.timestamp() * 1_000_000_000)
+                self.completion_timestamp_ns = int(llm_end_time.timestamp() * 1_000_000_000)
+                self.inference_duration_ms = total_duration
+
+                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ✅ 本応答生成完了 ({llm_duration:.1f}ms): '{res}'\n")
+                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🏁 最終応答: '{final_response}'\n")
+                sys.stdout.flush()
+
+            except Exception as api_error:
+                sys.stdout.write(f"[NLG ERROR] second_stage生成エラー: {api_error}\n")
+                sys.stdout.flush()
+                self.last_reply = self.first_stage_response  # 相槌のみフォールバック
+                self.last_source_words = asr_results
+
+        except Exception as e:
+            sys.stdout.write(f"[NLG ERROR] second_stage処理エラー: {e}\n")
+            sys.stdout.flush()
+            self.last_reply = self.first_stage_response  # 相槌のみフォールバック
+            self.last_source_words = asr_results
+
     def _perform_simple_inference(self, query):
         """シンプルな単一スレッド推論 (gemma3:12b使用)"""
         start_time = datetime.now()
 
+=======
+    def _perform_simple_inference(self, query):
+        """シンプルな単一スレッド推論 (gemma3:12b使用)"""
+        start_time = datetime.now()
+
+>>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
         # 推論開始チェックポイント
         if self.current_session_id:
             self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "inference_start", {
@@ -310,6 +565,71 @@ class NaturalLanguageGeneration:
                 # モデルタイプに応じた推論処理
                 try:
                     if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+<<<<<<< HEAD
+                        # Ollama モデル（API直接呼び出し、ストリーミング有効）
+                        full_prompt = f"{prompt}\n\nぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}"
+
+                        # Ollama API直接呼び出し（ストリーミング）
+                        try:
+                            api_start_time = datetime.now()
+                            api_response = requests.post(
+                                'http://localhost:11434/api/generate',
+                                json={
+                                    'model': self.model_name,
+                                    'prompt': full_prompt,
+                                    'stream': True,  # ストリーミング有効化（TTFT最小化）
+                                    'options': {
+                                        'temperature': 0.7,
+                                        'top_p': 0.9,
+                                        'num_predict': 10,  # 短い相槌で高速化
+                                        'num_ctx': 4096,
+                                        'num_batch': 3072
+                                    }
+                                },
+                                timeout=30,
+                                stream=True
+                            )
+
+                            res = ""
+                            first_token_time = None
+
+                            if api_response.status_code == 200:
+                                for line in api_response.iter_lines():
+                                    if line:
+                                        try:
+                                            chunk_data = json.loads(line)
+                                            token_fragment = chunk_data.get('response', '')
+
+                                            if token_fragment:
+                                                # TTFT計測
+                                                if first_token_time is None:
+                                                    first_token_time = datetime.now()
+                                                    ttft_ms = (first_token_time - api_start_time).total_seconds() * 1000
+                                                    sys.stdout.write(f"[{first_token_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🎯 TTFT: {ttft_ms:.1f}ms\n")
+                                                    sys.stdout.flush()
+
+                                                res += token_fragment
+
+                                            # 完了チェック
+                                            if chunk_data.get('done', False):
+                                                llm_end_time = datetime.now()
+                                                llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
+
+                                                # メトリクス記録（詳細）
+                                                load_duration = chunk_data.get('load_duration', 0) / 1e6
+                                                prompt_eval_duration = chunk_data.get('prompt_eval_duration', 0) / 1e6
+                                                eval_duration = chunk_data.get('eval_duration', 0) / 1e6
+                                                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ⏱️ load: {load_duration:.1f}ms, prompt: {prompt_eval_duration:.1f}ms, eval: {eval_duration:.1f}ms → total: {llm_duration:.1f}ms\n")
+                                                break
+                                        except json.JSONDecodeError:
+                                            continue
+                            else:
+                                res = "申し訳ありません、応答の生成に失敗しました。"
+                        except Exception as api_error:
+                            sys.stdout.write(f"[NLG ERROR] Ollama API呼び出しエラー: {api_error}\n")
+                            sys.stdout.flush()
+                            res = "申し訳ありません、応答の生成に失敗しました。"
+=======
                         # Ollama モデル（gemma3系、gpt-oss系 - LangChain経由）
                         messages = [
                             ("system", prompt),
@@ -318,6 +638,7 @@ class NaturalLanguageGeneration:
                         query_prompt = ChatPromptTemplate.from_messages(messages)
                         chain = query_prompt | self.ollama_model | StrOutputParser()
                         res = chain.invoke({})
+>>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
 
                     elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                         # OpenAI API（GPT-5, GPT-4, o1など）
@@ -565,6 +886,14 @@ class NaturalLanguageGeneration:
                 self.last_reply = ""
                 self.last_source_words = []
 
+<<<<<<< HEAD
+
+    def run(self):
+        sys.stdout.write("[NLG] 単一プロセス推論システム開始 (2.5秒間隔制御)\n")
+        sys.stdout.write(f"[NLG] 使用モデル: {self.model_name}\n")
+        sys.stdout.flush()
+        
+=======
     # _perform_parallel_inference() メソッドは現在使用されていないためコメントアウト
     # GPT-3.5-turbo版は必要になったら実装
     """
@@ -954,6 +1283,7 @@ class NaturalLanguageGeneration:
         sys.stdout.write(f"[NLG] 使用モデル: {self.model_name}\n")
         sys.stdout.flush()
         
+>>>>>>> 5d1bb974d10e290d00ef142d14ca452a728f451a
         # 並列処理版をコメントアウト
         # while True:
         #     # 並列推論システムでは結果監視のみ
