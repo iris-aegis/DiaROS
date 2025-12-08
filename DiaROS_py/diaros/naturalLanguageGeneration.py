@@ -188,10 +188,12 @@ class NaturalLanguageGeneration:
         sys.stdout.write(f'使用モデル: {self.model_name}\n')
         sys.stdout.write('=====================================================\n')
 
-    def update(self, words_or_data):
+    def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0):
         """
         メインPCからのリクエストを処理
-        words_or_data: リスト（互換性用）または辞書形式のデータ
+        words: 音声認識結果のリスト
+        stage: 'first' または 'second'
+        turn_taking_decision_timestamp_ns: TurnTaking判定時刻（ナノ秒）
         """
         now = datetime.now()
 
@@ -199,18 +201,32 @@ class NaturalLanguageGeneration:
         if self.connection_error_suppress_until and now < self.connection_error_suppress_until:
             return
 
-        # ★stage情報とタイムスタンプを受け取る
-        if isinstance(words_or_data, dict):
-            query = words_or_data.get("words", [])
-            self.current_stage = words_or_data.get("stage", "first")
-            self.turn_taking_decision_timestamp_ns = words_or_data.get("turn_taking_decision_timestamp_ns", 0)
+        # ★stage情報とタイムスタンプを保存
+        self.current_stage = stage
+        self.turn_taking_decision_timestamp_ns = turn_taking_decision_timestamp_ns
 
-            # デバッグログ
-            sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}][NLG] ★辞書形式受信: stage={self.current_stage}, TT時刻={self.turn_taking_decision_timestamp_ns}ns\n")
+        # ★性能監視: 大量履歴の受信を記録
+        word_count = len(words) if isinstance(words, list) else 1
+        timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+
+        # stage 情報もログに出力
+        sys.stdout.write(f"[{timestamp}][NLG] stage='{stage}' で更新 (turn_taking_timestamp: {turn_taking_decision_timestamp_ns}ns)\n")
+        sys.stdout.flush()
+
+        if word_count > 20:
+            sys.stdout.write(f"[{timestamp}][NLG] 大容量履歴受信: {word_count}個\n")
             sys.stdout.flush()
-        else:
-            query = words_or_data
-            # stageが明示的に設定されていない場合は既存のself.current_stageを使用
+
+        # 最初の3個と最後の3個のみを表示（中間は省略）
+        if isinstance(words, list):
+            if word_count > 6:
+                preview_words = words[:3] + ["..."] + words[-3:]
+                sys.stdout.write(f"[{timestamp}][NLG] 履歴受信（{word_count}個）: {preview_words}\n")
+            else:
+                sys.stdout.write(f"[{timestamp}][NLG] 履歴受信（{word_count}個）: {words}\n")
+            sys.stdout.flush()
+
+        query = words
 
         # 音声認識結果がリストの場合はプロンプトに埋め込む
         self.asr_results = None

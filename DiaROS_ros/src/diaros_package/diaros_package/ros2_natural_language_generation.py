@@ -95,32 +95,16 @@ class RosNaturalLanguageGeneration(Node):
             dialogue_context = ' '.join(words)
             log_nlg_start(session_id, dialogue_context)
 
-            # ステージに応じて処理を分岐
+            # ★stage情報も一緒にnaturalLanguageGenerationに渡す
+            self.naturalLanguageGeneration.update(words, stage=stage, turn_taking_decision_timestamp_ns=turn_taking_ts)
+
+            # ステージに応じたログ出力
             if stage == 'first':
-                # First stage: 相槌のみ生成
-                self.naturalLanguageGeneration.generate_first_stage(words)
                 sys.stdout.write(f"[{timestamp}][NLG-first] First stage完了: 相槌='{self.naturalLanguageGeneration.first_stage_response}'\n")
                 sys.stdout.flush()
-
             elif stage == 'second':
-                # TurnTaking判定時刻のログ出力
-                if turn_taking_ts > 0:
-                    self.turn_taking_decision_timestamp_ns = turn_taking_ts
-                    tt_time = datetime.fromtimestamp(turn_taking_ts / 1_000_000_000)
-                    tt_timestamp = tt_time.strftime('%H:%M:%S.%f')[:-3]
-                    asr_text = ' '.join(words)
-                    sys.stdout.write(f"[NLG-second] TurnTaking判定後のASR: '{asr_text}' @ {tt_timestamp}\n")
-                    sys.stdout.write(f"[NLG-second] TurnTaking判定時刻: {turn_taking_ts}ns\n")
-                    sys.stdout.flush()
-
-                # Second stage: 本応答生成
-                self.naturalLanguageGeneration.generate_second_stage(words)
                 sys.stdout.write(f"[{timestamp}][NLG-second] Second stage完了: 最終応答='{self.naturalLanguageGeneration.last_reply}'\n")
                 sys.stdout.flush()
-
-            else:
-                # 従来の単一ステージ処理（後方互換性）- 辞書形式で渡す
-                self.naturalLanguageGeneration.update(message_data)
             
     def ping(self):
         # first_stage相槌が生成されたら即座にpublish（テキストのみ）
@@ -149,15 +133,19 @@ class RosNaturalLanguageGeneration(Node):
             self.pub_nlg.publish(nlg_msg)
             self.last_sent_first_stage = self.naturalLanguageGeneration.first_stage_response
 
-        # second_stage本応答が生成されたらpublish
+        # 応答が生成されたらpublish
         if (
-            self.naturalLanguageGeneration.last_reply != self.last_sent_reply
-            and self.naturalLanguageGeneration.last_reply != ""
+            hasattr(self.naturalLanguageGeneration, "last_reply") and
+            self.naturalLanguageGeneration.last_reply != self.last_sent_reply and
+            self.naturalLanguageGeneration.last_reply != ""
         ):
             nlg_msg = Inlg()
             nlg_msg.reply = self.naturalLanguageGeneration.last_reply
-            nlg_msg.stage = "second"  # second_stage本応答であることを明示
-            # 対話生成の元にした音声認識結果も送信
+
+            # ★stageフィールドを設定（naturalLanguageGenerationで保存されている値を使用）
+            nlg_msg.stage = getattr(self.naturalLanguageGeneration, "current_stage", "first")
+
+            # 音声認識結果リストも送信
             if hasattr(self.naturalLanguageGeneration, "last_source_words") and self.naturalLanguageGeneration.last_source_words:
                 nlg_msg.source_words = self.naturalLanguageGeneration.last_source_words
             else:
@@ -166,15 +154,13 @@ class RosNaturalLanguageGeneration(Node):
             now = datetime.now()
             timestamp = now.strftime('%H:%M:%S.%f')[:-3]
 
-            # ★新しい時刻情報フィールドを送信
+            # 時刻情報フィールドを送信
             nlg_msg.request_id = getattr(self.naturalLanguageGeneration, "request_id", 0)
             nlg_msg.worker_name = getattr(self.naturalLanguageGeneration, "worker_name", "")
             nlg_msg.start_timestamp_ns = getattr(self.naturalLanguageGeneration, "start_timestamp_ns", 0)
             nlg_msg.completion_timestamp_ns = getattr(self.naturalLanguageGeneration, "completion_timestamp_ns", 0)
             nlg_msg.inference_duration_ms = getattr(self.naturalLanguageGeneration, "inference_duration_ms", 0.0)
-
-            # セッションIDを含める
-            nlg_msg.session_id = self.current_session_id or ""
+            nlg_msg.session_id = getattr(self.naturalLanguageGeneration, "current_session_id", self.current_session_id or "")
 
             # NLG処理完了チェックポイント
             if self.current_session_id:
