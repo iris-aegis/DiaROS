@@ -178,3 +178,8 @@ ros_dialog_management.py
 ros_speech_input.py
 ros_speech_synthesis.py
 ros_turn_taking.py
+
+# ROS2 build artifacts
+DiaROS_ros/build/
+DiaROS_ros/install/
+DiaROS_ros/log/
