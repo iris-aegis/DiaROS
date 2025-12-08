@@ -39,6 +39,7 @@ struct Inlg_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->reply = "";
+      this->stage = "";
       this->request_id = 0l;
       this->worker_name = "";
       this->start_timestamp_ns = 0ll;
@@ -50,6 +51,7 @@ struct Inlg_
 
   explicit Inlg_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : reply(_alloc),
+    stage(_alloc),
     worker_name(_alloc),
     session_id(_alloc)
   {
@@ -57,6 +59,7 @@ struct Inlg_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->reply = "";
+      this->stage = "";
       this->request_id = 0l;
       this->worker_name = "";
       this->start_timestamp_ns = 0ll;
@@ -73,6 +76,9 @@ struct Inlg_
   using _source_words_type =
     std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>>;
   _source_words_type source_words;
+  using _stage_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _stage_type stage;
   using _request_id_type =
     int32_t;
   _request_id_type request_id;
@@ -103,6 +109,12 @@ struct Inlg_
     const std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>> & _arg)
   {
     this->source_words = _arg;
+    return *this;
+  }
+  Type & set__stage(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->stage = _arg;
     return *this;
   }
   Type & set__request_id(
@@ -188,6 +200,9 @@ struct Inlg_
       return false;
     }
     if (this->source_words != other.source_words) {
+      return false;
+    }
+    if (this->stage != other.stage) {
       return false;
     }
     if (this->request_id != other.request_id) {

@@ -15,6 +15,7 @@
 // Include directives for member types
 // Member `reply`
 // Member `source_words`
+// Member `stage`
 // Member `worker_name`
 // Member `session_id`
 #include "rosidl_runtime_c/string_functions.h"
@@ -93,7 +94,7 @@ bool interfaces__msg__Inlg__rosidl_typesupport_introspection_c__resize_function_
   return rosidl_runtime_c__String__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Inlg__rosidl_typesupport_introspection_c__Inlg_message_member_array[8] = {
+static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Inlg__rosidl_typesupport_introspection_c__Inlg_message_member_array[9] = {
   {
     "reply",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -127,6 +128,23 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Inlg__
     interfaces__msg__Inlg__rosidl_typesupport_introspection_c__fetch_function__Inlg__source_words,  // fetch(index, &value) function pointer
     interfaces__msg__Inlg__rosidl_typesupport_introspection_c__assign_function__Inlg__source_words,  // assign(index, value) function pointer
     interfaces__msg__Inlg__rosidl_typesupport_introspection_c__resize_function__Inlg__source_words  // resize(index) function pointer
+  },
+  {
+    "stage",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__Inlg, stage),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
   },
   {
     "request_id",  // name
@@ -235,7 +253,7 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Inlg__
 static const rosidl_typesupport_introspection_c__MessageMembers interfaces__msg__Inlg__rosidl_typesupport_introspection_c__Inlg_message_members = {
   "interfaces__msg",  // message namespace
   "Inlg",  // message name
-  8,  // number of fields
+  9,  // number of fields
   sizeof(interfaces__msg__Inlg),
   interfaces__msg__Inlg__rosidl_typesupport_introspection_c__Inlg_message_member_array,  // message members
   interfaces__msg__Inlg__rosidl_typesupport_introspection_c__Inlg_init_function,  // function to initialize message memory (memory has to be allocated)

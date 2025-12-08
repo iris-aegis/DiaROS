@@ -117,16 +117,32 @@ private:
   ::interfaces::msg::Inlg msg_;
 };
 
+class Init_Inlg_stage
+{
+public:
+  explicit Init_Inlg_stage(::interfaces::msg::Inlg & msg)
+  : msg_(msg)
+  {}
+  Init_Inlg_request_id stage(::interfaces::msg::Inlg::_stage_type arg)
+  {
+    msg_.stage = std::move(arg);
+    return Init_Inlg_request_id(msg_);
+  }
+
+private:
+  ::interfaces::msg::Inlg msg_;
+};
+
 class Init_Inlg_source_words
 {
 public:
   explicit Init_Inlg_source_words(::interfaces::msg::Inlg & msg)
   : msg_(msg)
   {}
-  Init_Inlg_request_id source_words(::interfaces::msg::Inlg::_source_words_type arg)
+  Init_Inlg_stage source_words(::interfaces::msg::Inlg::_source_words_type arg)
   {
     msg_.source_words = std::move(arg);
-    return Init_Inlg_request_id(msg_);
+    return Init_Inlg_stage(msg_);
   }
 
 private:
