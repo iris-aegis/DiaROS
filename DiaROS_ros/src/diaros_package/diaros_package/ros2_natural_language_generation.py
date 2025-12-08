@@ -44,15 +44,23 @@ class RosNaturalLanguageGeneration(Node):
         sys.stdout.flush()
 
         words = list(msg.words)
-        session_id = getattr(msg, 'session_id', None)
-        stage = getattr(msg, 'stage', 'single')  # 'first', 'second', 'single'のいずれか
+        session_id = getattr(msg, 'session_id', '')
+        stage = getattr(msg, 'stage', 'first')
         turn_taking_ts = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
 
-        # ★新規：stage情報をNLGクラスに保存
-        self.naturalLanguageGeneration._incoming_stage = stage
+        # ★辞書形式でNLGクラスに渡すデータを準備
+        message_data = {
+            "words": words,
+            "stage": stage,
+            "turn_taking_decision_timestamp_ns": turn_taking_ts,
+            "session_id": session_id
+        }
 
-        # ★新規：TurnTaking判定時刻をNLGクラスに保存
-        self.naturalLanguageGeneration.turn_taking_decision_timestamp_ns = turn_taking_ts
+        # デバッグ出力
+        sys.stdout.write(f"[NLG-ros2] リクエスト受信: stage={stage}, 音声認識結果数={len(words)}\n")
+        if turn_taking_ts > 0:
+            sys.stdout.write(f"[NLG-ros2] TurnTaking判定時刻: {turn_taking_ts}ns\n")
+        sys.stdout.flush()
 
         # すべて空文字列なら送らない
         if words and any(w.strip() for w in words):
@@ -89,34 +97,30 @@ class RosNaturalLanguageGeneration(Node):
 
             # ステージに応じて処理を分岐
             if stage == 'first':
-                # First stage: 相槌のみ生成（音声合成はメインPC側で実行）
+                # First stage: 相槌のみ生成
                 self.naturalLanguageGeneration.generate_first_stage(words)
-                sys.stdout.write(f"[{timestamp}][NLG] First stage完了: 相槌='{self.naturalLanguageGeneration.first_stage_response}'\n")
+                sys.stdout.write(f"[{timestamp}][NLG-first] First stage完了: 相槌='{self.naturalLanguageGeneration.first_stage_response}'\n")
                 sys.stdout.flush()
 
             elif stage == 'second':
-                # TurnTaking判定時刻を保存
+                # TurnTaking判定時刻のログ出力
                 if turn_taking_ts > 0:
                     self.turn_taking_decision_timestamp_ns = turn_taking_ts
-                    # TurnTaking判定時刻をHH:MM:SS.mmm形式で表示
                     tt_time = datetime.fromtimestamp(turn_taking_ts / 1_000_000_000)
                     tt_timestamp = tt_time.strftime('%H:%M:%S.%f')[:-3]
-
-                    # 音声認識結果を整形
                     asr_text = ' '.join(words)
-
-                    sys.stdout.write(f"[NLG-second] TurnTaking判定後の最初のASR: '{asr_text}' @ {tt_timestamp}\n")
+                    sys.stdout.write(f"[NLG-second] TurnTaking判定後のASR: '{asr_text}' @ {tt_timestamp}\n")
                     sys.stdout.write(f"[NLG-second] TurnTaking判定時刻: {turn_taking_ts}ns\n")
                     sys.stdout.flush()
 
-                # Second stage: 本応答生成（first_stage結果を参照）
+                # Second stage: 本応答生成
                 self.naturalLanguageGeneration.generate_second_stage(words)
-                sys.stdout.write(f"[{timestamp}][NLG] Second stage完了: 最終応答='{self.naturalLanguageGeneration.last_reply}'\n")
+                sys.stdout.write(f"[{timestamp}][NLG-second] Second stage完了: 最終応答='{self.naturalLanguageGeneration.last_reply}'\n")
                 sys.stdout.flush()
 
             else:
-                # 従来の単一ステージ処理（後方互換性）
-                self.naturalLanguageGeneration.update(words)
+                # 従来の単一ステージ処理（後方互換性）- 辞書形式で渡す
+                self.naturalLanguageGeneration.update(message_data)
             
     def ping(self):
         # first_stage相槌が生成されたら即座にpublish（テキストのみ）
@@ -139,19 +143,17 @@ class RosNaturalLanguageGeneration(Node):
             nlg_msg.completion_timestamp_ns = 0
             nlg_msg.inference_duration_ms = 0.0
 
-            sys.stdout.write(f"[{timestamp}][NLG] First stage相槌送信（テキストのみ）: '{nlg_msg.reply}'\n")
+            sys.stdout.write(f"[NLG-first_send] First stage相槌送信: '{nlg_msg.reply}' @ {timestamp}\n")
             sys.stdout.flush()
 
             self.pub_nlg.publish(nlg_msg)
             self.last_sent_first_stage = self.naturalLanguageGeneration.first_stage_response
 
-        # second_stage本応答が生成されたらpublish（従来通り）
+        # second_stage本応答が生成されたらpublish
         if (
             self.naturalLanguageGeneration.last_reply != self.last_sent_reply
             and self.naturalLanguageGeneration.last_reply != ""
         ):
-            sys.stdout.write(f"[DEBUG] ✅ Second stage送信条件満たされました!\n")
-            sys.stdout.flush()
             nlg_msg = Inlg()
             nlg_msg.reply = self.naturalLanguageGeneration.last_reply
             nlg_msg.stage = "second"  # second_stage本応答であることを明示
@@ -205,11 +207,10 @@ class RosNaturalLanguageGeneration(Node):
                 sys.stdout.write(f"[{timestamp}][NLG TIMING] 生成時間: {nlg_msg.inference_duration_ms:.1f}ms\n")
             else:
                 sys.stdout.write(f"[{timestamp}][NLG WARNING] タイムスタンプが0です: start={nlg_msg.start_timestamp_ns}, completion={nlg_msg.completion_timestamp_ns}\n")
-            sys.stdout.write(f"[{timestamp}][NLG] 対話生成結果送信時刻: {timestamp}\n")
-            sys.stdout.write(f"[{timestamp}][NLG] 送信する対話生成内容: {nlg_msg.reply}\n")
-            sys.stdout.write(f"[{timestamp}][NLG] 送信する音声認識結果: {nlg_msg.source_words}\n")
-            sys.stdout.write(f"[{timestamp}][NLG] 送信するワーカー情報: ID={nlg_msg.request_id}, Worker={nlg_msg.worker_name}, Duration={nlg_msg.inference_duration_ms:.1f}ms\n")
-            self.pub_nlg.publish(nlg_msg)  # ここでNLG生成文とsource_wordsをNLGtoSSトピックで送信
+            sys.stdout.write(f"[NLG-second_send] Second stage本応答送信: '{nlg_msg.reply}' @ {timestamp}\n")
+            sys.stdout.flush()
+
+            self.pub_nlg.publish(nlg_msg)
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply
             self.last_sent_source_words = self.naturalLanguageGeneration.last_source_words
         mm = Imm()

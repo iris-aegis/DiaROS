@@ -75,6 +75,7 @@ class NaturalLanguageGeneration:
         self.first_stage_response = ""  # first_stageで生成した相槌を保存
         self.current_stage = "first"  # first または second
         self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒）
+        self.first_stage_response_cached = ""  # first_stage相槌キャッシュ
 
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
@@ -187,12 +188,29 @@ class NaturalLanguageGeneration:
         sys.stdout.write(f'使用モデル: {self.model_name}\n')
         sys.stdout.write('=====================================================\n')
 
-    def update(self, query):
+    def update(self, words_or_data):
+        """
+        メインPCからのリクエストを処理
+        words_or_data: リスト（互換性用）または辞書形式のデータ
+        """
         now = datetime.now()
 
         # 接続エラー抑制中は新しいリクエストを受け付けない
         if self.connection_error_suppress_until and now < self.connection_error_suppress_until:
             return
+
+        # ★stage情報とタイムスタンプを受け取る
+        if isinstance(words_or_data, dict):
+            query = words_or_data.get("words", [])
+            self.current_stage = words_or_data.get("stage", "first")
+            self.turn_taking_decision_timestamp_ns = words_or_data.get("turn_taking_decision_timestamp_ns", 0)
+
+            # デバッグログ
+            sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}][NLG] ★辞書形式受信: stage={self.current_stage}, TT時刻={self.turn_taking_decision_timestamp_ns}ns\n")
+            sys.stdout.flush()
+        else:
+            query = words_or_data
+            # stageが明示的に設定されていない場合は既存のself.current_stageを使用
 
         # 音声認識結果がリストの場合はプロンプトに埋め込む
         self.asr_results = None
