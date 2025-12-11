@@ -1,4 +1,5 @@
 string reply
+string stage
 string[] source_words
 int32 request_id
 string worker_name

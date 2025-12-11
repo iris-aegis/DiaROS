@@ -207,3 +207,16 @@ COLCON_IGNORE
 
 # Ignore DiaROS_imamoto directory
 DiaROS_imamoto/
+
+# Ignore all .wav files by default, except for static responses
+# -------------------------------------------------------------
+# 1. Ignore all .wav files
+*.wav
+
+# 2. Re-include (un-ignore) .wav files that are static responses
+!DiaROS_ros/static_back_channel_*.wav
+!DiaROS_ros/static_long_question/**/*.wav
+!DiaROS_ros/static_response_archive/**/*.wav
+!DiaROS_ros/static_response_archive_def12/**/*.wav
+!DiaROS_ros/static_response_random/**/*.wav
+!DiaROS_ros/static_response_source/**/*.wav

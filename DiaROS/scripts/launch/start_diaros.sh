@@ -146,7 +146,7 @@ start_voicevox() {
             fi
             ;;
         Linux)
-            # Linux用VOICEVOX起動 - 複数パスを順番に確認
+            # Linux用VOICEVOX起動 - GPU最適化モードで起動
             VOICEVOX_PATHS=(
                 "/opt/voicevox_engine/linux-nvidia/run"
                 "$HOME/_data/tools/VOICEVOX/linux-x64/run"
@@ -157,10 +157,10 @@ start_voicevox() {
             VOICEVOX_STARTED=false
             for VOICEVOX_PATH in "${VOICEVOX_PATHS[@]}"; do
                 if [ -x "$VOICEVOX_PATH" ]; then
-                    echo -e "${YELLOW}▶ Launching VOICEVOX from: $VOICEVOX_PATH${NC}"
-                    nohup "$VOICEVOX_PATH" > /tmp/voicevox.log 2>&1 &
+                    echo -e "${YELLOW}▶ Launching VOICEVOX in GPU mode from: $VOICEVOX_PATH${NC}"
+                    nohup "$VOICEVOX_PATH" --host 127.0.0.1 --port 50021 --use_gpu > /tmp/voicevox_gpu.log 2>&1 &
                     VOICEVOX_PID=$!
-                    echo "VOICEVOX PID: $VOICEVOX_PID"
+                    echo "VOICEVOX PID: $VOICEVOX_PID (GPU optimized)"
                     VOICEVOX_STARTED=true
                     break
                 fi
@@ -168,10 +168,10 @@ start_voicevox() {
             
             # システムコマンドとしてvoicevoxが利用可能かチェック
             if [ "$VOICEVOX_STARTED" = false ] && command -v voicevox >/dev/null 2>&1; then
-                echo -e "${YELLOW}▶ Launching VOICEVOX via system command...${NC}"
-                nohup voicevox > /tmp/voicevox.log 2>&1 &
+                echo -e "${YELLOW}▶ Launching VOICEVOX via system command in GPU mode...${NC}"
+                nohup voicevox --host 127.0.0.1 --port 50021 --use_gpu > /tmp/voicevox_gpu.log 2>&1 &
                 VOICEVOX_PID=$!
-                echo "VOICEVOX PID: $VOICEVOX_PID"
+                echo "VOICEVOX PID: $VOICEVOX_PID (GPU optimized)"
                 VOICEVOX_STARTED=true
             fi
             

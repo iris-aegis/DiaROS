@@ -9,6 +9,7 @@ from interfaces.msg import Iasr
 from interfaces.msg import Isa
 from interfaces.msg import Iss
 from interfaces.msg import Idm
+from interfaces.msg import Inlg  # NLG応答用メッセージを追加
 from interfaces.msg import Imm
 from interfaces.msg import Itt
 from interfaces.msg import Ibc  # 追加
@@ -30,37 +31,58 @@ class RosDialogManagement(Node):
         self.sub_tt = self.create_subscription(Itt, 'TTtoDM', self.tt_update, 1) # TurnTaking2DialogManagement
         self.sub_bc = self.create_subscription(Ibc, 'BCtoDM', self.bc_update, 1) # BackChannel2DialogManagement
         self.sub_ss = self.create_subscription(Iss, 'SStoDM', self.ss_update, 1)
+        self.sub_nlg = self.create_subscription(Inlg, 'NLGtoSS', self.nlg_callback, 1)  # NLGからの応答を購読
         self.pub_dm = self.create_publisher(Idm, 'DMtoNLG', 1)
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(0.001, self.callback)
         self.recv_count = 0  # 受信回数カウンタ追加
         self.prev_recv_time = None  # 前回受信時刻
 
+        # ★リクエストID生成用カウンター
+        self.request_id_counter = 0  # リクエストIDのカウンター
+        self.current_request_stage = None  # 現在処理中のステージ
+
     def dm_update(self, dm):
-        new = { "you": dm.you, "is_final": dm.is_final }
+        new = { "you": dm.you, "is_final": dm.is_final, "timestamp_ns": dm.timestamp_ns }
         self.dialogManagement.updateASR(new)
         
-        # デバッグ用：ASR結果受信ログ
-        if dm.you:  # 空でない場合のみ表示
-            print(f"[🔊 DM] ASR受信: '{dm.you}' (is_final: {dm.is_final})")
-            sys.stdout.flush()
+        # デバッグ用：ASR結果受信ログ（コメントアウト）
+        # if dm.you:  # 空でない場合のみ表示
+        #     print(f"[🔊 DM] ASR受信: '{dm.you}' (is_final: {dm.is_final})")
+        #     sys.stdout.flush()
         
     def ss_update(self, ss):# test
         new = {
             "is_speaking": ss.is_speaking,
             "timestamp": ss.timestamp,
             "filename": ss.filename,  # ← 追加: 合成音声ファイル名を渡す
-            "dialogue_text": ss.dialogue_text  # ★追加: 対話生成結果を渡す
+            "dialogue_text": ss.dialogue_text,  # ★追加: 対話生成結果を渡す
+            # ★NLGタイミング情報を追加
+            "request_id": ss.request_id,
+            "worker_name": ss.worker_name,
+            "start_timestamp_ns": ss.start_timestamp_ns,
+            "completion_timestamp_ns": ss.completion_timestamp_ns,
+            "inference_duration_ms": ss.inference_duration_ms,
+            # TTSタイミング情報も追加（将来の拡張用）
+            "tts_start_timestamp_ns": getattr(ss, 'tts_start_timestamp_ns', 0),
+            "tts_completion_timestamp_ns": getattr(ss, 'tts_completion_timestamp_ns', 0)
         }
         # print(f"[SSトピック受信] is_speaking: {new['is_speaking']} / timestamp: {new['timestamp']}")  # 確認用
         self.dialogManagement.updateSS(new)
 
     def tt_update(self, msg):
+        import datetime
+        tt_receive_time = datetime.datetime.now()
+        tt_receive_timestamp = tt_receive_time.strftime('%H:%M:%S.%f')[:-3]
+        
         data = {
             'result': msg.result,
             'confidence': msg.confidence
         }
         self.dialogManagement.updateTT(data)
+
+        # print(f"[{tt_receive_timestamp}][DM_TT] TT結果受信 (result={msg.result}, conf={msg.confidence:.3f})")
+        # sys.stdout.flush()
 
     def bc_update(self, msg):
         data = {
@@ -82,19 +104,105 @@ class RosDialogManagement(Node):
         # sys.stdout.flush()
         self.dialogManagement.updateBC(data)  # dialogManagement.py側でupdateBCを実装しておくこと
 
+    def nlg_callback(self, msg):
+        """NLGからの応答を受信（ステージ情報付き）"""
+        stage = msg.stage if hasattr(msg, 'stage') else 'first'
+        reply = msg.reply
+        request_id = getattr(msg, 'request_id', 0)
+
+        # ★ステージ完了を記録
+        stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+        self.get_logger().info(
+            f"[DM] NLGから{stage_name}応答受信 (request_id={request_id}): '{reply[:30]}...'"
+        )
+
+        nlg_data = {
+            'stage': stage,
+            'reply': reply,
+            'request_id': request_id,  # ★リクエストIDを含める
+            'filename': '',  # filenameはSStoDM経由で受け取るため、ここでは空
+            # ★NLGのタイミング情報も伝播
+            'nlg_start_timestamp_ns': getattr(msg, 'start_timestamp_ns', 0),
+            'nlg_completion_timestamp_ns': getattr(msg, 'completion_timestamp_ns', 0),
+            'nlg_inference_duration_ms': getattr(msg, 'inference_duration_ms', 0.0)
+        }
+
+        self.dialogManagement.updateNLG(nlg_data)
+
     def callback(self):
+        # First stage相槌生成リクエスト
         dm = Idm()
         pub_dm_return = self.dialogManagement.pubDM()
         words = pub_dm_return['words']
         dm_result_update = pub_dm_return['update']
+        stage = pub_dm_return.get('stage', 'first')
 
         if dm_result_update is True:
+            # ★新しいステージの場合、リクエストIDを更新
+            if stage != self.current_request_stage:
+                self.request_id_counter += 1
+                self.current_request_stage = stage
+
             dm.words = words
-            # デバッグ用：DM→NLG送信ログ
-            print(f"[🚀 DM→NLG] 音声認識履歴送信（全{len(words)}件）: {dm.words}")
-            sys.stdout.flush()
+            dm.stage = stage
+            dm.request_id = self.request_id_counter  # ★リクエストIDを設定
+            dm.session_id = getattr(self.dialogManagement, 'current_session_id', '')
+            # ★TurnTaking判定時刻を送信（分散実行時のNLG連携用）
+            dm.turn_taking_decision_timestamp_ns = getattr(self.dialogManagement, 'turn_taking_decision_timestamp_ns', 0)
+
+            # ★DM→NLG送信ログ
+            stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+            self.get_logger().info(
+                f"[DM] {stage_name}リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(words)})"
+            )
+
             self.prev_word = words[0] if words else ""
             self.pub_dm.publish(dm)
+
+        # Second stage応答生成リクエスト送信
+        if hasattr(self.dialogManagement, 'second_stage_request_pending') and self.dialogManagement.second_stage_request_pending:
+            self.dialogManagement.second_stage_request_pending = False
+
+            # ★デバッグ：second_stageリクエスト処理開始
+            self.get_logger().info(
+                f"[DEBUG] Second stage リクエスト処理開始"
+            )
+
+            dm_data_second = self.dialogManagement.pubDM_second_stage()
+            if dm_data_second["update"]:
+                # ★新しいステージの場合、リクエストIDを更新
+                if "second" != self.current_request_stage:
+                    self.request_id_counter += 1
+                    self.current_request_stage = "second"
+
+                msg = Idm()
+                # ★修正：Second stageリクエスト送信時に空のwordsを使用
+                # （通常の応答流れを使いたい場合は下行をコメントアウト）
+                msg.words = []  # 空のwords で送信
+                # msg.words = dm_data_second["words"]  # ★二段階応答を使わない場合はこれを使用
+
+                msg.stage = "second"
+                msg.request_id = self.request_id_counter  # ★リクエストIDを設定
+                msg.session_id = getattr(self.dialogManagement, 'current_session_id', '')
+                # ★TurnTaking判定時刻を送信（pubDM_second_stage()で返されるデータに含まれている）
+                msg.turn_taking_decision_timestamp_ns = dm_data_second.get("turn_taking_decision_timestamp_ns", 0)
+
+                # ★デバッグ：送信前のメッセージ内容確認
+                self.get_logger().info(
+                    f"[DEBUG] Second stageメッセージ送信: stage='{msg.stage}', request_id={msg.request_id}, words={len(msg.words)}件"
+                )
+
+                # ★ログ出力
+                self.get_logger().info(
+                    f"[DM] 応答生成リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(msg.words)})"
+                )
+
+                self.pub_dm.publish(msg)
+            else:
+                # ★デバッグ：second_stage更新フラグがfalseの場合
+                self.get_logger().info(
+                    f"[DEBUG] Second stage 更新なし（update=False）"
+                )
 
 
     def aa_update(self, msg):

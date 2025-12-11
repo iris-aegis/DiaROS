@@ -188,9 +188,11 @@ def end_timing_session(session_id: str, final_message: str = "セッション終
 
 # 各ノード専用の便利関数
 def log_audio_frame_received(session_id: str, frame_count: int = None):
-    """音声フレーム受信ログ"""
-    data = {"frame_count": frame_count} if frame_count else None
-    log_timing(session_id, "SPEECH_INPUT", "audio_frame", "最新音声フレーム取得", data)
+    """音声フレーム受信ログ（無効化済み）"""
+    # 大量出力を避けるためコメントアウト
+    # data = {"frame_count": frame_count} if frame_count else None
+    # log_timing(session_id, "SPEECH_INPUT", "audio_frame", "最新音声フレーム取得", data)
+    pass
 
 def log_asr_start(session_id: str):
     """音声認識開始ログ"""

@@ -26,6 +26,7 @@ class RosNaturalLanguageUnderstanding(Node):
         dm = Iasr()
         dm.you = asr.you
         dm.is_final = asr.is_final
+        dm.timestamp_ns = asr.timestamp_ns  # ASRからのタイムスタンプを転送
         self.pub_nlu.publish(dm)
 
     def ping(self):

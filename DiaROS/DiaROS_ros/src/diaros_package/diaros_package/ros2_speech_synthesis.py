@@ -39,14 +39,7 @@ class RosSpeechSynthesis(Node):
             "inference_duration_ms": nlg.inference_duration_ms  # 推論時間（ミリ秒）
         }
         
-        # デバッグ出力：NLGからの時刻情報受信確認
-        now = datetime.now()
-        timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-        print(f"[{timestamp}][DEBUG-SS] NLG受信 start_ns: {nlg.start_timestamp_ns}")
-        print(f"[{timestamp}][DEBUG-SS] NLG受信 completion_ns: {nlg.completion_timestamp_ns}")
-        print(f"[{timestamp}][DEBUG-SS] NLG受信 request_id: {nlg.request_id}")
-        print(f"[{timestamp}][DEBUG-SS] NLG受信 worker_name: {nlg.worker_name}")
-        sys.stdout.flush()
+        # NLG時刻情報受信完了
         
         # ★Inlgメッセージ受信確認のデバッグ出力（コメントアウト：応答時のみ表示）
         # print(f"[DEBUG][ros2_SS] Inlg受信 - request_id:{nlg.request_id}, worker:{nlg.worker_name}")
@@ -135,15 +128,7 @@ class RosSpeechSynthesis(Node):
         else:
             ss.inference_duration_ms = 0.0
             
-        # デバッグ出力：DMへの時刻情報送信確認（音声合成完了時のみ）
-        if ss.is_speaking:
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            print(f"[{timestamp}][DEBUG-SS-send] DM送信 start_ns: {ss.start_timestamp_ns}")
-            print(f"[{timestamp}][DEBUG-SS-send] DM送信 completion_ns: {ss.completion_timestamp_ns}")
-            print(f"[{timestamp}][DEBUG-SS-send] DM送信 request_id: {ss.request_id}")
-            print(f"[{timestamp}][DEBUG-SS-send] DM送信 worker_name: {ss.worker_name}")
-            sys.stdout.flush()
+        # DM送信処理完了
             
         self.pub_ss.publish(ss)
         self.speechSynthesis.speak_end = False

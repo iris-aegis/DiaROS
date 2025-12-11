@@ -120,6 +120,7 @@ class RosAutomaticSpeechRecognition(Node):
             asr = Iasr()
             asr.you = asr_result['you']
             asr.is_final = asr_result['is_final']
+            asr.timestamp_ns = int(time.time_ns())  # 音声認識結果の推論完了時刻（ナノ秒）
             
             # 時間計測: 音声認識完了
             if self.current_session_id and self.asr_start_time:

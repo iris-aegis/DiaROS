@@ -1,0 +1,96 @@
+{
+    "data": [
+        {
+            "vowel_type": "o",
+            "length": 0.1198914498090744
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.12343726307153702
+        },
+        {
+            "vowel_type": "a",
+            "length": 0.15211326256394386
+        },
+        {
+            "vowel_type": "o",
+            "length": 0.13065257668495178
+        },
+        {
+            "vowel_type": "N",
+            "length": 0.04676894098520279
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.16039849817752838
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.08266524225473404
+        },
+        {
+            "vowel_type": "o",
+            "length": 0.12273427844047546
+        },
+        {
+            "vowel_type": "o",
+            "length": 0.07713936269283295
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.17809603363275528
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.07166992127895355
+        },
+        {
+            "vowel_type": "o",
+            "length": 0.13316137343645096
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.1804439127445221
+        },
+        {
+            "vowel_type": "N",
+            "length": 0.0729963555932045
+        },
+        {
+            "vowel_type": "i",
+            "length": 0.13622183352708817
+        },
+        {
+            "vowel_type": "a",
+            "length": 0.15317409485578537
+        },
+        {
+            "vowel_type": "a",
+            "length": 0.0849645808339119
+        },
+        {
+            "vowel_type": "U",
+            "length": 0.11723890155553818
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.1604975163936615
+        },
+        {
+            "vowel_type": "U",
+            "length": 0.0933440513908863
+        },
+        {
+            "vowel_type": "o",
+            "length": 0.13713550567626953
+        },
+        {
+            "vowel_type": "e",
+            "length": 0.19272536039352417
+        },
+        {
+            "vowel_type": "U",
+            "length": 0.10658362880349159
+        }
+    ]
+}

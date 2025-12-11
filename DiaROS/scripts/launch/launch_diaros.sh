@@ -46,21 +46,21 @@ case "$OS" in
 
   Linux)
     GPU_DEVICE="cuda"   # お好みで `cpu` など
-    VOICEVOX_DIR="$HOME/_data/tools/VOICEVOX/linux-x64"
+    VOICEVOX_DIR="/opt/voicevox_engine/linux-nvidia"
     start_voicevox() {
       if curl -fs http://localhost:50021/version >/dev/null 2>&1; then
         echo "✅ VOICEVOX already running"
       else
         if [ -x "$VOICEVOX_DIR/run" ]; then
-          echo "▶ Launching VOICEVOX ..."
-          nohup "$VOICEVOX_DIR/run" > /tmp/voicevox.log 2>&1 & 
+          echo "▶ Launching VOICEVOX in GPU mode..."
+          nohup "$VOICEVOX_DIR/run" --host 127.0.0.1 --port 50021 --use_gpu > /tmp/voicevox_gpu.log 2>&1 & 
           VOICEVOX_PID=$!
-          echo "VOICEVOX PID: $VOICEVOX_PID"
+          echo "VOICEVOX PID: $VOICEVOX_PID (GPU optimized)"
           
           echo "⏳ Waiting for VOICEVOX to start..."
           for i in {1..30}; do
             if curl -fs http://localhost:50021/version >/dev/null 2>&1; then
-              echo "✅ VOICEVOX started successfully"
+              echo "✅ VOICEVOX started successfully in GPU mode"
               return 0
             fi
             echo "  Attempt $i/30..."

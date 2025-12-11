@@ -144,27 +144,57 @@ class SpeechSynthesis():
         print("=" * 60)
 
     def _check_voicevox_gpu(self):
-        """VOICEVOXがGPU上で動作しているか確認し、警告を出す"""
+        """VOICEVOXが起動しているか確認する（HTTP チェックで判定）"""
         try:
-            import subprocess
-            result = subprocess.run(['nvidia-smi', '--query-compute-apps=pid,process_name,gpu_uuid', '--format=csv,noheader'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-            found = False
-            for line in result.stdout.splitlines():
-                if 'voicevox' in line.lower() or 'voicevox_engine' in line.lower():
-                    found = True
-                    break
-            if found:
-                print("✓ VOICEVOX ENGINE is running on GPU (nvidia-smi detected)")
+            import time
+
+            # VOICEVOX が起動しているかを確認（HTTP チェック）
+            test_text = "VoicevoxCheck"
+            test_response = requests.post(
+                'http://localhost:50021/audio_query',
+                params={'text': test_text, 'speaker': 1},
+                timeout=5
+            )
+            if test_response.status_code != 200:
+                raise RuntimeError("VOICEVOX API not responding")
+
+            # 音声合成実行
+            synthesis_response = requests.post(
+                'http://localhost:50021/synthesis',
+                params={'speaker': 1},
+                headers={'Content-Type': 'application/json'},
+                data=test_response.content,
+                timeout=5
+            )
+
+            if synthesis_response.status_code == 200:
+                print("✓ VOICEVOX ENGINE is running and responding correctly")
             else:
-                print("=" * 60)
-                print("⚠️  VOICEVOX ENGINE IS NOT RUNNING ON GPU (nvidia-smi did not detect it)")
-                print("=" * 60)
-                print("Please ensure you are using the GPU version of VOICEVOX engine.")
-                print("If you are using the CPU version, synthesis will be slow.")
-                print("=" * 60)
+                raise RuntimeError("VOICEVOX synthesis failed")
+
+        except RuntimeError as e:
+            # RuntimeError は再スロー（VOICEVOX 起動失敗）
+            print("=" * 60)
+            print("\033[91m" + "❌ VOICEVOX IS NOT RUNNING" + "\033[0m")  # 赤色で警告
+            print("=" * 60)
+            print(f"Error: {e}")
+            print("VOICEVOX must be running for DiaROS to work.")
+            print("Please start VOICEVOX with the following command:")
+            print("  /workspace/DiaROS/scripts/launch/launch_voicevox_gpu.sh")
+            print("=" * 60)
+            print("DiaROS is shutting down...")
+            print("=" * 60)
+            raise
         except Exception as e:
-            print("Could not check GPU status (nvidia-smi not available or error).")
-            # print(e)
+            print("=" * 60)
+            print("\033[91m" + "❌ VOICEVOX CHECK FAILED" + "\033[0m")  # 赤色で警告
+            print("=" * 60)
+            print(f"Error: {e}")
+            print("Cannot communicate with VOICEVOX.")
+            print("=" * 60)
+            print("DiaROS is shutting down...")
+            print("=" * 60)
+            raise RuntimeError(f"Failed to check VOICEVOX status: {e}")
 
     def play_sound(self, filename, block=True):
         """pygame.mixerを使用して音声ファイルを再生"""
@@ -215,7 +245,14 @@ class SpeechSynthesis():
         """NLGから受信したテキストを即座に音声合成し、ファイル名を返す（同期処理）"""
         tts_file = None
         try:
-            speaker = 60
+            # 音声合成開始時刻を記録
+            synthesis_start_time = time.time()
+            synthesis_start_dt = datetime.now()
+            timestamp_str = synthesis_start_dt.strftime('%H:%M:%S.%f')[:-3]
+            # print(f"[{timestamp_str}][TTS] 音声合成開始: '{text}'")
+            # sys.stdout.flush()
+            
+            speaker = 58
             start_time = datetime.now()
             host = "localhost"
             port = 50021
@@ -228,7 +265,7 @@ class SpeechSynthesis():
                 params=params
             )
             response1_data = response1.json()
-            response1_data["prePhonemeLength"] = 0.275
+            response1_data["prePhonemeLength"] = 0.0
             response1_data["postPhonemeLength"] = 0.0
             modified_json_str = json.dumps(response1_data)
             all_segments = []
@@ -281,11 +318,27 @@ class SpeechSynthesis():
                 wf.writeframes(response2.content)
             tts_file = './tmp/' + str(current_time) + '.wav'
             self.trim_wav(input_file, tts_file)
+            
+            # 音声合成完了時刻を記録
+            synthesis_end_time = time.time()
+            synthesis_duration_ms = (synthesis_end_time - synthesis_start_time) * 1000
+            synthesis_end_dt = datetime.now()
+            end_timestamp_str = synthesis_end_dt.strftime('%H:%M:%S.%f')[:-3]
+            # print(f"[{end_timestamp_str}][TTS] 音声合成完了 (処理時間: {synthesis_duration_ms:.1f}ms, ファイル: {tts_file})")
+            # sys.stdout.flush()
+            
             self.speak_end = True
             self.last_tts_file = tts_file  # 最新の合成ファイル名を常に保持
         except Exception as e:
+            # エラー時も処理時間を表示
+            synthesis_end_time = time.time()
+            synthesis_duration_ms = (synthesis_end_time - synthesis_start_time) * 1000
+            synthesis_end_dt = datetime.now()
+            end_timestamp_str = synthesis_end_dt.strftime('%H:%M:%S.%f')[:-3]
+            # print(f"[{end_timestamp_str}][TTS] 音声合成失敗 (処理時間: {synthesis_duration_ms:.1f}ms)")
             print('VOICEVOXerror: VOICEVOX sound is not generated. Do you launch VOICEVOX?')
             print(e.args)
+            sys.stdout.flush()
             self.last_tts_file = ""
             self.speak_end = True
         return self.last_tts_file
@@ -301,15 +354,7 @@ class SpeechSynthesis():
             self.completion_timestamp_ns = nlg.get("completion_timestamp_ns", 0)
             self.inference_duration_ms = nlg.get("inference_duration_ms", 0.0)
             
-            # デバッグ出力：時刻情報受信確認
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            print(f"[{timestamp}][DEBUG-speechSynthesis] 時刻情報受信:")
-            print(f"[{timestamp}][DEBUG-speechSynthesis] start_ns: {self.start_timestamp_ns}")
-            print(f"[{timestamp}][DEBUG-speechSynthesis] completion_ns: {self.completion_timestamp_ns}")
-            print(f"[{timestamp}][DEBUG-speechSynthesis] request_id: {self.request_id}")
-            print(f"[{timestamp}][DEBUG-speechSynthesis] worker_name: {self.worker_name}")
-            sys.stdout.flush()
+            # NLG時刻情報受信完了
             
             # ★受信データを標準出力で確認（コメントアウト：応答時のみ表示）
             # from datetime import datetime

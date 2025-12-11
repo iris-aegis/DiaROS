@@ -446,26 +446,26 @@ class AutomaticSpeechRecognition:
                     inference_end_time = time.time()
                     inference_duration_ms = (inference_end_time - inference_start_time) * 1000
                     
-                    # 音声IDと遅延情報を含む詳細ログ（コメントアウト）
-                    # if audio_metadata_list:
-                    #     # 最も古い音声データからの遅延計算
-                    #     oldest_metadata = min(audio_metadata_list, key=lambda x: x['asr_receive_timestamp'])
-                    #     total_latency_ms = (inference_end_time - oldest_metadata['asr_receive_timestamp']) * 1000
-                    #     
-                    #     # 関連する音声IDを収集
-                    #     audio_ids = [metadata['audio_id'] for metadata in audio_metadata_list]
-                    #     audio_ids_str = ','.join(audio_ids[:3]) if len(audio_ids) <= 3 else f"{','.join(audio_ids[:2])}...(+{len(audio_ids)-2})"
-                    #     
-                    #     from datetime import datetime
-                    #     timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                    #     sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 総遅延:{total_latency_ms:.1f}ms | IDs:[{audio_ids_str}] | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
-                    #     sys.stdout.flush()
-                    # else:
-                    #     # フォールバック
-                    #     from datetime import datetime
-                    #     timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                    #     sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
-                    #     sys.stdout.flush()
+                    # 音声認識結果を標準出力（毎回出力）
+                    from datetime import datetime
+                    timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                    
+                    if audio_metadata_list:
+                        # 最も古い音声データからの遅延計算
+                        oldest_metadata = min(audio_metadata_list, key=lambda x: x['asr_receive_timestamp'])
+                        total_latency_ms = (inference_end_time - oldest_metadata['asr_receive_timestamp']) * 1000
+                        
+                        # 関連する音声IDを収集
+                        audio_ids = [metadata['audio_id'] for metadata in audio_metadata_list]
+                        audio_ids_str = ','.join(audio_ids[:3]) if len(audio_ids) <= 3 else f"{','.join(audio_ids[:2])}...(+{len(audio_ids)-2})"
+
+                        # sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 総遅延:{total_latency_ms:.1f}ms | IDs:[{audio_ids_str}] | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
+                        # sys.stdout.flush()
+                    else:
+                        # フォールバック
+                        # sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
+                        # sys.stdout.flush()
+                        pass
                     
                     # 推論実行後の状態更新
                     last_inference_time = inference_end_time

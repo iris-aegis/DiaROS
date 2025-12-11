@@ -25,8 +25,11 @@ def add_detailed_debug():
     with open(DM_FILE_PATH, 'r') as f:
         content = f.read()
     
-    # 既存のASRチェック部分を詳細デバッグ版に置き換え
-    old_code = """            # ここでNLG用にASR結果をwordにセット
+    # 現在の簡易デバッグ版を詳細版に置き換え
+    current_simple = """            # ここでNLG用にASR結果をwordにセット（詳細デバッグ追加）
+            print(f"[🔍 DM-DEBUG] ASR更新チェック開始 - ASR: '{self.asr.get('you', 'None')}'")
+            print(f"[🔍 DM-DEBUG] 前回response_update結果: '{self.last_response_update_asr}'")
+            sys.stdout.flush()
             if self.asr["you"]:
                 # 前回response_updateがTrueになった時のASR結果と比較
                 diff = list(difflib.ndiff(self.last_response_update_asr, self.asr["you"]))
@@ -35,13 +38,9 @@ def add_detailed_debug():
                 if changed_chars >= 1 and self.asr["you"] != self.last_response_update_asr:
                     self.word = self.asr["you"]
                     self.response_update = True
-                    self.last_response_update_asr = self.asr["you"]  # 更新時のASR結果を保存
-                    
-                    # デバッグ用：response_update=True時のログ
-                    print(f"[💡 DM内部] response_update=True, ASR: '{self.asr['you']}'")
-                    sys.stdout.flush()"""
+                    self.last_response_update_asr = self.asr["you"]  # 更新時のASR結果を保存"""
     
-    new_code = """            # ここでNLG用にASR結果をwordにセット（詳細デバッグ版）
+    detailed_version = """            # ここでNLG用にASR結果をwordにセット（超詳細デバッグ版）
             current_asr = self.asr["you"]
             print(f"[🔍 DM-DEBUG] ASR結果チェック: '{current_asr}' (type: {type(current_asr)})")
             
@@ -75,33 +74,29 @@ def add_detailed_debug():
                     self.response_update = True
                     self.last_response_update_asr = current_asr  # 更新時のASR結果を保存
                     
-                    # デバッグ用：response_update=True時のログ
+                    print(f"[🚀 DM-DEBUG] ✅ NLGメッセージ送信条件満たした！")
                     print(f"[💡 DM内部] response_update=True, ASR: '{current_asr}'")
-                    print(f"[🚀 DM-DEBUG] NLGメッセージ送信条件満たした！")
                     sys.stdout.flush()
                 else:
                     print(f"[❌ DM-DEBUG] NLGメッセージ送信条件満たさず")
                     print(f"[❌ DM-DEBUG] response_update=False のまま")
-                    sys.stdout.flush()
-            else:
-                print(f"[❌ DM-DEBUG] ASR結果が空 → 処理スキップ")
-                sys.stdout.flush()"""
+                    sys.stdout.flush()"""
     
     # 置き換え実行
-    if old_code in content:
-        content = content.replace(old_code, new_code)
-        print("✅ 詳細デバッグログを追加しました")
+    if current_simple in content:
+        content = content.replace(current_simple, detailed_version)
+        print("✅ 詳細デバッグログに更新しました")
     else:
-        print("⚠️  既存コードのパターンが見つかりません")
-        # 代替案: ASRチェックの直前に詳細ログを追加
+        print("⚠️  簡易デバッグコードが見つかりません")
+        # 元の形式でも試行
         simple_pattern = '# ここでNLG用にASR結果をwordにセット'
         if simple_pattern in content:
-            replacement = """# ここでNLG用にASR結果をwordにセット（詳細デバッグ追加）
-            print(f"[🔍 DM-DEBUG] ASR更新チェック開始 - ASR: '{self.asr.get('you', 'None')}'")
-            print(f"[🔍 DM-DEBUG] 前回response_update結果: '{self.last_response_update_asr}'")
+            replacement = """# ここでNLG用にASR結果をwordにセット（超詳細デバッグ版）
+            current_asr = self.asr["you"]
+            print(f"[🔍 DM-DEBUG] ASR結果チェック: '{current_asr}' (type: {type(current_asr)})")
             sys.stdout.flush()"""
             content = content.replace(simple_pattern, replacement)
-            print("✅ 簡易デバッグログを追加しました")
+            print("✅ 基本デバッグログを追加しました")
     
     # ファイル書き込み
     with open(DM_FILE_PATH, 'w') as f:

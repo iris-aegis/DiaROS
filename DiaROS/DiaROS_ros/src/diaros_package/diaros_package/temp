@@ -1,0 +1,21 @@
+[ros2_dialog_management-4] ==================================================
+[ros2_dialog_management-4] [17:14:28.116] 🔊 応答音声再生開始
+[ros2_dialog_management-4] ==================================================
+[ros2_dialog_management-4] 📊 各処理完了時刻:
+[ros2_dialog_management-4]   • ASR処理完了:     17:14:28.115
+[ros2_dialog_management-4]   • NLG処理開始:     17:14:27.154
+[ros2_dialog_management-4]   • NLG処理完了:     17:14:27.931
+[ros2_dialog_management-4]   • TTS処理完了:     17:14:28.116
+[ros2_dialog_management-4]   • 音声再生開始:     17:14:28.116
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] ⏱️  各処理にかかった時間:
+[ros2_dialog_management-4]   • NLG処理時間:     777.4ms
+[ros2_dialog_management-4]   • TTS処理時間:     184.8ms
+[ros2_dialog_management-4]   • 総応答時間:      962.3ms (NLG+TTS)
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] 📋 処理詳細:
+[ros2_dialog_management-4]   • Request ID:      1
+[ros2_dialog_management-4]   • Worker:          nlg-single
+[ros2_dialog_management-4]   • 音声長:          9.6秒
+[ros2_dialog_management-4]   • 応答性能:        🟢 優秀 (962.3ms)
+[ros2_dialog_management-4] ==================================================

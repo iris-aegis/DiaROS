@@ -73,13 +73,9 @@ class NaturalLanguageGeneration:
 
         # 二段階応答生成用の変数
         self.first_stage_response = ""  # first_stageで生成した相槌を保存
-        self.current_stage = "first"  # first または second
+        self.current_stage = "first"  # first または second（DMからのstage指定で切り替わる）
         self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒）
         self.first_stage_response_cached = ""  # first_stage相槌キャッシュ
-
-        # First stageスレッド管理用
-        self.first_stage_thread = None  # First stage実行スレッド
-        self.cancel_first_stage = False  # First stageキャンセルフラグ
 
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
@@ -281,38 +277,13 @@ class NaturalLanguageGeneration:
         sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🚀 推論開始 (ID: {request_id}, モデル: {self.model_name})\n")
         sys.stdout.flush()
 
-        # 単一プロセス推論を実行（並列処理をコメントアウト）
-        # future = self.executor.submit(self._perform_parallel_inference, request_id, query, now)
-
-        # ★ステージに応じた処理の振り分け
+        # ★ステージに応じたプロンプト選択と推論実行
+        # セッション初期化なしで同期的に処理（オーバーヘッド削減）
         if self.current_stage == 'first':
-            # First stage: dialog_first_stage.txt + humanタグでASR結果を入力
-            # ★バックグラウンドのスレッドで実行（First stageは非優先）
-            if self.first_stage_thread is None or not self.first_stage_thread.is_alive():
-                # 新しいスレッドでFirst stageを実行
-                self.cancel_first_stage = False
-                self.first_stage_thread = threading.Thread(
-                    target=self.generate_first_stage,
-                    args=(query,),
-                    daemon=True
-                )
-                self.first_stage_thread.start()
-                timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-                sys.stdout.write(f"[{timestamp}][NLG] First stageをバックグラウンドスレッドで開始\n")
-                sys.stdout.flush()
-            else:
-                timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-                sys.stdout.write(f"[{timestamp}][NLG] First stageは既に実行中のため、新規リクエストはスキップ\n")
-                sys.stdout.flush()
+            # First stage: dialog_first_stage.txt で相槌生成
+            self.generate_first_stage(query)
         elif self.current_stage == 'second':
-            # ★Second stage: 優先実行（First stageをキャンセル）
-            # Second stageが来た場合、進行中のFirst stageを中断する
-            self.cancel_first_stage = True
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp}][NLG] Second stageリクエスト検出。First stageをキャンセルして優先実行します\n")
-            sys.stdout.flush()
-
-            # Second stageを同期的に実行（優先処理）
+            # Second stage: dialog_second_stage.txt で本応答生成
             self.generate_second_stage(query)
         else:
             # その他: 従来の _perform_simple_inference()
@@ -395,16 +366,6 @@ class NaturalLanguageGeneration:
                     token_count = 0
 
                     for line in response.iter_lines():
-                        # ★キャンセルフラグをチェック（Second stageが来た場合は中断）
-                        if self.cancel_first_stage:
-                            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                            sys.stdout.write(f"[{timestamp}][NLG FIRST_STAGE] ⚠️  キャンセル検出: Second stageが優先実行されています。First stage生成を中断します\n")
-                            sys.stdout.flush()
-                            # キャンセルされた場合は、デフォルト値を返す
-                            self.first_stage_response = "うん"
-                            self.last_reply = "うん"
-                            return
-
                         if line:
                             try:
                                 chunk_data = json.loads(line)
@@ -544,8 +505,7 @@ class NaturalLanguageGeneration:
             try:
                 if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
                     messages = [
-                        ("system", prompt),
-                        ("human", "上記の音声認識結果から本応答を生成してください。")
+                        ("system", prompt)
                     ]
                     query_prompt = ChatPromptTemplate.from_messages(messages)
                     chain = query_prompt | self.ollama_model | StrOutputParser()
@@ -553,8 +513,7 @@ class NaturalLanguageGeneration:
 
                 elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                     messages = [
-                        {"role": "system", "content": prompt},
-                        {"role": "user", "content": "上記の音声認識結果から本応答を生成してください。"}
+                        {"role": "system", "content": prompt}
                     ]
                     response = openai.chat.completions.create(
                         model=self.model_name,
