@@ -78,8 +78,15 @@ class DialogManagement:
                 return None
 
             response1_data = response1.json()
+
+            # ★無音を0秒に設定（前後のポーズを除去）
             response1_data["prePhonemeLength"] = 0.0
             response1_data["postPhonemeLength"] = 0.0
+
+            # デバッグ：設定確認
+            sys.stdout.write(f"[TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength={response1_data.get('prePhonemeLength')}, postPhonemeLength={response1_data.get('postPhonemeLength')}\n")
+            sys.stdout.flush()
+
             modified_json_str = json.dumps(response1_data)
 
             # 音声合成
