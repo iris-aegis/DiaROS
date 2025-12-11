@@ -525,14 +525,29 @@ class NaturalLanguageGeneration:
             # LLM呼び出し
             llm_start_time = datetime.now()
             sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🤖 本応答生成開始（相槌: '{self.first_stage_response}'）\n")
+            sys.stdout.flush()
 
             try:
                 if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
+                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 📋 messages 構築中\n")
+                    sys.stdout.flush()
+
                     messages = [
                         ("system", prompt)
                     ]
+
+                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🔨 ChatPromptTemplate.from_messages() 実行中\n")
+                    sys.stdout.flush()
+
                     query_prompt = ChatPromptTemplate.from_messages(messages)
+
+                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🔗 chain 構築中 (query_prompt | ollama_model | StrOutputParser)\n")
+                    sys.stdout.flush()
+
                     chain = query_prompt | self.ollama_model | StrOutputParser()
+
+                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ✅ chain 構築完了\n")
+                    sys.stdout.flush()
 
                     # chain.invoke() の実行時刻を計測
                     invoke_start = datetime.now()
