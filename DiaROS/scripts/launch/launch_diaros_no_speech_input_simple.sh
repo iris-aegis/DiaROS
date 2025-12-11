@@ -11,25 +11,25 @@ echo "=== DiaROS起動 (speech_inputノード除外) ==="
 # VOICEVOX自動起動関数
 start_voicevox() {
     echo "🎤 VOICEVOX状態を確認中..."
-    
+
     # VOICEVOXが既に動作しているかチェック
     if curl -fs http://localhost:50021/version >/dev/null 2>&1; then
         VOICEVOX_VERSION=$(curl -s http://localhost:50021/version 2>/dev/null)
         echo "✅ VOICEVOXは既に動作中です (バージョン: $VOICEVOX_VERSION)"
         return 0
     fi
-    
+
     # VOICEVOXの実行ファイルパス
     VOICEVOX_RUN="/opt/voicevox_engine/linux-nvidia/run"
-    
+
     if [ -x "$VOICEVOX_RUN" ]; then
         echo "▶ VOICEVOXを起動中..."
-        
+
         # バックグラウンドでVOICEVOXを起動
         nohup "$VOICEVOX_RUN" > /tmp/voicevox.log 2>&1 &
         VOICEVOX_PID=$!
         echo "  VOICEVOX PID: $VOICEVOX_PID"
-        
+
         # 起動待機
         echo "⏳ VOICEVOXの起動を待機中..."
         for i in {1..30}; do
@@ -41,13 +41,23 @@ start_voicevox() {
             echo "  試行 $i/30..."
             sleep 2
         done
-        
-        echo "❌ VOICEVOXの起動が60秒以内に完了しませんでした"
+
+        echo ""
+        echo "============================================================"
+        echo -e "\033[91m❌ VOICEVOX STARTUP FAILED\033[0m"
+        echo "============================================================"
+        echo "VOICEVOXの起動が60秒以内に完了しませんでした"
         echo "💡 ログを確認してください: /tmp/voicevox.log"
+        echo "============================================================"
         exit 1
     else
-        echo "❌ VOICEVOX実行ファイルが見つかりません: $VOICEVOX_RUN"
+        echo ""
+        echo "============================================================"
+        echo -e "\033[91m❌ VOICEVOX NOT FOUND\033[0m"
+        echo "============================================================"
+        echo "VOICEVOX実行ファイルが見つかりません: $VOICEVOX_RUN"
         echo "💡 VOICEVOXがインストールされていない可能性があります"
+        echo "============================================================"
         exit 1
     fi
 }
@@ -135,10 +145,13 @@ fi
 # 環境変数設定
 export ROS_DOMAIN_ID=0
 export DIAROS_DEVICE="${DIAROS_DEVICE:-cpu}"
+# NLGのプロンプトディレクトリを明示的に設定
+export DIAROS_PROMPTS_DIR="/workspace/DiaROS/DiaROS_py/diaros/prompts"
 
 echo "📋 設定確認:"
 echo "  ROS_DOMAIN_ID: $ROS_DOMAIN_ID"
 echo "  DIAROS_DEVICE: $DIAROS_DEVICE"
+echo "  DIAROS_PROMPTS_DIR: $DIAROS_PROMPTS_DIR"
 echo "  speech_inputノード: 除外 (mic:=false)"
 
 echo ""
@@ -148,6 +161,7 @@ echo "  - acoustic_analysis"
 echo "  - automatic_speech_recognition"
 echo "  - natural_language_understanding"
 echo "  - dialog_management"
+echo "  - natural_language_generation ⭐ (ローカルPC上)"
 echo "  - speech_synthesis"
 echo "  - turn_taking"
 echo "  - back_channel"
