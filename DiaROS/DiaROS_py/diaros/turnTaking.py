@@ -220,10 +220,9 @@ def TurnTaking():
         sys.stdout.write("[INFO] SileroVAD TurnTaking前処理システム初期化完了\n")
         sys.stdout.flush()
     else:
-        sys.stdout.write("[WARNING] SileroVAD未使用、PowerベースVADに切り替え\n")
+        sys.stdout.write("[INFO] SileroVAD不使用、webRTCVADで実行\n")
         sys.stdout.flush()
         # PowerベースVADに切り替え
-        power_threshold = 0.1
         below_threshold_logged = False
         power_silent_start_time = None
         power_silent_count = 0
@@ -247,12 +246,11 @@ def TurnTaking():
         vad_iterator_buffer = np.array([], dtype=np.float32)
         vad_iterator_speech_detected = False
 
-        sys.stdout.write("[INFO] VADIterator TurnTaking前処理システム初期化完了\n")
-        sys.stdout.write(f"[INFO] 設定: min_silence=100ms, speech_pad=32ms\n")
-        sys.stdout.flush()
+        # sys.stdout.write("[INFO] VADIterator TurnTaking前処理システム初期化完了\n")
+        # sys.stdout.write(f"[INFO] 設定: min_silence=100ms, speech_pad=32ms\n")
+        # sys.stdout.flush()
     else:
         vad_iterator = None
-        sys.stdout.write("[WARNING] VADIterator未使用、PowerベースVADに切り替え\n")
         sys.stdout.flush()
 
     sys.stdout.write("[INFO] TurnTaking started\n")

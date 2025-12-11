@@ -187,7 +187,7 @@ def test_vad_comparison(audio_file, save_results=None):
     # VADIterator用
     vad_iterator = VADIterator(
         silero_vad_model,
-        threshold=0.5,
+        threshold=0.2,
         sampling_rate=sample_rate,
         min_silence_duration_ms=96,
         speech_pad_ms=0
@@ -198,9 +198,6 @@ def test_vad_comparison(audio_file, save_results=None):
     vad_iterator_silence_100ms_detected = False
     vad_iterator_total_events = 0
 
-    # 複数回のTurnTaking実行用変数
-    vad_iterator_detection_time = None
-    vad_iterator_tt_schedule = []  # 実行予定時刻のリスト（100ms, 200ms, 300ms, 400ms, 500ms後）
 
     # TurnTaking用の音声バッファと結果リスト
     sound = np.empty(0, dtype='float32')
@@ -209,7 +206,7 @@ def test_vad_comparison(audio_file, save_results=None):
     # WebRTC VAD用
     webrtc_vad = webrtcvad.Vad()
     webrtc_vad.set_mode(3)  # 最も厳格なモード
-    webrtc_frame_duration_ms = 30  # 30msフレーム
+    webrtc_frame_duration_ms = 10  # 10msフレーム
     webrtc_sound_available = False
     webrtc_sound_count = 0
     webrtc_silent_count = 0
@@ -241,63 +238,6 @@ def test_vad_comparison(audio_file, save_results=None):
         # 音声データバッファに追加（TurnTaking用）
         sound = np.concatenate([sound, audiodata])
 
-        # ★ 複数回のTurnTaking実行チェック（100ms毎に500msまで）
-        if vad_iterator_tt_schedule and vad_iterator_detection_time is not None:
-            # 実行可能なスケジュールをチェック
-            executed_schedules = []
-            for delay_ms in vad_iterator_tt_schedule:
-                if file_time_ms >= vad_iterator_detection_time + delay_ms:
-                    executed_schedules.append(delay_ms)
-                    print(f"[VAD_ITER][{file_time_ms:04d}ms] 検出から{delay_ms}ms経過後のTurnTaking実行!")
-
-                    try:
-                        process_start_time = time.perf_counter()
-
-                        # 100ms削った音声を使用
-                        samples_100ms = int(sample_rate * 0.1)
-                        if sound.shape[0] > samples_100ms:
-                            sound_for_tt = sound[:-samples_100ms]
-                        else:
-                            sound_for_tt = sound
-
-                        if len(sound_for_tt) > 0:
-                            # TurnTaking実行用の音声をファイルに保存（上書き）
-                            audio_save_path = f"tt_audio_detection_{delay_ms}ms.wav"
-                            wavfile.write(audio_save_path, sample_rate, sound_for_tt)
-                            print(f"[VAD_ITER][{file_time_ms:04d}ms] TurnTaking入力音声を保存: {audio_save_path}")
-
-                            sound_comp = sound_for_tt / np.abs(sound_for_tt).max()
-
-                            # 5秒分に制限
-                            max_samples = int(5 * sample_rate)
-                            if len(sound_comp) > max_samples:
-                                sound_comp = sound_comp[:max_samples]
-
-                            pred, probability = tt_model.predict(sound_comp, threshold=TurnJudgeThreshold)
-                            processing_time = (time.perf_counter() - process_start_time) * 1000
-
-                            # 結果を保存
-                            tt_result = {
-                                'detection_time_ms': file_time_ms,
-                                'timing': f'detection+{delay_ms}ms',
-                                'timestamp': datetime.now().strftime('%H:%M:%S.%f')[:-3],
-                                'prediction': pred,
-                                'probability': probability,
-                                'processing_time_ms': processing_time,
-                                'audio_length_sec': len(sound_for_tt) / sample_rate,
-                                'audio_length_samples': len(sound_for_tt)
-                            }
-                            turntaking_results.append(tt_result)
-
-                            print(f"[VAD_ITER][{file_time_ms:04d}ms] TurnTaking完了: pred={pred}, prob={probability:.3f}, 処理時間={processing_time:.1f}ms")
-                            print(f"[VAD_ITER][{file_time_ms:04d}ms] 音声長: {len(sound_for_tt)/sample_rate:.2f}s (100ms削除済み)")
-
-                    except Exception as e:
-                        print(f"[ERROR] {delay_ms}ms後のTurnTaking実行エラー: {e}")
-
-            # 実行済みのスケジュールをリストから削除
-            for delay_ms in executed_schedules:
-                vad_iterator_tt_schedule.remove(delay_ms)
 
         # ★ SileroVAD高速判定システム（10ms毎に直近96ms判定）
         silero_buffer.add_samples(audiodata)
@@ -416,10 +356,6 @@ def test_vad_comparison(audio_file, save_results=None):
                             print(f"[VAD_ITER][{file_time_ms:04d}ms] 音声長: {len(sound_for_tt)/sample_rate:.2f}s (100ms削除済み)")
                             print(f"[VAD_ITER][{file_time_ms:04d}ms] GPU使用: {tt_model.device}")
 
-                            # 複数回のTurnTaking実行を予約（100ms, 200ms, 300ms, 400ms, 500ms後）
-                            vad_iterator_detection_time = file_time_ms
-                            vad_iterator_tt_schedule = [100, 200, 300, 400, 500]
-                            print(f"[VAD_ITER][{file_time_ms:04d}ms] 追加TurnTaking実行を予約: +100ms, +200ms, +300ms, +400ms, +500ms")
 
                     except Exception as e:
                         print(f"[ERROR] TurnTaking実行エラー: {e}")
@@ -563,7 +499,7 @@ def test_vad_comparison(audio_file, save_results=None):
 def main():
     """メイン関数"""
     parser = argparse.ArgumentParser(description='VADIterator + TurnTaking統合テスト')
-    parser.add_argument('audio_file', nargs='?', default='/workspace/DiaROS/script3.wav', help='テスト用音声ファイルパス')
+    parser.add_argument('audio_file', nargs='?', default='/workspace/DiaROS/script10.wav', help='テスト用音声ファイルパス')
     parser.add_argument('--save-results', help='結果を保存するJSONファイルパス（任意）')
 
     args = parser.parse_args()

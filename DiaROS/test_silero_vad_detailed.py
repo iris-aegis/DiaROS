@@ -25,6 +25,7 @@ def test_chunk_by_chunk_processing():
     
     # テスト用音声ファイルを探す
     test_files = [
+        "/workspace/DiaROS/script3.wav",
         "/workspace/DiaROS/DiaROS_ros/static_response_source/static_response_1.wav",
         "/workspace/DiaROS/DiaROS_ros/start_announce.wav",
         "/workspace/DiaROS/DiaROS_ros/power_calibration.wav"

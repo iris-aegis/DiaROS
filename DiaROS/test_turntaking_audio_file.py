@@ -118,7 +118,7 @@ class TurnTakingAudioFileTest:
             threshold=0.5,
             sampling_rate=sample_rate,
             min_silence_duration_ms=100,    # 100ms無声で音声終了判定
-            speech_pad_ms=30                # 30ms音声継続で音声開始判定
+            speech_pad_ms=32                # 30ms音声継続で音声開始判定
         )
         
         # VADIterator用変数
