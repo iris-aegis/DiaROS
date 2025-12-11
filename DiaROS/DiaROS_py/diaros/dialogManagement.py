@@ -15,6 +15,9 @@ import threading
 import librosa
 import glob
 import difflib
+import requests
+import json
+import wave
 
 ### power制御用 ###
 import statistics
@@ -27,6 +30,14 @@ from pydub import AudioSegment
 ### 音声ファイルソート ###
 import os
 import glob
+###---###
+
+### タイミング統合システム ###
+try:
+    from timing_integration import get_timing_logger, log_timing
+    TIMING_AVAILABLE = True
+except ImportError:
+    TIMING_AVAILABLE = False
 ###---###
 
 class DialogManagement:
@@ -42,36 +53,145 @@ class DialogManagement:
     def get_audio_length(self, filename):
         audio = AudioSegment.from_wav(filename)
         return len(audio) / 1000.0  # 長さを秒単位で返す
-    
+
+    def synthesize_first_stage_backchannel(self, text):
+        """First stage相槌を音声合成（VOICEVOX APIを使用）"""
+        try:
+            synthesis_start_time = time.time()
+            speaker = 58
+            host = "localhost"
+            port = 50021
+            params = (
+                ('text', text),
+                ('speaker', speaker),
+            )
+
+            # 音声クエリ生成
+            response1 = requests.post(
+                f'http://{host}:{port}/audio_query',
+                params=params,
+                timeout=5
+            )
+            if response1.status_code != 200:
+                sys.stdout.write(f"[ERROR] VOICEVOX audio_query失敗: {response1.status_code}\n")
+                sys.stdout.flush()
+                return None
+
+            response1_data = response1.json()
+            response1_data["prePhonemeLength"] = 0.0
+            response1_data["postPhonemeLength"] = 0.0
+            modified_json_str = json.dumps(response1_data)
+
+            # 音声合成
+            headers = {'Content-Type': 'application/json'}
+            response2 = requests.post(
+                f'http://{host}:{port}/synthesis',
+                headers=headers,
+                params=params,
+                data=modified_json_str.encode('utf-8'),
+                timeout=5
+            )
+            if response2.status_code != 200:
+                sys.stdout.write(f"[ERROR] VOICEVOX synthesis失敗: {response2.status_code}\n")
+                sys.stdout.flush()
+                return None
+
+            # ファイル保存
+            current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
+            output_file = f'./tmp/first_stage_{current_time}.wav'
+
+            with wave.open(output_file, 'wb') as wf:
+                wf.setnchannels(1)
+                wf.setsampwidth(2)
+                wf.setframerate(24000)
+                wf.writeframes(response2.content)
+
+            synthesis_duration_ms = (time.time() - synthesis_start_time) * 1000
+            sys.stdout.write(f"[TTS] First stage相槌音声合成完了 (処理時間: {synthesis_duration_ms:.1f}ms, ファイル: {output_file})\n")
+            sys.stdout.flush()
+
+            return output_file
+
+        except Exception as e:
+            sys.stdout.write(f"[ERROR] First stage相槌音声合成エラー: {e}\n")
+            sys.stdout.flush()
+            return None
+
     def play_sound(self, filename, block=True):
         """pygame.mixerを使用して音声ファイルを再生"""
         try:
             if not os.path.exists(filename):
                 print(f"音声ファイルが見つかりません: {filename}")
                 return False
-            
+
             # 既存の音楽が再生中の場合は停止してメモリを解放
             if pygame.mixer.music.get_busy():
                 pygame.mixer.music.stop()
-                
+
             pygame.mixer.music.load(filename)
             pygame.mixer.music.play()
-            
+
             if block:
                 while pygame.mixer.music.get_busy():
                     pygame.time.wait(10)  # Docker環境では短い間隔でチェック
                 # 再生完了後にリソースを解放
                 pygame.mixer.music.unload()
-            
+
             return True
         except Exception as e:
             print(f"音声再生エラー: {e}")
             return False
 
+    def play_error_audio(self, error_type):
+        """エラーメッセージ音声を再生
+
+        Args:
+            error_type (str): エラータイプ
+                - 'first_stage': 1段階目の応答生成に失敗
+                - 'second_stage': 2段階目の応答生成に失敗
+                - 'timeout': 2段階目の応答生成が間に合わなかった
+        """
+        error_files = {
+            'first_stage': './tmp/error_first_stage.wav',
+            'second_stage': './tmp/error_second_stage.wav',
+            'timeout': './tmp/error_timeout.wav'
+        }
+
+        error_messages = {
+            'first_stage': '1段階目の応答生成に失敗しました',
+            'second_stage': '2段階目の応答生成に失敗しました',
+            'timeout': '2段階目の応答生成が間に合いませんでした'
+        }
+
+        error_file = error_files.get(error_type)
+        error_msg = error_messages.get(error_type)
+
+        if error_file and os.path.exists(error_file):
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"\n[ERROR] {error_msg}\n")
+            sys.stdout.write(f"[{timestamp}] エラー音声を再生: {error_file}\n")
+            sys.stdout.flush()
+
+            # エラー音声をブロッキング再生
+            self.play_sound(error_file, block=True)
+
+            # 再生完了後
+            now_end = datetime.now()
+            timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp_end}] エラー音声再生完了\n")
+            sys.stdout.flush()
+
+            return True
+        else:
+            sys.stdout.write(f"\n[ERROR] エラー音声ファイルが見つかりません: {error_file}\n")
+            sys.stdout.flush()
+            return False
+
     def __init__(self):
         self.word = ""
         self.asr = { "you": "", "is_final": False }
-        self.asr_history = []  # 追加: 音声認識履歴
+        self.asr_history = []  # 追加: 音声認識履歴（{"text": str, "timestamp_ns": int, "is_final": bool}の辞書形式）
         self.user_speak_is_final = False
         self.recognition_result_is_confirmed = False
         self.sa = { "prevgrad" : 0.0,
@@ -136,6 +256,29 @@ class DialogManagement:
 
         self.prev_asr_you = ""  # 直前のASR結果をインスタンス変数に
         self.last_response_update_asr = ""  # 前回response_updateがTrueになった時のASR結果
+        
+        # タイミング統合システム初期化
+        if TIMING_AVAILABLE:
+            self.timing_logger = get_timing_logger()
+            self.current_session_id = None
+        else:
+            self.timing_logger = None
+            
+        # 各処理段階のタイミング情報
+        self.asr_start_ns = 0
+        self.asr_completion_ns = 0
+        self.tts_start_ns = 0
+        self.tts_completion_ns = 0
+
+        # 二段階応答生成用の変数
+        self.first_stage_backchannel = ""  # NLG PCから受け取ったfirst_stage相槌
+        self.first_stage_backchannel_available = False  # first_stage相槌が利用可能か
+        self.waiting_for_second_stage = False  # second_stage応答待ちフラグ
+        self.second_stage_request_pending = False  # second_stageリクエスト保留フラグ
+        self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒） - 分散実行時のNLG連携用
+        self.second_stage_wait_start_time = None  # second_stage待機開始時刻
+        self.second_stage_timeout_seconds = 5.0  # second_stageタイムアウト秒数
+        self.second_stage_timeout_played = False  # タイムアウトエラー既出フラグ
     
     def calculate_dialogue_timing(self, current_time_ns):
         """対話生成開始・完了からの経過時間を計算"""
@@ -232,6 +375,12 @@ class DialogManagement:
 
             # TTデータの判定・再生
             if self.latest_tt_data is not None and self.latest_tt_time != last_handled_tt_time:
+                # TT判定処理開始タイミング出力
+                judgment_start_time = datetime.now()
+                judgment_timestamp = judgment_start_time.strftime('%H:%M:%S.%f')[:-3]
+                # print(f"[{judgment_timestamp}][DM_run] TT判定処理開始")
+                # sys.stdout.flush()
+                
                 tt_data = self.latest_tt_data
                 tt_time = self.latest_tt_time
                 probability = float(tt_data.get('confidence', 0.0))
@@ -247,26 +396,215 @@ class DialogManagement:
                     last_handled_tt_time = tt_time
                     continue
                 if probability >= turn_taking_threshold:
+                    # ★TurnTaking判定時刻を記録（分散実行時のNLG連携用）
+                    now_dt = datetime.now()
+                    self.turn_taking_decision_timestamp_ns = int(now_dt.timestamp() * 1_000_000_000)
+                    timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
+                    # ★ログ出力は削除（不要な出力）
+                    # sys.stdout.write(f"[TT] TurnTaking判定時刻を記録: {timestamp} (ns: {self.turn_taking_decision_timestamp_ns})\n")
+                    # sys.stdout.flush()
+
+                    # First stage相槌を再生（準備がある場合）
+                    if self.first_stage_backchannel_available and self.first_stage_backchannel:
+                        sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}'\n")
+                        sys.stdout.flush()
+
+                        # ★事前合成済みのfirst_stageファイルがあれば使用、なければ合成
+                        if hasattr(self, 'first_stage_backchannel_wav') and os.path.exists(self.first_stage_backchannel_wav):
+                            first_stage_wav_path = self.first_stage_backchannel_wav
+                            now = datetime.now()
+                            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+                            sys.stdout.write(f"[TT] 事前合成済みのfirst_stage音声を使用 @ {timestamp}\n")
+                            sys.stdout.flush()
+                        else:
+                            # 合成済みファイルがない場合は新規合成
+                            first_stage_wav_path = self.synthesize_first_stage_backchannel(self.first_stage_backchannel)
+
+                        if first_stage_wav_path and os.path.exists(first_stage_wav_path):
+                            # 音声ファイル長を取得
+                            try:
+                                first_stage_audio = AudioSegment.from_wav(first_stage_wav_path)
+                                first_stage_duration_sec = len(first_stage_audio) / 1000.0
+                            except Exception as e:
+                                sys.stdout.write(f"[ERROR] First stage音声ファイル長取得エラー: {e}\n")
+                                sys.stdout.flush()
+                                first_stage_duration_sec = 0.5  # デフォルト値
+
+                            # ★時刻を記録
+                            now = datetime.now()
+                            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+
+                            # ブロッキング再生（相槌が終わるまで待つ）
+                            sys.stdout.write(f"[TT] First stage相槌再生開始: {first_stage_wav_path} @ {timestamp}\n")
+                            sys.stdout.flush()
+                            self.play_sound(first_stage_wav_path, block=True)
+
+                            now_end = datetime.now()
+                            timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
+                            sys.stdout.write(f"[TT] First stage相槌再生完了 @ {timestamp_end} (長さ: {first_stage_duration_sec:.2f}秒)\n")
+                            sys.stdout.flush()
+                        else:
+                            sys.stdout.write(f"[ERROR] First stage相槌音声ファイルエラー、スキップします\n")
+                            sys.stdout.flush()
+
+                        # ★Second stageリクエストフラグを設定（TurnTaking判定時のみ）
+                        # これでNLGの優先度制御が働く
+                        self.second_stage_request_pending = True
+                        timestamp_tt = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                        sys.stdout.write(f"[TT] 第2段階リクエスト送信フラグを設定（TurnTaking判定時） @ {timestamp_tt}\n")
+                        sys.stdout.flush()
+
+                        self.waiting_for_second_stage = True
+
+                        # First stage相槌をリセット
+                        self.first_stage_backchannel_available = False
+
+                        # ★Second stage待機開始時刻を記録（タイムアウト検出用）
+                        self.second_stage_wait_start_time = datetime.now()
+                        self.second_stage_timeout_played = False
+
                     self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
-                    # ここで音声合成ファイル名があればそれを再生
-                    if hasattr(self, 'latest_synth_filename') and self.latest_synth_filename:
+
+            # ★Second stage生成タイムアウト検出
+            if self.waiting_for_second_stage and self.second_stage_wait_start_time is not None and not self.second_stage_timeout_played:
+                elapsed_time = (datetime.now() - self.second_stage_wait_start_time).total_seconds()
+                if elapsed_time >= self.second_stage_timeout_seconds:
+                    # タイムアウト発生 → エラー音声を再生
+                    sys.stdout.write(f"\n[WARNING] Second stage生成タイムアウト検出 (待機時間: {elapsed_time:.1f}秒)\n")
+                    sys.stdout.flush()
+                    self.play_error_audio('timeout')
+                    self.second_stage_timeout_played = True
+                    self.waiting_for_second_stage = False
+                    self.second_stage_wait_start_time = None
+
+                    # Second stage待機をリセット
+                    self.latest_synth_filename = ""
+
+                    # 次のリクエストを受け入れられるように初期化
+                    self.asr_history = []
+
+                    # Second stage本応答が準備できたら再生
+                    if hasattr(self, 'latest_synth_filename') and self.latest_synth_filename and os.path.exists(self.latest_synth_filename) and not self.waiting_for_second_stage:
                         wav_path = self.latest_synth_filename
                         try:
                             audio = AudioSegment.from_wav(wav_path)
                             duration_sec = len(audio) / 1000.0
-                        except Exception:
+                        except Exception as e:
+                            print(f"[ERROR] 合成音声ファイル読み込みエラー: {e}")
                             duration_sec = 2.0
-                        # ★ここで[DEBUG-speechSynthesis]形式で時刻情報を出力
+                        # ★応答音声再生時の詳細タイミング分析
                         now_dt = datetime.now()
                         timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
-                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] 時刻情報受信:\n")
-                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] start_ns: {self.latest_start_timestamp_ns}\n")
-                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] completion_ns: {self.latest_completion_timestamp_ns}\n")
-                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] request_id: {self.latest_request_id}\n")
-                        sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] worker_name: {self.latest_worker_name}\n")
-                        sys.stdout.flush()
-                        # ...既存の再生・タイミング分析出力...
-                        sys.stdout.write(f"[TT] 合成音声再生 duration_sec={duration_sec}\n")
+                        current_time_ns = int(now_dt.timestamp() * 1_000_000_000)
+                        
+                        # タイミングログに音声再生開始を記録
+                        if TIMING_AVAILABLE and self.timing_logger and self.current_session_id:
+                            self.timing_logger.log_event(
+                                session_id=self.current_session_id,
+                                event_type="audio_playback_start",
+                                timestamp_ns=current_time_ns,
+                                data={
+                                    "filename": wav_path,
+                                    "duration_sec": duration_sec,
+                                    "request_id": self.latest_request_id
+                                }
+                            )
+                        
+                        sys.stdout.write(f"\n{'='*50}\n")
+                        sys.stdout.write(f"[{timestamp}] 🔊 応答音声再生開始\n")
+                        sys.stdout.write(f"{'='*50}\n")
+                        
+                        # 音声合成処理の詳細情報
+                        if self.latest_start_timestamp_ns > 0 and self.latest_completion_timestamp_ns > 0:
+                            # ナノ秒から時刻への変換関数
+                            def ns_to_readable_time(ns_timestamp):
+                                if ns_timestamp <= 0:
+                                    return "未設定"
+                                dt = datetime.fromtimestamp(ns_timestamp / 1_000_000_000)
+                                return dt.strftime('%H:%M:%S.%f')[:-3]  # ミリ秒まで表示
+                            
+                            # 各処理の完了時刻を人間が読みやすい形式で表示
+                            sys.stdout.write(f"📊 各処理完了時刻:\n")
+                            if self.asr_completion_ns > 0:
+                                sys.stdout.write(f"  • ASR処理完了:     {ns_to_readable_time(self.asr_completion_ns)}\n")
+                            sys.stdout.write(f"  • NLG処理開始:     {ns_to_readable_time(self.latest_start_timestamp_ns)}\n")
+                            sys.stdout.write(f"  • NLG処理完了:     {ns_to_readable_time(self.latest_completion_timestamp_ns)}\n")
+                            # TTS完了時刻のデバッグ出力
+                            tts_completion_val = getattr(self, 'tts_completion_ns', 0)
+                            if tts_completion_val > 0:
+                                sys.stdout.write(f"  • TTS処理完了:     {ns_to_readable_time(tts_completion_val)}\n")
+                            else:
+                                # デバッグ：なぜTTS完了時刻が設定されていないかを確認
+                                sys.stdout.write(f"  • TTS処理完了:     未設定 (値: {tts_completion_val})\n")
+                            sys.stdout.write(f"  • 音声再生開始:     {ns_to_readable_time(current_time_ns)}\n")
+                            
+                            # 各処理にかかった時間
+                            asr_processing_time = (self.asr_completion_ns - self.asr_start_ns) / 1_000_000 if self.asr_start_ns > 0 and self.asr_completion_ns > 0 else 0
+                            nlg_processing_time = (self.latest_completion_timestamp_ns - self.latest_start_timestamp_ns) / 1_000_000
+                            tts_processing_time = (self.tts_completion_ns - self.tts_start_ns) / 1_000_000 if self.tts_start_ns > 0 and self.tts_completion_ns > 0 else 0
+                            # TTS処理時間が取得できない場合、合成→再生時間をTTS処理時間として使用
+                            if tts_processing_time == 0:
+                                tts_processing_time = (current_time_ns - self.latest_completion_timestamp_ns) / 1_000_000
+                            total_response_time = nlg_processing_time + tts_processing_time
+                            synthesis_to_playback = (current_time_ns - self.latest_completion_timestamp_ns) / 1_000_000
+                            
+                            sys.stdout.write(f"\n⏱️  各処理にかかった時間:\n")
+                            if asr_processing_time > 0:
+                                sys.stdout.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
+                            sys.stdout.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
+                            sys.stdout.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
+                            sys.stdout.write(f"  • 総応答時間:      {total_response_time:.1f}ms (NLG+TTS)\n")
+                            
+                            # 処理詳細情報
+                            sys.stdout.write(f"\n📋 処理詳細:\n")
+                            sys.stdout.write(f"  • Request ID:      {self.latest_request_id}\n")
+                            sys.stdout.write(f"  • Worker:          {self.latest_worker_name}\n")
+                            sys.stdout.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
+                            
+                            # パフォーマンス評価
+                            if total_response_time <= 1000:
+                                perf_status = "🟢 優秀"
+                            elif total_response_time <= 1500:
+                                perf_status = "🟡 良好"
+                            else:
+                                perf_status = "🔴 要改善"
+                            sys.stdout.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
+                            
+                            # タイミングログファイルにも詳細情報を出力
+                            log_file_path = f"/tmp/diaros_timing/timing_{self.current_session_id if TIMING_AVAILABLE and self.timing_logger and self.current_session_id else int(time.time())}.log"
+                            try:
+                                os.makedirs("/tmp/diaros_timing", exist_ok=True)
+                                with open(log_file_path, "a", encoding="utf-8") as f:
+                                    f.write(f"\n{'='*60}\n")
+                                    f.write(f"[{timestamp}] 🔊 応答音声再生開始\n")
+                                    f.write(f"{'='*60}\n")
+                                    f.write(f"📊 各処理完了時刻:\n")
+                                    if self.asr_completion_ns > 0:
+                                        f.write(f"  • ASR処理完了:     {ns_to_readable_time(self.asr_completion_ns)}\n")
+                                    f.write(f"  • NLG処理開始:     {ns_to_readable_time(self.latest_start_timestamp_ns)}\n")
+                                    f.write(f"  • NLG処理完了:     {ns_to_readable_time(self.latest_completion_timestamp_ns)}\n")
+                                    if tts_completion_val > 0:
+                                        f.write(f"  • TTS処理完了:     {ns_to_readable_time(tts_completion_val)}\n")
+                                    f.write(f"  • 音声再生開始:     {ns_to_readable_time(current_time_ns)}\n")
+                                    f.write(f"\n⏱️  各処理にかかった時間:\n")
+                                    if asr_processing_time > 0:
+                                        f.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
+                                    f.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
+                                    f.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
+                                    f.write(f"  • 総応答時間:      {total_response_time:.1f}ms (NLG+TTS)\n")
+                                    f.write(f"\n📋 処理詳細:\n")
+                                    f.write(f"  • Request ID:      {self.latest_request_id}\n")
+                                    f.write(f"  • Worker:          {self.latest_worker_name}\n")
+                                    f.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
+                                    f.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
+                                    f.write(f"{'='*60}\n\n")
+                            except Exception as e:
+                                sys.stdout.write(f"[ERROR] ログファイル書き込みエラー: {e}\n")
+                        else:
+                            sys.stdout.write(f"⚠️  タイミング情報が不完全です\n")
+                            sys.stdout.write(f"  • 音声長:         {duration_sec:.1f}秒\n")
+                        
+                        sys.stdout.write(f"{'='*50}\n")
                         sys.stdout.flush()
                         # ...existing code...
                         self.play_sound(wav_path, False)  # ノンブロッキング再生
@@ -275,7 +613,13 @@ class DialogManagement:
                         next_back_channel_after_response = last_response_end_time + back_channel_cooldown_length
                         self.latest_synth_filename = ""
                     else:
-                        sys.stdout.write("[ERROR] 合成音声ファイル名がありません\n")
+                        # 合成音声ファイルがない場合のデバッグ情報
+                        sys.stdout.write(f"[WARNING] 合成音声ファイルが利用できません。再生をスキップします\n")
+                        sys.stdout.write(f"  latest_synth_filename: '{getattr(self, 'latest_synth_filename', 'None')}'\n")
+                        if hasattr(self, 'latest_synth_filename') and self.latest_synth_filename:
+                            sys.stdout.write(f"  ファイル存在確認: {os.path.exists(self.latest_synth_filename)}\n")
+                        sys.stdout.write(f"[INFO] 第2段階の音声合成待機中か、合成に失敗しています\n")
+                        sys.stdout.flush()
                 last_handled_tt_time = tt_time
             # 応答音声再生終了後にフラグをリセット
             if is_playing_response and last_response_end_time is not None and time.time() >= last_response_end_time:
@@ -291,24 +635,126 @@ class DialogManagement:
                     now = time.time()
                     if not (is_playing_response and last_response_end_time is not None and now < last_response_end_time):
                         if probability >= turn_taking_threshold:
-                            if hasattr(self, 'latest_synth_filename') and self.latest_synth_filename:
+                            if hasattr(self, 'latest_synth_filename') and self.latest_synth_filename and os.path.exists(self.latest_synth_filename):
                                 wav_path = self.latest_synth_filename
                                 try:
                                     audio = AudioSegment.from_wav(wav_path)
                                     duration_sec = len(audio) / 1000.0
-                                except Exception:
+                                except Exception as e:
+                                    print(f"[ERROR] 合成音声ファイル読み込みエラー（pending）: {e}")
                                     duration_sec = 2.0
-                                # ★ここで[DEBUG-speechSynthesis]形式で時刻情報を出力
+                                # ★応答音声再生時の詳細タイミング分析（pending処理）
                                 now_dt = datetime.now()
                                 timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
-                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] 時刻情報受信:\n")
-                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] start_ns: {self.latest_start_timestamp_ns}\n")
-                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] completion_ns: {self.latest_completion_timestamp_ns}\n")
-                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] request_id: {self.latest_request_id}\n")
-                                sys.stdout.write(f"[{timestamp}][DEBUG-speechSynthesis] worker_name: {self.latest_worker_name}\n")
-                                sys.stdout.flush()
-                                # ...既存の再生・タイミング分析出力...
-                                sys.stdout.write(f"[TT] 合成音声再生(pending) duration_sec={duration_sec}\n")
+                                current_time_ns = int(now_dt.timestamp() * 1_000_000_000)
+                                
+                                # タイミングログに音声再生開始を記録
+                                if TIMING_AVAILABLE and self.timing_logger and self.current_session_id:
+                                    self.timing_logger.log_event(
+                                        session_id=self.current_session_id,
+                                        event_type="audio_playback_start",
+                                        timestamp_ns=current_time_ns,
+                                        data={
+                                            "filename": wav_path,
+                                            "duration_sec": duration_sec,
+                                            "request_id": self.latest_request_id,
+                                            "pending": True
+                                        }
+                                    )
+                                
+                                sys.stdout.write(f"\n{'='*50}\n")
+                                sys.stdout.write(f"[{timestamp}] 🔊 応答音声再生開始（相槌後処理）\n")
+                                sys.stdout.write(f"{'='*50}\n")
+                                
+                                # 音声合成処理の詳細情報
+                                if self.latest_start_timestamp_ns > 0 and self.latest_completion_timestamp_ns > 0:
+                                    # ナノ秒から時刻への変換関数
+                                    def ns_to_readable_time(ns_timestamp):
+                                        if ns_timestamp <= 0:
+                                            return "未設定"
+                                        dt = datetime.fromtimestamp(ns_timestamp / 1_000_000_000)
+                                        return dt.strftime('%H:%M:%S.%f')[:-3]  # ミリ秒まで表示
+                                    
+                                    # 各処理の完了時刻を人間が読みやすい形式で表示
+                                    sys.stdout.write(f"📊 各処理完了時刻:\n")
+                                    if self.asr_completion_ns > 0:
+                                        sys.stdout.write(f"  • ASR処理完了:     {ns_to_readable_time(self.asr_completion_ns)}\n")
+                                    sys.stdout.write(f"  • NLG処理開始:     {ns_to_readable_time(self.latest_start_timestamp_ns)}\n")
+                                    sys.stdout.write(f"  • NLG処理完了:     {ns_to_readable_time(self.latest_completion_timestamp_ns)}\n")
+                                    if self.tts_completion_ns > 0:
+                                        sys.stdout.write(f"  • TTS処理完了:     {ns_to_readable_time(self.tts_completion_ns)}\n")
+                                    sys.stdout.write(f"  • 音声再生開始:     {ns_to_readable_time(current_time_ns)}\n")
+                                    
+                                    # 各処理にかかった時間
+                                    asr_processing_time = (self.asr_completion_ns - self.asr_start_ns) / 1_000_000 if self.asr_start_ns > 0 and self.asr_completion_ns > 0 else 0
+                                    nlg_processing_time = (self.latest_completion_timestamp_ns - self.latest_start_timestamp_ns) / 1_000_000
+                                    tts_processing_time = (self.tts_completion_ns - self.tts_start_ns) / 1_000_000 if self.tts_start_ns > 0 and self.tts_completion_ns > 0 else 0
+                                    # TTS処理時間が取得できない場合、合成→再生時間をTTS処理時間として使用
+                                    if tts_processing_time == 0:
+                                        tts_processing_time = (current_time_ns - self.latest_completion_timestamp_ns) / 1_000_000
+                                    total_response_time = nlg_processing_time + tts_processing_time  # 音声再生時間を除外
+                                    synthesis_to_playback = (current_time_ns - self.latest_completion_timestamp_ns) / 1_000_000
+                                    
+                                    sys.stdout.write(f"\n⏱️  各処理にかかった時間:\n")
+                                    if asr_processing_time > 0:
+                                        sys.stdout.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
+                                    sys.stdout.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
+                                    sys.stdout.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
+                                    sys.stdout.write(f"  • 総応答時間:      {total_response_time:.1f}ms (NLG+TTS)\n")
+                                    
+                                    # 処理詳細情報
+                                    sys.stdout.write(f"\n📋 処理詳細:\n")
+                                    sys.stdout.write(f"  • Request ID:      {self.latest_request_id}\n")
+                                    sys.stdout.write(f"  • Worker:          {self.latest_worker_name}\n")
+                                    sys.stdout.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
+                                    
+                                    # パフォーマンス評価
+                                    if total_response_time <= 1000:
+                                        perf_status = "🟢 優秀"
+                                    elif total_response_time <= 1500:
+                                        perf_status = "🟡 良好"
+                                    else:
+                                        perf_status = "🔴 要改善"
+                                    sys.stdout.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
+                                    
+                                    # タイミングログファイルにも詳細情報を出力
+                                    if TIMING_AVAILABLE and self.timing_logger:
+                                        log_file_path = f"/tmp/diaros_timing/timing_{self.current_session_id}.log"
+                                        try:
+                                            os.makedirs("/tmp/diaros_timing", exist_ok=True)
+                                            with open(log_file_path, "a", encoding="utf-8") as f:
+                                                f.write(f"\n{'='*60}\n")
+                                                f.write(f"[{timestamp}] 🔊 応答音声再生開始（相槌後処理）\n")
+                                                f.write(f"{'='*60}\n")
+                                                f.write(f"📊 各処理完了時刻:\n")
+                                                if asr_completion_ms > 0:
+                                                    f.write(f"  • ASR処理完了:     {asr_completion_ms:.1f}ms\n")
+                                                f.write(f"  • NLG処理開始:     {nlg_start_ms:.1f}ms\n")
+                                                f.write(f"  • NLG処理完了:     {nlg_completion_ms:.1f}ms\n")
+                                                if tts_completion_ms > 0:
+                                                    f.write(f"  • TTS処理完了:     {tts_completion_ms:.1f}ms\n")
+                                                f.write(f"  • 音声再生開始:     {playback_start_ms:.1f}ms\n")
+                                                f.write(f"\n⏱️  各処理にかかった時間:\n")
+                                                if asr_processing_time > 0:
+                                                    f.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
+                                                f.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
+                                                if tts_processing_time > 0:
+                                                    f.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
+                                                f.write(f"  • 合成→再生時間:   {synthesis_to_playback:.1f}ms\n")
+                                                f.write(f"  • 総応答時間:      {total_response_time:.1f}ms\n")
+                                                f.write(f"\n📋 処理詳細:\n")
+                                                f.write(f"  • Request ID:      {self.latest_request_id}\n")
+                                                f.write(f"  • Worker:          {self.latest_worker_name}\n")
+                                                f.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
+                                                f.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
+                                                f.write(f"{'='*60}\n\n")
+                                        except Exception as e:
+                                            sys.stdout.write(f"[ERROR] ログファイル書き込みエラー: {e}\n")
+                                else:
+                                    sys.stdout.write(f"⚠️  タイミング情報が不完全です\n")
+                                    sys.stdout.write(f"  • 音声長:         {duration_sec:.1f}秒\n")
+                                
+                                sys.stdout.write(f"{'='*50}\n")
                                 sys.stdout.flush()
                                 # ...existing code...
                                 self.play_sound(wav_path, False)  # ノンブロッキング再生
@@ -549,40 +995,329 @@ class DialogManagement:
                     self.additional_asr_start_time = datetime.now()
                     sys.stdout.write('\nadditional start' + '\n')
 
-    # 応答・相槌が切り替わらなくとも対話管理をさせる            
+    # 応答・相槌が切り替わらなくとも対話管理をさせる
     def pubDM(self):
+        """NLGへfirst_stage（相槌生成）リクエストを送信"""
         if self.response_update is True:
             self.response_update = False
             # asr_historyとresponse_updateの値を出力
             # print(f"[DEBUG] asr_history: {self.asr_history}")
             # print(f"[DEBUG] response_update: {self.response_update}")
-            
-            # ★旧方式（復活）: 25個おきに遡る間隔送信
+
+            # 任意の秒数間隔でタイムスタンプベース選択
             words = []
-            n = len(self.asr_history)
-            if n > 0:
-                idx = n - 1
-                while idx >= 0:
-                    words.append(self.asr_history[idx])
-                    idx -= 25
-                words.reverse()  # 古いもの→新しいもの
-            
-            # ★新方式（コメントアウト）: 全履歴を送信（間を開けずに全ての音声認識結果を送信）
-            # words = self.asr_history.copy()  # 全履歴をそのまま送信
-            
+            if len(self.asr_history) > 0:
+                # 最新のエントリから開始
+                latest_entry = self.asr_history[-1]
+                words.append(latest_entry["text"])
+                current_timestamp_ns = latest_entry["timestamp_ns"]
+
+                # 音声認識結果のリスト作成時に遡る間隔（ナノ秒単位）
+                # 2.5秒 = 2,500,000,000ナノ秒
+                interval_ns = 2_500_000_000
+
+                # 2.5秒間隔で過去に遡る
+                while True:
+                    target_timestamp_ns = current_timestamp_ns - interval_ns
+
+                    # target_timestamp_nsに最も近い過去のエントリを探す
+                    closest_entry = None
+                    closest_diff = float('inf')
+
+                    for entry in self.asr_history:
+                        if entry["timestamp_ns"] <= target_timestamp_ns:
+                            diff = target_timestamp_ns - entry["timestamp_ns"]
+                            if diff < closest_diff:
+                                closest_diff = diff
+                                closest_entry = entry
+
+                    # 見つからない場合は最も古いエントリを採用
+                    if closest_entry is None:
+                        if len(self.asr_history) > 1:  # 最新以外にエントリがある場合
+                            oldest_entry = self.asr_history[0]
+                            words.append(oldest_entry["text"])
+                        break
+                    else:
+                        words.append(closest_entry["text"])
+                        current_timestamp_ns = closest_entry["timestamp_ns"]
+
+                # 古いもの→新しいものの順に並べ替え
+                words.reverse()
+
+            # ★旧方式（コメントアウト）: 25個おきに遡る間隔送信
+            # words = []
+            # n = len(self.asr_history)
+            # if n > 0:
+            #     idx = n - 1
+            #     while idx >= 0:
+            #         words.append(self.asr_history[idx]["text"])  # textフィールドを取得
+            #         idx -= 25
+            #     words.reverse()  # 古いもの→新しいもの
+
             now = datetime.now()
             timestamp = now.strftime('%H:%M:%S.%f')[:-3]
             # sys.stdout.write(f"[{timestamp}][pubDM] 送信する音声認識履歴リスト（25個おき、全{len(words)}件）: {words}\n")
             # sys.stdout.flush()
-            return { "words": words, "update": True}
+            return { "words": words, "update": True, "stage": "first"}
         else:
-            return { "words": [], "update": False}
+            return { "words": [], "update": False, "stage": "first"}
+
+    def pubDM_second_stage(self):
+        """NLGへsecond_stage（本応答生成）リクエストを送信"""
+        # ★分散実行対応: TurnTaking判定時刻以降の最初のASR結果を使用
+        words = []
+        turn_taking_decision_timestamp_ns = self.turn_taking_decision_timestamp_ns
+
+        if turn_taking_decision_timestamp_ns > 0 and len(self.asr_history) > 0:
+            # TurnTaking判定時刻以降で最初のASR結果を探す
+            first_after_decision = None
+            for entry in self.asr_history:
+                if entry["timestamp_ns"] >= turn_taking_decision_timestamp_ns:
+                    first_after_decision = entry
+                    break
+
+            if first_after_decision:
+                words.append(first_after_decision["text"])
+                now = datetime.now()
+                timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+                sys.stdout.write(f"[DM-second] TurnTaking判定後の最初のASR結果を使用: '{first_after_decision['text']}' @ {timestamp}\n")
+                sys.stdout.flush()
+            else:
+                # TurnTaking判定時刻以降のASR結果がない場合は最新を使用
+                if len(self.asr_history) > 0:
+                    latest_entry = self.asr_history[-1]
+                    words.append(latest_entry["text"])
+                    now = datetime.now()
+                    timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[DM-second] TurnTaking判定後のASR結果なし、最新を使用: '{latest_entry['text']}' @ {timestamp}\n")
+                    sys.stdout.flush()
+        else:
+            # ★旧方式（TurnTaking判定時刻未設定の場合）: 2.5秒間隔でタイムスタンプベース選択
+            if len(self.asr_history) > 0:
+                # 最新のエントリから開始
+                latest_entry = self.asr_history[-1]
+                words.append(latest_entry["text"])
+                current_timestamp_ns = latest_entry["timestamp_ns"]
+
+                # 音声認識結果のリスト作成時に遡る間隔（ナノ秒単位）
+                # 2.5秒 = 2,500,000,000ナノ秒
+                interval_ns = 2_500_000_000
+
+                # 2.5秒間隔で過去に遡る
+                while True:
+                    target_timestamp_ns = current_timestamp_ns - interval_ns
+
+                    # target_timestamp_nsに最も近い過去のエントリを探す
+                    closest_entry = None
+                    closest_diff = float('inf')
+
+                    for entry in self.asr_history:
+                        if entry["timestamp_ns"] <= target_timestamp_ns:
+                            diff = target_timestamp_ns - entry["timestamp_ns"]
+                            if diff < closest_diff:
+                                closest_diff = diff
+                                closest_entry = entry
+
+                    # 見つからない場合は最も古いエントリを採用
+                    if closest_entry is None:
+                        if len(self.asr_history) > 1:  # 最新以外にエントリがある場合
+                            oldest_entry = self.asr_history[0]
+                            words.append(oldest_entry["text"])
+                        break
+                    else:
+                        words.append(closest_entry["text"])
+                        current_timestamp_ns = closest_entry["timestamp_ns"]
+
+                # 古いもの→新しいものの順に並べ替え
+                words.reverse()
+
+        return {
+            "words": words,
+            "update": True,
+            "stage": "second",
+            "turn_taking_decision_timestamp_ns": turn_taking_decision_timestamp_ns  # ★NLG用に時刻情報も送信
+        }
+
+    def updateNLG(self, nlg_data):
+        """NLG PCからの応答を受信"""
+        stage = nlg_data.get('stage', 'single')
+        reply = nlg_data.get('reply', '')
+        request_id = getattr(nlg_data, 'request_id', 0) if hasattr(nlg_data, 'request_id') else nlg_data.get('request_id', 0)
+        nlg_start_timestamp_ns = nlg_data.get('start_timestamp_ns', 0)
+        nlg_completion_timestamp_ns = nlg_data.get('completion_timestamp_ns', 0)
+        inference_duration_ms = nlg_data.get('inference_duration_ms', 0.0)
+
+        # ナノ秒から時刻への変換関数
+        def ns_to_readable_time(ns_timestamp):
+            if ns_timestamp <= 0:
+                return "未設定"
+            dt = datetime.fromtimestamp(ns_timestamp / 1_000_000_000)
+            return dt.strftime('%H:%M:%S.%f')[:-3]  # ミリ秒まで表示
+
+        # 現在時刻を取得
+        now_dt = datetime.now()
+        timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
+        current_time_ns = int(now_dt.timestamp() * 1_000_000_000)
+
+        if stage == 'first':
+            # First stage相槌を保存
+            self.first_stage_backchannel = reply
+
+            # ★詳細な処理情報を出力（コメントアウト：TurnTaking時のみ表示）
+            # sys.stdout.write(f"\n{'='*60}\n")
+            # sys.stdout.write(f"[{timestamp}] 🔊 First stage相槌生成完了\n")
+            # sys.stdout.write(f"{'='*60}\n")
+            # sys.stdout.write(f"📋 内容: '{reply}'\n\n")
+
+            # # NLG処理の詳細情報
+            # if nlg_start_timestamp_ns > 0 and nlg_completion_timestamp_ns > 0:
+            #     sys.stdout.write(f"📊 NLG処理タイミング:\n")
+            #     sys.stdout.write(f"  • 開始時刻:       {ns_to_readable_time(nlg_start_timestamp_ns)}\n")
+            #     sys.stdout.write(f"  • 完了時刻:       {ns_to_readable_time(nlg_completion_timestamp_ns)}\n")
+
+            #     nlg_processing_time = (nlg_completion_timestamp_ns - nlg_start_timestamp_ns) / 1_000_000
+            #     sys.stdout.write(f"\n⏱️  処理時間:\n")
+            #     sys.stdout.write(f"  • NLG推論時間:    {inference_duration_ms:.1f}ms\n")
+            #     sys.stdout.write(f"  • NLG総処理時間:  {nlg_processing_time:.1f}ms\n")
+
+            # sys.stdout.write(f"\n📋 処理詳細:\n")
+            # sys.stdout.write(f"  • Request ID:     {request_id}\n")
+            # sys.stdout.write(f"  • ステージ:       First Stage (相槌)\n")
+            # sys.stdout.write(f"{'='*60}\n")
+            # sys.stdout.flush()
+
+            # ★即座に音声合成を実行（バックグラウンド非同期処理）
+            try:
+                first_stage_wav_path = self.synthesize_first_stage_backchannel(reply)
+                if first_stage_wav_path and os.path.exists(first_stage_wav_path):
+                    # 合成済みファイルを保存
+                    self.first_stage_backchannel_wav = first_stage_wav_path
+                    self.first_stage_backchannel_available = True
+                    now = datetime.now()
+                    timestamp_synth = now.strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[DM-first_synth] First stage相槌の音声合成完了: {first_stage_wav_path} @ {timestamp_synth}\n")
+                    sys.stdout.flush()
+
+                    # ★注：Second stageリクエストはTurnTaking判定時に設定される（優先度制御のため）
+                else:
+                    # First stage合成失敗 → エラー音声を再生
+                    sys.stdout.write(f"[ERROR] First stage相槌の音声合成に失敗しました: {reply}\n")
+                    sys.stdout.flush()
+                    self.play_error_audio('first_stage')
+                    self.first_stage_backchannel_available = False
+            except Exception as e:
+                sys.stdout.write(f"[ERROR] First stage相槌の音声合成エラー: {e}\n")
+                sys.stdout.flush()
+                # エラー音声を再生
+                self.play_error_audio('first_stage')
+                self.first_stage_backchannel_available = False
+
+        elif stage == 'second':
+            # Second stage本応答を保存
+
+            # ★詳細な処理情報を出力（コメントアウト：TurnTaking時のみ表示）
+            # sys.stdout.write(f"\n{'='*60}\n")
+            # sys.stdout.write(f"[{timestamp}] 🔊 Second stage応答生成完了\n")
+            # sys.stdout.write(f"{'='*60}\n")
+            # sys.stdout.write(f"📋 内容: '{reply}'\n\n")
+
+            # # NLG処理の詳細情報
+            # if nlg_start_timestamp_ns > 0 and nlg_completion_timestamp_ns > 0:
+            #     sys.stdout.write(f"📊 NLG処理タイミング:\n")
+            #     sys.stdout.write(f"  • 開始時刻:       {ns_to_readable_time(nlg_start_timestamp_ns)}\n")
+            #     sys.stdout.write(f"  • 完了時刻:       {ns_to_readable_time(nlg_completion_timestamp_ns)}\n")
+
+            #     nlg_processing_time = (nlg_completion_timestamp_ns - nlg_start_timestamp_ns) / 1_000_000
+            #     sys.stdout.write(f"\n⏱️  処理時間:\n")
+            #     sys.stdout.write(f"  • NLG推論時間:    {inference_duration_ms:.1f}ms\n")
+            #     sys.stdout.write(f"  • NLG総処理時間:  {nlg_processing_time:.1f}ms\n")
+
+            # sys.stdout.write(f"\n📋 処理詳細:\n")
+            # sys.stdout.write(f"  • Request ID:     {request_id}\n")
+            # sys.stdout.write(f"  • ステージ:       Second Stage (本応答)\n")
+            # sys.stdout.write(f"{'='*60}\n")
+            # sys.stdout.flush()
+
+            # ★即座に音声合成を実行（VOICEVOX API を使用）
+            second_stage_synthesis_success = False
+            try:
+                second_stage_wav_path = self.synthesize_first_stage_backchannel(reply)
+                if second_stage_wav_path and os.path.exists(second_stage_wav_path):
+                    self.latest_synth_filename = second_stage_wav_path
+                    second_stage_synthesis_success = True
+                    now = datetime.now()
+                    timestamp_synth = now.strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[DM-second_synth] Second stage応答の音声合成完了: {second_stage_wav_path} @ {timestamp_synth}\n")
+                    sys.stdout.flush()
+                else:
+                    # Second stage合成失敗 → エラー音声を再生
+                    self.latest_synth_filename = ""
+                    sys.stdout.write(f"[ERROR] Second stage応答の音声合成に失敗しました: {reply}\n")
+                    sys.stdout.flush()
+                    self.play_error_audio('second_stage')
+            except Exception as e:
+                sys.stdout.write(f"[ERROR] Second stage応答の音声合成エラー: {e}\n")
+                sys.stdout.flush()
+                # エラー音声を再生
+                self.play_error_audio('second_stage')
+                # エラー時は明示的にクリア
+                self.latest_synth_filename = ""
+
+            # 合成成功時のみwaitingフラグをクリア（失敗時はキープして再生試行をスキップ）
+            if second_stage_synthesis_success:
+                self.waiting_for_second_stage = False
+                # ★タイムアウトフラグをリセット（成功時）
+                self.second_stage_wait_start_time = None
+                self.second_stage_timeout_played = False
+                sys.stdout.write(f"[DM] Second stage本応答の準備完了、再生待機中\n")
+                sys.stdout.flush()
+            else:
+                sys.stdout.write(f"[WARNING] Second stage本応答の再生をスキップします（合成失敗）\n")
+                sys.stdout.flush()
+                # ★失敗時もタイムアウトフラグをリセット
+                self.second_stage_wait_start_time = None
+                self.second_stage_timeout_played = False
+                self.waiting_for_second_stage = False  # リクエストを続行できるよう初期化
 
     def updateASR(self, asr):
         # ここでASR結果の履歴を管理
         self.asr["you"] = asr["you"]
         self.asr["is_final"] = asr["is_final"]
-        self.asr_history.append(self.asr["you"])  # 追加: 新たな音声認識結果を受信するたびに履歴に追加
+        
+        # タイムスタンプ情報を含むasr_historyに追加
+        asr_entry = {
+            "text": asr["you"],
+            "timestamp_ns": asr.get("timestamp_ns", int(time.time_ns())),  # タイムスタンプがない場合は現在時刻
+            "is_final": asr["is_final"]
+        }
+        self.asr_history.append(asr_entry)
+        
+        # ASRタイミング情報を記録
+        current_time_ns = int(time.time_ns())
+        if "start_timestamp_ns" in asr:
+            self.asr_start_ns = asr["start_timestamp_ns"]
+        if "completion_timestamp_ns" in asr:
+            self.asr_completion_ns = asr["completion_timestamp_ns"]
+        else:
+            # タイムスタンプが提供されていない場合、現在時刻を使用
+            self.asr_completion_ns = current_time_ns
+            
+        # タイミングログに記録
+        if TIMING_AVAILABLE and self.timing_logger and asr["is_final"]:
+            if self.current_session_id is None:
+                self.current_session_id = self.timing_logger.start_session()
+            
+            # ASR完了をログに記録
+            self.timing_logger.log_event(
+                session_id=self.current_session_id,
+                event_type="asr_complete",
+                timestamp_ns=self.asr_completion_ns,
+                data={
+                    "text": asr["you"],
+                    "processing_time_ms": (self.asr_completion_ns - self.asr_start_ns) / 1_000_000 if self.asr_start_ns > 0 else 0
+                }
+            )
+        
         # asr_historyとresponse_updateの値を出力
         # print(f"[DEBUG] asr_history: {self.asr_history}")
         # print(f"[DEBUG] response_update: {self.response_update}")
@@ -604,9 +1339,24 @@ class DialogManagement:
         # 追加: 音声合成ファイル名を受信したらTT閾値超え時に再生用に保存
         if "filename" in ss and ss["filename"]:
             self.latest_synth_filename = ss["filename"]
+            # TTS完了時刻を記録
+            self.tts_completion_ns = int(time.time_ns())
         # ★追加: 対話生成結果を受信して保存
         if "dialogue_text" in ss and ss["dialogue_text"]:
             self.latest_dialogue_result = ss["dialogue_text"]
+        
+        # TTSタイミング情報を受信・保存
+        if "tts_start_timestamp_ns" in ss:
+            self.tts_start_ns = ss["tts_start_timestamp_ns"]
+            # print(f"[DEBUG-updateSS] TTS開始時刻設定: {self.tts_start_ns}")
+        if "tts_completion_timestamp_ns" in ss:
+            received_tts_completion = ss["tts_completion_timestamp_ns"]
+            # print(f"[DEBUG-updateSS] TTS完了時刻受信: {received_tts_completion}")
+            if received_tts_completion > 0:
+                self.tts_completion_ns = received_tts_completion
+                # print(f"[DEBUG-updateSS] TTS完了時刻設定: {self.tts_completion_ns}")
+            # else:
+                # print(f"[DEBUG-updateSS] TTS完了時刻が0のため、現在設定値を維持: {self.tts_completion_ns}")
         
         # ★対話生成時刻情報を受信・保存（デバッグ出力追加）
         if "request_id" in ss:
@@ -615,16 +1365,35 @@ class DialogManagement:
             self.latest_worker_name = ss["worker_name"]
         if "start_timestamp_ns" in ss:
             self.latest_start_timestamp_ns = ss["start_timestamp_ns"]
-            # デバッグ出力：時刻情報受信確認
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            print(f"[{timestamp}][DEBUG] start_timestamp_ns受信: {self.latest_start_timestamp_ns}")
         if "completion_timestamp_ns" in ss:
             self.latest_completion_timestamp_ns = ss["completion_timestamp_ns"]
-            # デバッグ出力：時刻情報受信確認
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            print(f"[{timestamp}][DEBUG] completion_timestamp_ns受信: {self.latest_completion_timestamp_ns}")
+            
+            # NLG + TTS完了をタイミングログに記録
+            if TIMING_AVAILABLE and self.timing_logger and self.current_session_id:
+                self.timing_logger.log_event(
+                    session_id=self.current_session_id,
+                    event_type="nlg_complete",
+                    timestamp_ns=self.latest_completion_timestamp_ns,
+                    data={
+                        "request_id": self.latest_request_id,
+                        "worker_name": self.latest_worker_name,
+                        "dialogue_text": self.latest_dialogue_result,
+                        "processing_time_ms": (self.latest_completion_timestamp_ns - self.latest_start_timestamp_ns) / 1_000_000
+                    }
+                )
+                
+                # TTS完了をタイミングログに記録
+                if self.tts_completion_ns > 0:
+                    self.timing_logger.log_event(
+                        session_id=self.current_session_id,
+                        event_type="tts_complete", 
+                        timestamp_ns=self.tts_completion_ns,
+                        data={
+                            "filename": self.latest_synth_filename,
+                            "processing_time_ms": (self.tts_completion_ns - self.tts_start_ns) / 1_000_000 if self.tts_start_ns > 0 else 0
+                        }
+                    )
+                
         if "inference_duration_ms" in ss:
             self.latest_inference_duration_ms = ss["inference_duration_ms"]
             
@@ -636,6 +1405,11 @@ class DialogManagement:
         # ros2_dm.pyからデータを受け取った時刻を記録
         self.latest_tt_data = data
         self.latest_tt_time = datetime.now()
+        
+        # updateTT処理タイミング出力
+        timestamp_str = self.latest_tt_time.strftime('%H:%M:%S.%f')[:-3]
+        # print(f"[{timestamp_str}][DM_updateTT] TT処理完了 (result={data['result']}, conf={data['confidence']:.3f})")
+        # sys.stdout.flush()
 
     def updateBC(self, data):
         # ros2_dm.pyからデータを受け取った時刻を記録
