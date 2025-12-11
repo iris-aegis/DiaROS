@@ -1214,50 +1214,38 @@ class DialogManagement:
 
         elif stage == 'second':
             # Second stage本応答を保存
-
-            # ★詳細な処理情報を出力（コメントアウト：TurnTaking時のみ表示）
-            # sys.stdout.write(f"\n{'='*60}\n")
-            # sys.stdout.write(f"[{timestamp}] 🔊 Second stage応答生成完了\n")
-            # sys.stdout.write(f"{'='*60}\n")
-            # sys.stdout.write(f"📋 内容: '{reply}'\n\n")
-
-            # # NLG処理の詳細情報
-            # if nlg_start_timestamp_ns > 0 and nlg_completion_timestamp_ns > 0:
-            #     sys.stdout.write(f"📊 NLG処理タイミング:\n")
-            #     sys.stdout.write(f"  • 開始時刻:       {ns_to_readable_time(nlg_start_timestamp_ns)}\n")
-            #     sys.stdout.write(f"  • 完了時刻:       {ns_to_readable_time(nlg_completion_timestamp_ns)}\n")
-
-            #     nlg_processing_time = (nlg_completion_timestamp_ns - nlg_start_timestamp_ns) / 1_000_000
-            #     sys.stdout.write(f"\n⏱️  処理時間:\n")
-            #     sys.stdout.write(f"  • NLG推論時間:    {inference_duration_ms:.1f}ms\n")
-            #     sys.stdout.write(f"  • NLG総処理時間:  {nlg_processing_time:.1f}ms\n")
-
-            # sys.stdout.write(f"\n📋 処理詳細:\n")
-            # sys.stdout.write(f"  • Request ID:     {request_id}\n")
-            # sys.stdout.write(f"  • ステージ:       Second Stage (本応答)\n")
-            # sys.stdout.write(f"{'='*60}\n")
-            # sys.stdout.flush()
+            sys.stdout.write(f"[{timestamp}][DM] ⭐ Second stage応答受信: '{reply}'\n")
+            sys.stdout.flush()
 
             # ★即座に音声合成を実行（VOICEVOX API を使用）
             second_stage_synthesis_success = False
             try:
+                sys.stdout.write(f"[{timestamp}][DM-second] 🎤 Second stage応答の音声合成開始: '{reply}'\n")
+                sys.stdout.flush()
+
                 second_stage_wav_path = self.synthesize_first_stage_backchannel(reply)
+
+                sys.stdout.write(f"[{timestamp}][DM-second] 音声合成結果: path={second_stage_wav_path}, exists={os.path.exists(second_stage_wav_path) if second_stage_wav_path else False}\n")
+                sys.stdout.flush()
+
                 if second_stage_wav_path and os.path.exists(second_stage_wav_path):
                     self.latest_synth_filename = second_stage_wav_path
                     second_stage_synthesis_success = True
                     now = datetime.now()
                     timestamp_synth = now.strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[DM-second_synth] Second stage応答の音声合成完了: {second_stage_wav_path} @ {timestamp_synth}\n")
+                    sys.stdout.write(f"[{timestamp_synth}][DM-second_synth] ✅ Second stage応答の音声合成完了: {second_stage_wav_path}\n")
                     sys.stdout.flush()
                 else:
                     # Second stage合成失敗 → エラー音声を再生
                     self.latest_synth_filename = ""
-                    sys.stdout.write(f"[ERROR] Second stage応答の音声合成に失敗しました: {reply}\n")
+                    sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答の音声合成に失敗しました: {reply}\n")
                     sys.stdout.flush()
                     self.play_error_audio('second_stage')
             except Exception as e:
-                sys.stdout.write(f"[ERROR] Second stage応答の音声合成エラー: {e}\n")
+                sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答の音声合成エラー: {e}\n")
                 sys.stdout.flush()
+                import traceback
+                traceback.print_exc()
                 # エラー音声を再生
                 self.play_error_audio('second_stage')
                 # エラー時は明示的にクリア
@@ -1269,10 +1257,10 @@ class DialogManagement:
                 # ★タイムアウトフラグをリセット（成功時）
                 self.second_stage_wait_start_time = None
                 self.second_stage_timeout_played = False
-                sys.stdout.write(f"[DM] Second stage本応答の準備完了、再生待機中\n")
+                sys.stdout.write(f"[{timestamp}][DM] ✨ Second stage本応答の準備完了、再生待機中\n")
                 sys.stdout.flush()
             else:
-                sys.stdout.write(f"[WARNING] Second stage本応答の再生をスキップします（合成失敗）\n")
+                sys.stdout.write(f"[{timestamp}][WARNING] ⚠️  Second stage本応答の再生をスキップします（合成失敗）\n")
                 sys.stdout.flush()
                 # ★失敗時もタイムアウトフラグをリセット
                 self.second_stage_wait_start_time = None
