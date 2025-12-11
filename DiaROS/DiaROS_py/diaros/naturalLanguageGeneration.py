@@ -210,6 +210,8 @@ class NaturalLanguageGeneration:
         words: 音声認識結果のリスト
         stage: 'first' または 'second'
         turn_taking_decision_timestamp_ns: TurnTaking判定時刻（ナノ秒）
+
+        ⭐ 【検証モード】常にsecond stageのみで応答生成します
         """
         now = datetime.now()
 
@@ -217,8 +219,8 @@ class NaturalLanguageGeneration:
         if self.connection_error_suppress_until and now < self.connection_error_suppress_until:
             return
 
-        # ★stage情報とタイムスタンプを保存
-        self.current_stage = stage
+        # ⭐ 検証: 常にsecond stageで実行（stage パラメータを無視）
+        self.current_stage = 'second'  # DMからのstage指定を上書き → 常にsecond
         self.turn_taking_decision_timestamp_ns = turn_taking_decision_timestamp_ns
 
         # ★性能監視: 大量履歴の受信を記録
@@ -278,12 +280,16 @@ class NaturalLanguageGeneration:
         sys.stdout.flush()
 
         # ★ステージに応じたプロンプト選択と推論実行
-        # セッション初期化なしで同期的に処理（オーバーヘッド削減）
+        # Stage ごとに異なるプロンプトを使い分けて実行（同期処理）
         if self.current_stage == 'first':
             # First stage: dialog_first_stage.txt で相槌生成
+            sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🎭 First stage 実行中\n")
+            sys.stdout.flush()
             self.generate_first_stage(query)
         elif self.current_stage == 'second':
             # Second stage: dialog_second_stage.txt で本応答生成
+            sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}][NLG] 💬 Second stage 実行中\n")
+            sys.stdout.flush()
             self.generate_second_stage(query)
         else:
             # その他: 従来の _perform_simple_inference()
@@ -460,21 +466,31 @@ class NaturalLanguageGeneration:
         start_time = datetime.now()
 
         try:
-            asr_results = query if isinstance(query, list) else [str(query)]
+            # ★修正：queryが空の場合は、前回保存した asr_results を使用
+            # これにより、ROS2ラッパーから空の query が来ても、
+            # DM が蓄積した ASR 履歴を活用できる
+            if isinstance(query, list) and (not query or all((not x or x.strip() == "") for x in query)):
+                # query が空 → 前回保存した asr_results を再利用
+                asr_results = self.asr_results if self.asr_results else []
+                sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用\n")
+                sys.stdout.flush()
+            else:
+                # query が有効 → それを使用
+                asr_results = query if isinstance(query, list) else [str(query)]
 
             # ★修正：Second stageでは空のASR結果でも処理を続ける（first_stage_responseを使用するため）
-            # ただしfirst_stage_responseも空の場合は返す
+            # ⭐ 検証モード: first_stage_responseが空でも処理を続行
             sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🔍 デバッグ: asr_results={asr_results}, first_stage_response='{self.first_stage_response}'\n")
             sys.stdout.flush()
 
-            if (not asr_results or all((not x or x.strip() == "") for x in asr_results)) and not self.first_stage_response:
-                sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ⚠️  早期リターン: asr_results空かつfirst_stage_response空\n")
+            # ⭐ ASR結果が完全に空の場合のみリターン（first_stage_responseは空でもOK）
+            if not asr_results or all((not x or x.strip() == "") for x in asr_results):
+                sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ℹ️  ASR結果が空です。デフォルト応答を生成します\n")
                 sys.stdout.flush()
-                self.last_reply = ""
-                self.last_source_words = []
-                return
+                # このまま処理を続行（asr_resultsは空だが、プロンプト生成は可能）
 
             # プロンプトファイル読み込み
+            prompt_load_start = datetime.now()
             prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
             second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage.txt')
 
@@ -482,16 +498,28 @@ class NaturalLanguageGeneration:
                 with open(second_stage_prompt_path, 'r', encoding='utf-8') as f:
                     prompt_template = f.read()
 
+                prompt_load_time = (datetime.now() - prompt_load_start).total_seconds() * 1000
+                sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 📄 プロンプト読み込み完了（{prompt_load_time:.1f}ms）\n")
+                sys.stdout.flush()
+
                 # ★修正：プロンプトテンプレート内の placeholder を置換
                 # {ここに音声認識結果リストを挿入} を実際のASR結果で置換
-                asr_text = ', '.join(asr_results) if asr_results else "[音声認識結果なし]"
+                # ⭐ 検証モード: ASR結果が空でも空文字列で置換（デフォルト応答を生成）
+                replace_start = datetime.now()
+                asr_text = ', '.join(asr_results) if asr_results else ""  # 空の場合は空文字列
                 prompt_with_asr = prompt_template.replace('{ここに音声認識結果リストを挿入}', asr_text)
 
                 # {ここにリアクションワードを挿入} をfirst_stage_responseで置換
-                prompt_with_backchannel = prompt_with_asr.replace('{ここにリアクションワードを挿入}', self.first_stage_response)
+                # ⭐ first_stage_responseが空の場合も空文字列で置換
+                backchannel_text = self.first_stage_response if self.first_stage_response else ""
+                prompt_with_backchannel = prompt_with_asr.replace('{ここにリアクションワードを挿入}', backchannel_text)
 
                 # 最終プロンプト
                 prompt = prompt_with_backchannel
+
+                replace_time = (datetime.now() - replace_start).total_seconds() * 1000
+                sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🔧 プロンプト置換完了（{replace_time:.1f}ms）\n")
+                sys.stdout.flush()
 
             except FileNotFoundError:
                 sys.stdout.write(f"[NLG ERROR] second_stageプロンプトが見つかりません: {second_stage_prompt_path}\n")
@@ -509,7 +537,18 @@ class NaturalLanguageGeneration:
                     ]
                     query_prompt = ChatPromptTemplate.from_messages(messages)
                     chain = query_prompt | self.ollama_model | StrOutputParser()
+
+                    # chain.invoke() の実行時刻を計測
+                    invoke_start = datetime.now()
+                    sys.stdout.write(f"[{invoke_start.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ⏱️  chain.invoke() 実行開始\n")
+                    sys.stdout.flush()
+
                     res = chain.invoke({})
+
+                    invoke_end = datetime.now()
+                    invoke_time = (invoke_end - invoke_start).total_seconds() * 1000
+                    sys.stdout.write(f"[{invoke_end.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ⏱️  chain.invoke() 実行完了（{invoke_time:.1f}ms）\n")
+                    sys.stdout.flush()
 
                 elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                     messages = [
