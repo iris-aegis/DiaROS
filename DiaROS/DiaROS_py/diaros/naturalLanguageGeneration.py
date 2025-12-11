@@ -526,8 +526,8 @@ class NaturalLanguageGeneration:
                 asr_text = ', '.join(asr_results) if asr_results else "[音声認識結果なし]"
                 prompt_with_asr = prompt_template.replace('{ここに音声認識結果リストを挿入}', asr_text)
 
-                # {first_stage_response} が テンプレートにあれば置換
-                prompt_with_backchannel = prompt_with_asr.replace('{first_stage_response}', self.first_stage_response)
+                # {ここにリアクションワードを挿入} をfirst_stage_responseで置換
+                prompt_with_backchannel = prompt_with_asr.replace('{ここにリアクションワードを挿入}', self.first_stage_response)
 
                 # 最終プロンプト
                 prompt = prompt_with_backchannel
