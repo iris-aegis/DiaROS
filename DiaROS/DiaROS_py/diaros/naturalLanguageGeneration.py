@@ -210,8 +210,6 @@ class NaturalLanguageGeneration:
         words: 音声認識結果のリスト
         stage: 'first' または 'second'
         turn_taking_decision_timestamp_ns: TurnTaking判定時刻（ナノ秒）
-
-        ⭐ 【検証モード】常にsecond stageのみで応答生成します
         """
         now = datetime.now()
 
@@ -219,8 +217,8 @@ class NaturalLanguageGeneration:
         if self.connection_error_suppress_until and now < self.connection_error_suppress_until:
             return
 
-        # ⭐ 検証: 常にsecond stageで実行（stage パラメータを無視）
-        self.current_stage = 'second'  # DMからのstage指定を上書き → 常にsecond
+        # ★stage情報とタイムスタンプを保存
+        self.current_stage = stage
         self.turn_taking_decision_timestamp_ns = turn_taking_decision_timestamp_ns
 
         # ★性能監視: 大量履歴の受信を記録
@@ -479,15 +477,16 @@ class NaturalLanguageGeneration:
                 asr_results = query if isinstance(query, list) else [str(query)]
 
             # ★修正：Second stageでは空のASR結果でも処理を続ける（first_stage_responseを使用するため）
-            # ⭐ 検証モード: first_stage_responseが空でも処理を続行
+            # ただしfirst_stage_responseも空の場合は返す
             sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🔍 デバッグ: asr_results={asr_results}, first_stage_response='{self.first_stage_response}'\n")
             sys.stdout.flush()
 
-            # ⭐ ASR結果が完全に空の場合のみリターン（first_stage_responseは空でもOK）
-            if not asr_results or all((not x or x.strip() == "") for x in asr_results):
-                sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ℹ️  ASR結果が空です。デフォルト応答を生成します\n")
+            if (not asr_results or all((not x or x.strip() == "") for x in asr_results)) and not self.first_stage_response:
+                sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ⚠️  早期リターン: asr_results空かつfirst_stage_response空\n")
                 sys.stdout.flush()
-                # このまま処理を続行（asr_resultsは空だが、プロンプト生成は可能）
+                self.last_reply = ""
+                self.last_source_words = []
+                return
 
             # プロンプトファイル読み込み
             prompt_load_start = datetime.now()
@@ -504,15 +503,12 @@ class NaturalLanguageGeneration:
 
                 # ★修正：プロンプトテンプレート内の placeholder を置換
                 # {ここに音声認識結果リストを挿入} を実際のASR結果で置換
-                # ⭐ 検証モード: ASR結果が空でも空文字列で置換（デフォルト応答を生成）
                 replace_start = datetime.now()
-                asr_text = ', '.join(asr_results) if asr_results else ""  # 空の場合は空文字列
+                asr_text = ', '.join(asr_results) if asr_results else "[音声認識結果なし]"
                 prompt_with_asr = prompt_template.replace('{ここに音声認識結果リストを挿入}', asr_text)
 
                 # {ここにリアクションワードを挿入} をfirst_stage_responseで置換
-                # ⭐ first_stage_responseが空の場合も空文字列で置換
-                backchannel_text = self.first_stage_response if self.first_stage_response else ""
-                prompt_with_backchannel = prompt_with_asr.replace('{ここにリアクションワードを挿入}', backchannel_text)
+                prompt_with_backchannel = prompt_with_asr.replace('{ここにリアクションワードを挿入}', self.first_stage_response)
 
                 # 最終プロンプト
                 prompt = prompt_with_backchannel
