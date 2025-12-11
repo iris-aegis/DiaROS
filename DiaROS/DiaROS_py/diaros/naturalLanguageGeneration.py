@@ -529,37 +529,66 @@ class NaturalLanguageGeneration:
 
             try:
                 if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
-                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 📋 messages 構築中\n")
+                    # ★Second stage でも requests API を直接呼び出し（first stage と同じ方式）
+                    # LangChain のオーバーヘッドを排除
+                    import requests
+
+                    api_start = datetime.now()
+                    sys.stdout.write(f"[{api_start.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 📤 Ollama API /api/chat エンドポイント呼び出し開始\n")
                     sys.stdout.flush()
 
-                    messages = [
-                        ("system", prompt)
-                    ]
+                    response = requests.post(
+                        'http://localhost:11434/api/chat',
+                        json={
+                            'model': self.model_name,
+                            'messages': [
+                                {"role": "system", "content": prompt}
+                            ],
+                            'stream': True,
+                            'options': {
+                                'temperature': 0.3,
+                                'num_predict': 50,  # second stage は最大50トークン（20文字程度の一言用）
+                                'num_ctx': 512,
+                                'num_batch': 256
+                            }
+                        },
+                        stream=True,
+                        timeout=30
+                    )
 
-                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🔨 ChatPromptTemplate.from_messages() 実行中\n")
-                    sys.stdout.flush()
+                    res = ""
+                    first_token_time = None
+                    token_count = 0
 
-                    query_prompt = ChatPromptTemplate.from_messages(messages)
+                    for line in response.iter_lines():
+                        if line:
+                            try:
+                                chunk_data = json.loads(line)
+                                message_data = chunk_data.get('message', {})
+                                token_fragment = message_data.get('content', '')
 
-                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🔗 chain 構築中 (query_prompt | ollama_model | StrOutputParser)\n")
-                    sys.stdout.flush()
+                                if token_fragment:
+                                    token_count += 1
 
-                    chain = query_prompt | self.ollama_model | StrOutputParser()
+                                    # Time to First Token (TTFT) 計測
+                                    if first_token_time is None:
+                                        first_token_time = datetime.now()
+                                        ttft_ms = (first_token_time - api_start).total_seconds() * 1000
+                                        sys.stdout.write(f"[{first_token_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 🎯 TTFT: {ttft_ms:.1f}ms\n")
+                                        sys.stdout.flush()
 
-                    sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ✅ chain 構築完了\n")
-                    sys.stdout.flush()
+                                    res += token_fragment
 
-                    # chain.invoke() の実行時刻を計測
-                    invoke_start = datetime.now()
-                    sys.stdout.write(f"[{invoke_start.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ⏱️  chain.invoke() 実行開始\n")
-                    sys.stdout.flush()
+                                # 完了チェック
+                                if chunk_data.get('done', False):
+                                    api_end = datetime.now()
+                                    total_time = (api_end - api_start).total_seconds() * 1000
+                                    sys.stdout.write(f"[{api_end.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ⚙️  推論時間: {total_time:.1f}ms (トークン数: {token_count})\n")
+                                    sys.stdout.flush()
+                                    break
 
-                    res = chain.invoke({})
-
-                    invoke_end = datetime.now()
-                    invoke_time = (invoke_end - invoke_start).total_seconds() * 1000
-                    sys.stdout.write(f"[{invoke_end.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] ⏱️  chain.invoke() 実行完了（{invoke_time:.1f}ms）\n")
-                    sys.stdout.flush()
+                            except json.JSONDecodeError:
+                                continue
 
                 elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                     messages = [
