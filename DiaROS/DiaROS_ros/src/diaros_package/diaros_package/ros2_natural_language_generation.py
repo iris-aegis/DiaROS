@@ -25,7 +25,7 @@ class RosNaturalLanguageGeneration(Node):
         self.stage_start_timestamp_ns = 0  # ステージ開始時刻（ナノ秒）
 
     def dm_update(self, msg):
-        """DMからのリクエストを受信"""
+        """DMからのリクエストを受信（非同期処理）"""
         words = list(msg.words)
         stage = getattr(msg, 'stage', 'first')  # stageフィールドを取得
         request_id = getattr(msg, 'request_id', 0)
@@ -50,8 +50,15 @@ class RosNaturalLanguageGeneration(Node):
                     f"[NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
                 )
 
-            # ★stage情報とTurnTaking判定時刻を渡す
-            self.naturalLanguageGeneration.update(words, stage=stage, turn_taking_decision_timestamp_ns=turn_taking_decision_timestamp_ns)
+            # ★【重要】update() をスレッドで非同期実行
+            # ROS2 コールバックをブロックせず、複数のリクエストを並列処理可能に
+            # ★【修正】ラムダ関数を使ってパラメータをキャプチャ（遅延評価を防止）
+            update_thread = threading.Thread(
+                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns:
+                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t),
+                daemon=True
+            )
+            update_thread.start()
 
     def ping(self):
         """NLGが応答を生成したら、ステージ情報と共に送信"""
