@@ -1,599 +1,227 @@
-[ros2_dialog_management-4] 
-[ros2_dialog_management-4] additional start
-[ros2_dialog_management-4] [INFO] [1765514790.031284318] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514790.032087947] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:30.032] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:30.032] 履歴受信（2個）
-[ros2_dialog_management-4] [INFO] [1765514790.425092646] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514790.426409432] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:30.426] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:30.426] 履歴受信（2個）
-[ros2_dialog_management-4] [INFO] [1765514790.516708625] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514790.517305349] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:30.517] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:30.517] 履歴受信（2個）
-[ros2_dialog_management-4] [INFO] [1765514790.670327318] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514790.671197321] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:30.671] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:30.671] 履歴受信（2個）
-[ros2_dialog_management-4] [INFO] [1765514790.810713821] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514790.811515677] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:30.811] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:30.811] 履歴受信（2個）
-[ros2_dialog_management-4] [INFO] [1765514790.958061631] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514790.958885122] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:30.959] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:30.959] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:31.030]
-[ros2_natural_language_generation-5] [INFO] [1765514791.048812667] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2099.4ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514791.087348550] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514791.088219532] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_dialog_management-4] [INFO] [1765514791.088258906] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_natural_language_generation-5] [13:46:31.088] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:31.088] 履歴受信（3個）
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_natural_language_generation-5] [13:46:31.111]
-[ros2_natural_language_generation-5] [13:46:31.178]
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 121.1ms, ファイル: ./tmp/first_stage_20251212134631163485.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631163485.wav @ 13:46:31.229
-[ros2_dialog_management-4] [INFO] [1765514791.242132442] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514791.242812833] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:31.242] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:31.242] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:31.244]
-[ros2_natural_language_generation-5] [13:46:31.314]
-[ros2_dialog_management-4] [INFO] [1765514791.337342141] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514791.339078289] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:31.339] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:31.339] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:31.392]
-[ros2_natural_language_generation-5] [13:46:31.424]
-[ros2_natural_language_generation-5] [INFO] [1765514791.428491693] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2479.3ms, 応答='うんうん...' )
-[ros2_natural_language_generation-5] [13:46:31.465]
-[ros2_dialog_management-4] [INFO] [1765514791.466798170] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514791.467627622] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:31.467] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:31.467] 履歴受信（3個）
-[ros2_dialog_management-4] [INFO] [1765514791.468349836] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_natural_language_generation-5] [13:46:31.506]
-[ros2_natural_language_generation-5] [13:46:31.537]
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 112.3ms, ファイル: ./tmp/first_stage_20251212134631544989.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631544989.wav @ 13:46:31.601
-[ros2_natural_language_generation-5] [13:46:31.601]
-[ros2_natural_language_generation-5] [INFO] [1765514791.608543313] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2659.3ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514791.642184171] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514791.642682050] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:31.642] stage='first' で更新
-[ros2_dialog_management-4] [INFO] [1765514791.642886349] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_natural_language_generation-5] [13:46:31.642] 履歴受信（3個）
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_natural_language_generation-5] [13:46:31.655]
-[ros2_natural_language_generation-5] [INFO] [1765514791.668575670] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2719.3ms, 応答='そっかー...' )
-[ros2_natural_language_generation-5] [13:46:31.705]
-[ros2_natural_language_generation-5] [INFO] [1765514791.708389296] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2759.3ms, 応答='うんうん...' )
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 90.9ms, ファイル: ./tmp/first_stage_20251212134631708257.wav)
-[ros2_natural_language_generation-5] [13:46:31.744]
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631708257.wav @ 13:46:31.754
-[ros2_natural_language_generation-5] [13:46:31.777]
-[ros2_dialog_management-4] [INFO] [1765514791.812689985] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_dialog_management-4] [INFO] [1765514791.813317739] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
-[ros2_natural_language_generation-5] [INFO] [1765514791.813413134] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:31.813] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:31.813] 履歴受信（3個）
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.1ms, ファイル: ./tmp/first_stage_20251212134631829270.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631829270.wav @ 13:46:31.829
-[ros2_natural_language_generation-5] [13:46:31.894]
-[ros2_natural_language_generation-5] [INFO] [1765514791.908506277] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2959.3ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514791.994821008] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 20.4ms, ファイル: ./tmp/first_stage_20251212134632015114.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134632015114.wav @ 13:46:32.015
-[ros2_natural_language_generation-5] [13:46:32.041]
-[ros2_dialog_management-4] [INFO] [1765514792.353426763] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514792.353997218] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:32.354] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:32.354] 履歴受信（3個）
-[ros2_dialog_management-4] [INFO] [1765514792.534389463] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514792.534885319] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:32.535] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:32.535] 履歴受信（3個）
-[ros2_turn_taking-7] [13:46:32.546][ROS_TT] キューから取得, [13:46:32.546][ROS_TT] DM向け送信完了 (result=0, conf=0.141)
-[ros2_natural_language_generation-5] [13:46:32.567]
-[ros2_natural_language_generation-5] [INFO] [1765514792.568407140] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=3619.3ms, 応答='そっかー...' )
-[ros2_natural_language_generation-5] [13:46:32.739]
-[ros2_dialog_management-4] [INFO] [1765514792.860420450] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'そっかー...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 197.8ms, ファイル: ./tmp/first_stage_20251212134633032726.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134633032726.wav @ 13:46:33.073
-[ros2_dialog_management-4] [INFO] [1765514793.217533943] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514793.218047018] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:33.218] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:33.218] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:33.397]
-[ros2_natural_language_generation-5] [INFO] [1765514793.408723582] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=4459.3ms, 応答='うんうん...' )
-[ros2_dialog_management-4] [INFO] [1765514793.411084959] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514793.411810493] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:33.411] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:33.411] 履歴受信（3個）
-[ros2_dialog_management-4] [INFO] [1765514793.412131150] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 23.0ms, ファイル: ./tmp/first_stage_20251212134633435018.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134633435018.wav @ 13:46:33.435
-[ros2_natural_language_generation-5] [13:46:33.594]
-[ros2_dialog_management-4] [INFO] [1765514793.600715998] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514793.601535888] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:33.601] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:33.601] 履歴受信（4個）
-[ros2_natural_language_generation-5] [13:46:33.791]
-[ros2_dialog_management-4] [INFO] [1765514793.800662527] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514793.801304293] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:33.801] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:33.801] 履歴受信（4個）
-[ros2_natural_language_generation-5] [INFO] [1765514793.808481306] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=4859.3ms, 応答='へーすごい...' )
-[ros2_dialog_management-4] [INFO] [1765514793.808976783] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 120.5ms, ファイル: ./tmp/first_stage_20251212134633893770.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134633893770.wav @ 13:46:33.950
-[ros2_natural_language_generation-5] [13:46:33.986]
-[ros2_natural_language_generation-5] [INFO] [1765514793.988832728] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=5039.5ms, 応答='うんうん...' )
-[ros2_dialog_management-4] [INFO] [1765514794.026604354] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514794.027451254] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:34.027] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:34.027] 履歴受信（4個）
-[ros2_dialog_management-4] [INFO] [1765514794.027875883] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.9ms, ファイル: ./tmp/first_stage_20251212134634044708.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134634044708.wav @ 13:46:34.044
-[ros2_natural_language_generation-5] [13:46:34.241]
-[ros2_turn_taking-7] [13:46:34.291][ROS_TT] キューから取得, [13:46:34.291][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
-[ros2_dialog_management-4] [INFO] [1765514794.500624481] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514794.501558807] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:34.501] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:34.501] 履歴受信（4個）
-[ros2_dialog_management-4] [INFO] [1765514794.679523696] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514794.686028656] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:34.686] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:34.686] 履歴受信（4個）
-[ros2_natural_language_generation-5] [13:46:34.697]
-[ros2_dialog_management-4] [INFO] [1765514794.704072336] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514794.705022771] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:34.705] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:34.705] 履歴受信（4個）
-[ros2_natural_language_generation-5] [INFO] [1765514794.713744330] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=5764.3ms, 応答='へーすごい...' )
-[ros2_natural_language_generation-5] [13:46:34.915]
-[ros2_natural_language_generation-5] [13:46:34.961]
-[ros2_dialog_management-4] [INFO] [1765514795.005840747] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 224.2ms, ファイル: ./tmp/first_stage_20251212134635194387.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134635194387.wav @ 13:46:35.250
-[ros2_dialog_management-4] [INFO] [1765514795.439140717] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514795.439953526] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:35.440] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:35.440] 履歴受信（4個）
-[ros2_natural_language_generation-5] [13:46:35.620]
-[ros2_natural_language_generation-5] [INFO] [1765514795.628495806] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=6679.3ms, 応答='うんうん...' )
-[ros2_dialog_management-4] [INFO] [1765514795.647473160] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514795.648347205] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_dialog_management-4] [INFO] [1765514795.648472592] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
-[ros2_natural_language_generation-5] [13:46:35.648] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:35.648] 履歴受信（4個）
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.6ms, ファイル: ./tmp/first_stage_20251212134635663970.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134635663970.wav @ 13:46:35.664
-[ros2_natural_language_generation-5] [13:46:35.821]
-[ros2_natural_language_generation-5] [INFO] [1765514795.828845880] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=6879.4ms, 応答='いいね...' )
-[ros2_dialog_management-4] [INFO] [1765514795.859294379] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514795.859813811] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:35.859] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:35.859] 履歴受信（4個）
-[ros2_dialog_management-4] [INFO] [1765514795.860540346] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'いいね...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.9ms, ファイル: ./tmp/first_stage_20251212134635876312.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134635876312.wav @ 13:46:35.876
-[ros2_natural_language_generation-5] [13:46:36.050]
-[ros2_dialog_management-4] [INFO] [1765514796.068678628] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
-[ros2_natural_language_generation-5] [INFO] [1765514796.069440829] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:36.069] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:36.069] 履歴受信（4個）
-[ros2_natural_language_generation-5] [13:46:36.253]
-[ros2_dialog_management-4] [INFO] [1765514796.284043915] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514796.284912672] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:36.285] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:36.285] 履歴受信（5個）
-[ros2_natural_language_generation-5] [13:46:36.463]
-[ros2_natural_language_generation-5] [INFO] [1765514796.468761905] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=7519.4ms, 応答='なるほど...' )
-[ros2_dialog_management-4] [INFO] [1765514796.510002882] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514796.510459072] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:36.510] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:36.510] 履歴受信（5個）
-[ros2_dialog_management-4] [INFO] [1765514796.511251148] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.0ms, ファイル: ./tmp/first_stage_20251212134636527125.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134636527125.wav @ 13:46:36.527
-[ros2_natural_language_generation-5] [13:46:36.703]
-[ros2_natural_language_generation-5] [INFO] [1765514796.708377778] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=7759.3ms, 応答='うんうん...' )
-[ros2_dialog_management-4] [INFO] [1765514796.744838845] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514796.745442857] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:36.745] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:36.745] 履歴受信（5個）
-[ros2_dialog_management-4] [INFO] [1765514796.745740654] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 13.9ms, ファイル: ./tmp/first_stage_20251212134636759620.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134636759620.wav @ 13:46:36.759
-[ros2_natural_language_generation-5] [13:46:36.946]
-[ros2_dialog_management-4] [INFO] [1765514797.002355681] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514797.003215067] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:37.003] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:37.003] 履歴受信（5個）
-[ros2_natural_language_generation-5] [13:46:37.221]
-[ros2_natural_language_generation-5] [INFO] [1765514797.228794068] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=8279.3ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514797.260583703] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514797.261090789] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:37.261] stage='first' で更新
-[ros2_dialog_management-4] [INFO] [1765514797.261275785] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_natural_language_generation-5] [13:46:37.261] 履歴受信（5個）
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.7ms, ファイル: ./tmp/first_stage_20251212134637278848.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134637278848.wav @ 13:46:37.279
-[ros2_natural_language_generation-5] [13:46:37.464]
-[ros2_natural_language_generation-5] [INFO] [1765514797.468695462] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=8519.3ms, 応答='なるほど...' )
-[ros2_dialog_management-4] [INFO] [1765514797.541790486] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.2ms, ファイル: ./tmp/first_stage_20251212134637558903.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134637558903.wav @ 13:46:37.559
-[ros2_turn_taking-7] [13:46:37.631][ROS_TT] キューから取得, [13:46:37.631][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
-[ros2_dialog_management-4] [INFO] [1765514797.796019952] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514797.796812238] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:37.796] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:37.796] 履歴受信（5個）
-[ros2_natural_language_generation-5] [13:46:38.009]
-[ros2_natural_language_generation-5] [INFO] [1765514798.028756579] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=9079.4ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514798.067237684] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514798.067737850] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:38.067] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:38.067] 履歴受信（5個）
-[ros2_dialog_management-4] [INFO] [1765514798.068155391] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.0ms, ファイル: ./tmp/first_stage_20251212134638084081.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134638084081.wav @ 13:46:38.084
-[ros2_natural_language_generation-5] [13:46:38.250]
-[ros2_natural_language_generation-5] [INFO] [1765514798.268407720] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=9319.3ms, 応答='なるほど...' )
-[ros2_dialog_management-4] [INFO] [1765514798.346286668] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514798.346783766] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:38.346] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:38.346] 履歴受信（5個）
-[ros2_dialog_management-4] [INFO] [1765514798.347238260] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.9ms, ファイル: ./tmp/first_stage_20251212134638365076.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134638365076.wav @ 13:46:38.365
-[ros2_natural_language_generation-5] [13:46:38.562]
-[ros2_dialog_management-4] [INFO] [1765514798.625118954] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
-[ros2_natural_language_generation-5] [INFO] [1765514798.626049992] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:38.626] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:38.626] 履歴受信（5個）
-[ros2_natural_language_generation-5] [13:46:38.846]
-[ros2_dialog_management-4] [INFO] [1765514798.946555056] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514798.947379872] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:38.947] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:38.947] 履歴受信（6個）
-[ros2_natural_language_generation-5] [13:46:39.170]
-[ros2_dialog_management-4] [INFO] [1765514799.257305915] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514799.258167105] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:39.258] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:39.258] 履歴受信（6個）
-[ros2_dialog_management-4] [INFO] [1765514799.448134979] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514799.449023832] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:39.449] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:39.449] 履歴受信（6個）
-[ros2_natural_language_generation-5] [13:46:39.474]
-[ros2_dialog_management-4] [INFO] [1765514799.594497734] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514799.595041013] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:39.595] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:39.595] 履歴受信（6個）
-[ros2_natural_language_generation-5] [13:46:39.707]
-[ros2_natural_language_generation-5] [INFO] [1765514799.708415993] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=10759.2ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-5] [13:46:39.841]
-[ros2_natural_language_generation-5] [INFO] [1765514799.848760600] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=10899.4ms, 応答='そっかー...' )
-[ros2_dialog_management-4] [INFO] [1765514799.889959104] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514799.890795945] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:39.890] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:39.890] 履歴受信（6個）
-[ros2_dialog_management-4] [INFO] [1765514799.891447751] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'そっかー...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.3ms, ファイル: ./tmp/first_stage_20251212134639906696.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134639906696.wav @ 13:46:39.906
-[ros2_natural_language_generation-5] [13:46:40.199]
-[ros2_dialog_management-4] [INFO] [1765514800.205897003] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514800.206826231] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:40.206] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:40.206] 履歴受信（6個）
-[ros2_natural_language_generation-5] [INFO] [1765514800.209041033] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=11259.6ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514800.244428237] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 20.2ms, ファイル: ./tmp/first_stage_20251212134640264536.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134640264536.wav @ 13:46:40.264
-[ros2_dialog_management-4] [INFO] [1765514800.265873389] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514800.266600504] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:40.266] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:40.266] 履歴受信（6個）
-[ros2_natural_language_generation-5] [13:46:40.431]
-[ros2_natural_language_generation-5] [INFO] [1765514800.448586793] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=11499.3ms, 応答='なるほど...' )
-[ros2_natural_language_generation-5] [13:46:40.500]
-[ros2_dialog_management-4] [INFO] [1765514800.524560998] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514800.525584165] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:40.525] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:40.525] 履歴受信（6個）
-[ros2_dialog_management-4] [INFO] [1765514800.525857795] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.9ms, ファイル: ./tmp/first_stage_20251212134640540681.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134640540681.wav @ 13:46:40.540
-[ros2_natural_language_generation-5] [13:46:40.730]
-[ros2_dialog_management-4] [INFO] [1765514800.784548004] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514800.785141607] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:40.785] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:40.785] 履歴受信（6個）
-[ros2_natural_language_generation-5] [13:46:40.989]
-[ros2_dialog_management-4] [INFO] [1765514801.063313161] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514801.063852844] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:41.063] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:41.063] 履歴受信（6個）
-[ros2_dialog_management-4] [INFO] [1765514801.231573310] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
-[ros2_natural_language_generation-5] [INFO] [1765514801.232190498] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:41.232] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:41.232] 履歴受信（6個）
-[ros2_natural_language_generation-5] [13:46:41.280]
-[ros2_natural_language_generation-5] [13:46:41.468]
-[ros2_dialog_management-4] [INFO] [1765514801.678921128] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514801.679611045] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:41.679] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:41.679] 履歴受信（7個）
-[ros2_natural_language_generation-5] [13:46:41.906]
-[ros2_dialog_management-4] [INFO] [1765514801.991370072] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514801.991990278] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:41.992] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:41.992] 履歴受信（7個）
-[ros2_dialog_management-4] [INFO] [1765514802.003326932] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514802.004004588] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:42.004] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:42.004] 履歴受信（7個）
-[ros2_natural_language_generation-5] [13:46:42.214]
-[ros2_natural_language_generation-5] [INFO] [1765514802.228533998] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=13279.3ms, 応答='うんうん...' )
-[ros2_natural_language_generation-5] [13:46:42.285]
-[ros2_natural_language_generation-5] [INFO] [1765514802.288595786] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=13339.3ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514802.390285330] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.5ms, ファイル: ./tmp/first_stage_20251212134642404697.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134642404697.wav @ 13:46:42.404
-[ros2_dialog_management-4] [INFO] [1765514802.405706279] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 65.4ms, ファイル: ./tmp/first_stage_20251212134642450687.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134642450687.wav @ 13:46:42.491
-[ros2_turn_taking-7] [13:46:42.618][ROS_TT] キューから取得, [13:46:42.618][ROS_TT] DM向け送信完了 (result=0, conf=0.202)
-[ros2_dialog_management-4] [INFO] [1765514802.682640765] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514802.683260035] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:42.683] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:42.683] 履歴受信（7個）
-[ros2_dialog_management-4] [INFO] [1765514802.730696190] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514802.731386248] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:42.731] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:42.731] 履歴受信（7個）
-[ros2_natural_language_generation-5] [13:46:42.939]
-[ros2_dialog_management-4] [INFO] [1765514802.951451995] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514802.952060875] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:42.952] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:42.952] 履歴受信（7個）
-[ros2_natural_language_generation-5] [13:46:42.977]
-[ros2_natural_language_generation-5] [INFO] [1765514802.988458332] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=14039.3ms, 応答='へーすごい...' )
-[ros2_dialog_management-4] [INFO] [1765514803.149097156] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_dialog_management-4] [INFO] [1765514803.149889492] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
-[ros2_natural_language_generation-5] [INFO] [1765514803.149898952] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:43.150] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:43.150] 履歴受信（7個）
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 19.0ms, ファイル: ./tmp/first_stage_20251212134643168679.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134643168679.wav @ 13:46:43.169
-[ros2_natural_language_generation-5] [13:46:43.203]
-[ros2_natural_language_generation-5] [INFO] [1765514803.208563972] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=14259.3ms, 応答='なるほど...' )
-[ros2_natural_language_generation-5] [13:46:43.358]
-[ros2_turn_taking-7] [13:46:43.465][ROS_TT] キューから取得, [13:46:43.465][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
-[ros2_dialog_management-4] [INFO] [1765514803.468103921] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514803.468947710] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:43.469] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:43.469] 履歴受信（7個）
-[ros2_dialog_management-4] [INFO] [1765514803.474707928] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.5ms, ファイル: ./tmp/first_stage_20251212134643491066.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134643491066.wav @ 13:46:43.491
-[ros2_natural_language_generation-5] [13:46:43.676]
-[ros2_dialog_management-4] [INFO] [1765514803.790389015] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765514803.790910919] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:43.791] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:43.791] 履歴受信（7個）
-[ros2_dialog_management-4] [INFO] [1765514803.839305512] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514803.840167766] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:43.840] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:43.840] 履歴受信（8個）
-[ros2_natural_language_generation-5] [13:46:44.020]
-[ros2_natural_language_generation-5] [13:46:44.069]
-[ros2_dialog_management-4] [INFO] [1765514804.123044925] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514804.123959980] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:44.124] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:44.124] 履歴受信（8個）
-[ros2_dialog_management-4] [INFO] [1765514804.195435977] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514804.196252198] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:44.196] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:44.196] 履歴受信（8個）
-[ros2_natural_language_generation-5] [13:46:44.359]
-[ros2_natural_language_generation-5] [13:46:44.431]
-[ros2_dialog_management-4] [INFO] [1765514804.445764587] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514804.446693253] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:44.446] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:44.446] 履歴受信（8個）
-[ros2_dialog_management-4] [INFO] [1765514804.516864632] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514804.517676437] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:44.517] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:44.517] 履歴受信（8個）
-[ros2_natural_language_generation-5] [13:46:44.686]
-[ros2_natural_language_generation-5] [INFO] [1765514804.688410654] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15739.3ms, 応答='そっかー...' )
-[ros2_natural_language_generation-5] [13:46:44.745]
-[ros2_natural_language_generation-5] [INFO] [1765514804.748399596] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15799.3ms, 応答='なるほど...' )
-[ros2_dialog_management-4] [INFO] [1765514804.849609511] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_dialog_management-4] [INFO] [1765514804.850392391] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
-[ros2_natural_language_generation-5] [INFO] [1765514804.850459364] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:44.850] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:44.850] 履歴受信（8個）
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.7ms, ファイル: ./tmp/first_stage_20251212134644865033.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134644865033.wav @ 13:46:44.865
-[ros2_natural_language_generation-5] [13:46:45.073]
-[ros2_natural_language_generation-5] [INFO] [1765514805.088726777] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=16139.3ms, 応答='へーすごい...' )
-[ros2_dialog_management-4] [INFO] [1765514805.123499201] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514805.124497081] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:45.124] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:45.124] 履歴受信（8個）
-[ros2_turn_taking-7] [13:46:45.209][ROS_TT] キューから取得, [13:46:45.209][ROS_TT] DM向け送信完了 (result=1, conf=0.915)
-[ros2_dialog_management-4] [INFO] [1765514805.264291006] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.7ms, ファイル: ./tmp/first_stage_20251212134645279961.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134645279961.wav @ 13:46:45.280
-[ros2_dialog_management-4] [INFO] [1765514805.280766256] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514805.281315887] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:45.281] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:45.281] 履歴受信（8個）
-[ros2_dialog_management-4] 
-[ros2_dialog_management-4] ======================================================================
-[ros2_dialog_management-4] 🔊 【TurnTaking 話者交代判定】@ 13:46:45.293
-[ros2_dialog_management-4] ======================================================================
-[ros2_dialog_management-4] [DEBUG-TT] ASR履歴を保存: 113件
-[ros2_dialog_management-4] [TT] First stage相槌再生: 'へーすごい'
-[ros2_dialog_management-4] [TT] 事前合成済みのfirst_stage音声を使用 @ 13:46:45.293
-[ros2_dialog_management-4] [TT] First stage相槌再生開始: ./tmp/first_stage_20251212134645279961.wav @ 13:46:45.294
-[ros2_dialog_management-4] [INFO] [1765514805.294984795] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765514805.295850104] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:45.296] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:45.296] 履歴受信（8個）
-[ros2_natural_language_generation-5] [13:46:45.337]
-[ros2_natural_language_generation-5] [13:46:45.541]
-[ros2_natural_language_generation-5] [13:46:45.606]
-[ros2_natural_language_generation-5] [INFO] [1765514805.608697129] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=16659.3ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514805.609104999] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 21.5ms, ファイル: ./tmp/first_stage_20251212134645630509.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134645630509.wav @ 13:46:45.630
-[ros2_dialog_management-4] [TT] First stage相槌再生完了 @ 13:46:46.176 (長さ: 0.88秒)
-[ros2_dialog_management-4] [TT] 第2段階リクエスト送信フラグを設定（TurnTaking判定時） @ 13:46:46.176
-[ros2_dialog_management-4] [INFO] [1765514806.232817883] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=0)
-[ros2_natural_language_generation-5] [INFO] [1765514806.233337730] [natural_language_generation]: [NLG-DEBUG] DM受信: words=0件, stage='first', request_id=1, msg.stage属性=True
-[ros2_dialog_management-4] [INFO] [1765514806.329865726] [dialog_management]: [DEBUG] Second stage リクエスト処理開始
-[ros2_dialog_management-4] [DM-second] TurnTaking判定時保存のASR履歴を使用: 113件 @ 13:46:46.329
-[ros2_dialog_management-4] [INFO] [1765514806.408851843] [dialog_management]: [DEBUG] Second stageメッセージ送信: stage='second', request_id=2, words=0件
-[ros2_dialog_management-4] [INFO] [1765514806.409266523] [dialog_management]: [DM] 応答生成リクエスト送信 (request_id=2, 入力数=0)
-[ros2_natural_language_generation-5] [INFO] [1765514806.410021870] [natural_language_generation]: [NLG-DEBUG] DM受信: words=0件, stage='second', request_id=2, msg.stage属性=True
-[ros2_natural_language_generation-5] [INFO] [1765514806.410415038] [natural_language_generation]: [NLG] 応答生成ステージ開始 (request_id=2, 入力数=0)
-[ros2_natural_language_generation-5] [13:46:46.410] stage='second' で更新
-[ros2_natural_language_generation-5] [13:46:46.410][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用
-[ros2_dialog_management-4] [INFO] [1765514806.631634981] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=1)
-[ros2_natural_language_generation-5] [INFO] [1765514806.632596968] [natural_language_generation]: [NLG-DEBUG] DM受信: words=1件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [INFO] [1765514806.633039895] [natural_language_generation]: [NLG] 相槌生成ステージ開始 (request_id=3, 入力数=1)
-[ros2_natural_language_generation-5] [13:46:46.633] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:46.633] 履歴受信（1個）
-[ros2_natural_language_generation-5] [13:46:46.674]
-[ros2_dialog_management-4] [INFO] [1765514806.680351853] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514806.680950250] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:46.681] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:46.681] 履歴受信（2個）
-[ros2_natural_language_generation-5] [INFO] [1765514806.688469711] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=55.5ms, 応答='マジで！？　びっくり！...' )
-[ros2_dialog_management-4] [INFO] [1765514806.689366710] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'マジで！？　びっくり！...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 140.1ms, ファイル: ./tmp/first_stage_20251212134646783672.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134646783672.wav @ 13:46:46.850
-[ros2_natural_language_generation-5] [13:46:46.890]
-[ros2_natural_language_generation-5] [INFO] [1765514806.908735244] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=275.6ms, 応答='うんうん...' )
-[ros2_natural_language_generation-5] [13:46:46.927]
-[ros2_dialog_management-4] [INFO] [1765514806.971313658] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514806.971924362] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:46.972] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:46.972] 履歴受信（2個）
-[ros2_dialog_management-4] [INFO] [1765514806.972224236] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'うんうん...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.6ms, ファイル: ./tmp/first_stage_20251212134646986765.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134646986765.wav @ 13:46:46.987
-[ros2_natural_language_generation-5] [13:46:47.184]
-[ros2_dialog_management-4] [INFO] [1765514807.237088516] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514807.237654791] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:47.237] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:47.237] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:47.463]
-[ros2_dialog_management-4] [INFO] [1765514807.475529142] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514807.476440438] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:47.476] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:47.476] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:47.684]
-[ros2_dialog_management-4] [INFO] [1765514807.759915587] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514807.760611142] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:47.760] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:47.760] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:47.978]
-[ros2_dialog_management-4] [INFO] [1765514808.021783181] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514808.022417742] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:48.022] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:48.022] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:48.247]
-[ros2_dialog_management-4] [INFO] [1765514808.299830352] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514808.300367109] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:48.300] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:48.300] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:48.505]
-[ros2_dialog_management-4] [INFO] [1765514808.546979166] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514808.547552331] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:48.547] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:48.547] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:48.752]
-[ros2_dialog_management-4] [INFO] [1765514808.779481469] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514808.780203443] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:48.780] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:48.780] 履歴受信（2個）
-[ros2_natural_language_generation-5] [13:46:49.001]
-[ros2_dialog_management-4] [INFO] [1765514809.018945696] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765514809.019598244] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:49.019] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:49.019] 履歴受信（2個）
-[ros2_dialog_management-4] [INFO] [1765514809.233243202] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514809.233841534] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:49.233] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:49.233] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:49.237]
-[ros2_dialog_management-4] [INFO] [1765514809.430261313] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514809.431019650] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:49.431] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:49.431] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:49.440]
-[ros2_dialog_management-4] [INFO] [1765514809.615588203] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514809.616502963] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:49.616] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:49.616] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:49.641]
-[ros2_dialog_management-4] [INFO] [1765514809.822825846] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514809.823858438] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:49.824] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:49.824] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:49.829]
-[ros2_dialog_management-4] [INFO] [1765514810.003366381] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514810.004258359] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:50.004] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:50.004] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:50.045]
-[ros2_natural_language_generation-5] [13:46:50.210]
-[INFO] [ros2_acoustic_analysis-1]: process started with pid [4078219]
-[INFO] [ros2_automatic_speech_recognition-2]: process started with pid [4078221]
-[INFO] [ros2_natural_language_understanding-3]: process started with pid [4078223]
-[INFO] [ros2_dialog_management-4]: process started with pid [4078225]
-[INFO] [ros2_natural_language_generation-5]: process started with pid [4078227]
-[INFO] [ros2_speech_synthesis-6]: process started with pid [4078229]
-[INFO] [ros2_turn_taking-7]: process started with pid [4078231]
-[INFO] [ros2_back_channel-8]: process started with pid [4078233]
+[ros2_back_channel-9]   File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+[ros2_back_channel-9]     self.run()
+[ros2_back_channel-9]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ros2_back_channel-9]     self._target(*self._args, **self._kwargs)
+[ros2_back_channel-9]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_back_channel.py", line 44, in runROS
+[ros2_back_channel-9]     rclpy.spin(node)
+[ros2_back_channel-9]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 226, in spin
+[ros2_back_channel-9]     executor.spin_once()
+[ros2_back_channel-9]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 751, in spin_once
+[ros2_back_channel-9]     self._spin_once_impl(timeout_sec)
+[ros2_back_channel-9]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 740, in _spin_once_impl
+[ros2_back_channel-9]     handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+[ros2_back_channel-9]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 723, in wait_for_ready_callbacks
+[ros2_back_channel-9]     return next(self._cb_iter)
+[ros2_back_channel-9]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 624, in _wait_for_ready_callbacks
+[ros2_back_channel-9]     raise ExternalShutdownException()
+[ros2_back_channel-9] rclpy.executors.ExternalShutdownException
+[ros2_natural_language_understanding-4]     self.run()
+[ros2_natural_language_understanding-4]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ros2_natural_language_understanding-4]     key = input()
+[ros2_natural_language_understanding-4] KeyboardInterrupt
+[ros2_turn_taking-8]     shutdown()
+[ros2_turn_taking-8]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_turn_taking.py", line 184, in shutdown
+[ros2_turn_taking-8]     self.run()
+[ros2_turn_taking-8]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ros2_turn_taking-8]     key = input()
+[ros2_turn_taking-8] KeyboardInterrupt
+[ros2_turn_taking-8]     self._target(*self._args, **self._kwargs)
+[ros2_turn_taking-8]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_turn_taking.py", line 177, in runROS
+[ros2_turn_taking-8]     rclpy.spin(node)
+[ros2_turn_taking-8]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 226, in spin
+[ros2_turn_taking-8]     executor.spin_once()
+[ros2_turn_taking-8]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 751, in spin_once
+[ros2_turn_taking-8]     self._spin_once_impl(timeout_sec)
+[ros2_turn_taking-8]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 740, in _spin_once_impl
+[ros2_turn_taking-8]     handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+[ros2_turn_taking-8]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 723, in wait_for_ready_callbacks
+[ros2_turn_taking-8]     return next(self._cb_iter)
+[ros2_turn_taking-8]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 624, in _wait_for_ready_callbacks
+[ros2_turn_taking-8]     raise ExternalShutdownException()
+[ros2_turn_taking-8] rclpy.executors.ExternalShutdownException
+[ros2_automatic_speech_recognition-3] Exception in thread Thread-2 (runROS):
+[ros2_automatic_speech_recognition-3] Traceback (most recent call last):
+[ros2_automatic_speech_recognition-3]   File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+[ros2_automatic_speech_recognition-3]     self.run()
+[ros2_automatic_speech_recognition-3]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ros2_automatic_speech_recognition-3]     self._target(*self._args, **self._kwargs)
+[ros2_automatic_speech_recognition-3]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_automatic_speech_recognition.py", line 143, in runROS
+[ros2_automatic_speech_recognition-3]     rclpy.spin(pub)
+[ros2_automatic_speech_recognition-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 226, in spin
+[ros2_automatic_speech_recognition-3]     executor.spin_once()
+[ros2_automatic_speech_recognition-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 751, in spin_once
+[ros2_automatic_speech_recognition-3]     self._spin_once_impl(timeout_sec)
+[ros2_automatic_speech_recognition-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 740, in _spin_once_impl
+[ros2_automatic_speech_recognition-3]     handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+[ros2_automatic_speech_recognition-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 723, in wait_for_ready_callbacks
+[ros2_automatic_speech_recognition-3]     return next(self._cb_iter)
+[ros2_automatic_speech_recognition-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 624, in _wait_for_ready_callbacks
+[ros2_automatic_speech_recognition-3]     raise ExternalShutdownException()
+[ros2_automatic_speech_recognition-3] rclpy.executors.ExternalShutdownException
+[ros2_acoustic_analysis-2] terminate called without an active exception
+[ros2_speech_synthesis-7] Exception in thread Thread-1 (runROS):
+[ros2_speech_synthesis-7] Traceback (most recent call last):
+[ros2_speech_synthesis-7]   File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+[ros2_speech_synthesis-7]     self.run()
+[ros2_speech_synthesis-7]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ros2_speech_synthesis-7]     self._target(*self._args, **self._kwargs)
+[ros2_speech_synthesis-7]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_speech_synthesis.py", line 141, in runROS
+[ros2_dialog_management-5] Traceback (most recent call last):
+[ros2_speech_synthesis-7]     rclpy.spin(pub)
+[ros2_speech_synthesis-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 226, in spin
+[ros2_speech_synthesis-7]     executor.spin_once()
+[ros2_speech_synthesis-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 751, in spin_once
+[ros2_speech_synthesis-7]     self._spin_once_impl(timeout_sec)
+[ros2_speech_synthesis-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 740, in _spin_once_impl
+[ros2_speech_synthesis-7]     handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+[ros2_speech_synthesis-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 723, in wait_for_ready_callbacks
+[ros2_speech_synthesis-7]     return next(self._cb_iter)
+[ros2_speech_synthesis-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 596, in _wait_for_ready_callbacks
+[ros2_speech_synthesis-7]     wait_set = _rclpy.WaitSet(
+[ros2_speech_input-1] Exception in thread Thread-2 (runROS):
+[ros2_speech_synthesis-7] rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130
+[ros2_dialog_management-5]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_dialog_management", line 33, in <module>
+[ERROR] [ros2_natural_language_understanding-4]: process has died [pid 173538, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_natural_language_understanding --ros-args'].
+[ros2_speech_input-1] Traceback (most recent call last):
+[ros2_dialog_management-5]     sys.exit(load_entry_point('diaros-package==0.0.1', 'console_scripts', 'ros2_dialog_management')())
+[ros2_speech_input-1] Traceback (most recent call last):
+[ros2_dialog_management-5]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_dialog_management.py", line 275, in main
+[ros2_speech_input-1]   File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+[ros2_dialog_management-5]     shutdown()
+[ros2_dialog_management-5]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_dialog_management.py", line 257, in shutdown
+[ros2_dialog_management-5]     key = input()
+[ros2_dialog_management-5] KeyboardInterrupt
+[ros2_dialog_management-5] [INFO] [1765521681.815084272] [dialog_management]: [15:41:21.660] [DM] 相槌生成リクエスト送信 (request_id=19, 入力数=3)
+[ros2_dialog_management-5] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[ros2_dialog_management-5] Exception in thread Thread-1 (runROS):
+[ros2_dialog_management-5] Traceback (most recent call last):
+[ros2_dialog_management-5]   File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+[ros2_dialog_management-5]     self.run()
+[ros2_dialog_management-5]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ros2_dialog_management-5]     self._target(*self._args, **self._kwargs)
+[ros2_dialog_management-5]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_dialog_management.py", line 250, in runROS
+[ros2_dialog_management-5]     rclpy.spin(pub)
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 226, in spin
+[ros2_dialog_management-5]     executor.spin_once()
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 751, in spin_once
+[ros2_dialog_management-5]     self._spin_once_impl(timeout_sec)
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 748, in _spin_once_impl
+[ros2_dialog_management-5]     raise handler.exception()
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 254, in __call__
+[ros2_dialog_management-5]     self._handler.send(None)
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 447, in handler
+[ros2_dialog_management-5]     await call_coroutine(entity, arg)
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 361, in _execute_timer
+[ros2_dialog_management-5]     await await_or_execute(tmr.callback)
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 107, in await_or_execute
+[ros2_dialog_management-5]     return callback(*args)
+[ros2_dialog_management-5]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_dialog_management.py", line 165, in callback
+[ros2_dialog_management-5]     self.pub_dm.publish(dm)
+[ros2_dialog_management-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+[ros2_dialog_management-5]     self.__publisher.publish(msg)
+[ros2_dialog_management-5] rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[ros2_speech_input-1]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_speech_input", line 33, in <module>
+[ERROR] [ros2_speech_synthesis-7]: process has died [pid 173544, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_speech_synthesis --ros-args -r __node:=ros2_speech_synthesis'].
+[ros2_speech_input-1]     self.run()
+[ros2_speech_input-1]     sys.exit(load_entry_point('diaros-package==0.0.1', 'console_scripts', 'ros2_speech_input')())
+[ros2_speech_input-1]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ERROR] [ros2_acoustic_analysis-2]: process has died [pid 173534, exit code -6, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_acoustic_analysis --ros-args -r __node:=acoustic_analysis'].
+[ros2_speech_input-1]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_speech_input.py", line 223, in main
+[ros2_speech_input-1]     shutdown()
+[ros2_speech_input-1]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_speech_input.py", line 207, in shutdown
+[ros2_speech_input-1]     self._target(*self._args, **self._kwargs)
+[ros2_speech_input-1]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_speech_input.py", line 194, in runROS
+[ros2_speech_input-1]     key = input()
+[ros2_speech_input-1] KeyboardInterrupt
+[ros2_dialog_management-5] munmap_chunk(): invalid pointer
+[ERROR] [ros2_speech_input-1]: process has died [pid 173532, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_speech_input --ros-args'].
+[ERROR] [ros2_natural_language_generation-6]: process has died [pid 173542, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_natural_language_generation --ros-args'].
+[ERROR] [ros2_dialog_management-5]: process has died [pid 173540, exit code -6, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_dialog_management --ros-args'].
+[ERROR] [ros2_back_channel-9]: process has died [pid 173548, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_back_channel --ros-args'].
+[ERROR] [ros2_automatic_speech_recognition-3]: process has died [pid 173536, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_automatic_speech_recognition --ros-args'].
+[ERROR] [ros2_turn_taking-8]: process has died [pid 173546, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_turn_taking --ros-args'].
+root@nedo:/workspace/DiaROS# bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
+=== DiaROS起動 (speech_inputノード除外) ===
+📁 作業ディレクトリ: /workspace/DiaROS/DiaROS_ros
+🎤 VOICEVOX状態を確認中...
+✅ VOICEVOXは既に動作中です (バージョン: "0.21.1")
+🔧 ROS2環境をセットアップ中...
+✅ ROS2 Humble環境をロード
+🔧 DiaROSの完全ビルドを実行中...
+📦 Step 1/6: Pythonモジュールを再インストール中...
+Processing /workspace/DiaROS/DiaROS_py
+  Preparing metadata (setup.py) ... done
+Building wheels for collected packages: diaros
+  Building wheel for diaros (setup.py) ... done
+  Created wheel for diaros: filename=diaros-0.0.1-py3-none-any.whl size=105180 sha256=dffe2c481eaff7454e20794b9f9e65705beb4351eadafecb46d7d452df9b7bc7
+  Stored in directory: /tmp/pip-ephem-wheel-cache-o7naur90/wheels/3a/b7/0b/bdb097b212d3e2b447f9b6fbf14630d124c6ea3c013518d5b5
+Successfully built diaros
+Installing collected packages: diaros
+  Attempting uninstall: diaros
+    Found existing installation: diaros 0.0.1
+    Uninstalling diaros-0.0.1:
+      Successfully uninstalled diaros-0.0.1
+Successfully installed diaros-0.0.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+✅ Pythonモジュールの再インストール完了
+📦 Step 2/6: DiaROS_rosディレクトリに移動中...
+✅ 作業ディレクトリ: /workspace/DiaROS/DiaROS_ros
+📦 Step 3/6: ROS2環境をセットアップ中...
+✅ ROS2 Humble環境をロード
+📦 Step 4/6: interfacesパッケージをビルド中...
+Starting >>> interfaces
+Finished <<< interfaces [0.22s]                     
+
+Summary: 1 package finished [0.36s]
+✅ interfacesパッケージのビルド完了
+📦 Step 5/6: diaros_packageをビルド中...
+Starting >>> diaros_package
+/usr/lib/python3/dist-packages/setuptools/dist.py:723: UserWarning: Usage of dash-separated 'script-dir' will not be supported in future versions. Please use the underscore name 'script_dir' instead
+  warnings.warn(
+/usr/lib/python3/dist-packages/setuptools/dist.py:723: UserWarning: Usage of dash-separated 'install-scripts' will not be supported in future versions. Please use the underscore name 'install_scripts' instead
+  warnings.warn(
+--- stderr: diaros_package                   
+/usr/lib/python3/dist-packages/setuptools/dist.py:723: UserWarning: Usage of dash-separated 'script-dir' will not be supported in future versions. Please use the underscore name 'script_dir' instead
+  warnings.warn(
+---
+Finished <<< diaros_package [0.48s]
+
+Summary: 1 package finished [0.63s]
+  1 package had stderr output: diaros_package
+✅ diaros_packageのビルド完了
+🎉 Step 6/6: 完全ビルドプロセス完了
+✅ DiaROSローカル環境をロード
+🔧 NumPy互換性の確認...
+NumPy version: 1.24.3
+📋 設定確認:
+  ROS_DOMAIN_ID: 0
+  DIAROS_DEVICE: cpu
+  DIAROS_PROMPTS_DIR: /workspace/DiaROS/DiaROS_py/diaros/prompts
+  speech_inputノード: 除外 (mic:=false)
+
+🚀 DiaROSを起動します (speech_inputノード除外)...
+📝 以下のノードが起動されます:
+  - acoustic_analysis
+  - automatic_speech_recognition
+  - natural_language_understanding
+  - dialog_management
+  - natural_language_generation ⭐ (ローカルPC上)
+  - speech_synthesis
+  - turn_taking
+  - back_channel
+
+🎵 ros2 bag playで音声データを再生してください
+
+[INFO] [launch]: All log files can be found below /root/.ros/log/2025-12-12-15-41-52-921785-nedo-176581
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [ros2_acoustic_analysis-1]: process started with pid [176903]
+[INFO] [ros2_automatic_speech_recognition-2]: process started with pid [176905]
+[INFO] [ros2_natural_language_understanding-3]: process started with pid [176907]
+[INFO] [ros2_dialog_management-4]: process started with pid [176909]
+[INFO] [ros2_natural_language_generation-5]: process started with pid [176911]
+[INFO] [ros2_speech_synthesis-6]: process started with pid [176913]
+[INFO] [ros2_turn_taking-7]: process started with pid [176915]
+[INFO] [ros2_back_channel-8]: process started with pid [176917]
 [ros2_natural_language_understanding-3] LanguageUnderstanding start up.
 [ros2_natural_language_understanding-3] =====================================================
 [ros2_acoustic_analysis-1] acousticAnalysis start
@@ -609,20 +237,26 @@
 [ros2_natural_language_generation-5] [NLG] Ollama gemma3:4bモデルを初期化中...
 [ros2_natural_language_generation-5] [NLG] ✅ gemma3:4bモデル初期化完了 (num_predict=10)
 [ros2_natural_language_generation-5] [NLG] ✅ プロンプトファイル確認: dialog_first_stage.txt (/usr/local/lib/python3.10/dist-packages/diaros/prompts/dialog_first_stage.txt)
-[ros2_natural_language_generatio[ros2_dialog_management-4] [INFO] [1765514810.409673953] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514810.410230291] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:50.410] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:50.410] 履歴受信（3個）
-n-5] NaturalLanguageGeneration (単一プロセス) start up.
+[ros2_natural_language_generation-5] NaturalLanguageGeneration (単一プロセス) start up.
 [ros2_natural_language_generation-5] 使用モデル: gemma3:4b
 [ros2_natural_language_generation-5] =====================================================
 [ros2_natural_language_generation-5] [NLG] 単一プロセス推論システム開始 (2.5秒間隔制御)
 [ros2_natural_language_generation-5] [NLG] 使用モデル: gemma3:4b
-[ros2_natural_language_generation-5] [INFO] [1765514779.028549572] [natural_language_generation]: [NLG] 不明ステージ完了 (request_id=None, 処理時間=0.0ms, 応答='...' )
-[ros2_dialog_management-4] [INFO] [1765514779.053700555] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=0): '...'
+[ros2_natural_language_generation-5] [INFO] [1765521714.934228004] [natural_language_generation]: [15:41:54.933] [NLG] 不明ステージ完了 (request_id=None, 処理時間=0.0ms, 応答='...' )
+[ros2_dialog_management-4] [INFO] [1765521714.987735014] [dialog_management]: [15:41:54.934] [DM] NLGから相槌生成応答受信 (request_id=0): '...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 13.3ms, ファイル: ./tmp/first_stage_20251212134619066998.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134619066998.wav @ 13:46:19.067
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 11.4ms, ファイル: ./tmp/first_stage_20251212154154999118.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212154154999118.wav @ 15:41:54.999
+[ros2_turn_taking-7] Using cache found in /root/.cache/torch/hub/snakers4_silero-vad_master
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] power: 0.0
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] standard_power: 0.0
+[ros2_back_channel-8] [INFO] [1765521715.443037738] [back_channel]:  Listening to mic_audio_float32...
+[ros2_back_channel-8] pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
+[ros2_back_channel-8] Hello from the pygame community. https://www.pygame.org/contribute.html
+[ros2_back_channel-8] 
+[ros2_back_channel-8] 相槌予測システムを初期化中...
 [ros2_automatic_speech_recognition-2] pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
 [ros2_automatic_speech_recognition-2] Hello from the pygame community. https://www.pygame.org/contribute.html
 [ros2_automatic_speech_recognition-2] Loading ASR model...
@@ -630,29 +264,398 @@ n-5] NaturalLanguageGeneration (単一プロセス) start up.
 [ros2_automatic_speech_recognition-2] =====================================================
 [ros2_automatic_speech_recognition-2] 🕐 DiaROS統合時間計測システム初期化完了
 [ros2_automatic_speech_recognition-2] [ASR] ビープ音機能初期化完了
-[ros2_turn_taking-7] Using cache found in /root/.cache/torch/hub/snakers4_silero-vad_master
+[ros2_back_channel-8] 使用デバイス: cuda
+[ros2_turn_taking-7] [INFO] [1765521715.639975066] [turn_taking]: [ros2_turn_taking] Listening to mic_audio_float32 and ASRtoNLU...
+[ros2_turn_taking-7] [INFO] [1765521715.640162222] [turn_taking]: [ros2_turn_taking] SileroVAD (10ms) + VADIterator (32ms) monitoring topics initialized
+[ros2_turn_taking-7] [INFO] SileroVAD loaded successfully (including VADIterator)
+[ros2_back_channel-8] wav2vec2相槌予測モデルの読み込みが完了しました
+[ros2_back_channel-8] 相槌予測システムを開始します。Ctrl+Cで終了します。
+[ros2_back_channel-8] 閾値: 0.60
+[ros2_back_channel-8] --------------------
+[ros2_turn_taking-7] [INFO] SileroVAD TurnTaking前処理システム初期化完了
+[ros2_turn_taking-7] [INFO] TurnTaking started
+[ros2_automatic_speech_recognition-2] ASR model loaded.
+[ros2_dialog_management-4] [INFO] [1765521722.747992211] [dialog_management]: [15:42:02.682] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=1)
+[ros2_natural_language_generation-5] [INFO] [1765521722.748880818] [natural_language_generation]: [15:42:02.748] [NLG-DEBUG] DM受信: words=1件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521722.749270697] [natural_language_generation]: [15:42:02.748] [NLG] 相槌生成ステージ開始 (request_id=1, 入力数=1)
+[ros2_natural_language_generation-5] [15:42:02.749] stage='first' で更新
+[ros2_natural_language_generation-5] [15:42:02.749] 履歴受信（1個）
+[ros2_natural_language_generation-5] [15:42:02.961]
+[ros2_natural_language_generation-5] [INFO] [1765521722.974095963] [natural_language_generation]: [15:42:02.973] [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=224.9ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765521722.999475749] [dialog_management]: [15:42:02.899] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521723.000309102] [natural_language_generation]: [15:42:02.999] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [15:42:03.000] stage='first' で更新
+[ros2_natural_language_generation-5] [15:42:03.000] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765521723.000711940] [dialog_management]: [15:42:03.000] [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.8ms, ファイル: ./tmp/first_stage_20251212154203018319.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212154203018319.wav @ 15:42:03.018
+[ros2_dialog_management-4] [INFO] [1765521723.159394285] [dialog_management]: [15:42:03.034] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521723.159941306] [natural_language_generation]: [15:42:03.159] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521723.160143378] [natural_language_generation]: [15:42:03.159] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_natural_language_generation-5] [15:42:03.208]
+[ros2_dialog_management-4] [INFO] [1765521723.279731712] [dialog_management]: [15:42:03.197] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521723.280253382] [natural_language_generation]: [15:42:03.280] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521723.280439958] [natural_language_generation]: [15:42:03.280] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521723.777500816] [dialog_management]: [15:42:03.702] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521723.778236980] [natural_language_generation]: [15:42:03.777] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521723.778627474] [natural_language_generation]: [15:42:03.778] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.091797503] [dialog_management]: [15:42:04.005] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.092341470] [natural_language_generation]: [15:42:04.092] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.092524064] [natural_language_generation]: [15:42:04.092] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.196715020] [dialog_management]: [15:42:04.125] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.197488929] [natural_language_generation]: [15:42:04.196] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.197732808] [natural_language_generation]: [15:42:04.197] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.217241320] [dialog_management]: [15:42:04.213] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.218122408] [natural_language_generation]: [15:42:04.217] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.218552872] [natural_language_generation]: [15:42:04.218] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.347788818] [dialog_management]: [15:42:04.288] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.348289556] [natural_language_generation]: [15:42:04.348] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.348473294] [natural_language_generation]: [15:42:04.348] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.476950282] [dialog_management]: [15:42:04.401] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.477476446] [natural_language_generation]: [15:42:04.477] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.477675252] [natural_language_generation]: [15:42:04.477] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.601840738] [dialog_management]: [15:42:04.510] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.602417626] [natural_language_generation]: [15:42:04.602] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.602606305] [natural_language_generation]: [15:42:04.602] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.733020859] [dialog_management]: [15:42:04.703] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.733849355] [natural_language_generation]: [15:42:04.733] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.734251455] [natural_language_generation]: [15:42:04.733] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521724.873705485] [dialog_management]: [15:42:04.798] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521724.874656071] [natural_language_generation]: [15:42:04.874] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521724.875073386] [natural_language_generation]: [15:42:04.874] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521725.031671906] [dialog_management]: [15:42:04.908] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521725.032509970] [natural_language_generation]: [15:42:05.032] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521725.032939133] [natural_language_generation]: [15:42:05.032] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521725.205624966] [dialog_management]: [15:42:05.071] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521725.206467106] [natural_language_generation]: [15:42:05.205] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521725.206871134] [natural_language_generation]: [15:42:05.206] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
 [ros2_dialog_management-4] 
-[ros2_dialog_management-4] power: 0.0
+[ros2_dialog_management-4] additional start
+[ros2_dialog_management-4] [INFO] [1765521725.889283689] [dialog_management]: [15:42:05.824] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521725.889868086] [natural_language_generation]: [15:42:05.889] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521725.890057147] [natural_language_generation]: [15:42:05.889] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_turn_taking-7] [15:42:06.086][ROS_TT] キューから取得, [15:42:06.087][ROS_TT] DM向け送信完了 (result=0, conf=0.141)
+[ros2_dialog_management-4] [INFO] [1765521726.503168435] [dialog_management]: [15:42:06.237] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521726.503995180] [natural_language_generation]: [15:42:06.503] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521726.504405852] [natural_language_generation]: [15:42:06.504] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521726.545105084] [dialog_management]: [15:42:06.519] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521726.545956168] [natural_language_generation]: [15:42:06.545] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521726.546360317] [natural_language_generation]: [15:42:06.545] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521726.721372567] [dialog_management]: [15:42:06.580] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521726.722199038] [natural_language_generation]: [15:42:06.721] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521726.722602318] [natural_language_generation]: [15:42:06.722] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521726.900452603] [dialog_management]: [15:42:06.755] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521726.901253251] [natural_language_generation]: [15:42:06.900] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521726.901625952] [natural_language_generation]: [15:42:06.901] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521727.084513124] [dialog_management]: [15:42:06.934] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521727.085058396] [natural_language_generation]: [15:42:07.084] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521727.085245503] [natural_language_generation]: [15:42:07.085] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521727.273398620] [dialog_management]: [15:42:07.125] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521727.274016606] [natural_language_generation]: [15:42:07.273] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521727.274202772] [natural_language_generation]: [15:42:07.274] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521727.472385573] [dialog_management]: [15:42:07.307] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521727.472909482] [natural_language_generation]: [15:42:07.472] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521727.473097506] [natural_language_generation]: [15:42:07.472] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_turn_taking-7] [15:42:07.822][ROS_TT] キューから取得, [15:42:07.822][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
+[ros2_dialog_management-4] [INFO] [1765521727.894826964] [dialog_management]: [15:42:07.757] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521727.895325899] [natural_language_generation]: [15:42:07.895] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521727.895505761] [natural_language_generation]: [15:42:07.895] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521728.349979267] [dialog_management]: [15:42:08.066] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521728.350504551] [natural_language_generation]: [15:42:08.350] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521728.350727652] [natural_language_generation]: [15:42:08.350] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521728.562239381] [dialog_management]: [15:42:08.366] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521728.562949058] [natural_language_generation]: [15:42:08.562] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521728.563134839] [natural_language_generation]: [15:42:08.562] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521728.775851336] [dialog_management]: [15:42:08.600] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521728.776619967] [natural_language_generation]: [15:42:08.776] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521728.777055412] [natural_language_generation]: [15:42:08.776] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521728.935712116] [dialog_management]: [15:42:08.803] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521728.936211252] [natural_language_generation]: [15:42:08.935] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521728.936393754] [natural_language_generation]: [15:42:08.936] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521728.956159079] [dialog_management]: [15:42:08.946] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521728.956770759] [natural_language_generation]: [15:42:08.956] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521728.956974391] [natural_language_generation]: [15:42:08.956] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521729.147192346] [dialog_management]: [15:42:08.992] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521729.147731188] [natural_language_generation]: [15:42:09.147] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521729.147915418] [natural_language_generation]: [15:42:09.147] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521729.356655655] [dialog_management]: [15:42:09.183] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521729.357158985] [natural_language_generation]: [15:42:09.356] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521729.357344539] [natural_language_generation]: [15:42:09.357] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521729.565781877] [dialog_management]: [15:42:09.414] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521729.566613589] [natural_language_generation]: [15:42:09.566] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521729.567009971] [natural_language_generation]: [15:42:09.566] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521729.773079645] [dialog_management]: [15:42:09.599] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521729.773712795] [natural_language_generation]: [15:42:09.773] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521729.773907910] [natural_language_generation]: [15:42:09.773] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521729.991820250] [dialog_management]: [15:42:09.807] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521729.992349051] [natural_language_generation]: [15:42:09.992] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521729.992535920] [natural_language_generation]: [15:42:09.992] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521730.218824330] [dialog_management]: [15:42:10.028] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521730.219691746] [natural_language_generation]: [15:42:10.219] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521730.220102021] [natural_language_generation]: [15:42:10.219] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521730.446960551] [dialog_management]: [15:42:10.246] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765521730.447650897] [natural_language_generation]: [15:42:10.447] [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521730.447838999] [natural_language_generation]: [15:42:10.447] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521730.688811774] [dialog_management]: [15:42:10.480] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521730.689336575] [natural_language_generation]: [15:42:10.689] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521730.689521322] [natural_language_generation]: [15:42:10.689] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521730.943880119] [dialog_management]: [15:42:10.725] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521730.944708884] [natural_language_generation]: [15:42:10.944] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521730.945126735] [natural_language_generation]: [15:42:10.944] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_turn_taking-7] [15:42:11.161][ROS_TT] キューから取得, [15:42:11.161][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
+[ros2_dialog_management-4] [INFO] [1765521731.200355405] [dialog_management]: [15:42:11.174] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521731.200898405] [natural_language_generation]: [15:42:11.200] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521731.201103310] [natural_language_generation]: [15:42:11.200] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521731.470060553] [dialog_management]: [15:42:11.285] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521731.470897149] [natural_language_generation]: [15:42:11.470] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521731.471348256] [natural_language_generation]: [15:42:11.470] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521731.758274728] [dialog_management]: [15:42:11.510] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521731.759129657] [natural_language_generation]: [15:42:11.758] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521731.759456856] [natural_language_generation]: [15:42:11.759] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521732.044039123] [dialog_management]: [15:42:11.794] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521732.044602642] [natural_language_generation]: [15:42:12.044] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521732.044786708] [natural_language_generation]: [15:42:12.044] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521732.053788329] [dialog_management]: [15:42:12.049] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521732.054260649] [natural_language_generation]: [15:42:12.054] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521732.054440817] [natural_language_generation]: [15:42:12.054] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521732.574543302] [dialog_management]: [15:42:12.525] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521732.575260084] [natural_language_generation]: [15:42:12.574] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521732.575648202] [natural_language_generation]: [15:42:12.575] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521732.824825127] [dialog_management]: [15:42:12.620] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521732.825672740] [natural_language_generation]: [15:42:12.825] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521732.826119485] [natural_language_generation]: [15:42:12.825] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521733.090191909] [dialog_management]: [15:42:12.856] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765521733.090707821] [natural_language_generation]: [15:42:13.090] [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521733.090887563] [natural_language_generation]: [15:42:13.090] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521733.352228453] [dialog_management]: [15:42:13.123] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521733.353103366] [natural_language_generation]: [15:42:13.352] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521733.353528938] [natural_language_generation]: [15:42:13.353] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521733.612478957] [dialog_management]: [15:42:13.388] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521733.613009882] [natural_language_generation]: [15:42:13.612] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521733.613193450] [natural_language_generation]: [15:42:13.613] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521733.853008274] [dialog_management]: [15:42:13.641] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521733.853696616] [natural_language_generation]: [15:42:13.853] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521733.853883838] [natural_language_generation]: [15:42:13.853] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.091694320] [dialog_management]: [15:42:13.887] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.092192941] [natural_language_generation]: [15:42:14.091] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.092373454] [natural_language_generation]: [15:42:14.092] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.207038555] [dialog_management]: [15:42:14.130] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.207869956] [natural_language_generation]: [15:42:14.207] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.208264130] [natural_language_generation]: [15:42:14.207] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.264016984] [dialog_management]: [15:42:14.223] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.264602609] [natural_language_generation]: [15:42:14.264] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.264792378] [natural_language_generation]: [15:42:14.264] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.302838824] [dialog_management]: [15:42:14.275] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.303384515] [natural_language_generation]: [15:42:14.303] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.303568524] [natural_language_generation]: [15:42:14.303] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.423808521] [dialog_management]: [15:42:14.357] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.424677778] [natural_language_generation]: [15:42:14.424] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.425082395] [natural_language_generation]: [15:42:14.424] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.531951753] [dialog_management]: [15:42:14.461] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.532463230] [natural_language_generation]: [15:42:14.532] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.532656394] [natural_language_generation]: [15:42:14.532] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.708129130] [dialog_management]: [15:42:14.565] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.708640431] [natural_language_generation]: [15:42:14.708] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.708826341] [natural_language_generation]: [15:42:14.708] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521734.790015752] [dialog_management]: [15:42:14.724] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521734.790548717] [natural_language_generation]: [15:42:14.790] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521734.790735423] [natural_language_generation]: [15:42:14.790] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521735.288684742] [dialog_management]: [15:42:15.073] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521735.289548947] [natural_language_generation]: [15:42:15.289] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521735.289951087] [natural_language_generation]: [15:42:15.289] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521735.532527970] [dialog_management]: [15:42:15.323] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521735.533050505] [natural_language_generation]: [15:42:15.532] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521735.533237047] [natural_language_generation]: [15:42:15.533] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521735.566744639] [dialog_management]: [15:42:15.548] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765521735.567268697] [natural_language_generation]: [15:42:15.567] [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521735.567480772] [natural_language_generation]: [15:42:15.567] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521736.117914219] [dialog_management]: [15:42:15.874] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521736.118814409] [natural_language_generation]: [15:42:16.118] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521736.119214561] [natural_language_generation]: [15:42:16.118] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_turn_taking-7] [15:42:16.153][ROS_TT] キューから取得, [15:42:16.153][ROS_TT] DM向け送信完了 (result=0, conf=0.202)
+[ros2_dialog_management-4] [INFO] [1765521736.378405147] [dialog_management]: [15:42:16.174] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521736.379205743] [natural_language_generation]: [15:42:16.378] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521736.379620196] [natural_language_generation]: [15:42:16.379] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521736.398374644] [dialog_management]: [15:42:16.389] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521736.399209310] [natural_language_generation]: [15:42:16.398] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521736.399637449] [natural_language_generation]: [15:42:16.399] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521736.706742814] [dialog_management]: [15:42:16.482] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521736.707288814] [natural_language_generation]: [15:42:16.707] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521736.707476902] [natural_language_generation]: [15:42:16.707] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_turn_taking-7] [15:42:16.979][ROS_TT] キューから取得, [15:42:16.979][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
+[ros2_dialog_management-4] [INFO] [1765521736.983452207] [dialog_management]: [15:42:16.741] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521736.984274206] [natural_language_generation]: [15:42:16.983] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521736.984694339] [natural_language_generation]: [15:42:16.984] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521737.272586991] [dialog_management]: [15:42:17.013] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521737.273135343] [natural_language_generation]: [15:42:17.272] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521737.273333518] [natural_language_generation]: [15:42:17.273] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521737.537265671] [dialog_management]: [15:42:17.307] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521737.537836089] [natural_language_generation]: [15:42:17.537] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521737.538037146] [natural_language_generation]: [15:42:17.537] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521737.825464979] [dialog_management]: [15:42:17.577] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521737.826313705] [natural_language_generation]: [15:42:17.825] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521737.826714922] [natural_language_generation]: [15:42:17.826] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521738.091062993] [dialog_management]: [15:42:17.857] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765521738.091607760] [natural_language_generation]: [15:42:18.091] [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521738.091800225] [natural_language_generation]: [15:42:18.091] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521738.368276527] [dialog_management]: [15:42:18.125] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765521738.368811225] [natural_language_generation]: [15:42:18.368] [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521738.368991137] [natural_language_generation]: [15:42:18.368] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521738.523364358] [dialog_management]: [15:42:18.401] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765521738.523919073] [natural_language_generation]: [15:42:18.523] [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521738.524107431] [natural_language_generation]: [15:42:18.523] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521738.660726408] [dialog_management]: [15:42:18.534] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765521738.661568751] [natural_language_generation]: [15:42:18.661] [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521738.661975896] [natural_language_generation]: [15:42:18.661] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_turn_taking-7] [15:42:18.742][ROS_TT] キューから取得, [15:42:18.742][ROS_TT] DM向け送信完了 (result=1, conf=0.915)
+[ros2_dialog_management-4] [INFO] [1765521738.925277684] [dialog_management]: [15:42:18.696] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765521738.925820113] [natural_language_generation]: [15:42:18.925] [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521738.926001933] [natural_language_generation]: [15:42:18.925] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
 [ros2_dialog_management-4] 
-[ros2_d[ros2_dialog_management-4] [INFO] [1765514810.578889993] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514810.580737534] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:50.580] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:50.580] 履歴受信（3個）
-ialog_management-4] standard_power: 0.0
-[ros2_back_channel-8] [INFO] [1765514779.674643299] [back_channel]:  Listening to mic_audio_float32...
-[ros2_back_channel-8] pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
-[ros2_back_channel-8] Hello from the pygame community. https://www.pygame.org/contribute.html
-[ros2_back_cha[ros2_natural_language_generation-5] [13:46:50.726]
-[ros2_dialog_management-4] [INFO] [1765514810.816236559] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514810.816818934] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:50.816] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:50.816] 履歴受信（3個）
-[ros2_natural_language_generation-5] [13:46:50.840]
-[ros2_natural_language_generation-5] [13:46:51.027]
-[ros2_dialog_management-4] [INFO] [1765514811.166864240] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765514811.167550691] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [13:46:51.167] stage='first' で更新
-[ros2_natural_language_generation-5] [13:46:51.167] 履歴受信（3個）
+[ros2_dialog_management-4] ======================================================================
+[ros2_dialog_management-4] 🔊 【TurnTaking 話者交代判定】@ 15:42:18.952
+[ros2_dialog_management-4] ======================================================================
+[ros2_dialog_management-4] [DEBUG-TT] ASR履歴を保存: 119件
+[ros2_dialog_management-4] [DEBUG-TT] 2.5秒間隔ASR結果を保存: 8件
+[ros2_dialog_management-4] [TT] Second stage リクエスト処理開始（First stage再生と並行） @ 15:42:18.953
+[ros2_dialog_management-4] [TT] First stage相槌再生: 'えーまじか' (TT判定時相槌として保存)
+[ros2_dialog_management-4] [TT] 事前合成済みのfirst_stage音声を使用 @ 15:42:18.953
+[ros2_dialog_management-4] [TT] First stage相槌再生開始: ./tmp/first_stage_20251212154203018319.wav @ 15:42:18.953
+[ros2_dialog_management-4] [INFO] [1765521738.954055819] [dialog_management]: [15:42:18.953] [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765521738.954526219] [natural_language_generation]: [15:42:18.954] [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_dialog_management-4] [INFO] [1765521738.954547882] [dialog_management]: [15:42:18.954] [DEBUG] Second stage リクエスト処理開始
+[ros2_natural_language_generation-5] [INFO] [1765521738.954708519] [natural_language_generation]: [15:42:18.954] [NLG] 重複リクエストをスキップ (request_id=1, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521738.954982805] [dialog_management]: [15:42:18.954] [DEBUG] Second stageメッセージ送信: stage='second', request_id=2, words=0件
+[ros2_dialog_management-4] [INFO] [1765521738.955364614] [dialog_management]: [15:42:18.955] [DM] 応答生成リクエスト送信 (request_id=2, 入力数=0)
+[ros2_natural_language_generation-5] [INFO] [1765521738.955688144] [natural_language_generation]: [15:42:18.955] [NLG-DEBUG] DM受信: words=0件, stage='second', request_id=2, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521738.955850826] [natural_language_generation]: [15:42:18.955] [NLG] 応答生成ステージ開始 (request_id=2, 入力数=0)
+[ros2_natural_language_generation-5] [15:42:18.955] stage='second' で更新
+[ros2_natural_language_generation-5] [15:42:18.956][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用
+[ros2_natural_language_generation-5] [15:42:18.956] [Second Stage] 2.5秒間隔ASR結果: ['えっ', '[雑音]', '今度の休日なんだけどええ', '映画を見に行くかカフェで飲み', 'かカフェでのんびり独書するかで悩んでて[無音]', 'で悩んでてでも天気が良かったら最', 'でも天気が良かったらサイクリングもいいなと思ってて', 'いなと思っててほかに何か言いあんないかな[無音]']
+[ros2_natural_language_generation-5] [15:42:18.956] [Second Stage] First Stage結果: 'えーまじか'
+[ros2_natural_language_generation-5] [15:42:18.956] [Second Stage] 最終プロンプト:
+[ros2_natural_language_generation-5] あなたは男性ユーザの友達である優しく明るい性格である女性のアンドロイドです。
+[ros2_natural_language_generation-5] 後述の「複数のぶつ切りの音声認識結果」から元の発話を復元・予測し、予測された発話に対して「リアクションワード」に続く形で「タメ口の応答」を出力してください。
+[ros2_natural_language_generation-5] 「タメ口の応答」に「リアクションワード」（うん、へー、あはは 等）は含めないでください。「タメ口の応答」は20文字程度の一言に収めてください。
+[ros2_natural_language_generation-5] 
+[ros2_natural_language_generation-5] 「ぶつ切りの音声認識結果」
+[ros2_natural_language_generation-5] えっ, [雑音], 今度の休日なんだけどええ, 映画を見に行くかカフェで飲み, かカフェでのんびり独書するかで悩んでて[無音], で悩んでてでも天気が良かったら最, でも天気が良かったらサイクリングもいいなと思ってて, いなと思っててほかに何か言いあんないかな[無音]
+[ros2_natural_language_generation-5] 
+[ros2_natural_language_generation-5] 「リアクションワード」
+[ros2_natural_language_generation-5] えーまじか
+[ros2_natural_language_generation-5] 
+[ros2_natural_language_generation-5] 「タメ口の応答」
+[ros2_natural_language_generation-5] [15:42:19.179]
+[ros2_natural_language_generation-5] [INFO] [1765521739.194413006] [natural_language_generation]: [15:42:19.193] [NLG] 応答生成ステージ完了 (request_id=2, 処理時間=238.2ms, 応答='映画かカフェか悩みそう！...' )
+[ros2_dialog_management-4] [INFO] [1765521739.195098617] [dialog_management]: [15:42:19.194] [DM] NLGから応答生成応答受信 (request_id=2): '映画かカフェか悩みそう！...'
+[ros2_dialog_management-4] [15:42:19.195][DM] ⭐ Second stage応答受信: '映画かカフェか悩みそう！'
+[ros2_dialog_management-4] [15:42:19.195][DM-second] 🎤 Second stage応答の音声合成開始: '映画かカフェか悩みそう！'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 29.8ms, ファイル: ./tmp/first_stage_20251212154219224775.wav)
+[ros2_dialog_management-4] [15:42:19.195][DM-second] 音声合成結果: path=./tmp/first_stage_20251212154219224775.wav, exists=True
+[ros2_dialog_management-4] [15:42:19.225][DM-second_synth] ✅ Second stage応答の音声合成完了: ./tmp/first_stage_20251212154219224775.wav
+[ros2_dialog_management-4] [15:42:19.195][DM] ✨ Second stage本応答の合成完了、再生待機中
+[ros2_dialog_management-4] [TT] First stage相槌再生完了 @ 15:42:19.782 (長さ: 0.84秒)
+[ros2_dialog_management-4] [TT] Second stage本応答再生開始: ./tmp/20251212154219200273.wav @ 15:42:19.782
+[ros2_dialog_management-4] [TT] Second stage本応答再生完了 @ 15:42:21.429 (長さ: 1.67秒)
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] ======================================================================
+[ros2_dialog_management-4] 🔊 【TurnTaking 話者交代判定】@ 15:42:21.430
+[ros2_dialog_management-4] ======================================================================
+[ros2_dialog_management-4] [DEBUG-TT] ASR履歴を保存: 0件
+[ros2_dialog_management-4] [TT] Second stage リクエスト処理開始（First stage再生と並行） @ 15:42:21.430
+[ros2_dialog_management-4] [INFO] [1765521741.618089597] [dialog_management]: [15:42:21.440] [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=0)
+[ros2_natural_language_generation-5] [INFO] [1765521741.618615792] [natural_language_generation]: [15:42:21.618] [NLG-DEBUG] DM受信: words=0件, stage='first', request_id=3, msg.stage属性=True
+[ros2_dialog_management-4] [INFO] [1765521741.618616866] [dialog_management]: [15:42:21.618] [DEBUG] Second stage リクエスト処理開始
+[ros2_dialog_management-4] [INFO] [1765521741.619071170] [dialog_management]: [15:42:21.618] [DEBUG] Second stageメッセージ送信: stage='second', request_id=4, words=0件
+[ros2_dialog_management-4] [INFO] [1765521741.619450912] [dialog_management]: [15:42:21.619] [DM] 応答生成リクエスト送信 (request_id=4, 入力数=0)
+[ros2_natural_language_generation-5] [INFO] [1765521741.620166594] [natural_language_generation]: [15:42:21.619] [NLG-DEBUG] DM受信: words=0件, stage='second', request_id=4, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521741.620586577] [natural_language_generation]: [15:42:21.620] [NLG] 応答生成ステージ開始 (request_id=4, 入力数=0)
+[ros2_natural_language_generation-5] [15:42:21.620] stage='second' で更新
+[ros2_natural_language_generation-5] [15:42:21.620][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用
+[ros2_natural_language_generation-5] [15:42:21.620] [Second Stage] 2.5秒間隔ASR結果: []
+[ros2_natural_language_generation-5] [15:42:21.620] [Second Stage] First Stage結果: 'えーまじか'
+[ros2_natural_language_generation-5] [15:42:21.620] [Second Stage] 最終プロンプト:
+[ros2_natural_language_generation-5] あなたは男性ユーザの友達である優しく明るい性格である女性のアンドロイドです。
+[ros2_natural_language_generation-5] 後述の「複数のぶつ切りの音声認識結果」から元の発話を復元・予測し、予測された発話に対して「リアクションワード」に続く形で「タメ口の応答」を出力してください。
+[ros2_natural_language_generation-5] 「タメ口の応答」に「リアクションワード」（うん、へー、あはは 等）は含めないでください。「タメ口の応答」は20文字程度の一言に収めてください。
+[ros2_natural_language_generation-5] 
+[ros2_natural_language_generation-5] 「ぶつ切りの音声認識結果」
+[ros2_natural_language_generation-5] えっ, [雑音], 今度の休日なんだけどええ, 映画を見に行くかカフェで飲み, かカフェでのんびり独書するかで悩んでて[無音], で悩んでてでも天気が良かったら最, でも天気が良かったらサイクリングもいいなと思ってて, いなと思っててほかに何か言いあんないかな[無音]
+[ros2_natural_language_generation-5] 
+[ros2_natural_language_generation-5] 「リアクションワード」
+[ros2_natural_language_generation-5] えーまじか
+[ros2_natural_language_generation-5] 
+[ros2_natural_language_generation-5] 「タメ口の応答」
+[ros2_natural_language_generation-5] [15:42:21.833]
+[ros2_dialog_management-4] [INFO] [1765521741.845524748] [dialog_management]: [15:42:21.654] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=1)
+[ros2_natural_language_generation-5] [INFO] [1765521741.846380443] [natural_language_generation]: [15:42:21.845] [NLG-DEBUG] DM受信: words=1件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521741.846779217] [natural_language_generation]: [15:42:21.846] [NLG] 相槌生成ステージ開始 (request_id=5, 入力数=1)
+[ros2_natural_language_generation-5] [15:42:21.846] stage='first' で更新
+[ros2_natural_language_generation-5] [15:42:21.846] 履歴受信（1個）
+[ros2_dialog_management-4] [INFO] [1765521742.056890831] [dialog_management]: [15:42:22.025] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521742.057672232] [natural_language_generation]: [15:42:22.057] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521742.058096630] [natural_language_generation]: [15:42:22.057] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_natural_language_generation-5] [15:42:22.061]
+[ros2_natural_language_generation-5] [INFO] [1765521742.074392910] [natural_language_generation]: [15:42:22.073] [NLG] 相槌生成ステージ完了 (request_id=5, 処理時間=227.5ms, 応答='うんうん...' )
+[ros2_dialog_management-4] [INFO] [1765521742.075127856] [dialog_management]: [15:42:22.074] [DM] NLGから相槌生成応答受信 (request_id=5): 'うんうん...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 127.9ms, ファイル: ./tmp/first_stage_20251212154222177572.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212154222177572.wav @ 15:42:22.223
+[ros2_dialog_management-4] [INFO] [1765521742.254010327] [dialog_management]: [15:42:22.239] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521742.254777102] [natural_language_generation]: [15:42:22.254] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [15:42:22.254] stage='first' で更新
+[ros2_natural_language_generation-5] [15:42:22.254] 履歴受信（2個）
+[ros2_natural_language_generation-5] [15:42:22.445]
+[ros2_dialog_management-4] [INFO] [1765521742.621581684] [dialog_management]: [15:42:22.536] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521742.622371948] [natural_language_generation]: [15:42:22.621] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521742.622779584] [natural_language_generation]: [15:42:22.622] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521742.778436787] [dialog_management]: [15:42:22.654] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521742.778948025] [natural_language_generation]: [15:42:22.778] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521742.779128637] [natural_language_generation]: [15:42:22.778] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521742.928884719] [dialog_management]: [15:42:22.835] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521742.929391440] [natural_language_generation]: [15:42:22.929] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521742.929583862] [natural_language_generation]: [15:42:22.929] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521743.240125528] [dialog_management]: [15:42:23.239] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521743.240929778] [natural_language_generation]: [15:42:23.240] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521743.241329399] [natural_language_generation]: [15:42:23.240] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521743.377964484] [dialog_management]: [15:42:23.341] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521743.378532122] [natural_language_generation]: [15:42:23.378] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521743.378713936] [natural_language_generation]: [15:42:23.378] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521743.505034946] [dialog_management]: [15:42:23.443] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521743.505704692] [natural_language_generation]: [15:42:23.505] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521743.505902025] [natural_language_generation]: [15:42:23.505] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521743.644813143] [dialog_management]: [15:42:23.554] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521743.645595175] [natural_language_generation]: [15:42:23.645] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521743.645790345] [natural_language_generation]: [15:42:23.645] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521743.795482966] [dialog_management]: [15:42:23.679] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521743.796276741] [natural_language_generation]: [15:42:23.795] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521743.796687275] [natural_language_generation]: [15:42:23.796] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521743.892910112] [dialog_management]: [15:42:23.826] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521743.893436626] [natural_language_generation]: [15:42:23.893] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521743.893628780] [natural_language_generation]: [15:42:23.893] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521743.933943980] [dialog_management]: [15:42:23.909] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521743.934685358] [natural_language_generation]: [15:42:23.934] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521743.935077688] [natural_language_generation]: [15:42:23.934] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521744.056205369] [dialog_management]: [15:42:23.965] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521744.056667392] [natural_language_generation]: [15:42:24.056] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521744.056854692] [natural_language_generation]: [15:42:24.056] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521744.175465090] [dialog_management]: [15:42:24.083] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765521744.176201449] [natural_language_generation]: [15:42:24.175] [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521744.176602435] [natural_language_generation]: [15:42:24.176] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521744.297582357] [dialog_management]: [15:42:24.215] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521744.298322342] [natural_language_generation]: [15:42:24.297] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521744.298702347] [natural_language_generation]: [15:42:24.298] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521744.414161306] [dialog_management]: [15:42:24.332] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521744.414938467] [natural_language_generation]: [15:42:24.414] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521744.415334415] [natural_language_generation]: [15:42:24.414] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521744.558777129] [dialog_management]: [15:42:24.450] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521744.559584975] [natural_language_generation]: [15:42:24.559] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521744.559975563] [natural_language_generation]: [15:42:24.559] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
+[ros2_dialog_management-4] [INFO] [1765521744.707846216] [dialog_management]: [15:42:24.641] [DM] 相槌生成リクエスト送信 (request_id=5, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765521744.708662085] [natural_language_generation]: [15:42:24.708] [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=5, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765521744.709043361] [natural_language_generation]: [15:42:24.708] [NLG] 重複リクエストをスキップ (request_id=5, stage=first)
 [ros2_dialog_management-4] 
 [ros2_dialog_management-4] [WARNING] Second stage生成タイムアウト検出 (待機時間: 5.0秒)
 [ros2_dialog_management-4] 
@@ -660,9 +663,3 @@ ialog_management-4] standard_power: 0.0
 [ros2_dialog_management-4] [WARNING] 合成音声ファイルが利用できません。再生をスキップします
 [ros2_dialog_management-4]   latest_synth_filename: ''
 [ros2_dialog_management-4] [INFO] 第2段階の音声合成待機中か、合成に失敗しています
-[ros2_natural_language_generation-5] [13:46:51.394]
-[ros2_natural_language_generation-5] [INFO] [1765514811.408548797] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=4775.5ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765514811.503652650] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'えーまじか...'
-[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.6ms, ファイル: ./tmp/first_stage_20251212134651519198.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134651519198.wav @ 13:46:51.519

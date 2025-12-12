@@ -476,14 +476,18 @@ class NaturalLanguageGeneration:
         start_time = datetime.now()
 
         try:
-            # ★修正：queryが空の場合は、前回保存した asr_results を使用
-            # これにより、ROS2ラッパーから空の query が来ても、
-            # DM が蓄積した ASR 履歴を活用できる
+            # ★修正：queryが空の場合は、2.5秒間隔ASR結果またはfirst_stageのASR結果を使用
             if isinstance(query, list) and (not query or all((not x or x.strip() == "") for x in query)):
-                # query が空 → 前回保存した asr_results を再利用
-                asr_results = self.asr_results if self.asr_results else []
-                sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用\n")
-                sys.stdout.flush()
+                # query が空 → 2.5秒間隔ASR結果を優先使用（Second stage用）
+                if self.asr_history_2_5s:
+                    asr_results = self.asr_history_2_5s
+                    sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用\n")
+                    sys.stdout.flush()
+                else:
+                    # asr_history_2_5s がない場合は前回のASR結果を再利用
+                    asr_results = self.asr_results if self.asr_results else []
+                    sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用\n")
+                    sys.stdout.flush()
             else:
                 # query が有効 → それを使用
                 asr_results = query if isinstance(query, list) else [str(query)]
@@ -542,6 +546,7 @@ class NaturalLanguageGeneration:
 
             sys.stdout.write(f"[{timestamp}] [Second Stage] 2.5秒間隔ASR結果: {asr_2_5s_list}\n")
             sys.stdout.write(f"[{timestamp}] [Second Stage] First Stage結果: '{self.first_stage_response}'\n")
+            sys.stdout.write(f"[{timestamp}] [Second Stage] 最終プロンプト:\n{prompt}\n")
             sys.stdout.flush()
 
             # LLM呼び出し

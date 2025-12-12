@@ -1161,23 +1161,10 @@ class DialogManagement:
 
     def pubDM_second_stage(self):
         """NLGへsecond_stage（本応答生成）リクエストを送信"""
-        # ★修正: TurnTaking判定時に保存したASR履歴を使用
-        words = []
+        # ★修正: フルのASR履歴は送信しない（asr_history_2_5sフィールドで送信済み）
+        # Second stageでは2.5秒間隔のASR結果のみを使用
+        words = []  # Second stageでは常に空（asr_history_2_5sで2.5秒間隔結果を送信）
         turn_taking_decision_timestamp_ns = self.turn_taking_decision_timestamp_ns
-
-        # ★TurnTaking判定時に保存したASR履歴を使用（self.asr_history_at_tt_decision）
-        if len(self.asr_history_at_tt_decision) > 0:
-            words = self.asr_history_at_tt_decision.copy()
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[DM-second] TurnTaking判定時保存のASR履歴を使用: {len(words)}件 @ {timestamp}\n")
-            sys.stdout.flush()
-        else:
-            # ASR履歴がない場合は空リストで送信（NLGが前回のfirst_stage結果を再利用）
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[DM-second] ASR履歴なし、空リストを送信 @ {timestamp}\n")
-            sys.stdout.flush()
 
         return {
             "words": words,
@@ -1185,7 +1172,7 @@ class DialogManagement:
             "stage": "second",
             "turn_taking_decision_timestamp_ns": turn_taking_decision_timestamp_ns,  # ★NLG用に時刻情報も送信
             "first_stage_backchannel_at_tt": self.first_stage_backchannel_at_tt_decision,  # ★TT判定時の相槌内容を送信
-            "asr_history_2_5s": self.asr_history_at_tt_decision_2_5s  # ★2.5秒間隔ASR結果をNLGに送信
+            "asr_history_2_5s": self.asr_history_at_tt_decision_2_5s  # ★2.5秒間隔ASR結果をNLGに送信（こちらのみを使用）
         }
 
     def updateNLG(self, nlg_data):

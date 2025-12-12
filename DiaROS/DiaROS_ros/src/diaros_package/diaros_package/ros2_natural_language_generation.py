@@ -27,6 +27,10 @@ class RosNaturalLanguageGeneration(Node):
         # ★2.5秒間隔ASR履歴（ROS2メッセージから抽出）
         self.asr_history_2_5s = []
 
+        # ★重複リクエスト防止：現在処理中のリクエストを記録
+        self.processing_request_id = None
+        self.processing_stage = None
+
     def dm_update(self, msg):
         """DMからのリクエストを受信（非同期処理）"""
         words = list(msg.words)
@@ -47,6 +51,14 @@ class RosNaturalLanguageGeneration(Node):
 
         # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
         if words or stage == 'second':
+            # ★重複リクエスト防止：現在処理中のリクエストと同じ場合はスキップ
+            if request_id == self.processing_request_id and stage == self.processing_stage:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                self.get_logger().info(
+                    f"[{timestamp}] [NLG] 重複リクエストをスキップ (request_id={request_id}, stage={stage})"
+                )
+                return
+
             # ★新しいリクエストの開始を記録
             if request_id != self.current_request_id or stage != self.current_stage:
                 self.current_stage = stage
@@ -63,9 +75,13 @@ class RosNaturalLanguageGeneration(Node):
             # ★【重要】update() をスレッドで非同期実行
             # ROS2 コールバックをブロックせず、複数のリクエストを並列処理可能に
             # ★【修正】ラムダ関数を使ってパラメータをキャプチャ（遅延評価を防止）
+            # ★処理開始前に処理中フラグを設定（重複処理を防止）
+            self.processing_request_id = request_id
+            self.processing_stage = stage
+
             update_thread = threading.Thread(
-                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns, bc=first_stage_backchannel_at_tt:
-                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t, first_stage_backchannel_at_tt=bc),
+                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns, bc=first_stage_backchannel_at_tt, asr_2_5s=asr_history_2_5s:
+                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t, first_stage_backchannel_at_tt=bc, asr_history_2_5s=asr_2_5s),
                 daemon=True
             )
             update_thread.start()
@@ -110,6 +126,10 @@ class RosNaturalLanguageGeneration(Node):
             self.pub_nlg.publish(nlg_msg)  # NLG生成文とステージ情報をNLGtoSSトピックで送信
             # self.pub_nlg_dr.publish(nlg_msg)  # ← コメントアウト
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply
+
+            # ★処理中フラグをリセット（次のリクエストを受け付けるため）
+            self.processing_request_id = None
+            self.processing_stage = None
 
         mm = Imm()
         mm.mod = "nlg"
