@@ -288,7 +288,8 @@ class DialogManagement:
         self.second_stage_timeout_seconds = 5.0  # second_stageタイムアウト秒数
         self.second_stage_timeout_played = False  # タイムアウトエラー既出フラグ
         # ★TurnTaking判定時のASR履歴保存（Second stage用）
-        self.asr_history_at_tt_decision = []  # TurnTaking判定時点でのASR履歴を保存
+        self.asr_history_at_tt_decision = []  # TurnTaking判定時点でのASR履歴を保存（全件）
+        self.asr_history_at_tt_decision_2_5s = []  # TurnTaking判定時点での2.5秒間隔ASR結果を保存
         # ★TurnTaking判定時に再生予定の First stage相槌を保存（Second stage用）
         self.first_stage_backchannel_at_tt_decision = ""  # TurnTaking判定時に再生する相槌内容
     
@@ -422,6 +423,44 @@ class DialogManagement:
                     self.asr_history_at_tt_decision = [entry["text"] for entry in self.asr_history]
                     sys.stdout.write(f"[DEBUG-TT] ASR履歴を保存: {len(self.asr_history_at_tt_decision)}件\n")
                     sys.stdout.flush()
+
+                    # ★TurnTaking判定時の2.5秒間隔ASR結果を計算して保存
+                    self.asr_history_at_tt_decision_2_5s = []
+                    if len(self.asr_history) > 0:
+                        # 最新のエントリから開始
+                        latest_entry = self.asr_history[-1]
+                        self.asr_history_at_tt_decision_2_5s.append(latest_entry["text"])
+                        current_timestamp_ns = latest_entry["timestamp_ns"]
+
+                        # 2.5秒間隔で過去に遡る
+                        interval_ns = 2_500_000_000  # 2.5秒 = 2,500,000,000ナノ秒
+                        while True:
+                            target_timestamp_ns = current_timestamp_ns - interval_ns
+                            # target_timestamp_nsに最も近い過去のエントリを探す
+                            closest_entry = None
+                            closest_diff = float('inf')
+
+                            for entry in self.asr_history:
+                                if entry["timestamp_ns"] <= target_timestamp_ns:
+                                    diff = target_timestamp_ns - entry["timestamp_ns"]
+                                    if diff < closest_diff:
+                                        closest_diff = diff
+                                        closest_entry = entry
+
+                            # 見つからない場合は最も古いエントリを採用
+                            if closest_entry is None:
+                                if len(self.asr_history) > 1:
+                                    oldest_entry = self.asr_history[0]
+                                    self.asr_history_at_tt_decision_2_5s.append(oldest_entry["text"])
+                                break
+                            else:
+                                self.asr_history_at_tt_decision_2_5s.append(closest_entry["text"])
+                                current_timestamp_ns = closest_entry["timestamp_ns"]
+
+                        # 古いもの→新しいものの順に並べ替え
+                        self.asr_history_at_tt_decision_2_5s.reverse()
+                        sys.stdout.write(f"[DEBUG-TT] 2.5秒間隔ASR結果を保存: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
+                        sys.stdout.flush()
 
                     # ★修正：Second stageリクエストフラグを設定（First stage再生前に設定）
                     # これにより、First stage の再生と並行して Second stage の生成が開始される
@@ -1145,7 +1184,8 @@ class DialogManagement:
             "update": True,
             "stage": "second",
             "turn_taking_decision_timestamp_ns": turn_taking_decision_timestamp_ns,  # ★NLG用に時刻情報も送信
-            "first_stage_backchannel_at_tt": self.first_stage_backchannel_at_tt_decision  # ★TT判定時の相槌内容を送信
+            "first_stage_backchannel_at_tt": self.first_stage_backchannel_at_tt_decision,  # ★TT判定時の相槌内容を送信
+            "asr_history_2_5s": self.asr_history_at_tt_decision_2_5s  # ★2.5秒間隔ASR結果をNLGに送信
         }
 
     def updateNLG(self, nlg_data):

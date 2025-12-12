@@ -62,8 +62,10 @@ from langchain_ollama import ChatOllama
 from .timeTracker import get_time_tracker
 
 class NaturalLanguageGeneration:
-    def __init__(self):
+    def __init__(self, dm_ref=None):
         self.rc = { "word": "" }
+        # ★DM参照を保持（2.5秒間隔ASR履歴を取得するため）
+        self.dm_ref = dm_ref
 
         self.query = ""
         self.update_flag = False
@@ -76,6 +78,7 @@ class NaturalLanguageGeneration:
         self.current_stage = "first"  # first または second（DMからのstage指定で切り替わる）
         self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒）
         self.first_stage_response_cached = ""  # first_stage相槌キャッシュ
+        self.asr_history_2_5s = []  # 2.5秒間隔のASR結果リスト（Second stage生成用）
 
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
@@ -204,13 +207,14 @@ class NaturalLanguageGeneration:
         sys.stdout.write(f'使用モデル: {self.model_name}\n')
         sys.stdout.write('=====================================================\n')
 
-    def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_backchannel_at_tt=None):
+    def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_backchannel_at_tt=None, asr_history_2_5s=None):
         """
         メインPCからのリクエストを処理
         words: 音声認識結果のリスト
         stage: 'first' または 'second'
         turn_taking_decision_timestamp_ns: TurnTaking判定時刻（ナノ秒）
         first_stage_backchannel_at_tt: TurnTaking判定時に再生予定の相槌内容（Second stage用）
+        asr_history_2_5s: 2.5秒間隔のASR結果リスト（Second stage生成用）
         """
         now = datetime.now()
 
@@ -224,6 +228,9 @@ class NaturalLanguageGeneration:
         # ★TT判定時の相槌を保存（Second stage用）
         if first_stage_backchannel_at_tt:
             self.first_stage_response = first_stage_backchannel_at_tt
+        # ★2.5秒間隔ASR結果を保存（Second stage用）
+        if asr_history_2_5s:
+            self.asr_history_2_5s = asr_history_2_5s
 
         # ★性能監視: 大量履歴の受信を記録
         word_count = len(words) if isinstance(words, list) else 1
@@ -518,7 +525,15 @@ class NaturalLanguageGeneration:
 
             # ★確認用出力：使用するASR結果とfirst_stage結果を表示
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp}] [Second Stage] 入力ASR結果: {asr_results}\n")
+
+            # ★DM参照から2.5秒間隔ASR履歴を取得（DM側で保持されている最新値を使用）
+            asr_2_5s_from_dm = []
+            if self.dm_ref and hasattr(self.dm_ref, 'asr_history_at_tt_decision_2_5s'):
+                asr_2_5s_from_dm = self.dm_ref.asr_history_at_tt_decision_2_5s
+            elif self.asr_history_2_5s:
+                asr_2_5s_from_dm = self.asr_history_2_5s
+
+            sys.stdout.write(f"[{timestamp}] [Second Stage] 2.5秒間隔ASR結果: {asr_2_5s_from_dm}\n")
             sys.stdout.write(f"[{timestamp}] [Second Stage] First Stage結果: '{self.first_stage_response}'\n")
             sys.stdout.flush()
 

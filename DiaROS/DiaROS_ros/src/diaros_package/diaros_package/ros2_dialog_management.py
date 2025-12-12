@@ -42,6 +42,8 @@ class RosDialogManagement(Node):
         # ★リクエストID生成用カウンター
         self.request_id_counter = 0  # リクエストIDのカウンター
         self.current_request_stage = None  # 現在処理中のステージ
+        # ★Second stage 2.5秒間隔ASR履歴キャッシュ（NLGで使用）
+        self.second_stage_asr_history_2_5s = []
 
     def dm_update(self, dm):
         new = { "you": dm.you, "is_final": dm.is_final, "timestamp_ns": dm.timestamp_ns }
@@ -191,6 +193,8 @@ class RosDialogManagement(Node):
                 msg.turn_taking_decision_timestamp_ns = dm_data_second.get("turn_taking_decision_timestamp_ns", 0)
                 # ★TurnTaking判定時に再生する相槌内容を送信（Second stage用）
                 msg.first_stage_backchannel_at_tt = dm_data_second.get("first_stage_backchannel_at_tt", "")
+                # ★2.5秒間隔ASR履歴をキャッシュに保存（NLGで使用）
+                self.second_stage_asr_history_2_5s = dm_data_second.get("asr_history_2_5s", [])
 
                 # ★デバッグ：送信前のメッセージ内容確認
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
