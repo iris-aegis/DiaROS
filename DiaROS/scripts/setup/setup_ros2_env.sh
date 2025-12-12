@@ -108,6 +108,9 @@ export PYTHONPATH="$PROJECT_ROOT/DiaROS_py:$PYTHONPATH"
 export RCUTILS_LOGGING_SEVERITY_THRESHOLD='ERROR'
 export RCUTILS_COLORIZED_OUTPUT='0'
 
+# ROS2ログ設定：ナノ秒タイムスタンプを非表示化（[HH:MM:SS.mmm]形式のみを表示）
+export RCL_LOGGING_SYSLOG=1
+
 # Apple Silicon GPU使用設定（macOSの場合）
 if [[ "$OS_TYPE" == "Darwin" ]]; then
     export DIAROS_DEVICE=mps

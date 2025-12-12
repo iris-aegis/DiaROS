@@ -4,6 +4,7 @@ import rclpy
 import threading
 import sys
 import time
+from datetime import datetime
 from rclpy.node import Node
 from interfaces.msg import Iasr
 from interfaces.msg import Isa
@@ -112,8 +113,9 @@ class RosDialogManagement(Node):
 
         # ★ステージ完了を記録
         stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+        timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         self.get_logger().info(
-            f"[DM] NLGから{stage_name}応答受信 (request_id={request_id}): '{reply[:30]}...'"
+            f"[{timestamp}] [DM] NLGから{stage_name}応答受信 (request_id={request_id}): '{reply[:30]}...'"
         )
 
         nlg_data = {
@@ -152,8 +154,9 @@ class RosDialogManagement(Node):
 
             # ★DM→NLG送信ログ
             stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             self.get_logger().info(
-                f"[DM] {stage_name}リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(words)})"
+                f"[{timestamp}] [DM] {stage_name}リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(words)})"
             )
 
             self.prev_word = words[0] if words else ""
@@ -164,8 +167,9 @@ class RosDialogManagement(Node):
             self.dialogManagement.second_stage_request_pending = False
 
             # ★デバッグ：second_stageリクエスト処理開始
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             self.get_logger().info(
-                f"[DEBUG] Second stage リクエスト処理開始"
+                f"[{timestamp}] [DEBUG] Second stage リクエスト処理開始"
             )
 
             dm_data_second = self.dialogManagement.pubDM_second_stage()
@@ -186,22 +190,27 @@ class RosDialogManagement(Node):
                 msg.session_id = getattr(self.dialogManagement, 'current_session_id', '')
                 # ★TurnTaking判定時刻を送信（pubDM_second_stage()で返されるデータに含まれている）
                 msg.turn_taking_decision_timestamp_ns = dm_data_second.get("turn_taking_decision_timestamp_ns", 0)
+                # ★TurnTaking判定時に再生する相槌内容を送信（Second stage用）
+                msg.first_stage_backchannel_at_tt = dm_data_second.get("first_stage_backchannel_at_tt", "")
 
                 # ★デバッグ：送信前のメッセージ内容確認
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
-                    f"[DEBUG] Second stageメッセージ送信: stage='{msg.stage}', request_id={msg.request_id}, words={len(msg.words)}件"
+                    f"[{timestamp}] [DEBUG] Second stageメッセージ送信: stage='{msg.stage}', request_id={msg.request_id}, words={len(msg.words)}件"
                 )
 
                 # ★ログ出力
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
-                    f"[DM] 応答生成リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(msg.words)})"
+                    f"[{timestamp}] [DM] 応答生成リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(msg.words)})"
                 )
 
                 self.pub_dm.publish(msg)
             else:
                 # ★デバッグ：second_stage更新フラグがfalseの場合
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
-                    f"[DEBUG] Second stage 更新なし（update=False）"
+                    f"[{timestamp}] [DEBUG] Second stage 更新なし（update=False）"
                 )
 
 

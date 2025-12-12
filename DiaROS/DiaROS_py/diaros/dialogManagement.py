@@ -287,6 +287,10 @@ class DialogManagement:
         self.second_stage_wait_start_time = None  # second_stage待機開始時刻
         self.second_stage_timeout_seconds = 5.0  # second_stageタイムアウト秒数
         self.second_stage_timeout_played = False  # タイムアウトエラー既出フラグ
+        # ★TurnTaking判定時のASR履歴保存（Second stage用）
+        self.asr_history_at_tt_decision = []  # TurnTaking判定時点でのASR履歴を保存
+        # ★TurnTaking判定時に再生予定の First stage相槌を保存（Second stage用）
+        self.first_stage_backchannel_at_tt_decision = ""  # TurnTaking判定時に再生する相槌内容
     
     def calculate_dialogue_timing(self, current_time_ns):
         """対話生成開始・完了からの経過時間を計算"""
@@ -408,13 +412,30 @@ class DialogManagement:
                     now_dt = datetime.now()
                     self.turn_taking_decision_timestamp_ns = int(now_dt.timestamp() * 1_000_000_000)
                     timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
-                    # ★ログ出力は削除（不要な出力）
-                    # sys.stdout.write(f"[TT] TurnTaking判定時刻を記録: {timestamp} (ns: {self.turn_taking_decision_timestamp_ns})\n")
-                    # sys.stdout.flush()
+                    # ★視覚的なマーカーを追加してTurnTaking判定時刻を明確に表示
+                    sys.stdout.write(f"\n{'='*70}\n")
+                    sys.stdout.write(f"🔊 【TurnTaking 話者交代判定】@ {timestamp}\n")
+                    sys.stdout.write(f"{'='*70}\n")
+                    sys.stdout.flush()
+
+                    # ★TurnTaking判定時点のASR履歴を保存（Second stage用）
+                    self.asr_history_at_tt_decision = [entry["text"] for entry in self.asr_history]
+                    sys.stdout.write(f"[DEBUG-TT] ASR履歴を保存: {len(self.asr_history_at_tt_decision)}件\n")
+                    sys.stdout.flush()
+
+                    # ★修正：Second stageリクエストフラグを設定（First stage再生前に設定）
+                    # これにより、First stage の再生と並行して Second stage の生成が開始される
+                    self.second_stage_request_pending = True
+                    self.waiting_for_second_stage = True
+                    timestamp_tt = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[TT] Second stage リクエスト処理開始（First stage再生と並行） @ {timestamp_tt}\n")
+                    sys.stdout.flush()
 
                     # First stage相槌を再生（準備がある場合）
                     if self.first_stage_backchannel_available and self.first_stage_backchannel:
-                        sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}'\n")
+                        # ★修正：TurnTaking判定時に再生予定の相槌を保存（Second stage用）
+                        self.first_stage_backchannel_at_tt_decision = self.first_stage_backchannel
+                        sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}' (TT判定時相槌として保存)\n")
                         sys.stdout.flush()
 
                         # ★事前合成済みのfirst_stageファイルがあれば使用、なければ合成
@@ -485,15 +506,6 @@ class DialogManagement:
                                 self.second_stage_ready_to_play = False
                                 self.waiting_for_second_stage = False
                                 self.latest_synth_filename = ""
-
-                        # ★Second stageリクエストフラグを設定（TurnTaking判定時のみ）
-                        # これでNLGの優先度制御が働く
-                        self.second_stage_request_pending = True
-                        timestamp_tt = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                        sys.stdout.write(f"[TT] 第2段階リクエスト送信フラグを設定（TurnTaking判定時） @ {timestamp_tt}\n")
-                        sys.stdout.flush()
-
-                        self.waiting_for_second_stage = True
 
                         # First stage相槌をリセット
                         self.first_stage_backchannel_available = False
@@ -961,9 +973,12 @@ class DialogManagement:
 
                     # 名前順で最新のファイル名を取得
                     latest_filename = filenames[-1] if filenames else ""
-                    sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
-                    sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
-                    sys.stdout.flush()
+                    # ★デバッグモード：DEBUG_DM_AUDIOがtrueの場合のみ表示
+                    debug_dm_audio = os.environ.get('DEBUG_DM_AUDIO', '').lower() == 'true'
+                    if debug_dm_audio:
+                        sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
+                        sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
+                        sys.stdout.flush()
 
 
                     # 最新のファイル名が self.prev_response_filename と異なる場合に限り、そのファイル名を出力
@@ -1004,16 +1019,20 @@ class DialogManagement:
 
                 # 名前順で最新のファイル名を取得
                 latest_filename = filenames[-1] if filenames else ""
-                sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
-                sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
-                sys.stdout.flush()
+                # ★デバッグモード：DEBUG_DM_AUDIOがtrueの場合のみ表示
+                debug_dm_audio = os.environ.get('DEBUG_DM_AUDIO', '').lower() == 'true'
+                if debug_dm_audio:
+                    sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
+                    sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
+                    sys.stdout.flush()
 
                 # 最新のファイル名が self.prev_response_filename と異なる場合に限り、そのファイル名を出力
                 if latest_filename != self.prev_response_filename:
                     self.prev_response_filename = latest_filename
 
-                    # Unityに応答の信号を送信する
-                    sys.stdout.write('\napiで応答' + latest_filename + '\n')
+                    # ★デバッグモード：Unityに応答の信号を送信（デバッグ表示）
+                    if debug_dm_audio:
+                        sys.stdout.write('\napiで応答' + latest_filename + '\n')
                     # dummy_signalのファイルが存在するか確認
                     try:
                         with open(latest_filename, 'r'):
@@ -1103,78 +1122,30 @@ class DialogManagement:
 
     def pubDM_second_stage(self):
         """NLGへsecond_stage（本応答生成）リクエストを送信"""
-        # ★分散実行対応: TurnTaking判定時刻以降の最初のASR結果を使用
+        # ★修正: TurnTaking判定時に保存したASR履歴を使用
         words = []
         turn_taking_decision_timestamp_ns = self.turn_taking_decision_timestamp_ns
 
-        if turn_taking_decision_timestamp_ns > 0 and len(self.asr_history) > 0:
-            # TurnTaking判定時刻以降で最初のASR結果を探す
-            first_after_decision = None
-            for entry in self.asr_history:
-                if entry["timestamp_ns"] >= turn_taking_decision_timestamp_ns:
-                    first_after_decision = entry
-                    break
-
-            if first_after_decision:
-                words.append(first_after_decision["text"])
-                now = datetime.now()
-                timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-                sys.stdout.write(f"[DM-second] TurnTaking判定後の最初のASR結果を使用: '{first_after_decision['text']}' @ {timestamp}\n")
-                sys.stdout.flush()
-            else:
-                # TurnTaking判定時刻以降のASR結果がない場合は最新を使用
-                if len(self.asr_history) > 0:
-                    latest_entry = self.asr_history[-1]
-                    words.append(latest_entry["text"])
-                    now = datetime.now()
-                    timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[DM-second] TurnTaking判定後のASR結果なし、最新を使用: '{latest_entry['text']}' @ {timestamp}\n")
-                    sys.stdout.flush()
+        # ★TurnTaking判定時に保存したASR履歴を使用（self.asr_history_at_tt_decision）
+        if len(self.asr_history_at_tt_decision) > 0:
+            words = self.asr_history_at_tt_decision.copy()
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[DM-second] TurnTaking判定時保存のASR履歴を使用: {len(words)}件 @ {timestamp}\n")
+            sys.stdout.flush()
         else:
-            # ★旧方式（TurnTaking判定時刻未設定の場合）: 2.5秒間隔でタイムスタンプベース選択
-            if len(self.asr_history) > 0:
-                # 最新のエントリから開始
-                latest_entry = self.asr_history[-1]
-                words.append(latest_entry["text"])
-                current_timestamp_ns = latest_entry["timestamp_ns"]
-
-                # 音声認識結果のリスト作成時に遡る間隔（ナノ秒単位）
-                # 2.5秒 = 2,500,000,000ナノ秒
-                interval_ns = 2_500_000_000
-
-                # 2.5秒間隔で過去に遡る
-                while True:
-                    target_timestamp_ns = current_timestamp_ns - interval_ns
-
-                    # target_timestamp_nsに最も近い過去のエントリを探す
-                    closest_entry = None
-                    closest_diff = float('inf')
-
-                    for entry in self.asr_history:
-                        if entry["timestamp_ns"] <= target_timestamp_ns:
-                            diff = target_timestamp_ns - entry["timestamp_ns"]
-                            if diff < closest_diff:
-                                closest_diff = diff
-                                closest_entry = entry
-
-                    # 見つからない場合は最も古いエントリを採用
-                    if closest_entry is None:
-                        if len(self.asr_history) > 1:  # 最新以外にエントリがある場合
-                            oldest_entry = self.asr_history[0]
-                            words.append(oldest_entry["text"])
-                        break
-                    else:
-                        words.append(closest_entry["text"])
-                        current_timestamp_ns = closest_entry["timestamp_ns"]
-
-                # 古いもの→新しいものの順に並べ替え
-                words.reverse()
+            # ASR履歴がない場合は空リストで送信（NLGが前回のfirst_stage結果を再利用）
+            now = datetime.now()
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[DM-second] ASR履歴なし、空リストを送信 @ {timestamp}\n")
+            sys.stdout.flush()
 
         return {
             "words": words,
             "update": True,
             "stage": "second",
-            "turn_taking_decision_timestamp_ns": turn_taking_decision_timestamp_ns  # ★NLG用に時刻情報も送信
+            "turn_taking_decision_timestamp_ns": turn_taking_decision_timestamp_ns,  # ★NLG用に時刻情報も送信
+            "first_stage_backchannel_at_tt": self.first_stage_backchannel_at_tt_decision  # ★TT判定時の相槌内容を送信
         }
 
     def updateNLG(self, nlg_data):

@@ -2,6 +2,7 @@ import rclpy
 import threading
 import sys
 import time
+from datetime import datetime
 from rclpy.node import Node
 from interfaces.msg import Idm
 from interfaces.msg import Inlg
@@ -30,10 +31,12 @@ class RosNaturalLanguageGeneration(Node):
         stage = getattr(msg, 'stage', 'first')  # stageフィールドを取得
         request_id = getattr(msg, 'request_id', 0)
         turn_taking_decision_timestamp_ns = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
+        first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時の相槌内容
 
         # ★デバッグ：受け取ったメッセージの詳細ログ
+        timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         self.get_logger().info(
-            f"[NLG-DEBUG] DM受信: words={len(words)}件, stage='{stage}', request_id={request_id}, msg.stage属性={hasattr(msg, 'stage')}"
+            f"[{timestamp}] [NLG-DEBUG] DM受信: words={len(words)}件, stage='{stage}', request_id={request_id}, msg.stage属性={hasattr(msg, 'stage')}"
         )
 
         # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
@@ -46,16 +49,17 @@ class RosNaturalLanguageGeneration(Node):
 
                 # ステージ開始ログ
                 stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
-                    f"[NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
+                    f"[{timestamp}] [NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
                 )
 
             # ★【重要】update() をスレッドで非同期実行
             # ROS2 コールバックをブロックせず、複数のリクエストを並列処理可能に
             # ★【修正】ラムダ関数を使ってパラメータをキャプチャ（遅延評価を防止）
             update_thread = threading.Thread(
-                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns:
-                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t),
+                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns, bc=first_stage_backchannel_at_tt:
+                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t, first_stage_backchannel_at_tt=bc),
                 daemon=True
             )
             update_thread.start()
@@ -91,8 +95,9 @@ class RosNaturalLanguageGeneration(Node):
 
             # ステージ完了ログ
             stage_name = "相槌生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             self.get_logger().info(
-                f"[NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
+                f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
                 f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
             )
 

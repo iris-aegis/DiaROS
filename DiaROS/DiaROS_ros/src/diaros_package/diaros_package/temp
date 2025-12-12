@@ -1,464 +1,658 @@
-[ros2_natural_language_generation-5] [17:59:13.598][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:13.598][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 7)
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] additional start
+[ros2_dialog_management-4] [INFO] [1765514790.031284318] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514790.032087947] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:30.032] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:30.032] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765514790.425092646] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514790.426409432] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:30.426] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:30.426] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765514790.516708625] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514790.517305349] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:30.517] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:30.517] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765514790.670327318] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514790.671197321] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:30.671] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:30.671] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765514790.810713821] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514790.811515677] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:30.811] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:30.811] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765514790.958061631] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514790.958885122] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:30.959] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:30.959] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:31.030]
+[ros2_natural_language_generation-5] [INFO] [1765514791.048812667] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2099.4ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514791.087348550] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514791.088219532] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_dialog_management-4] [INFO] [1765514791.088258906] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_natural_language_generation-5] [13:46:31.088] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:31.088] 履歴受信（3個）
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.1ms, ファイル: ./tmp/first_stage_20251211175913612412.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175913612412.wav @ 17:59:13.612
-[ros2_natural_language_generation-5] [17:59:13.768][NLG FIRST_STAGE] 🎯 TTFT: 169.4ms
-[ros2_natural_language_generation-5] [17:59:13.800][NLG FIRST_STAGE] ⚙️ 推論時間: 201.3ms
-[ros2_natural_language_generation-5] [17:59:13.800][NLG FIRST_STAGE] ✅ 相槌生成完了 (201.4ms): 'そっかー'
-[ros2_natural_language_generation-5] [INFO] [1765443553.811393175] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=14689.4ms, 応答='そっかー...' )
-[ros2_dialog_management-4] [INFO] [1765443553.906596074] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765443553.907112680] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:13.907][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-5] [17:59:13.907][NLG] 履歴受信（7個）: ['', '今度なか', '今度の休日なんだけど映画を見', '...', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいい', '天気が良かったらサイクリングもいいなと思っててほかに']
-[ros2_natural_language_generation-5] [17:59:13.907][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:13.907][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:13.907][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:13.907][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:13.907][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 7)
-[ros2_dialog_management-4] [INFO] [1765443553.921602805] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'そっかー...'
+[ros2_natural_language_generation-5] [13:46:31.111]
+[ros2_natural_language_generation-5] [13:46:31.178]
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 121.1ms, ファイル: ./tmp/first_stage_20251212134631163485.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631163485.wav @ 13:46:31.229
+[ros2_dialog_management-4] [INFO] [1765514791.242132442] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514791.242812833] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:31.242] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:31.242] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:31.244]
+[ros2_natural_language_generation-5] [13:46:31.314]
+[ros2_dialog_management-4] [INFO] [1765514791.337342141] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514791.339078289] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:31.339] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:31.339] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:31.392]
+[ros2_natural_language_generation-5] [13:46:31.424]
+[ros2_natural_language_generation-5] [INFO] [1765514791.428491693] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2479.3ms, 応答='うんうん...' )
+[ros2_natural_language_generation-5] [13:46:31.465]
+[ros2_dialog_management-4] [INFO] [1765514791.466798170] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514791.467627622] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:31.467] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:31.467] 履歴受信（3個）
+[ros2_dialog_management-4] [INFO] [1765514791.468349836] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 18.8ms, ファイル: ./tmp/first_stage_20251211175913940379.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175913940379.wav @ 17:59:13.940
-[ros2_dialog_management-4] [INFO] [1765443553.941209247] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765443553.941895179] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:13.942][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-5] [17:59:13.942][NLG] 履歴受信（7個）: ['', '度の休日', '今度の休日なんだけど映画を見に', '...', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', '天気がかったらサイクリングもいいと思っててほかに何か']
-[ros2_natural_language_generation-5] [17:59:13.942][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:13.942][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:13.942][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:13.942][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:13.942][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 7)
-[ros2_natural_language_generation-5] [17:59:14.099][NLG FIRST_STAGE] 🎯 TTFT: 192.3ms
-[ros2_natural_language_generation-5] [17:59:14.112][NLG FIRST_STAGE] ⚙️ 推論時間: 205.1ms
-[ros2_natural_language_generation-5] [17:59:14.112][NLG FIRST_STAGE] ✅ 相槌生成完了 (205.3ms): 'うんうん'
-[ros2_natural_language_generation-5] [INFO] [1765443554.131712525] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15009.5ms, 応答='うんうん...' )
-[ros2_natural_language_generation-5] [17:59:14.137][NLG FIRST_STAGE] 🎯 TTFT: 194.7ms
-[ros2_natural_language_generation-5] [17:59:14.174][NLG FIRST_STAGE] ⚙️ 推論時間: 232.1ms
-[ros2_natural_language_generation-5] [17:59:14.174][NLG FIRST_STAGE] ✅ 相槌生成完了 (232.2ms): 'そっかー'
-[ros2_natural_language_generation-5] [INFO] [1765443554.191705188] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15069.4ms, 応答='そっかー...' )
-[ros2_dialog_management-4] [INFO] [1765443554.231961288] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
-[ros2_natural_language_generation-5] [INFO] [1765443554.232420403] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:14.232][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-5] [17:59:14.232][NLG] 履歴受信（7個）: ['', '度の休日', '今度の休日なんだけど映画を見に', '...', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', 'がよかったらサイクリングもいいなと思っててほかに何か']
-[ros2_natural_language_generation-5] [17:59:14.232][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:14.232][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:14.232][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:14.232][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:14.232][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 7)
-[ros2_dialog_management-4] [INFO] [1765443554.233249016] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'そっかー...'
+[ros2_natural_language_generation-5] [13:46:31.506]
+[ros2_natural_language_generation-5] [13:46:31.537]
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 112.3ms, ファイル: ./tmp/first_stage_20251212134631544989.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631544989.wav @ 13:46:31.601
+[ros2_natural_language_generation-5] [13:46:31.601]
+[ros2_natural_language_generation-5] [INFO] [1765514791.608543313] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2659.3ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514791.642184171] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514791.642682050] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:31.642] stage='first' で更新
+[ros2_dialog_management-4] [INFO] [1765514791.642886349] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_natural_language_generation-5] [13:46:31.642] 履歴受信（3個）
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 18.1ms, ファイル: ./tmp/first_stage_20251211175914251291.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175914251291.wav @ 17:59:14.251
-[ros2_natural_language_generation-5] [17:59:14.401][NLG FIRST_STAGE] 🎯 TTFT: 169.0ms
-[ros2_natural_language_generation-5] [17:59:14.428][NLG FIRST_STAGE] ⚙️ 推論時間: 195.6ms
-[ros2_natural_language_generation-5] [17:59:14.428][NLG FIRST_STAGE] ✅ 相槌生成完了 (195.7ms): 'そっかー'
-[ros2_dialog_management-4] [INFO] [1765443554.504139889] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765443554.505110103] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:14.505][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-5] [17:59:14.505][NLG] 履歴受信（8個）: ['', '', '度の休日', '...', 'カフェでのんびり独書するかで悩んでてでも手', 'でも天気が良かったらサイクリングもいいなと', 'らサイクリングもいいななと思っててほかに何かい']
-[ros2_natural_language_generation-5] [17:59:14.505][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:14.505][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:14.505][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:14.505][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:14.505][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 8)
-[ros2_natural_language_generation-5] [17:59:14.692][NLG FIRST_STAGE] 🎯 TTFT: 187.2ms
-[ros2_natural_language_generation-5] [17:59:14.711][NLG FIRST_STAGE] ⚙️ 推論時間: 206.2ms
-[ros2_natural_language_generation-5] [17:59:14.711][NLG FIRST_STAGE] ✅ 相槌生成完了 (206.3ms): 'なるほど'
-[ros2_natural_language_generation-5] [INFO] [1765443554.731540152] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15609.4ms, 応答='なるほど...' )
-[ros2_dialog_management-4] [INFO] [1765443554.782946933] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765443554.783509142] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:14.783][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-5] [17:59:14.783][NLG] 履歴受信（8個）: ['', 'えっ', '今度の休日なんだけど', '...', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って', 'サイクリングもいいなと思っててほかに何かいあな']
-[ros2_natural_language_generation-5] [17:59:14.783][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:14.783][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:14.783][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:14.783][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:14.783][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 8)
-[ros2_dialog_management-4] [INFO] [1765443554.784279037] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
+[ros2_natural_language_generation-5] [13:46:31.655]
+[ros2_natural_language_generation-5] [INFO] [1765514791.668575670] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2719.3ms, 応答='そっかー...' )
+[ros2_natural_language_generation-5] [13:46:31.705]
+[ros2_natural_language_generation-5] [INFO] [1765514791.708389296] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2759.3ms, 応答='うんうん...' )
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 90.9ms, ファイル: ./tmp/first_stage_20251212134631708257.wav)
+[ros2_natural_language_generation-5] [13:46:31.744]
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631708257.wav @ 13:46:31.754
+[ros2_natural_language_generation-5] [13:46:31.777]
+[ros2_dialog_management-4] [INFO] [1765514791.812689985] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_dialog_management-4] [INFO] [1765514791.813317739] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
+[ros2_natural_language_generation-5] [INFO] [1765514791.813413134] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:31.813] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:31.813] 履歴受信（3個）
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.1ms, ファイル: ./tmp/first_stage_20251211175914798225.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175914798225.wav @ 17:59:14.798
-[ros2_natural_language_generation-5] [17:59:14.961][NLG FIRST_STAGE] 🎯 TTFT: 177.6ms
-[ros2_natural_language_generation-5] [17:59:15.001][NLG FIRST_STAGE] ⚙️ 推論時間: 217.8ms
-[ros2_natural_language_generation-5] [17:59:15.001][NLG FIRST_STAGE] ✅ 相槌生成完了 (218.0ms): 'えーまじか'
-[ros2_natural_language_generation-5] [INFO] [1765443555.011424252] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15889.4ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765443555.050223057] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765443555.050862594] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:15.050][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-5] [17:59:15.050][NLG] 履歴受信（8個）: ['', 'えっ', '今度の休日なんだけど', '...', 'カフェでのんびり独書するかで悩んでてでも天気が出', 'でも天気が良かったらサイクリングもいいなと思ってて', 'サイクリングもいいなと思ってて他に何か言いあんないかな']
-[ros2_natural_language_generation-5] [17:59:15.050][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:15.050][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:15.051][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:15.051][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:15.051][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 8)
-[ros2_dialog_management-4] [INFO] [1765443555.091878948] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.1ms, ファイル: ./tmp/first_stage_20251212134631829270.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134631829270.wav @ 13:46:31.829
+[ros2_natural_language_generation-5] [13:46:31.894]
+[ros2_natural_language_generation-5] [INFO] [1765514791.908506277] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=2959.3ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514791.994821008] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 96.2ms, ファイル: ./tmp/first_stage_20251211175915162583.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175915162583.wav @ 17:59:15.208
-[ros2_natural_language_generation-5] [17:59:15.232][NLG FIRST_STAGE] 🎯 TTFT: 181.1ms
-[ros2_natural_language_generation-5] [17:59:15.255][NLG FIRST_STAGE] ⚙️ 推論時間: 203.7ms
-[ros2_natural_language_generation-5] [17:59:15.255][NLG FIRST_STAGE] ✅ 相槌生成完了 (203.8ms): 'へーすごい'
-[ros2_natural_language_generation-5] [INFO] [1765443555.271772014] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=16149.5ms, 応答='へーすごい...' )
-[ros2_turn_taking-7] [17:59:15.321][ROS_TT] キューから取得, [17:59:15.321][ROS_TT] DM向け送信完了 (result=1, conf=0.915)
-[ros2_dialog_management-4] [INFO] [1765443555.383792804] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_dialog_management-4] [INFO] [1765443555.384723576] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
-[ros2_natural_language_generation-5] [INFO] [1765443555.384792345] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:15.385][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-5] [17:59:15.385][NLG] 履歴受信（8個）: ['', 'えっえっ[雑音]', '今度の休日なんだけど', '...', 'のんびり毒書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて', 'クリングもいいなと思っててほかに何か言いあんないかな']
-[ros2_natural_language_generation-5] [17:59:15.385][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:15.385][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:15.385][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:15.386][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:15.386][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 8)
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 20.4ms, ファイル: ./tmp/first_stage_20251212134632015114.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134632015114.wav @ 13:46:32.015
+[ros2_natural_language_generation-5] [13:46:32.041]
+[ros2_dialog_management-4] [INFO] [1765514792.353426763] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514792.353997218] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:32.354] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:32.354] 履歴受信（3個）
+[ros2_dialog_management-4] [INFO] [1765514792.534389463] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514792.534885319] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:32.535] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:32.535] 履歴受信（3個）
+[ros2_turn_taking-7] [13:46:32.546][ROS_TT] キューから取得, [13:46:32.546][ROS_TT] DM向け送信完了 (result=0, conf=0.141)
+[ros2_natural_language_generation-5] [13:46:32.567]
+[ros2_natural_language_generation-5] [INFO] [1765514792.568407140] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=3619.3ms, 応答='そっかー...' )
+[ros2_natural_language_generation-5] [13:46:32.739]
+[ros2_dialog_management-4] [INFO] [1765514792.860420450] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'そっかー...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.9ms, ファイル: ./tmp/first_stage_20251211175915402482.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175915402482.wav @ 17:59:15.402
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 197.8ms, ファイル: ./tmp/first_stage_20251212134633032726.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134633032726.wav @ 13:46:33.073
+[ros2_dialog_management-4] [INFO] [1765514793.217533943] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514793.218047018] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:33.218] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:33.218] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:33.397]
+[ros2_natural_language_generation-5] [INFO] [1765514793.408723582] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=4459.3ms, 応答='うんうん...' )
+[ros2_dialog_management-4] [INFO] [1765514793.411084959] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514793.411810493] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:33.411] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:33.411] 履歴受信（3個）
+[ros2_dialog_management-4] [INFO] [1765514793.412131150] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 23.0ms, ファイル: ./tmp/first_stage_20251212134633435018.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134633435018.wav @ 13:46:33.435
+[ros2_natural_language_generation-5] [13:46:33.594]
+[ros2_dialog_management-4] [INFO] [1765514793.600715998] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514793.601535888] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:33.601] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:33.601] 履歴受信（4個）
+[ros2_natural_language_generation-5] [13:46:33.791]
+[ros2_dialog_management-4] [INFO] [1765514793.800662527] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514793.801304293] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:33.801] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:33.801] 履歴受信（4個）
+[ros2_natural_language_generation-5] [INFO] [1765514793.808481306] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=4859.3ms, 応答='へーすごい...' )
+[ros2_dialog_management-4] [INFO] [1765514793.808976783] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 120.5ms, ファイル: ./tmp/first_stage_20251212134633893770.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134633893770.wav @ 13:46:33.950
+[ros2_natural_language_generation-5] [13:46:33.986]
+[ros2_natural_language_generation-5] [INFO] [1765514793.988832728] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=5039.5ms, 応答='うんうん...' )
+[ros2_dialog_management-4] [INFO] [1765514794.026604354] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514794.027451254] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:34.027] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:34.027] 履歴受信（4個）
+[ros2_dialog_management-4] [INFO] [1765514794.027875883] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.9ms, ファイル: ./tmp/first_stage_20251212134634044708.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134634044708.wav @ 13:46:34.044
+[ros2_natural_language_generation-5] [13:46:34.241]
+[ros2_turn_taking-7] [13:46:34.291][ROS_TT] キューから取得, [13:46:34.291][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
+[ros2_dialog_management-4] [INFO] [1765514794.500624481] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514794.501558807] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:34.501] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:34.501] 履歴受信（4個）
+[ros2_dialog_management-4] [INFO] [1765514794.679523696] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514794.686028656] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:34.686] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:34.686] 履歴受信（4個）
+[ros2_natural_language_generation-5] [13:46:34.697]
+[ros2_dialog_management-4] [INFO] [1765514794.704072336] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514794.705022771] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:34.705] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:34.705] 履歴受信（4個）
+[ros2_natural_language_generation-5] [INFO] [1765514794.713744330] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=5764.3ms, 応答='へーすごい...' )
+[ros2_natural_language_generation-5] [13:46:34.915]
+[ros2_natural_language_generation-5] [13:46:34.961]
+[ros2_dialog_management-4] [INFO] [1765514795.005840747] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 224.2ms, ファイル: ./tmp/first_stage_20251212134635194387.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134635194387.wav @ 13:46:35.250
+[ros2_dialog_management-4] [INFO] [1765514795.439140717] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514795.439953526] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:35.440] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:35.440] 履歴受信（4個）
+[ros2_natural_language_generation-5] [13:46:35.620]
+[ros2_natural_language_generation-5] [INFO] [1765514795.628495806] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=6679.3ms, 応答='うんうん...' )
+[ros2_dialog_management-4] [INFO] [1765514795.647473160] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514795.648347205] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_dialog_management-4] [INFO] [1765514795.648472592] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
+[ros2_natural_language_generation-5] [13:46:35.648] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:35.648] 履歴受信（4個）
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.6ms, ファイル: ./tmp/first_stage_20251212134635663970.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134635663970.wav @ 13:46:35.664
+[ros2_natural_language_generation-5] [13:46:35.821]
+[ros2_natural_language_generation-5] [INFO] [1765514795.828845880] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=6879.4ms, 応答='いいね...' )
+[ros2_dialog_management-4] [INFO] [1765514795.859294379] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514795.859813811] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:35.859] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:35.859] 履歴受信（4個）
+[ros2_dialog_management-4] [INFO] [1765514795.860540346] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'いいね...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.9ms, ファイル: ./tmp/first_stage_20251212134635876312.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134635876312.wav @ 13:46:35.876
+[ros2_natural_language_generation-5] [13:46:36.050]
+[ros2_dialog_management-4] [INFO] [1765514796.068678628] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=4)
+[ros2_natural_language_generation-5] [INFO] [1765514796.069440829] [natural_language_generation]: [NLG-DEBUG] DM受信: words=4件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:36.069] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:36.069] 履歴受信（4個）
+[ros2_natural_language_generation-5] [13:46:36.253]
+[ros2_dialog_management-4] [INFO] [1765514796.284043915] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514796.284912672] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:36.285] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:36.285] 履歴受信（5個）
+[ros2_natural_language_generation-5] [13:46:36.463]
+[ros2_natural_language_generation-5] [INFO] [1765514796.468761905] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=7519.4ms, 応答='なるほど...' )
+[ros2_dialog_management-4] [INFO] [1765514796.510002882] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514796.510459072] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:36.510] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:36.510] 履歴受信（5個）
+[ros2_dialog_management-4] [INFO] [1765514796.511251148] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.0ms, ファイル: ./tmp/first_stage_20251212134636527125.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134636527125.wav @ 13:46:36.527
+[ros2_natural_language_generation-5] [13:46:36.703]
+[ros2_natural_language_generation-5] [INFO] [1765514796.708377778] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=7759.3ms, 応答='うんうん...' )
+[ros2_dialog_management-4] [INFO] [1765514796.744838845] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514796.745442857] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:36.745] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:36.745] 履歴受信（5個）
+[ros2_dialog_management-4] [INFO] [1765514796.745740654] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 13.9ms, ファイル: ./tmp/first_stage_20251212134636759620.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134636759620.wav @ 13:46:36.759
+[ros2_natural_language_generation-5] [13:46:36.946]
+[ros2_dialog_management-4] [INFO] [1765514797.002355681] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514797.003215067] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:37.003] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:37.003] 履歴受信（5個）
+[ros2_natural_language_generation-5] [13:46:37.221]
+[ros2_natural_language_generation-5] [INFO] [1765514797.228794068] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=8279.3ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514797.260583703] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514797.261090789] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:37.261] stage='first' で更新
+[ros2_dialog_management-4] [INFO] [1765514797.261275785] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_natural_language_generation-5] [13:46:37.261] 履歴受信（5個）
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.7ms, ファイル: ./tmp/first_stage_20251212134637278848.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134637278848.wav @ 13:46:37.279
+[ros2_natural_language_generation-5] [13:46:37.464]
+[ros2_natural_language_generation-5] [INFO] [1765514797.468695462] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=8519.3ms, 応答='なるほど...' )
+[ros2_dialog_management-4] [INFO] [1765514797.541790486] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.2ms, ファイル: ./tmp/first_stage_20251212134637558903.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134637558903.wav @ 13:46:37.559
+[ros2_turn_taking-7] [13:46:37.631][ROS_TT] キューから取得, [13:46:37.631][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
+[ros2_dialog_management-4] [INFO] [1765514797.796019952] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514797.796812238] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:37.796] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:37.796] 履歴受信（5個）
+[ros2_natural_language_generation-5] [13:46:38.009]
+[ros2_natural_language_generation-5] [INFO] [1765514798.028756579] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=9079.4ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514798.067237684] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514798.067737850] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:38.067] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:38.067] 履歴受信（5個）
+[ros2_dialog_management-4] [INFO] [1765514798.068155391] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.0ms, ファイル: ./tmp/first_stage_20251212134638084081.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134638084081.wav @ 13:46:38.084
+[ros2_natural_language_generation-5] [13:46:38.250]
+[ros2_natural_language_generation-5] [INFO] [1765514798.268407720] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=9319.3ms, 応答='なるほど...' )
+[ros2_dialog_management-4] [INFO] [1765514798.346286668] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514798.346783766] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:38.346] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:38.346] 履歴受信（5個）
+[ros2_dialog_management-4] [INFO] [1765514798.347238260] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 17.9ms, ファイル: ./tmp/first_stage_20251212134638365076.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134638365076.wav @ 13:46:38.365
+[ros2_natural_language_generation-5] [13:46:38.562]
+[ros2_dialog_management-4] [INFO] [1765514798.625118954] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=5)
+[ros2_natural_language_generation-5] [INFO] [1765514798.626049992] [natural_language_generation]: [NLG-DEBUG] DM受信: words=5件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:38.626] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:38.626] 履歴受信（5個）
+[ros2_natural_language_generation-5] [13:46:38.846]
+[ros2_dialog_management-4] [INFO] [1765514798.946555056] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514798.947379872] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:38.947] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:38.947] 履歴受信（6個）
+[ros2_natural_language_generation-5] [13:46:39.170]
+[ros2_dialog_management-4] [INFO] [1765514799.257305915] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514799.258167105] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:39.258] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:39.258] 履歴受信（6個）
+[ros2_dialog_management-4] [INFO] [1765514799.448134979] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514799.449023832] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:39.449] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:39.449] 履歴受信（6個）
+[ros2_natural_language_generation-5] [13:46:39.474]
+[ros2_dialog_management-4] [INFO] [1765514799.594497734] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514799.595041013] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:39.595] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:39.595] 履歴受信（6個）
+[ros2_natural_language_generation-5] [13:46:39.707]
+[ros2_natural_language_generation-5] [INFO] [1765514799.708415993] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=10759.2ms, 応答='えーまじか...' )
+[ros2_natural_language_generation-5] [13:46:39.841]
+[ros2_natural_language_generation-5] [INFO] [1765514799.848760600] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=10899.4ms, 応答='そっかー...' )
+[ros2_dialog_management-4] [INFO] [1765514799.889959104] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514799.890795945] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:39.890] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:39.890] 履歴受信（6個）
+[ros2_dialog_management-4] [INFO] [1765514799.891447751] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'そっかー...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.3ms, ファイル: ./tmp/first_stage_20251212134639906696.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134639906696.wav @ 13:46:39.906
+[ros2_natural_language_generation-5] [13:46:40.199]
+[ros2_dialog_management-4] [INFO] [1765514800.205897003] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514800.206826231] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:40.206] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:40.206] 履歴受信（6個）
+[ros2_natural_language_generation-5] [INFO] [1765514800.209041033] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=11259.6ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514800.244428237] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 20.2ms, ファイル: ./tmp/first_stage_20251212134640264536.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134640264536.wav @ 13:46:40.264
+[ros2_dialog_management-4] [INFO] [1765514800.265873389] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514800.266600504] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:40.266] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:40.266] 履歴受信（6個）
+[ros2_natural_language_generation-5] [13:46:40.431]
+[ros2_natural_language_generation-5] [INFO] [1765514800.448586793] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=11499.3ms, 応答='なるほど...' )
+[ros2_natural_language_generation-5] [13:46:40.500]
+[ros2_dialog_management-4] [INFO] [1765514800.524560998] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514800.525584165] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:40.525] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:40.525] 履歴受信（6個）
+[ros2_dialog_management-4] [INFO] [1765514800.525857795] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.9ms, ファイル: ./tmp/first_stage_20251212134640540681.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134640540681.wav @ 13:46:40.540
+[ros2_natural_language_generation-5] [13:46:40.730]
+[ros2_dialog_management-4] [INFO] [1765514800.784548004] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514800.785141607] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:40.785] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:40.785] 履歴受信（6個）
+[ros2_natural_language_generation-5] [13:46:40.989]
+[ros2_dialog_management-4] [INFO] [1765514801.063313161] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514801.063852844] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:41.063] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:41.063] 履歴受信（6個）
+[ros2_dialog_management-4] [INFO] [1765514801.231573310] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=6)
+[ros2_natural_language_generation-5] [INFO] [1765514801.232190498] [natural_language_generation]: [NLG-DEBUG] DM受信: words=6件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:41.232] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:41.232] 履歴受信（6個）
+[ros2_natural_language_generation-5] [13:46:41.280]
+[ros2_natural_language_generation-5] [13:46:41.468]
+[ros2_dialog_management-4] [INFO] [1765514801.678921128] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514801.679611045] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:41.679] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:41.679] 履歴受信（7個）
+[ros2_natural_language_generation-5] [13:46:41.906]
+[ros2_dialog_management-4] [INFO] [1765514801.991370072] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514801.991990278] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:41.992] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:41.992] 履歴受信（7個）
+[ros2_dialog_management-4] [INFO] [1765514802.003326932] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514802.004004588] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:42.004] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:42.004] 履歴受信（7個）
+[ros2_natural_language_generation-5] [13:46:42.214]
+[ros2_natural_language_generation-5] [INFO] [1765514802.228533998] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=13279.3ms, 応答='うんうん...' )
+[ros2_natural_language_generation-5] [13:46:42.285]
+[ros2_natural_language_generation-5] [INFO] [1765514802.288595786] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=13339.3ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514802.390285330] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'うんうん...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.5ms, ファイル: ./tmp/first_stage_20251212134642404697.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134642404697.wav @ 13:46:42.404
+[ros2_dialog_management-4] [INFO] [1765514802.405706279] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 65.4ms, ファイル: ./tmp/first_stage_20251212134642450687.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134642450687.wav @ 13:46:42.491
+[ros2_turn_taking-7] [13:46:42.618][ROS_TT] キューから取得, [13:46:42.618][ROS_TT] DM向け送信完了 (result=0, conf=0.202)
+[ros2_dialog_management-4] [INFO] [1765514802.682640765] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514802.683260035] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:42.683] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:42.683] 履歴受信（7個）
+[ros2_dialog_management-4] [INFO] [1765514802.730696190] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514802.731386248] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:42.731] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:42.731] 履歴受信（7個）
+[ros2_natural_language_generation-5] [13:46:42.939]
+[ros2_dialog_management-4] [INFO] [1765514802.951451995] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514802.952060875] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:42.952] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:42.952] 履歴受信（7個）
+[ros2_natural_language_generation-5] [13:46:42.977]
+[ros2_natural_language_generation-5] [INFO] [1765514802.988458332] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=14039.3ms, 応答='へーすごい...' )
+[ros2_dialog_management-4] [INFO] [1765514803.149097156] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_dialog_management-4] [INFO] [1765514803.149889492] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
+[ros2_natural_language_generation-5] [INFO] [1765514803.149898952] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:43.150] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:43.150] 履歴受信（7個）
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 19.0ms, ファイル: ./tmp/first_stage_20251212134643168679.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134643168679.wav @ 13:46:43.169
+[ros2_natural_language_generation-5] [13:46:43.203]
+[ros2_natural_language_generation-5] [INFO] [1765514803.208563972] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=14259.3ms, 応答='なるほど...' )
+[ros2_natural_language_generation-5] [13:46:43.358]
+[ros2_turn_taking-7] [13:46:43.465][ROS_TT] キューから取得, [13:46:43.465][ROS_TT] DM向け送信完了 (result=0, conf=0.077)
+[ros2_dialog_management-4] [INFO] [1765514803.468103921] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514803.468947710] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:43.469] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:43.469] 履歴受信（7個）
+[ros2_dialog_management-4] [INFO] [1765514803.474707928] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.5ms, ファイル: ./tmp/first_stage_20251212134643491066.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134643491066.wav @ 13:46:43.491
+[ros2_natural_language_generation-5] [13:46:43.676]
+[ros2_dialog_management-4] [INFO] [1765514803.790389015] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=7)
+[ros2_natural_language_generation-5] [INFO] [1765514803.790910919] [natural_language_generation]: [NLG-DEBUG] DM受信: words=7件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:43.791] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:43.791] 履歴受信（7個）
+[ros2_dialog_management-4] [INFO] [1765514803.839305512] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514803.840167766] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:43.840] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:43.840] 履歴受信（8個）
+[ros2_natural_language_generation-5] [13:46:44.020]
+[ros2_natural_language_generation-5] [13:46:44.069]
+[ros2_dialog_management-4] [INFO] [1765514804.123044925] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514804.123959980] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:44.124] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:44.124] 履歴受信（8個）
+[ros2_dialog_management-4] [INFO] [1765514804.195435977] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514804.196252198] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:44.196] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:44.196] 履歴受信（8個）
+[ros2_natural_language_generation-5] [13:46:44.359]
+[ros2_natural_language_generation-5] [13:46:44.431]
+[ros2_dialog_management-4] [INFO] [1765514804.445764587] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514804.446693253] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:44.446] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:44.446] 履歴受信（8個）
+[ros2_dialog_management-4] [INFO] [1765514804.516864632] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514804.517676437] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:44.517] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:44.517] 履歴受信（8個）
+[ros2_natural_language_generation-5] [13:46:44.686]
+[ros2_natural_language_generation-5] [INFO] [1765514804.688410654] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15739.3ms, 応答='そっかー...' )
+[ros2_natural_language_generation-5] [13:46:44.745]
+[ros2_natural_language_generation-5] [INFO] [1765514804.748399596] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=15799.3ms, 応答='なるほど...' )
+[ros2_dialog_management-4] [INFO] [1765514804.849609511] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_dialog_management-4] [INFO] [1765514804.850392391] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'なるほど...'
+[ros2_natural_language_generation-5] [INFO] [1765514804.850459364] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:44.850] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:44.850] 履歴受信（8個）
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.7ms, ファイル: ./tmp/first_stage_20251212134644865033.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134644865033.wav @ 13:46:44.865
+[ros2_natural_language_generation-5] [13:46:45.073]
+[ros2_natural_language_generation-5] [INFO] [1765514805.088726777] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=16139.3ms, 応答='へーすごい...' )
+[ros2_dialog_management-4] [INFO] [1765514805.123499201] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514805.124497081] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:45.124] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:45.124] 履歴受信（8個）
+[ros2_turn_taking-7] [13:46:45.209][ROS_TT] キューから取得, [13:46:45.209][ROS_TT] DM向け送信完了 (result=1, conf=0.915)
+[ros2_dialog_management-4] [INFO] [1765514805.264291006] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.7ms, ファイル: ./tmp/first_stage_20251212134645279961.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134645279961.wav @ 13:46:45.280
+[ros2_dialog_management-4] [INFO] [1765514805.280766256] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514805.281315887] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:45.281] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:45.281] 履歴受信（8個）
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] ======================================================================
+[ros2_dialog_management-4] 🔊 【TurnTaking 話者交代判定】@ 13:46:45.293
+[ros2_dialog_management-4] ======================================================================
+[ros2_dialog_management-4] [DEBUG-TT] ASR履歴を保存: 113件
 [ros2_dialog_management-4] [TT] First stage相槌再生: 'へーすごい'
-[ros2_dialog_management-4] [TT] 事前合成済みのfirst_stage音声を使用 @ 17:59:15.414
-[ros2_dialog_management-4] [TT] First stage相槌再生開始: ./tmp/first_stage_20251211175915402482.wav @ 17:59:15.414
-[ros2_dialog_management-4] [INFO] [1765443555.415235783] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
-[ros2_natural_language_generation-5] [INFO] [1765443555.415885928] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:15.416][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:15.416][NLG] 履歴受信（8個）: ['', 'えっえっ[雑音]', '今度の休日なんだけど', '...', '独書するかで悩んでてでも天気が良かったら', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'なと思っててほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-5] [17:59:15.416][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:15.416][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:15.416][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:15.416][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:15.416][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 8)
-[ros2_natural_language_generation-5] [17:59:15.612][NLG FIRST_STAGE] 🎯 TTFT: 226.3ms
-[ros2_natural_language_generation-5] [17:59:15.653][NLG FIRST_STAGE] ⚙️ 推論時間: 267.9ms
-[ros2_natural_language_generation-5] [17:59:15.654][NLG FIRST_STAGE] ✅ 相槌生成完了 (268.0ms): 'えーまじか'
-[ros2_natural_language_generation-5] [INFO] [1765443555.671477540] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=16549.4ms, 応答='えーまじか...' )
-[ros2_dialog_management-4] [INFO] [1765443555.672276489] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
-[ros2_natural_language_generation-5] [17:59:15.673][NLG FIRST_STAGE] 🎯 TTFT: 257.5ms
+[ros2_dialog_management-4] [TT] 事前合成済みのfirst_stage音声を使用 @ 13:46:45.293
+[ros2_dialog_management-4] [TT] First stage相槌再生開始: ./tmp/first_stage_20251212134645279961.wav @ 13:46:45.294
+[ros2_dialog_management-4] [INFO] [1765514805.294984795] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=8)
+[ros2_natural_language_generation-5] [INFO] [1765514805.295850104] [natural_language_generation]: [NLG-DEBUG] DM受信: words=8件, stage='first', request_id=1, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:45.296] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:45.296] 履歴受信（8個）
+[ros2_natural_language_generation-5] [13:46:45.337]
+[ros2_natural_language_generation-5] [13:46:45.541]
+[ros2_natural_language_generation-5] [13:46:45.606]
+[ros2_natural_language_generation-5] [INFO] [1765514805.608697129] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=16659.3ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514805.609104999] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'えーまじか...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 25.8ms, ファイル: ./tmp/first_stage_20251211175915697903.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175915697903.wav @ 17:59:15.698
-[ros2_natural_language_generation-5] [17:59:15.703][NLG FIRST_STAGE] ⚙️ 推論時間: 286.6ms
-[ros2_natural_language_generation-5] [17:59:15.703][NLG FIRST_STAGE] ✅ 相槌生成完了 (286.7ms): 'へーすごい'
-[ros2_natural_language_generation-5] [INFO] [1765443555.711409730] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=1, 処理時間=16589.4ms, 応答='へーすごい...' )
-[ros2_dialog_management-4] [INFO] [1765443555.712061472] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=1): 'へーすごい...'
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 21.5ms, ファイル: ./tmp/first_stage_20251212134645630509.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134645630509.wav @ 13:46:45.630
+[ros2_dialog_management-4] [TT] First stage相槌再生完了 @ 13:46:46.176 (長さ: 0.88秒)
+[ros2_dialog_management-4] [TT] 第2段階リクエスト送信フラグを設定（TurnTaking判定時） @ 13:46:46.176
+[ros2_dialog_management-4] [INFO] [1765514806.232817883] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=0)
+[ros2_natural_language_generation-5] [INFO] [1765514806.233337730] [natural_language_generation]: [NLG-DEBUG] DM受信: words=0件, stage='first', request_id=1, msg.stage属性=True
+[ros2_dialog_management-4] [INFO] [1765514806.329865726] [dialog_management]: [DEBUG] Second stage リクエスト処理開始
+[ros2_dialog_management-4] [DM-second] TurnTaking判定時保存のASR履歴を使用: 113件 @ 13:46:46.329
+[ros2_dialog_management-4] [INFO] [1765514806.408851843] [dialog_management]: [DEBUG] Second stageメッセージ送信: stage='second', request_id=2, words=0件
+[ros2_dialog_management-4] [INFO] [1765514806.409266523] [dialog_management]: [DM] 応答生成リクエスト送信 (request_id=2, 入力数=0)
+[ros2_natural_language_generation-5] [INFO] [1765514806.410021870] [natural_language_generation]: [NLG-DEBUG] DM受信: words=0件, stage='second', request_id=2, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765514806.410415038] [natural_language_generation]: [NLG] 応答生成ステージ開始 (request_id=2, 入力数=0)
+[ros2_natural_language_generation-5] [13:46:46.410] stage='second' で更新
+[ros2_natural_language_generation-5] [13:46:46.410][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用
+[ros2_dialog_management-4] [INFO] [1765514806.631634981] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=1)
+[ros2_natural_language_generation-5] [INFO] [1765514806.632596968] [natural_language_generation]: [NLG-DEBUG] DM受信: words=1件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [INFO] [1765514806.633039895] [natural_language_generation]: [NLG] 相槌生成ステージ開始 (request_id=3, 入力数=1)
+[ros2_natural_language_generation-5] [13:46:46.633] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:46.633] 履歴受信（1個）
+[ros2_natural_language_generation-5] [13:46:46.674]
+[ros2_dialog_management-4] [INFO] [1765514806.680351853] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514806.680950250] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:46.681] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:46.681] 履歴受信（2個）
+[ros2_natural_language_generation-5] [INFO] [1765514806.688469711] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=55.5ms, 応答='マジで！？　びっくり！...' )
+[ros2_dialog_management-4] [INFO] [1765514806.689366710] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'マジで！？　びっくり！...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 29.6ms, ファイル: ./tmp/first_stage_20251211175915741594.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175915741594.wav @ 17:59:15.741
-[ros2_dialog_management-4] [TT] First stage相槌再生完了 @ 17:59:16.298 (長さ: 0.88秒)
-[ros2_dialog_management-4] [TT] 第2段階リクエスト送信フラグを設定（TurnTaking判定時） @ 17:59:16.298
-[ros2_dialog_management-4] [INFO] [1765443556.506004785] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=1, 入力数=0)
-[ros2_dialog_management-4] [INFO] [1765443556.506292171] [dialog_management]: [DEBUG] Second stage リクエスト処理開始
-[ros2_dialog_management-4] [INFO] [1765443556.506478860] [dialog_management]: [DEBUG] Second stageメッセージ送信: stage='second', request_id=2, words=0件
-[ros2_natural_language_generation-5] [INFO] [1765443556.506511027] [natural_language_generation]: [NLG-DEBUG] DM受信: words=0件, stage='first', request_id=1, msg.stage属性=True
-[ros2_dialog_management-4] [INFO] [1765443556.506622834] [dialog_management]: [DM] 応答生成リクエスト送信 (request_id=2, 入力数=0)
-[ros2_natural_language_generation-5] [INFO] [1765443556.506981248] [natural_language_generation]: [NLG-DEBUG] DM受信: words=0件, stage='second', request_id=2, msg.stage属性=True
-[ros2_natural_language_generation-5] [INFO] [1765443556.507143710] [natural_language_generation]: [NLG] 応答生成ステージ開始 (request_id=2, 入力数=0)
-[ros2_natural_language_generation-5] [17:59:16.507][NLG] stage='second' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:16.507][NLG] 履歴受信（0個）: []
-[ros2_natural_language_generation-5] [17:59:16.507][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:16.507][NLG] 💬 Second stage 実行中
-[ros2_natural_language_generation-5] [17:59:16.507][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用
-[ros2_natural_language_generation-5] [17:59:16.507][NLG SECOND_STAGE] 🔍 デバッグ: asr_results=[], first_stage_response='へーすごい'
-[ros2_natural_language_generation-5] [17:59:16.507][NLG SECOND_STAGE] 📄 プロンプト読み込み完了（0.4ms）
-[ros2_natural_language_generation-5] [17:59:16.507][NLG SECOND_STAGE] 🔧 プロンプト置換完了（0.0ms）
-[ros2_natural_language_generation-5] [17:59:16.507][NLG SECOND_STAGE] 🤖 本応答生成開始（相槌: 'へーすごい'）
-[ros2_natural_language_generation-5] [17:59:16.507][NLG SECOND_STAGE] 📤 Ollama API /api/chat エンドポイント呼び出し開始
-[ros2_natural_language_generation-5] [17:59:16.686][NLG SECOND_STAGE] 🎯 TTFT: 178.6ms
-[ros2_dialog_management-4] [INFO] [1765443556.746241268] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443556.746921220] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [INFO] [1765443556.747226965] [natural_language_generation]: [NLG] 相槌生成ステージ開始 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [17:59:16.747][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:16.747][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:16.747][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:16.747][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:16.747][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:16.747][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:16.747][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:16.749][NLG SECOND_STAGE] ⚙️  推論時間: 241.8ms (トークン数: 9)
-[ros2_natural_language_generation-5] [17:59:16.749][NLG SECOND_STAGE] ✅ 本応答生成完了 (241.9ms): 'マジか！めっちゃイケてるね！'
-[ros2_natural_language_generation-5] [17:59:16.749][NLG SECOND_STAGE] 🏁 最終応答: 'マジか！めっちゃイケてるね！'
-[ros2_natural_language_generation-5] [INFO] [1765443556.751575643] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=4.2ms, 応答='マジか！めっちゃイケてるね！...' )
-[ros2_dialog_management-4] [INFO] [1765443556.752244934] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'マジか！めっちゃイケてるね！...'
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 140.1ms, ファイル: ./tmp/first_stage_20251212134646783672.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134646783672.wav @ 13:46:46.850
+[ros2_natural_language_generation-5] [13:46:46.890]
+[ros2_natural_language_generation-5] [INFO] [1765514806.908735244] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=275.6ms, 応答='うんうん...' )
+[ros2_natural_language_generation-5] [13:46:46.927]
+[ros2_dialog_management-4] [INFO] [1765514806.971313658] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514806.971924362] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:46.972] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:46.972] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765514806.972224236] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'うんうん...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_natural_language_generation-5] [17:59:16.940][NLG FIRST_STAGE] 🎯 TTFT: 192.9ms
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 203.1ms, ファイル: ./tmp/first_stage_20251211175916914572.wav)
-[ros2_natural_language_generation-5] [17:59:16.956][NLG FIRST_STAGE] ⚙️ 推論時間: 208.8ms
-[ros2_natural_language_generation-5] [17:59:16.956][NLG FIRST_STAGE] ✅ 相槌生成完了 (209.0ms): 'うんうん'
-[ros2_natural_language_generation-5] [INFO] [1765443556.971541916] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=224.2ms, 応答='うんうん...' )
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175916914572.wav @ 17:59:16.975
-[ros2_dialog_management-4] [INFO] [1765443556.987870597] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'うんうん...'
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 14.6ms, ファイル: ./tmp/first_stage_20251212134646986765.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134646986765.wav @ 13:46:46.987
+[ros2_natural_language_generation-5] [13:46:47.184]
+[ros2_dialog_management-4] [INFO] [1765514807.237088516] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514807.237654791] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:47.237] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:47.237] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:47.463]
+[ros2_dialog_management-4] [INFO] [1765514807.475529142] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514807.476440438] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:47.476] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:47.476] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:47.684]
+[ros2_dialog_management-4] [INFO] [1765514807.759915587] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514807.760611142] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:47.760] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:47.760] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:47.978]
+[ros2_dialog_management-4] [INFO] [1765514808.021783181] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514808.022417742] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:48.022] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:48.022] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:48.247]
+[ros2_dialog_management-4] [INFO] [1765514808.299830352] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514808.300367109] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:48.300] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:48.300] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:48.505]
+[ros2_dialog_management-4] [INFO] [1765514808.546979166] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514808.547552331] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:48.547] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:48.547] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:48.752]
+[ros2_dialog_management-4] [INFO] [1765514808.779481469] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514808.780203443] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:48.780] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:48.780] 履歴受信（2個）
+[ros2_natural_language_generation-5] [13:46:49.001]
+[ros2_dialog_management-4] [INFO] [1765514809.018945696] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
+[ros2_natural_language_generation-5] [INFO] [1765514809.019598244] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:49.019] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:49.019] 履歴受信（2個）
+[ros2_dialog_management-4] [INFO] [1765514809.233243202] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514809.233841534] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:49.233] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:49.233] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:49.237]
+[ros2_dialog_management-4] [INFO] [1765514809.430261313] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514809.431019650] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:49.431] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:49.431] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:49.440]
+[ros2_dialog_management-4] [INFO] [1765514809.615588203] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514809.616502963] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:49.616] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:49.616] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:49.641]
+[ros2_dialog_management-4] [INFO] [1765514809.822825846] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514809.823858438] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:49.824] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:49.824] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:49.829]
+[ros2_dialog_management-4] [INFO] [1765514810.003366381] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514810.004258359] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:50.004] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:50.004] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:50.045]
+[ros2_natural_language_generation-5] [13:46:50.210]
+[INFO] [ros2_acoustic_analysis-1]: process started with pid [4078219]
+[INFO] [ros2_automatic_speech_recognition-2]: process started with pid [4078221]
+[INFO] [ros2_natural_language_understanding-3]: process started with pid [4078223]
+[INFO] [ros2_dialog_management-4]: process started with pid [4078225]
+[INFO] [ros2_natural_language_generation-5]: process started with pid [4078227]
+[INFO] [ros2_speech_synthesis-6]: process started with pid [4078229]
+[INFO] [ros2_turn_taking-7]: process started with pid [4078231]
+[INFO] [ros2_back_channel-8]: process started with pid [4078233]
+[ros2_natural_language_understanding-3] LanguageUnderstanding start up.
+[ros2_natural_language_understanding-3] =====================================================
+[ros2_acoustic_analysis-1] acousticAnalysis start
+[ros2_dialog_management-4] pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
+[ros2_dialog_management-4] Hello from the pygame community. https://www.pygame.org/contribute.html
+[ros2_dialog_management-4] DialogManagement start up.
+[ros2_dialog_management-4] =====================================================
+[ros2_speech_synthesis-6] pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
+[ros2_speech_synthesis-6] Hello from the pygame community. https://www.pygame.org/contribute.html
+[ros2_speech_synthesis-6] 🕐 DiaROS統合時間計測システム初期化完了
+[ros2_speech_synthesis-6] ✓ VOICEVOX is running and ready
+[ros2_speech_synthesis-6] ✓ VOICEVOX ENGINE is running and responding correctly
+[ros2_natural_language_generation-5] [NLG] Ollama gemma3:4bモデルを初期化中...
+[ros2_natural_language_generation-5] [NLG] ✅ gemma3:4bモデル初期化完了 (num_predict=10)
+[ros2_natural_language_generation-5] [NLG] ✅ プロンプトファイル確認: dialog_first_stage.txt (/usr/local/lib/python3.10/dist-packages/diaros/prompts/dialog_first_stage.txt)
+[ros2_natural_language_generatio[ros2_dialog_management-4] [INFO] [1765514810.409673953] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514810.410230291] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:50.410] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:50.410] 履歴受信（3個）
+n-5] NaturalLanguageGeneration (単一プロセス) start up.
+[ros2_natural_language_generation-5] 使用モデル: gemma3:4b
+[ros2_natural_language_generation-5] =====================================================
+[ros2_natural_language_generation-5] [NLG] 単一プロセス推論システム開始 (2.5秒間隔制御)
+[ros2_natural_language_generation-5] [NLG] 使用モデル: gemma3:4b
+[ros2_natural_language_generation-5] [INFO] [1765514779.028549572] [natural_language_generation]: [NLG] 不明ステージ完了 (request_id=None, 処理時間=0.0ms, 応答='...' )
+[ros2_dialog_management-4] [INFO] [1765514779.053700555] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=0): '...'
 [ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
-[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 16.6ms, ファイル: ./tmp/first_stage_20251211175917004446.wav)
-[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251211175917004446.wav @ 17:59:17.004
-[ros2_dialog_management-4] [INFO] [1765443557.005125485] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443557.005627380] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:17.005][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:17.005][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-5] [17:59:17.005][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:17.005][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:17.006][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:17.006][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:17.006][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:17.181][NLG FIRST_STAGE] 🎯 TTFT: 175.7ms
-[ros2_dialog_management-4] [INFO] [1765443557.200795870] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [17:59:17.201][NLG FIRST_STAGE] ⚙️ 推論時間: 195.3ms
-[ros2_natural_language_generation-5] [17:59:17.201][NLG FIRST_STAGE] ✅ 相槌生成完了 (195.4ms): 'うんうん'
-[ros2_natural_language_generation-5] [INFO] [1765443557.201725840] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:17.201][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:17.201][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[雑音]']
-[ros2_natural_language_generation-5] [17:59:17.201][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:17.201][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:17.202][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:17.202][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:17.202][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:17.367][NLG FIRST_STAGE] 🎯 TTFT: 164.7ms
-[ros2_natural_language_generation-5] [17:59:17.383][NLG FIRST_STAGE] ⚙️ 推論時間: 181.2ms
-[ros2_natural_language_generation-5] [17:59:17.383][NLG FIRST_STAGE] ✅ 相槌生成完了 (181.3ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443557.434614043] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443557.435537683] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:17.435][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:17.435][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[雑音][雑音]']
-[ros2_natural_language_generation-5] [17:59:17.435][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:17.435][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:17.436][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:17.436][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:17.436][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:17.599][NLG FIRST_STAGE] 🎯 TTFT: 163.9ms
-[ros2_natural_language_generation-5] [17:59:17.613][NLG FIRST_STAGE] ⚙️ 推論時間: 177.0ms
-[ros2_natural_language_generation-5] [17:59:17.613][NLG FIRST_STAGE] ✅ 相槌生成完了 (177.1ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443557.635723101] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443557.636584924] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:17.636][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:17.636][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[雑音]']
-[ros2_natural_language_generation-5] [17:59:17.636][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:17.636][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:17.637][NLG FIRST_STAGE] プロンプト読み込み完了（0.3ms）
-[ros2_natural_language_generation-5] [17:59:17.637][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:17.637][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:17.814][NLG FIRST_STAGE] 🎯 TTFT: 177.1ms
-[ros2_natural_language_generation-5] [17:59:17.827][NLG FIRST_STAGE] ⚙️ 推論時間: 190.2ms
-[ros2_natural_language_generation-5] [17:59:17.827][NLG FIRST_STAGE] ✅ 相槌生成完了 (190.3ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443557.858467549] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443557.858954869] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:17.859][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:17.859][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何かにか言いあんないかな[雑音][雑音]']
-[ros2_natural_language_generation-5] [17:59:17.859][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:17.859][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:17.859][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:17.859][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:17.859][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_dialog_management-4] [INFO] [1765443557.906063625] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443557.906601189] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:17.906][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:17.906][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'に何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-5] [17:59:17.906][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:17.906][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:17.907][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:17.907][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:17.907][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:18.035][NLG FIRST_STAGE] 🎯 TTFT: 176.3ms
-[ros2_natural_language_generation-5] [17:59:18.050][NLG FIRST_STAGE] ⚙️ 推論時間: 190.8ms
-[ros2_natural_language_generation-5] [17:59:18.050][NLG FIRST_STAGE] ✅ 相槌生成完了 (190.9ms): 'うんうん'
-[ros2_natural_language_generation-5] [17:59:18.106][NLG FIRST_STAGE] 🎯 TTFT: 199.8ms
-[ros2_natural_language_generation-5] [17:59:18.119][NLG FIRST_STAGE] ⚙️ 推論時間: 212.9ms
-[ros2_natural_language_generation-5] [17:59:18.120][NLG FIRST_STAGE] ✅ 相槌生成完了 (213.1ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443558.133572927] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443558.134376458] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:18.134][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:18.134][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', '何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-5] [17:59:18.134][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:18.134][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:18.134][NLG FIRST_STAGE] プロンプト読み込み完了（0.3ms）
-[ros2_natural_language_generation-5] [17:59:18.134][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:18.134][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:18.302][NLG FIRST_STAGE] 🎯 TTFT: 167.3ms
-[ros2_natural_language_generation-5] [17:59:18.320][NLG FIRST_STAGE] ⚙️ 推論時間: 185.3ms
-[ros2_natural_language_generation-5] [17:59:18.320][NLG FIRST_STAGE] ✅ 相槌生成完了 (185.4ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443558.349933388] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443558.350548964] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:18.350][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:18.350][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', '何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:18.350][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:18.350][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:18.350][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:18.350][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:18.350][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:18.521][NLG FIRST_STAGE] 🎯 TTFT: 170.4ms
-[ros2_natural_language_generation-5] [17:59:18.534][NLG FIRST_STAGE] ⚙️ 推論時間: 183.8ms
-[ros2_natural_language_generation-5] [17:59:18.534][NLG FIRST_STAGE] ✅ 相槌生成完了 (183.9ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443558.571115900] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443558.571564824] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:18.571][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:18.571][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', '何かに言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:18.571][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:18.571][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:18.571][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:18.571][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:18.571][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_dialog_management-4] [INFO] [1765443558.615861772] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443558.616356797] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:18.616][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:18.616][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', '何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:18.616][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:18.616][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:18.616][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:18.616][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:18.616][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:18.792][NLG FIRST_STAGE] 🎯 TTFT: 220.4ms
-[ros2_dialog_management-4] [INFO] [1765443558.793570965] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443558.794107610] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:18.794][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:18.794][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', '言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:18.794][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:18.794][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:18.795][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:18.795][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:18.795][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:18.807][NLG FIRST_STAGE] ⚙️ 推論時間: 235.8ms
-[ros2_natural_language_generation-5] [17:59:18.807][NLG FIRST_STAGE] ✅ 相槌生成完了 (236.0ms): 'うんうん'
-[ros2_natural_language_generation-5] [17:59:18.846][NLG FIRST_STAGE] 🎯 TTFT: 230.0ms
-[ros2_natural_language_generation-5] [17:59:18.863][NLG FIRST_STAGE] ⚙️ 推論時間: 247.2ms
-[ros2_natural_language_generation-5] [17:59:18.864][NLG FIRST_STAGE] ✅ 相槌生成完了 (247.4ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443558.930128781] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443558.931944662] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:18.932][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:18.932][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'あんないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:18.932][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:18.932][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:18.932][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:18.932][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:18.932][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_dialog_management-4] [INFO] [1765443558.997745680] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-5] [INFO] [1765443558.998621238] [natural_language_generation]: [NLG-DEBUG] DM受信: words=2件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:18.998][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:18.998][NLG] 履歴受信（2個）: ['ほかに何か言いあんないかな[雑音][無音]', 'あないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:18.998][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:18.998][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:18.999][NLG FIRST_STAGE] プロンプト読み込み完了（0.4ms）
-[ros2_natural_language_generation-5] [17:59:18.999][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:18.999][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 2)
-[ros2_natural_language_generation-5] [17:59:19.000][NLG FIRST_STAGE] 🎯 TTFT: 205.0ms
-[ros2_natural_language_generation-5] [17:59:19.019][NLG FIRST_STAGE] ⚙️ 推論時間: 224.4ms
-[ros2_natural_language_generation-5] [17:59:19.020][NLG FIRST_STAGE] ✅ 相槌生成完了 (224.6ms): 'うんうん'
-[ros2_natural_language_generation-5] [17:59:19.156][NLG FIRST_STAGE] 🎯 TTFT: 223.7ms
-[ros2_natural_language_generation-5] [17:59:19.172][NLG FIRST_STAGE] ⚙️ 推論時間: 239.8ms
-[ros2_natural_language_generation-5] [17:59:19.172][NLG FIRST_STAGE] ✅ 相槌生成完了 (240.0ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443559.199656233] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443559.200501275] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:19.200][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:19.200][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[雑音][無音]', 'あんないかな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:19.200][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:19.200][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:19.200][NLG FIRST_STAGE] プロンプト読み込み完了（0.3ms）
-[ros2_natural_language_generation-5] [17:59:19.200][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:19.200][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:19.268][NLG FIRST_STAGE] 🎯 TTFT: 269.4ms
-[ros2_natural_language_generation-5] [17:59:19.284][NLG FIRST_STAGE] ⚙️ 推論時間: 284.7ms
-[ros2_natural_language_generation-5] [17:59:19.284][NLG FIRST_STAGE] ✅ 相槌生成完了 (284.9ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443559.380941646] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443559.381499275] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:19.381][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:19.381][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[無音][無音]', 'かな[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:19.381][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:19.381][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:19.381][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:19.381][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:19.381][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:19.387][NLG FIRST_STAGE] 🎯 TTFT: 186.0ms
-[ros2_natural_language_generation-5] [17:59:19.401][NLG FIRST_STAGE] ⚙️ 推論時間: 200.5ms
-[ros2_natural_language_generation-5] [17:59:19.401][NLG FIRST_STAGE] ✅ 相槌生成完了 (200.6ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443559.541727907] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443559.542511022] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:19.542][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:19.542][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[無音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:19.542][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:19.542][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:19.542][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:19.542][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:19.542][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:19.554][NLG FIRST_STAGE] 🎯 TTFT: 172.3ms
-[ros2_natural_language_generation-5] [17:59:19.567][NLG FIRST_STAGE] ⚙️ 推論時間: 185.4ms
-[ros2_natural_language_generation-5] [17:59:19.567][NLG FIRST_STAGE] ✅ 相槌生成完了 (185.6ms): 'うんうん'
-[ros2_natural_language_generation-5] [17:59:19.713][NLG FIRST_STAGE] 🎯 TTFT: 170.0ms
-[ros2_natural_language_generation-5] [17:59:19.732][NLG FIRST_STAGE] ⚙️ 推論時間: 189.3ms
-[ros2_natural_language_generation-5] [17:59:19.732][NLG FIRST_STAGE] ✅ 相槌生成完了 (189.5ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443560.141101517] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443560.141639678] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:20.141][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:20.141][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何か言いあんないかな[雑音]', '[無音]']
-[ros2_natural_language_generation-5] [17:59:20.141][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:20.141][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:20.142][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:20.142][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:20.142][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_dialog_management-4] [INFO] [1765443560.291149623] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443560.291930647] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:20.292][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:20.292][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何かにか言いあんないかな[雑音][雑音]', '[雑音][無音]']
-[ros2_natural_language_generation-5] [17:59:20.292][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:20.292][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:20.292][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:20.292][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:20.292][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:20.311][NLG FIRST_STAGE] 🎯 TTFT: 169.9ms
-[ros2_natural_language_generation-5] [17:59:20.333][NLG FIRST_STAGE] ⚙️ 推論時間: 191.9ms
-[ros2_natural_language_generation-5] [17:59:20.334][NLG FIRST_STAGE] ✅ 相槌生成完了 (192.1ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443560.448228137] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443560.448914153] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:20.449][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:20.449][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', 'ほかに何かにか言いあんないかな[雑音][雑音]', '[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:20.449][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:20.449][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:20.449][NLG FIRST_STAGE] プロンプト読み込み完了（0.3ms）
-[ros2_natural_language_generation-5] [17:59:20.449][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:20.449][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:20.461][NLG FIRST_STAGE] 🎯 TTFT: 169.4ms
-[ros2_natural_language_generation-5] [17:59:20.475][NLG FIRST_STAGE] ⚙️ 推論時間: 183.2ms
-[ros2_natural_language_generation-5] [17:59:20.475][NLG FIRST_STAGE] ✅ 相槌生成完了 (183.4ms): 'うんうん'
-[ros2_natural_language_generation-5] [17:59:20.679][NLG FIRST_STAGE] 🎯 TTFT: 230.0ms
-[ros2_natural_language_generation-5] [17:59:20.694][NLG FIRST_STAGE] ⚙️ 推論時間: 244.8ms
-[ros2_natural_language_generation-5] [17:59:20.694][NLG FIRST_STAGE] ✅ 相槌生成完了 (244.9ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443560.764991789] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443560.765534625] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:20.765][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:20.765][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', '何か言いあんないかな[無音][無音]', '[無音]']
-[ros2_natural_language_generation-5] [17:59:20.765][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:20.765][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:20.766][NLG FIRST_STAGE] プロンプト読み込み完了（0.3ms）
-[ros2_natural_language_generation-5] [17:59:20.766][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:20.766][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_dialog_management-4] [INFO] [1765443560.907668011] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443560.908547657] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:20.908][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:20.908][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', '何かに言いあんないかな[無音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-5] [17:59:20.908][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:20.908][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:20.909][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:20.909][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:20.909][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:20.954][NLG FIRST_STAGE] 🎯 TTFT: 188.3ms
-[ros2_natural_language_generation-5] [17:59:20.968][NLG FIRST_STAGE] ⚙️ 推論時間: 202.3ms
-[ros2_natural_language_generation-5] [17:59:20.968][NLG FIRST_STAGE] ✅ 相槌生成完了 (202.5ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443561.081491306] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443561.082068074] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:21.082][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:21.082][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', '何かに言いあんないかな[無音][無音]', '[雑音][無音]']
-[ros2_natural_language_generation-5] [17:59:21.082][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:21.082][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:21.082][NLG FIRST_STAGE] プロンプト読み込み完了（0.1ms）
-[ros2_natural_language_generation-5] [17:59:21.082][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:21.082][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:21.090][NLG FIRST_STAGE] 🎯 TTFT: 181.7ms
-[ros2_natural_language_generation-5] [17:59:21.106][NLG FIRST_STAGE] ⚙️ 推論時間: 197.7ms
-[ros2_natural_language_generation-5] [17:59:21.106][NLG FIRST_STAGE] ✅ 相槌生成完了 (197.8ms): 'うんうん'
-[ros2_dialog_management-4] [INFO] [1765443561.245172911] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
-[ros2_natural_language_generation-5] [INFO] [1765443561.245859221] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
-[ros2_natural_language_generation-5] [17:59:21.245][NLG] stage='first' で更新 (turn_taking_timestamp: 1765443555414167808ns)
-[ros2_natural_language_generation-5] [17:59:21.245][NLG] 履歴受信（3個）: ['ほかに何か言いあんないかな[雑音][無音]', '言いあんないかな[無音][無音]', '[無音]']
-[ros2_natural_language_generation-5] [17:59:21.245][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-5] [17:59:21.245][NLG] 🎭 First stage 実行中
-[ros2_natural_language_generation-5] [17:59:21.246][NLG FIRST_STAGE] プロンプト読み込み完了（0.2ms）
-[ros2_natural_language_generation-5] [17:59:21.246][NLG FIRST_STAGE] 🤖 相槌生成開始
-[ros2_natural_language_generation-5] [17:59:21.246][NLG FIRST_STAGE] 📤 messages形式で送信 (ASR結果数: 3)
-[ros2_natural_language_generation-5] [17:59:21.282][NLG FIRST_STAGE] 🎯 TTFT: 199.9ms
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 13.3ms, ファイル: ./tmp/first_stage_20251212134619066998.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134619066998.wav @ 13:46:19.067
+[ros2_automatic_speech_recognition-2] pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
+[ros2_automatic_speech_recognition-2] Hello from the pygame community. https://www.pygame.org/contribute.html
+[ros2_automatic_speech_recognition-2] Loading ASR model...
+[ros2_automatic_speech_recognition-2] ASR node start up.
+[ros2_automatic_speech_recognition-2] =====================================================
+[ros2_automatic_speech_recognition-2] 🕐 DiaROS統合時間計測システム初期化完了
+[ros2_automatic_speech_recognition-2] [ASR] ビープ音機能初期化完了
+[ros2_turn_taking-7] Using cache found in /root/.cache/torch/hub/snakers4_silero-vad_master
+[ros2_dialog_management-4] 
+[ros2_dialog_management-4] power: 0.0
+[ros2_dialog_management-4] 
+[ros2_d[ros2_dialog_management-4] [INFO] [1765514810.578889993] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514810.580737534] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:50.580] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:50.580] 履歴受信（3個）
+ialog_management-4] standard_power: 0.0
+[ros2_back_channel-8] [INFO] [1765514779.674643299] [back_channel]:  Listening to mic_audio_float32...
+[ros2_back_channel-8] pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
+[ros2_back_channel-8] Hello from the pygame community. https://www.pygame.org/contribute.html
+[ros2_back_cha[ros2_natural_language_generation-5] [13:46:50.726]
+[ros2_dialog_management-4] [INFO] [1765514810.816236559] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514810.816818934] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:50.816] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:50.816] 履歴受信（3個）
+[ros2_natural_language_generation-5] [13:46:50.840]
+[ros2_natural_language_generation-5] [13:46:51.027]
+[ros2_dialog_management-4] [INFO] [1765514811.166864240] [dialog_management]: [DM] 相槌生成リクエスト送信 (request_id=3, 入力数=3)
+[ros2_natural_language_generation-5] [INFO] [1765514811.167550691] [natural_language_generation]: [NLG-DEBUG] DM受信: words=3件, stage='first', request_id=3, msg.stage属性=True
+[ros2_natural_language_generation-5] [13:46:51.167] stage='first' で更新
+[ros2_natural_language_generation-5] [13:46:51.167] 履歴受信（3個）
 [ros2_dialog_management-4] 
 [ros2_dialog_management-4] [WARNING] Second stage生成タイムアウト検出 (待機時間: 5.0秒)
 [ros2_dialog_management-4] 
@@ -466,8 +660,9 @@
 [ros2_dialog_management-4] [WARNING] 合成音声ファイルが利用できません。再生をスキップします
 [ros2_dialog_management-4]   latest_synth_filename: ''
 [ros2_dialog_management-4] [INFO] 第2段階の音声合成待機中か、合成に失敗しています
-[ros2_natural_language_generation-5] [17:59:21.302][NLG FIRST_STAGE] ⚙️ 推論時間: 219.9ms
-[ros2_natural_language_generation-5] [17:59:21.302][NLG FIRST_STAGE] ✅ 相槌生成完了 (220.1ms): 'うんうん'
-[ros2_natural_language_generation-5] [17:59:21.464][NLG FIRST_STAGE] 🎯 TTFT: 218.3ms
-[ros2_natural_language_generation-5] [17:59:21.480][NLG FIRST_STAGE] ⚙️ 推論時間: 234.3ms
-[ros2_natural_language_generation-5] [17:59:21.480][NLG FIRST_STAGE] ✅ 相槌生成完了 (234.5ms): 'うんうん'
+[ros2_natural_language_generation-5] [13:46:51.394]
+[ros2_natural_language_generation-5] [INFO] [1765514811.408548797] [natural_language_generation]: [NLG] 相槌生成ステージ完了 (request_id=3, 処理時間=4775.5ms, 応答='えーまじか...' )
+[ros2_dialog_management-4] [INFO] [1765514811.503652650] [dialog_management]: [DM] NLGから相槌生成応答受信 (request_id=3): 'えーまじか...'
+[ros2_dialog_management-4] [TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength=0.0, postPhonemeLength=0.0
+[ros2_dialog_management-4] [TTS] First stage相槌音声合成完了 (処理時間: 15.6ms, ファイル: ./tmp/first_stage_20251212134651519198.wav)
+[ros2_dialog_management-4] [DM-first_synth] First stage相槌の音声合成完了: ./tmp/first_stage_20251212134651519198.wav @ 13:46:51.519

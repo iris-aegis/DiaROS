@@ -54,6 +54,12 @@
 - 環境依存の絶対パスは避ける
 - ユーザー固有のパスをハードコードしない
 
+### フォールバック実装
+**明示的なリクエストがない限り、フォールバック処理は実装しないこと。**
+- エラー処理やフォールバック機構は、ユーザーが明確に要求した場合のみ実装
+- デフォルトでは、エラー時は適切なエラーメッセージを出力して処理を中止
+- フォールバック処理が必要な場合は、実装前にユーザーの要件を確認
+
 ## コマンド一覧
 
 ### システムセットアップとビルド
@@ -135,6 +141,9 @@ ros2 launch diaros_package sdsmod.launch.py nlg:=false
 export ROS_DOMAIN_ID=0
 export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
+# ROS2ログ設定（ナノ秒タイムスタンプを非表示化）
+export RCL_LOGGING_SYSLOG=1
+
 # NLG専用PCでAPI設定
 export OPENAI_API_KEY="sk-your-openai-api-key"
 ```
@@ -160,6 +169,22 @@ export OPENAI_API_KEY="sk-your-openai-api-key"
 ./scripts/launch/launch_diaros_no_speech_input.sh
 ./scripts/launch/launch_diaros_no_speech_input_simple.sh
 ```
+
+### ROS2ログ設定
+**重要**: ROS2 のナノ秒タイムスタンプログを非表示化し、カスタム形式 `[HH:MM:SS.mmm]` のみを表示するための設定です。
+
+```bash
+# ROS2ログのナノ秒タイムスタンプを非表示化
+export RCL_LOGGING_SYSLOG=1
+
+# この設定により、以下のような出力が：
+# [1765517605.458905293] [INFO] [dialog_management]: [14:33:25.250] message
+#
+# 次のようになります：
+# [14:33:25.250] [INFO] [dialog_management]: message
+```
+
+**注意**: `setup_ros2_env.sh` スクリプトでこの環境変数は自動的に設定されます。
 
 ### 開発とデバッグ
 ```bash
