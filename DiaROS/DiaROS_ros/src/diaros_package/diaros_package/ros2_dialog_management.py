@@ -180,10 +180,9 @@ class RosDialogManagement(Node):
                     self.current_request_stage = "second"
 
                 msg = Idm()
-                # ★修正：Second stageリクエスト送信時に空のwordsを使用
-                # （通常の応答流れを使いたい場合は下行をコメントアウト）
-                msg.words = []  # 空のwords で送信
-                # msg.words = dm_data_second["words"]  # ★二段階応答を使わない場合はこれを使用
+                # ★修正：TurnTaking判定時に保存したASR履歴を送信
+                # Second stageでは、このASR履歴を使用して応答を生成
+                msg.words = dm_data_second.get("words", [])
 
                 msg.stage = "second"
                 msg.request_id = self.request_id_counter  # ★リクエストIDを設定
