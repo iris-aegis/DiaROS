@@ -24,6 +24,8 @@ class RosNaturalLanguageGeneration(Node):
         self.current_stage = None  # 現在処理中のステージ
         self.current_request_id = None  # 現在処理中のリクエストID
         self.stage_start_timestamp_ns = 0  # ステージ開始時刻（ナノ秒）
+        # ★2.5秒間隔ASR履歴（ROS2メッセージから抽出）
+        self.asr_history_2_5s = []
 
     def dm_update(self, msg):
         """DMからのリクエストを受信（非同期処理）"""
@@ -32,6 +34,10 @@ class RosNaturalLanguageGeneration(Node):
         request_id = getattr(msg, 'request_id', 0)
         turn_taking_decision_timestamp_ns = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
         first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時の相槌内容
+        # ★2.5秒間隔ASR履歴を抽出（ROS2メッセージから）
+        asr_history_2_5s = list(getattr(msg, 'asr_history_2_5s', []))
+        # ★インスタンス変数に保存（NLGで使用）
+        self.asr_history_2_5s = asr_history_2_5s
 
         # ★デバッグ：受け取ったメッセージの詳細ログ
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
@@ -126,6 +132,8 @@ def main(args=None):
     naturalLanguageGeneration = NaturalLanguageGeneration()
     rclpy.init(args=args)
     rnlg = RosNaturalLanguageGeneration(naturalLanguageGeneration)
+    # ★ROS2NLG参照を設定（NLGから2.5秒間隔ASR履歴を取得するため）
+    naturalLanguageGeneration.rnlg_ref = rnlg
 
     ros = threading.Thread(target=runROS, args=(rnlg,))
     mod = threading.Thread(target=runNLG, args=(naturalLanguageGeneration,))

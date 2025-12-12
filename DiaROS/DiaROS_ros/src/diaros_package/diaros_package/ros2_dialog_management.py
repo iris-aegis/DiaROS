@@ -193,7 +193,9 @@ class RosDialogManagement(Node):
                 msg.turn_taking_decision_timestamp_ns = dm_data_second.get("turn_taking_decision_timestamp_ns", 0)
                 # ★TurnTaking判定時に再生する相槌内容を送信（Second stage用）
                 msg.first_stage_backchannel_at_tt = dm_data_second.get("first_stage_backchannel_at_tt", "")
-                # ★2.5秒間隔ASR履歴をキャッシュに保存（NLGで使用）
+                # ★2.5秒間隔ASR履歴をメッセージに設定（ROS2メッセージで送信）
+                msg.asr_history_2_5s = dm_data_second.get("asr_history_2_5s", [])
+                # ★2.5秒間隔ASR履歴をキャッシュに保存（ローカル参照用）
                 self.second_stage_asr_history_2_5s = dm_data_second.get("asr_history_2_5s", [])
 
                 # ★デバッグ：送信前のメッセージ内容確認

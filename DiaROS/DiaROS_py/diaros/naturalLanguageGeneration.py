@@ -62,10 +62,12 @@ from langchain_ollama import ChatOllama
 from .timeTracker import get_time_tracker
 
 class NaturalLanguageGeneration:
-    def __init__(self, dm_ref=None):
+    def __init__(self, dm_ref=None, rnlg_ref=None):
         self.rc = { "word": "" }
         # ★DM参照を保持（2.5秒間隔ASR履歴を取得するため）
         self.dm_ref = dm_ref
+        # ★ROS2NLG参照を保持（ROS2メッセージから受け取った2.5秒間隔ASR履歴を取得するため）
+        self.rnlg_ref = rnlg_ref
 
         self.query = ""
         self.update_flag = False
@@ -526,14 +528,19 @@ class NaturalLanguageGeneration:
             # ★確認用出力：使用するASR結果とfirst_stage結果を表示
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
 
-            # ★DM参照から2.5秒間隔ASR履歴を取得（DM側で保持されている最新値を使用）
-            asr_2_5s_from_dm = []
-            if self.dm_ref and hasattr(self.dm_ref, 'asr_history_at_tt_decision_2_5s'):
-                asr_2_5s_from_dm = self.dm_ref.asr_history_at_tt_decision_2_5s
+            # ★2.5秒間隔ASR履歴を取得（複数の優先度で取得）
+            asr_2_5s_list = []
+            # 優先度1: ROS2NLG参照から取得（ROS2メッセージから受け取った値）
+            if self.rnlg_ref and hasattr(self.rnlg_ref, 'asr_history_2_5s'):
+                asr_2_5s_list = self.rnlg_ref.asr_history_2_5s
+            # 優先度2: DM参照から取得（ローカル実行時）
+            elif self.dm_ref and hasattr(self.dm_ref, 'asr_history_at_tt_decision_2_5s'):
+                asr_2_5s_list = self.dm_ref.asr_history_at_tt_decision_2_5s
+            # 優先度3: インスタンス変数から取得
             elif self.asr_history_2_5s:
-                asr_2_5s_from_dm = self.asr_history_2_5s
+                asr_2_5s_list = self.asr_history_2_5s
 
-            sys.stdout.write(f"[{timestamp}] [Second Stage] 2.5秒間隔ASR結果: {asr_2_5s_from_dm}\n")
+            sys.stdout.write(f"[{timestamp}] [Second Stage] 2.5秒間隔ASR結果: {asr_2_5s_list}\n")
             sys.stdout.write(f"[{timestamp}] [Second Stage] First Stage結果: '{self.first_stage_response}'\n")
             sys.stdout.flush()
 
