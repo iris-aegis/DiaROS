@@ -282,6 +282,7 @@ class DialogManagement:
         self.first_stage_backchannel_available = False  # first_stage相槌が利用可能か
         self.waiting_for_second_stage = False  # second_stage応答待ちフラグ
         self.second_stage_request_pending = False  # second_stageリクエスト保留フラグ
+        self.second_stage_ready_to_play = False  # second_stage再生準備完了フラグ（合成完了）
         self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒） - 分散実行時のNLG連携用
         self.second_stage_wait_start_time = None  # second_stage待機開始時刻
         self.second_stage_timeout_seconds = 5.0  # second_stageタイムアウト秒数
@@ -453,6 +454,37 @@ class DialogManagement:
                         else:
                             sys.stdout.write(f"[ERROR] First stage相槌音声ファイルエラー、スキップします\n")
                             sys.stdout.flush()
+
+                        # ★Second stage本応答の再生チェック（First stage再生完了直後）
+                        # 再生準備ができていれば、すぐに再生
+                        if hasattr(self, 'second_stage_ready_to_play') and self.second_stage_ready_to_play and hasattr(self, 'latest_synth_filename') and self.latest_synth_filename and os.path.exists(self.latest_synth_filename):
+                            second_stage_wav_path = self.latest_synth_filename
+                            now = datetime.now()
+                            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+
+                            try:
+                                # 音声ファイル長を取得
+                                second_stage_audio = AudioSegment.from_wav(second_stage_wav_path)
+                                second_stage_duration_sec = len(second_stage_audio) / 1000.0
+
+                                # ブロッキング再生（本応答が終わるまで待つ）
+                                sys.stdout.write(f"[TT] Second stage本応答再生開始: {second_stage_wav_path} @ {timestamp}\n")
+                                sys.stdout.flush()
+                                self.play_sound(second_stage_wav_path, block=True)
+
+                                now_end = datetime.now()
+                                timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
+                                sys.stdout.write(f"[TT] Second stage本応答再生完了 @ {timestamp_end} (長さ: {second_stage_duration_sec:.2f}秒)\n")
+                                sys.stdout.flush()
+
+                            except Exception as e:
+                                sys.stdout.write(f"[ERROR] Second stage本応答の再生エラー: {e}\n")
+                                sys.stdout.flush()
+                            finally:
+                                # 再生準備フラグをクリア
+                                self.second_stage_ready_to_play = False
+                                self.waiting_for_second_stage = False
+                                self.latest_synth_filename = ""
 
                         # ★Second stageリクエストフラグを設定（TurnTaking判定時のみ）
                         # これでNLGの優先度制御が働く
@@ -1260,40 +1292,10 @@ class DialogManagement:
 
             # 合成成功時のみwaitingフラグをクリア（失敗時はキープして再生試行をスキップ）
             if second_stage_synthesis_success:
-                self.waiting_for_second_stage = False
-                # ★タイムアウトフラグをリセット（成功時）
-                self.second_stage_wait_start_time = None
-                self.second_stage_timeout_played = False
-
-                # ⭐ Second stage 本応答をすぐに再生（相槌の直後）
-                sys.stdout.write(f"[{timestamp}][DM] ✨ Second stage本応答を再生中...\n")
+                # ⭐ ファイルパスをフラグとして保存のみ（再生はpubDMで実行）
+                self.second_stage_ready_to_play = True  # 再生準備完了フラグ
+                sys.stdout.write(f"[{timestamp}][DM] ✨ Second stage本応答の合成完了、再生待機中\n")
                 sys.stdout.flush()
-
-                try:
-                    # 再生ファイルパスを確認
-                    wav_path = self.latest_synth_filename
-                    if wav_path and os.path.exists(wav_path):
-                        # ノンブロッキング再生（バックグラウンドで実行）
-                        audio = AudioSegment.from_wav(wav_path)
-                        duration_sec = len(audio) / 1000.0
-
-                        now_dt = datetime.now()
-                        timestamp_playback = now_dt.strftime('%H:%M:%S.%f')[:-3]
-                        sys.stdout.write(f"[{timestamp_playback}][DM] 🎵 Second stage応答の再生開始 (長さ: {duration_sec:.2f}秒): '{reply[:40]}...'\n")
-                        sys.stdout.flush()
-
-                        # ノンブロッキングで再生
-                        self.play_sound(wav_path, block=False)
-
-                    else:
-                        sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答ファイルが見つかりません: {wav_path}\n")
-                        sys.stdout.flush()
-
-                except Exception as e:
-                    sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答の再生エラー: {e}\n")
-                    sys.stdout.flush()
-                    import traceback
-                    traceback.print_exc()
             else:
                 sys.stdout.write(f"[{timestamp}][WARNING] ⚠️  Second stage本応答の再生をスキップします（合成失敗）\n")
                 sys.stdout.flush()
