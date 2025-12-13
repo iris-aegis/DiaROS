@@ -476,6 +476,9 @@ class DialogManagement:
                     sys.stdout.write(f"[TT] Second stage リクエスト処理開始（First stage再生と並行） @ {timestamp_tt}\n")
                     sys.stdout.flush()
 
+                    # ★修正：この TT データを処理済みとしてマーク（同じ TT データの再処理を防止）
+                    last_handled_tt_time = tt_time
+
                     # First stage相槌を再生（準備がある場合）
                     if self.first_stage_backchannel_available and self.first_stage_backchannel:
                         sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}'\n")
