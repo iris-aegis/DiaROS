@@ -320,6 +320,22 @@ else
     echo -e "${YELLOW}⚠️  NumPyが見つかりません${NC}"
 fi
 
+# ROS_DOMAIN_ID固定設定
+export ROS_DOMAIN_ID=0
+echo -e "${GREEN}📋 ROS設定:${NC}"
+echo "  ROS_DOMAIN_ID: $ROS_DOMAIN_ID"
+echo ""
+
+# 分散実行対応：nlg:=false オプション
+NLG_PARAM=""
+if [ "$1" = "--nlg-distributed" ] || [ "$1" = "nlg:=false" ]; then
+    NLG_PARAM="nlg:=false"
+    echo -e "${YELLOW}⚙️  分散実行モード: NLGノードを除外します${NC}"
+    echo -e "${YELLOW}📝 NLGPC側で以下を実行してください:${NC}"
+    echo "   ros2 run diaros_package ros2_natural_language_generation"
+    echo ""
+fi
+
 # DiaROSの起動
 echo -e "${GREEN}🚀 DiaROSを起動中...${NC}"
-ros2 launch diaros_package sdsmod.launch.py
+ros2 launch diaros_package sdsmod.launch.py $NLG_PARAM
