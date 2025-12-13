@@ -22,25 +22,117 @@
 
 ### 分散アーキテクチャ構成
 ```
-[メインPC: DiaROSシステム]
+[DMPC: DiaROSメインシステム]
 音声入力 → 音響解析 → 音声認識 → 対話管理 → 音声合成 → ターン管理
                                     ↓ ROS2トピック通信
-[このPC: NLGコンポーネント]          
+[NLGPC: このPC - NLG専用コンポーネント]
                           自然言語生成 (ChatGPT/Local LLM)
                                     ↑ ROS2トピック通信
 ```
+
+### PC役割分担
+- **DMPC (Dialog Management PC)**:
+  - 音声入力、音響解析、音声認識、対話管理、音声合成、ターン管理を実行
+  - DiaROSのメインシステムが稼働
+  - **リポジトリブランチ**: `main`
+  - **ソースコード参照**: [DiaROS main ブランチ](https://github.com/iris-aegis/DiaROS/tree/main/DiaROS)
+
+- **NLGPC (Natural Language Generation PC) - このPC**:
+  - **NLGモジュールのみを起動**
+  - その他のモジュール（音声認識、対話管理など）は起動しない
+  - LLM推論処理に特化
+  - **リポジトリブランチ**: `local_nlg`
+  - **ソースコード参照**: [DiaROS local_nlg ブランチ](https://github.com/iris-aegis/DiaROS/tree/local_nlg)
 
 ### 分散実行の目的
 - **処理負荷の分散**: 大型LLMの推論処理を別PCで実行
 - **スケーラビリティ**: 複数のNLGノードを並列実行可能
 - **専用GPU利用**: NLG専用PCでGPUリソースを効率的に活用
 - **システム安定性**: メインシステムへの影響を最小化
+- **役割分離**: DMPCとNLGPCで明確に役割を分離し、効率的なシステム運用を実現
+
+### ⚠️ DMPC側コードの確認方法
+DMPC側のコード（音声認識、対話管理など）を確認する必要がある場合：
+1. GitHub上の[main ブランチ](https://github.com/iris-aegis/DiaROS/tree/main/DiaROS)を参照
+2. WebFetch ツールを使用してGitHub上のファイルを直接読み取り
+3. 特に以下のモジュールはDMPC側で動作：
+   - `DiaROS_py/diaros/automaticSpeechRecognition.py` - 音声認識
+   - `DiaROS_py/diaros/dialogManagement.py` - 対話管理
+   - `DiaROS_py/diaros/backChannel.py` - 相槌生成
+   - `DiaROS_py/diaros/turnTaking.py` - ターンテイキング
 
 ### 通信フロー
-1. **入力**: `DMtoNLG`トピック（メインPCから音声認識結果リスト受信）
-2. **処理**: 音声認識結果を統合して自然な対話文を生成
-3. **出力**: `NLGtoSS`トピック（生成された応答文をメインPCへ送信）
-4. **タイミング情報**: メインPCでの詳細なタイミング分析のため時刻データも送信
+1. **入力**: `DMtoNLG`トピック（DMPCから音声認識結果リスト受信）
+2. **処理**: NLGPC上で音声認識結果を統合して自然な対話文を生成
+3. **出力**: `NLGtoSS`トピック（生成された応答文をDMPCへ送信）
+4. **タイミング情報**: DMPCでの詳細なタイミング分析のため時刻データも送信
+
+## 🎯 NLGPCでの作業範囲
+
+このPCは**NLGモジュール専用**です。以下の作業のみを実施してください：
+
+### ✅ 修正対象（NLGPCで実施）
+- **`DiaROS_py/diaros/naturalLanguageGeneration.py`**: 推論ロジック
+- **`DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`**: ROS2ラッパー
+- **`DiaROS_py/diaros/prompts/`**: プロンプトテンプレート修正
+- 応答生成パラメータ調整
+- 推論エンジン（Ollama、OpenAI APIなど）の設定
+- NLG関連の設定スクリプト
+
+### ❌ 修正対象外（DMPCで実施 - 修正しないこと）
+以下のモジュールはDMPC側で動作するため、**このPCでは修正しない**：
+- **音声入力**: `speechInput.py`
+- **音響分析**: `acousticAnalysis.py`
+- **音声認識**: `automaticSpeechRecognition.py`
+- **対話管理**: `dialogManagement.py`
+- **相槌生成**: `backChannel.py`
+- **ターンテイキング**: `turnTaking.py`
+- **音声合成**: `speechSynthesis.py`
+
+**重要**: DMPC側のモジュールに問題がある場合は、DMPC側で確認・修正してください。NLGPCでは修正できません。
+
+## 🔄 ソースコード変更時の自動コミット
+
+NLGモジュールの修正後、セキュリティ上の確認が必要でない限り、**自動的にgitにコミット**してください。
+
+### 自動コミット対象
+- NLG関連のすべてのPythonモジュール修正
+- プロンプトテンプレート修正
+- 設定ファイル修正
+- ROS2メッセージ定義の修正（NLG関連）
+- 起動スクリプト修正
+
+### 自動コミット対象外
+- セキュリティ認証情報（APIキーなど）
+- 本番環境に直接影響する重大な変更
+- ユーザーが明示的に確認を求めた場合
+
+### コミットメッセージの形式
+```
+Fix/Feature/Refactor/Docs: 変更内容の簡潔な説明
+
+詳細な説明（必要に応じて）
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+### コミット例
+```bash
+git add DiaROS_py/diaros/naturalLanguageGeneration.py
+git commit -m "$(cat <<'EOF'
+Fix: Second stage応答生成時の空データ処理を改善
+
+- 空のASR結果でもfirst_stage_responseがあれば処理続行
+- デバッグログを追加して受信データを可視化
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"
+```
 
 ## 必須コマンド
 
@@ -147,6 +239,112 @@ export DIAROS_DEVICE=cuda  # または 'cpu', 'mps' (macOS)
 ### 起動設定
 - **`launch/sdsmod.launch.py`**: ROS2システム起動定義
 - **`scripts/launch/`**: クロスプラットフォーム起動スクリプト
+
+## 📡 通信インターフェース
+
+### NLGPCが受け取るメッセージ（Idm - DMPC→NLGPC）
+`/DMtoNLG` トピック経由で受信：
+- **`words`**: 音声認識結果のリスト（例: `['今日は', '良い', '天気']`）
+- **`session_id`**: セッション識別子
+- **`stage`**: 処理段階（`'first'` = 相槌生成、`'second'` = 本応答生成）
+- **`request_id`**: リクエスト識別子
+- **`turn_taking_decision_timestamp_ns`**: TurnTaking判定時刻（ナノ秒）
+- **`first_stage_backchannel_at_tt`**: TurnTaking判定時の相槌内容（Second stage用）
+- **`asr_history_2_5s`**: 2.5秒間隔の音声認識結果リスト（Second stage用）
+
+### NLGPCが返送するメッセージ（Inlg - NLGPC→DMPC）
+`/NLGtoSS` トピック経由で送信：
+- **`reply`**: 生成された応答テキスト（例: `"そうですね、良い天気ですね"`）
+- **`stage`**: 完了したステージ（`'first'` または `'second'`）
+- **`request_id`**: 対応するリクエスト識別子
+- **`source_words`**: 対話生成の元にした音声認識結果
+- **`worker_name`**: ワーカー名（並列処理時の識別用）
+- **`start_timestamp_ns`**: 推論開始時刻（ナノ秒）
+- **`completion_timestamp_ns`**: 推論完了時刻（ナノ秒）
+- **`inference_duration_ms`**: 推論処理時間（ミリ秒）
+
+### メッセージフロー例
+```
+1. DMPC → NLGPC (First stage):
+   words=['今日は', '良い', '天気'], stage='first', request_id=1
+
+2. NLGPC → DMPC:
+   reply='うんうん', stage='first', request_id=1, inference_duration_ms=150
+
+3. DMPC → NLGPC (Second stage):
+   words=[], stage='second', request_id=1,
+   first_stage_backchannel_at_tt='うんうん',
+   asr_history_2_5s=['今日は', '良い', '天気', 'ですね']
+
+4. NLGPC → DMPC:
+   reply='そうですね、とても気持ちの良い日ですね',
+   stage='second', request_id=1, inference_duration_ms=1200
+```
+
+## ⚙️ 環境設定（NLGPC）
+
+### ROS2通信設定
+DMPCと**同一のドメインID**を設定してください：
+```bash
+# ROS2ドメイン設定（DMPCと一致させる）
+export ROS_DOMAIN_ID=0
+
+# ROS2実装設定
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+
+# ログ設定（エラーのみ表示）
+export RCUTILS_LOGGING_SEVERITY_THRESHOLD='ERROR'
+export RCUTILS_COLORIZED_OUTPUT='0'
+```
+
+### LLM設定
+```bash
+# 使用するモデルの指定
+export DIAROS_LLM_MODEL=gemma3:4b  # または gemma3:12b, gemma3:27b
+
+# デバイス設定
+export DIAROS_DEVICE=cuda          # または 'cpu', 'mps' (macOS)
+
+# OpenAI API使用時
+export OPENAI_API_KEY="sk-your-openai-api-key"
+```
+
+### DiaROS Pythonモジュールのパス設定
+```bash
+export PYTHONPATH="/workspace/DiaROS/DiaROS_py:$PYTHONPATH"
+```
+
+## ✅ 修正後の確認項目
+
+NLGモジュール修正後は以下を確認してください：
+
+### 応答生成の確認
+- ✅ **First stage応答時間**: 200ms以内（目標）
+- ✅ **Second stage応答時間**: 1-2秒以内（推奨）
+- ✅ メッセージの送受信が正常に行われているか
+- ✅ DMPC側のログで「応答生成完了」が表示されるか
+
+### トピック通信の確認
+```bash
+# DMPCからのメッセージ確認
+ros2 topic echo /DMtoNLG
+
+# NLGPCからの応答確認
+ros2 topic echo /NLGtoSS
+
+# トピック接続状態確認
+ros2 topic info /DMtoNLG
+ros2 topic info /NLGtoSS
+```
+
+### ノード状態の確認
+```bash
+# ノード一覧表示
+ros2 node list
+
+# NLGノードの詳細情報
+ros2 node info /natural_language_generation
+```
 
 ## 開発・デバッグ
 
