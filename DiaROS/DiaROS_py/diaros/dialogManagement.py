@@ -461,6 +461,11 @@ class DialogManagement:
                         self.asr_history_at_tt_decision_2_5s.reverse()
                         sys.stdout.write(f"[DEBUG-TT] 2.5秒間隔ASR結果を保存: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
                         sys.stdout.flush()
+                    elif self.asr["you"]:
+                        # ★修正：ASR履歴が空の場合でも、最後のASR結果があれば送信（単一PC時の動作と統一）
+                        self.asr_history_at_tt_decision_2_5s = [self.asr["you"]]
+                        sys.stdout.write(f"[DEBUG-TT] ASR履歴が空のため、最後のASR結果を使用: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
+                        sys.stdout.flush()
 
                     # ★修正：First stage相槌を保存（応答有無にかかわらず）
                     # Second stage用に、TT判定時点での相槌を保存

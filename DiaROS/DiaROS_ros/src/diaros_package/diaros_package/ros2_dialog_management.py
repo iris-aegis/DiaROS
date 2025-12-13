@@ -155,7 +155,7 @@ class RosDialogManagement(Node):
             dm.turn_taking_decision_timestamp_ns = getattr(self.dialogManagement, 'turn_taking_decision_timestamp_ns', 0)
             # ★First stage用の相槌内容とASR履歴を設定
             dm.first_stage_backchannel_at_tt = getattr(self.dialogManagement, 'first_stage_backchannel_at_tt_decision', '')
-            dm.asr_history_2_5s = getattr(self.dialogManagement, 'second_stage_asr_history_2_5s', [])
+            dm.asr_history_2_5s = getattr(self.dialogManagement, 'asr_history_at_tt_decision_2_5s', [])
 
             # ★DM→NLG送信ログ
             stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
