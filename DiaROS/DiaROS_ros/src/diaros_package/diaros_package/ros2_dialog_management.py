@@ -165,14 +165,14 @@ class RosDialogManagement(Node):
             )
 
         if dm_result_update is True:
-            # ★新しいステージの場合、リクエストIDを更新
+            # ★毎回リクエストIDをインクリメント（重複検出の精度向上）
+            self.request_id_counter += 1
             if stage != self.current_request_stage:
-                self.request_id_counter += 1
                 self.current_request_stage = stage
 
             dm.words = words
             dm.stage = stage
-            dm.request_id = self.request_id_counter  # ★リクエストIDを設定
+            dm.request_id = self.request_id_counter  # ★ユニークなリクエストIDを設定（毎回increment）
             dm.session_id = getattr(self.dialogManagement, 'current_session_id', '')
             # ★TurnTaking判定時刻を送信（分散実行時のNLG連携用）
             dm.turn_taking_decision_timestamp_ns = getattr(self.dialogManagement, 'turn_taking_decision_timestamp_ns', 0)
