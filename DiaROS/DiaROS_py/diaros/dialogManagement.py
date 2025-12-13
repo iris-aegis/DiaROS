@@ -462,19 +462,23 @@ class DialogManagement:
                         sys.stdout.write(f"[DEBUG-TT] 2.5秒間隔ASR結果を保存: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
                         sys.stdout.flush()
 
+                    # ★修正：First stage相槌を保存（応答有無にかかわらず）
+                    # Second stage用に、TT判定時点での相槌を保存
+                    self.first_stage_backchannel_at_tt_decision = self.first_stage_backchannel
+                    timestamp_tt = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[TT] First stage相槌を保存: '{self.first_stage_backchannel}' @ {timestamp_tt}\n")
+                    sys.stdout.flush()
+
                     # ★修正：Second stageリクエストフラグを設定（First stage再生前に設定）
                     # これにより、First stage の再生と並行して Second stage の生成が開始される
                     self.second_stage_request_pending = True
                     self.waiting_for_second_stage = True
-                    timestamp_tt = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                     sys.stdout.write(f"[TT] Second stage リクエスト処理開始（First stage再生と並行） @ {timestamp_tt}\n")
                     sys.stdout.flush()
 
                     # First stage相槌を再生（準備がある場合）
                     if self.first_stage_backchannel_available and self.first_stage_backchannel:
-                        # ★修正：TurnTaking判定時に再生予定の相槌を保存（Second stage用）
-                        self.first_stage_backchannel_at_tt_decision = self.first_stage_backchannel
-                        sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}' (TT判定時相槌として保存)\n")
+                        sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}'\n")
                         sys.stdout.flush()
 
                         # ★事前合成済みのfirst_stageファイルがあれば使用、なければ合成
@@ -1165,6 +1169,11 @@ class DialogManagement:
         # Second stageでは2.5秒間隔のASR結果のみを使用
         words = []  # Second stageでは常に空（asr_history_2_5sで2.5秒間隔結果を送信）
         turn_taking_decision_timestamp_ns = self.turn_taking_decision_timestamp_ns
+
+        # ★デバッグ：実際に送信される値を確認
+        timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+        sys.stdout.write(f"[{timestamp}] [DM-SECOND-STAGE] 相槌='{self.first_stage_backchannel_at_tt_decision}', ASR_2_5s_count={len(self.asr_history_at_tt_decision_2_5s)}\n")
+        sys.stdout.flush()
 
         return {
             "words": words,
