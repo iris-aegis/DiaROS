@@ -57,10 +57,42 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: request_id
+  {
+    out << "request_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.request_id, out);
+    out << ", ";
+  }
+
   // member: turn_taking_decision_timestamp_ns
   {
     out << "turn_taking_decision_timestamp_ns: ";
     rosidl_generator_traits::value_to_yaml(msg.turn_taking_decision_timestamp_ns, out);
+    out << ", ";
+  }
+
+  // member: first_stage_backchannel_at_tt
+  {
+    out << "first_stage_backchannel_at_tt: ";
+    rosidl_generator_traits::value_to_yaml(msg.first_stage_backchannel_at_tt, out);
+    out << ", ";
+  }
+
+  // member: asr_history_2_5s
+  {
+    if (msg.asr_history_2_5s.size() == 0) {
+      out << "asr_history_2_5s: []";
+    } else {
+      out << "asr_history_2_5s: [";
+      size_t pending_items = msg.asr_history_2_5s.size();
+      for (auto item : msg.asr_history_2_5s) {
+        rosidl_generator_traits::value_to_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
+        }
+      }
+      out << "]";
+    }
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -109,6 +141,16 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
+  // member: request_id
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "request_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.request_id, out);
+    out << "\n";
+  }
+
   // member: turn_taking_decision_timestamp_ns
   {
     if (indentation > 0) {
@@ -117,6 +159,36 @@ inline void to_block_style_yaml(
     out << "turn_taking_decision_timestamp_ns: ";
     rosidl_generator_traits::value_to_yaml(msg.turn_taking_decision_timestamp_ns, out);
     out << "\n";
+  }
+
+  // member: first_stage_backchannel_at_tt
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "first_stage_backchannel_at_tt: ";
+    rosidl_generator_traits::value_to_yaml(msg.first_stage_backchannel_at_tt, out);
+    out << "\n";
+  }
+
+  // member: asr_history_2_5s
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    if (msg.asr_history_2_5s.size() == 0) {
+      out << "asr_history_2_5s: []\n";
+    } else {
+      out << "asr_history_2_5s:\n";
+      for (auto item : msg.asr_history_2_5s) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "- ";
+        rosidl_generator_traits::value_to_yaml(item, out);
+        out << "\n";
+      }
+    }
   }
 }  // NOLINT(readability/fn_size)
 

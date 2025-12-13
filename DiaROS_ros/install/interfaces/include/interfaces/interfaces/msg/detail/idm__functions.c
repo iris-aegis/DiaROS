@@ -15,6 +15,8 @@
 // Member `words`
 // Member `session_id`
 // Member `stage`
+// Member `first_stage_backchannel_at_tt`
+// Member `asr_history_2_5s`
 #include "rosidl_runtime_c/string_functions.h"
 
 bool
@@ -38,7 +40,18 @@ interfaces__msg__Idm__init(interfaces__msg__Idm * msg)
     interfaces__msg__Idm__fini(msg);
     return false;
   }
+  // request_id
   // turn_taking_decision_timestamp_ns
+  // first_stage_backchannel_at_tt
+  if (!rosidl_runtime_c__String__init(&msg->first_stage_backchannel_at_tt)) {
+    interfaces__msg__Idm__fini(msg);
+    return false;
+  }
+  // asr_history_2_5s
+  if (!rosidl_runtime_c__String__Sequence__init(&msg->asr_history_2_5s, 0)) {
+    interfaces__msg__Idm__fini(msg);
+    return false;
+  }
   return true;
 }
 
@@ -54,7 +67,12 @@ interfaces__msg__Idm__fini(interfaces__msg__Idm * msg)
   rosidl_runtime_c__String__fini(&msg->session_id);
   // stage
   rosidl_runtime_c__String__fini(&msg->stage);
+  // request_id
   // turn_taking_decision_timestamp_ns
+  // first_stage_backchannel_at_tt
+  rosidl_runtime_c__String__fini(&msg->first_stage_backchannel_at_tt);
+  // asr_history_2_5s
+  rosidl_runtime_c__String__Sequence__fini(&msg->asr_history_2_5s);
 }
 
 bool
@@ -81,8 +99,24 @@ interfaces__msg__Idm__are_equal(const interfaces__msg__Idm * lhs, const interfac
   {
     return false;
   }
+  // request_id
+  if (lhs->request_id != rhs->request_id) {
+    return false;
+  }
   // turn_taking_decision_timestamp_ns
   if (lhs->turn_taking_decision_timestamp_ns != rhs->turn_taking_decision_timestamp_ns) {
+    return false;
+  }
+  // first_stage_backchannel_at_tt
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->first_stage_backchannel_at_tt), &(rhs->first_stage_backchannel_at_tt)))
+  {
+    return false;
+  }
+  // asr_history_2_5s
+  if (!rosidl_runtime_c__String__Sequence__are_equal(
+      &(lhs->asr_history_2_5s), &(rhs->asr_history_2_5s)))
+  {
     return false;
   }
   return true;
@@ -114,8 +148,22 @@ interfaces__msg__Idm__copy(
   {
     return false;
   }
+  // request_id
+  output->request_id = input->request_id;
   // turn_taking_decision_timestamp_ns
   output->turn_taking_decision_timestamp_ns = input->turn_taking_decision_timestamp_ns;
+  // first_stage_backchannel_at_tt
+  if (!rosidl_runtime_c__String__copy(
+      &(input->first_stage_backchannel_at_tt), &(output->first_stage_backchannel_at_tt)))
+  {
+    return false;
+  }
+  // asr_history_2_5s
+  if (!rosidl_runtime_c__String__Sequence__copy(
+      &(input->asr_history_2_5s), &(output->asr_history_2_5s)))
+  {
+    return false;
+  }
   return true;
 }
 

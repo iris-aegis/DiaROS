@@ -40,20 +40,25 @@ struct Idm_
     {
       this->session_id = "";
       this->stage = "";
+      this->request_id = 0l;
       this->turn_taking_decision_timestamp_ns = 0ll;
+      this->first_stage_backchannel_at_tt = "";
     }
   }
 
   explicit Idm_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : session_id(_alloc),
-    stage(_alloc)
+    stage(_alloc),
+    first_stage_backchannel_at_tt(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->session_id = "";
       this->stage = "";
+      this->request_id = 0l;
       this->turn_taking_decision_timestamp_ns = 0ll;
+      this->first_stage_backchannel_at_tt = "";
     }
   }
 
@@ -67,9 +72,18 @@ struct Idm_
   using _stage_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _stage_type stage;
+  using _request_id_type =
+    int32_t;
+  _request_id_type request_id;
   using _turn_taking_decision_timestamp_ns_type =
     int64_t;
   _turn_taking_decision_timestamp_ns_type turn_taking_decision_timestamp_ns;
+  using _first_stage_backchannel_at_tt_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _first_stage_backchannel_at_tt_type first_stage_backchannel_at_tt;
+  using _asr_history_2_5s_type =
+    std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>>;
+  _asr_history_2_5s_type asr_history_2_5s;
 
   // setters for named parameter idiom
   Type & set__words(
@@ -90,10 +104,28 @@ struct Idm_
     this->stage = _arg;
     return *this;
   }
+  Type & set__request_id(
+    const int32_t & _arg)
+  {
+    this->request_id = _arg;
+    return *this;
+  }
   Type & set__turn_taking_decision_timestamp_ns(
     const int64_t & _arg)
   {
     this->turn_taking_decision_timestamp_ns = _arg;
+    return *this;
+  }
+  Type & set__first_stage_backchannel_at_tt(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->first_stage_backchannel_at_tt = _arg;
+    return *this;
+  }
+  Type & set__asr_history_2_5s(
+    const std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>> & _arg)
+  {
+    this->asr_history_2_5s = _arg;
     return *this;
   }
 
@@ -148,7 +180,16 @@ struct Idm_
     if (this->stage != other.stage) {
       return false;
     }
+    if (this->request_id != other.request_id) {
+      return false;
+    }
     if (this->turn_taking_decision_timestamp_ns != other.turn_taking_decision_timestamp_ns) {
+      return false;
+    }
+    if (this->first_stage_backchannel_at_tt != other.first_stage_backchannel_at_tt) {
+      return false;
+    }
+    if (this->asr_history_2_5s != other.asr_history_2_5s) {
       return false;
     }
     return true;

@@ -16,6 +16,8 @@
 // Member `words`
 // Member `session_id`
 // Member `stage`
+// Member `first_stage_backchannel_at_tt`
+// Member `asr_history_2_5s`
 #include "rosidl_runtime_c/string_functions.h"
 
 #ifdef __cplusplus
@@ -92,7 +94,62 @@ bool interfaces__msg__Idm__rosidl_typesupport_introspection_c__resize_function__
   return rosidl_runtime_c__String__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_member_array[4] = {
+size_t interfaces__msg__Idm__rosidl_typesupport_introspection_c__size_function__Idm__asr_history_2_5s(
+  const void * untyped_member)
+{
+  const rosidl_runtime_c__String__Sequence * member =
+    (const rosidl_runtime_c__String__Sequence *)(untyped_member);
+  return member->size;
+}
+
+const void * interfaces__msg__Idm__rosidl_typesupport_introspection_c__get_const_function__Idm__asr_history_2_5s(
+  const void * untyped_member, size_t index)
+{
+  const rosidl_runtime_c__String__Sequence * member =
+    (const rosidl_runtime_c__String__Sequence *)(untyped_member);
+  return &member->data[index];
+}
+
+void * interfaces__msg__Idm__rosidl_typesupport_introspection_c__get_function__Idm__asr_history_2_5s(
+  void * untyped_member, size_t index)
+{
+  rosidl_runtime_c__String__Sequence * member =
+    (rosidl_runtime_c__String__Sequence *)(untyped_member);
+  return &member->data[index];
+}
+
+void interfaces__msg__Idm__rosidl_typesupport_introspection_c__fetch_function__Idm__asr_history_2_5s(
+  const void * untyped_member, size_t index, void * untyped_value)
+{
+  const rosidl_runtime_c__String * item =
+    ((const rosidl_runtime_c__String *)
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__get_const_function__Idm__asr_history_2_5s(untyped_member, index));
+  rosidl_runtime_c__String * value =
+    (rosidl_runtime_c__String *)(untyped_value);
+  *value = *item;
+}
+
+void interfaces__msg__Idm__rosidl_typesupport_introspection_c__assign_function__Idm__asr_history_2_5s(
+  void * untyped_member, size_t index, const void * untyped_value)
+{
+  rosidl_runtime_c__String * item =
+    ((rosidl_runtime_c__String *)
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__get_function__Idm__asr_history_2_5s(untyped_member, index));
+  const rosidl_runtime_c__String * value =
+    (const rosidl_runtime_c__String *)(untyped_value);
+  *item = *value;
+}
+
+bool interfaces__msg__Idm__rosidl_typesupport_introspection_c__resize_function__Idm__asr_history_2_5s(
+  void * untyped_member, size_t size)
+{
+  rosidl_runtime_c__String__Sequence * member =
+    (rosidl_runtime_c__String__Sequence *)(untyped_member);
+  rosidl_runtime_c__String__Sequence__fini(member);
+  return rosidl_runtime_c__String__Sequence__init(member, size);
+}
+
+static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_member_array[7] = {
   {
     "words",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -145,6 +202,23 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Idm__r
     NULL  // resize(index) function pointer
   },
   {
+    "request_id",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__Idm, request_id),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
     "turn_taking_decision_timestamp_ns",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
@@ -160,13 +234,47 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Idm__r
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "first_stage_backchannel_at_tt",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__Idm, first_stage_backchannel_at_tt),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "asr_history_2_5s",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    true,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__Idm, asr_history_2_5s),  // bytes offset in struct
+    NULL,  // default value
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__size_function__Idm__asr_history_2_5s,  // size() function pointer
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__get_const_function__Idm__asr_history_2_5s,  // get_const(index) function pointer
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__get_function__Idm__asr_history_2_5s,  // get(index) function pointer
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__fetch_function__Idm__asr_history_2_5s,  // fetch(index, &value) function pointer
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__assign_function__Idm__asr_history_2_5s,  // assign(index, value) function pointer
+    interfaces__msg__Idm__rosidl_typesupport_introspection_c__resize_function__Idm__asr_history_2_5s  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_members = {
   "interfaces__msg",  // message namespace
   "Idm",  // message name
-  4,  // number of fields
+  7,  // number of fields
   sizeof(interfaces__msg__Idm),
   interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_message_member_array,  // message members
   interfaces__msg__Idm__rosidl_typesupport_introspection_c__Idm_init_function,  // function to initialize message memory (memory has to be allocated)

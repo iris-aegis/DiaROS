@@ -21,6 +21,8 @@ extern "C"
 // Member 'words'
 // Member 'session_id'
 // Member 'stage'
+// Member 'first_stage_backchannel_at_tt'
+// Member 'asr_history_2_5s'
 #include "rosidl_runtime_c/string.h"
 
 /// Struct defined in msg/Idm in the package interfaces.
@@ -29,7 +31,10 @@ typedef struct interfaces__msg__Idm
   rosidl_runtime_c__String__Sequence words;
   rosidl_runtime_c__String session_id;
   rosidl_runtime_c__String stage;
+  int32_t request_id;
   int64_t turn_taking_decision_timestamp_ns;
+  rosidl_runtime_c__String first_stage_backchannel_at_tt;
+  rosidl_runtime_c__String__Sequence asr_history_2_5s;
 } interfaces__msg__Idm;
 
 // Struct for a sequence of interfaces__msg__Idm.

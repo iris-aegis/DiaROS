@@ -21,16 +21,64 @@ namespace msg
 namespace builder
 {
 
+class Init_Idm_asr_history_2_5s
+{
+public:
+  explicit Init_Idm_asr_history_2_5s(::interfaces::msg::Idm & msg)
+  : msg_(msg)
+  {}
+  ::interfaces::msg::Idm asr_history_2_5s(::interfaces::msg::Idm::_asr_history_2_5s_type arg)
+  {
+    msg_.asr_history_2_5s = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::interfaces::msg::Idm msg_;
+};
+
+class Init_Idm_first_stage_backchannel_at_tt
+{
+public:
+  explicit Init_Idm_first_stage_backchannel_at_tt(::interfaces::msg::Idm & msg)
+  : msg_(msg)
+  {}
+  Init_Idm_asr_history_2_5s first_stage_backchannel_at_tt(::interfaces::msg::Idm::_first_stage_backchannel_at_tt_type arg)
+  {
+    msg_.first_stage_backchannel_at_tt = std::move(arg);
+    return Init_Idm_asr_history_2_5s(msg_);
+  }
+
+private:
+  ::interfaces::msg::Idm msg_;
+};
+
 class Init_Idm_turn_taking_decision_timestamp_ns
 {
 public:
   explicit Init_Idm_turn_taking_decision_timestamp_ns(::interfaces::msg::Idm & msg)
   : msg_(msg)
   {}
-  ::interfaces::msg::Idm turn_taking_decision_timestamp_ns(::interfaces::msg::Idm::_turn_taking_decision_timestamp_ns_type arg)
+  Init_Idm_first_stage_backchannel_at_tt turn_taking_decision_timestamp_ns(::interfaces::msg::Idm::_turn_taking_decision_timestamp_ns_type arg)
   {
     msg_.turn_taking_decision_timestamp_ns = std::move(arg);
-    return std::move(msg_);
+    return Init_Idm_first_stage_backchannel_at_tt(msg_);
+  }
+
+private:
+  ::interfaces::msg::Idm msg_;
+};
+
+class Init_Idm_request_id
+{
+public:
+  explicit Init_Idm_request_id(::interfaces::msg::Idm & msg)
+  : msg_(msg)
+  {}
+  Init_Idm_turn_taking_decision_timestamp_ns request_id(::interfaces::msg::Idm::_request_id_type arg)
+  {
+    msg_.request_id = std::move(arg);
+    return Init_Idm_turn_taking_decision_timestamp_ns(msg_);
   }
 
 private:
@@ -43,10 +91,10 @@ public:
   explicit Init_Idm_stage(::interfaces::msg::Idm & msg)
   : msg_(msg)
   {}
-  Init_Idm_turn_taking_decision_timestamp_ns stage(::interfaces::msg::Idm::_stage_type arg)
+  Init_Idm_request_id stage(::interfaces::msg::Idm::_stage_type arg)
   {
     msg_.stage = std::move(arg);
-    return Init_Idm_turn_taking_decision_timestamp_ns(msg_);
+    return Init_Idm_request_id(msg_);
   }
 
 private:

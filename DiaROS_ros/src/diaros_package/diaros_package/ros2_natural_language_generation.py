@@ -8,202 +8,129 @@ from interfaces.msg import Idm
 from interfaces.msg import Inlg
 from interfaces.msg import Imm
 from diaros.naturalLanguageGeneration import NaturalLanguageGeneration
-from diaros.timeTracker import get_time_tracker
-from diaros.timing_integration import get_timing_logger, start_timing_session, log_nlg_start, log_nlg_complete, log_nlg_send
+
 class RosNaturalLanguageGeneration(Node):
     def __init__(self, naturalLanguageGeneration):
         super().__init__('natural_language_generation')
         self.naturalLanguageGeneration = naturalLanguageGeneration
         self.sub_dm = self.create_subscription(Idm, 'DMtoNLG', self.dm_update, 1)
         self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', 1)  # NLG→SpeechSynthesis用
-
-        # デバッグ: トピック購読開始を明示的に出力
-        sys.stdout.write("[NLG DEBUG] トピック購読開始: /DMtoNLG (interfaces/msg/Idm)\n")
-        sys.stdout.flush()
         # self.pub_nlg_dr = self.create_publisher(Inlg, 'NLGtoDR', 1)
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
-        self.timer = self.create_timer(0.0005, self.ping)
+        self.timer = self.create_timer(0.02, self.ping)
         self.last_sent_reply = None
-        self.last_sent_source_words = None
-        self.last_sent_first_stage = None  # first_stage相槌の送信済み状態を管理
-        self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒）
 
-        # タイムトラッカーの初期化
-        self.time_tracker = get_time_tracker("nlg_pc")
-        self.current_session_id = None
-        
-        # Docker統合時間計測の初期化
-        self.timing_logger = get_timing_logger()
-        self.nlg_start_time = None
+        # ステージ管理用フィールド
+        self.current_stage = None  # 現在処理中のステージ
+        self.current_request_id = None  # 現在処理中のリクエストID
+        self.stage_start_timestamp_ns = 0  # ステージ開始時刻（ナノ秒）
+        # ★2.5秒間隔ASR履歴（ROS2メッセージから抽出）
+        self.asr_history_2_5s = []
+
+        # ★重複リクエスト防止：現在処理中のリクエストを記録
+        self.processing_request_id = None
+        self.processing_stage = None
 
     def dm_update(self, msg):
-        # デバッグ: コールバック呼び出しを確認
-        now = datetime.now()
-        timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-        sys.stdout.write(f"[{timestamp}][NLG DEBUG] dm_updateコールバック呼び出し\n")
-        sys.stdout.flush()
-
+        """DMからのリクエストを受信（非同期処理）"""
         words = list(msg.words)
-        session_id = getattr(msg, 'session_id', '')
-        stage = getattr(msg, 'stage', 'first')
-        turn_taking_ts = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
+        stage = getattr(msg, 'stage', 'first')  # stageフィールドを取得
+        request_id = getattr(msg, 'request_id', 0)
+        turn_taking_decision_timestamp_ns = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
+        first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時の相槌内容
+        # ★2.5秒間隔ASR履歴を抽出（ROS2メッセージから）
+        asr_history_2_5s = list(getattr(msg, 'asr_history_2_5s', []))
+        # ★インスタンス変数に保存（NLGで使用）
+        self.asr_history_2_5s = asr_history_2_5s
 
-        # ★辞書形式でNLGクラスに渡すデータを準備
-        message_data = {
-            "words": words,
-            "stage": stage,
-            "turn_taking_decision_timestamp_ns": turn_taking_ts,
-            "session_id": session_id
-        }
+        # ★デバッグ：受け取ったメッセージの詳細ログ
+        timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+        self.get_logger().info(
+            f"[{timestamp}] [NLG-DEBUG] DM受信: words={len(words)}件, stage='{stage}', request_id={request_id}, msg.stage属性={hasattr(msg, 'stage')}"
+        )
 
-        # デバッグ出力
-        sys.stdout.write(f"[NLG-ros2] リクエスト受信: stage={stage}, 音声認識結果数={len(words)}\n")
-        if turn_taking_ts > 0:
-            sys.stdout.write(f"[NLG-ros2] TurnTaking判定時刻: {turn_taking_ts}ns\n")
-        sys.stdout.flush()
+        # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
+        if words or stage == 'second':
+            # ★重複リクエスト防止：現在処理中のリクエストと同じ場合はスキップ
+            if request_id == self.processing_request_id and stage == self.processing_stage:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                self.get_logger().info(
+                    f"[{timestamp}] [NLG] 重複リクエストをスキップ (request_id={request_id}, stage={stage})"
+                )
+                return
 
-        # すべて空文字列なら送らない
-        if words and any(w.strip() for w in words):
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp}][NLG] 音声認識結果受信時刻: {timestamp}\n")
-            sys.stdout.write(f"[{timestamp}][NLG] 受信した音声認識結果リスト: {words}\n")
-            sys.stdout.write(f"[{timestamp}][NLG] リクエストステージ: {stage}\n")
+            # ★新しいリクエストの開始を記録
+            if request_id != self.current_request_id or stage != self.current_stage:
+                self.current_stage = stage
+                self.current_request_id = request_id
+                self.stage_start_timestamp_ns = time.time_ns()
 
-            # セッションIDの管理
-            if session_id:
-                self.current_session_id = session_id
-                sys.stdout.write(f"[{timestamp}][NLG] セッションID: {session_id}\n")
+                # ステージ開始ログ
+                stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                self.get_logger().info(
+                    f"[{timestamp}] [NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
+                )
 
-                # NLG処理開始チェックポイント
-                self.time_tracker.add_checkpoint(session_id, "nlg", "processing_start", {
-                    "asr_words": words,
-                    "word_count": len(words),
-                    "stage": stage
-                })
+            # ★【重要】update() をスレッドで非同期実行
+            # ROS2 コールバックをブロックせず、複数のリクエストを並列処理可能に
+            # ★【修正】ラムダ関数を使ってパラメータをキャプチャ（遅延評価を防止）
+            # ★処理開始前に処理中フラグを設定（重複処理を防止）
+            self.processing_request_id = request_id
+            self.processing_stage = stage
 
-                # NLGクラスにセッションIDを設定
-                self.naturalLanguageGeneration.set_session_id(session_id)
-            else:
-                # セッションIDがない場合は新規作成
-                self.current_session_id = start_timing_session()
-                session_id = self.current_session_id
-                sys.stdout.write(f"[{timestamp}][NLG] 新規セッションID作成: {session_id}\n")
+            update_thread = threading.Thread(
+                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns, bc=first_stage_backchannel_at_tt, asr_2_5s=asr_history_2_5s:
+                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t, first_stage_backchannel_at_tt=bc, asr_history_2_5s=asr_2_5s),
+                daemon=True
+            )
+            update_thread.start()
 
-            # Docker統合時間計測: NLG開始ログ
-            self.nlg_start_time = time.time()
-            dialogue_context = ' '.join(words)
-            log_nlg_start(session_id, dialogue_context)
-
-            # ★stage情報も一緒にnaturalLanguageGenerationに渡す
-            self.naturalLanguageGeneration.update(words, stage=stage, turn_taking_decision_timestamp_ns=turn_taking_ts)
-
-            # ステージに応じたログ出力
-            if stage == 'first':
-                sys.stdout.write(f"[{timestamp}][NLG-first] First stage完了: 相槌='{self.naturalLanguageGeneration.first_stage_response}'\n")
-                sys.stdout.flush()
-            elif stage == 'second':
-                sys.stdout.write(f"[{timestamp}][NLG-second] Second stage完了: 最終応答='{self.naturalLanguageGeneration.last_reply}'\n")
-                sys.stdout.flush()
-            
     def ping(self):
-        # first_stage相槌が生成されたら即座にpublish（テキストのみ）
-        if (
-            hasattr(self.naturalLanguageGeneration, 'first_stage_response') and
-            self.naturalLanguageGeneration.first_stage_response != self.last_sent_first_stage and
-            self.naturalLanguageGeneration.first_stage_response != ""
-        ):
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-
-            nlg_msg = Inlg()
-            nlg_msg.reply = self.naturalLanguageGeneration.first_stage_response
-            nlg_msg.stage = "first"  # first_stage相槌であることを明示
-            nlg_msg.source_words = []
-            nlg_msg.session_id = str(self.current_session_id) if self.current_session_id else ""
-            nlg_msg.request_id = 0
-            nlg_msg.worker_name = "nlg-first-stage"
-            nlg_msg.start_timestamp_ns = 0
-            nlg_msg.completion_timestamp_ns = 0
-            nlg_msg.inference_duration_ms = 0.0
-
-            sys.stdout.write(f"[NLG-first_send] First stage相槌送信: '{nlg_msg.reply}' @ {timestamp}\n")
-            sys.stdout.flush()
-
-            self.pub_nlg.publish(nlg_msg)
-            self.last_sent_first_stage = self.naturalLanguageGeneration.first_stage_response
-
+        """NLGが応答を生成したら、ステージ情報と共に送信"""
         # 応答が生成されたらpublish
-        if (
-            hasattr(self.naturalLanguageGeneration, "last_reply") and
-            self.naturalLanguageGeneration.last_reply != self.last_sent_reply and
-            self.naturalLanguageGeneration.last_reply != ""
-        ):
+        if hasattr(self.naturalLanguageGeneration, "last_reply") and self.naturalLanguageGeneration.last_reply != self.last_sent_reply:
             nlg_msg = Inlg()
             nlg_msg.reply = self.naturalLanguageGeneration.last_reply
 
-            # ★stageフィールドを設定（naturalLanguageGenerationで保存されている値を使用）
-            nlg_msg.stage = getattr(self.naturalLanguageGeneration, "current_stage", "first")
+            # ★ステージ情報を設定
+            nlg_msg.stage = self.current_stage if self.current_stage else "first"
+            nlg_msg.request_id = self.current_request_id if self.current_request_id else 0
 
-            # 音声認識結果リストも送信
-            if hasattr(self.naturalLanguageGeneration, "last_source_words") and self.naturalLanguageGeneration.last_source_words:
-                nlg_msg.source_words = self.naturalLanguageGeneration.last_source_words
+            # ★音声認識結果リストも送信
+            if hasattr(self.naturalLanguageGeneration, "source_words"):
+                nlg_msg.source_words = self.naturalLanguageGeneration.source_words
             else:
                 nlg_msg.source_words = []
 
-            now = datetime.now()
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-
-            # 時刻情報フィールドを送信
-            nlg_msg.request_id = getattr(self.naturalLanguageGeneration, "request_id", 0)
+            # ★新しい時刻情報フィールドを送信
             nlg_msg.worker_name = getattr(self.naturalLanguageGeneration, "worker_name", "")
             nlg_msg.start_timestamp_ns = getattr(self.naturalLanguageGeneration, "start_timestamp_ns", 0)
             nlg_msg.completion_timestamp_ns = getattr(self.naturalLanguageGeneration, "completion_timestamp_ns", 0)
             nlg_msg.inference_duration_ms = getattr(self.naturalLanguageGeneration, "inference_duration_ms", 0.0)
 
-            # session_idは文字列型を保証
-            session_id_value = getattr(self.naturalLanguageGeneration, "current_session_id", None)
-            if session_id_value is None:
-                session_id_value = self.current_session_id
-            nlg_msg.session_id = str(session_id_value) if session_id_value else ""
-
-            # NLG処理完了チェックポイント
-            if self.current_session_id:
-                self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "processing_complete", {
-                    "response": nlg_msg.reply,
-                    "source_words": list(nlg_msg.source_words),
-                    "inference_duration_ms": nlg_msg.inference_duration_ms
-                })
-
-                # Docker統合時間計測: NLG完了ログ
-                if self.nlg_start_time:
-                    processing_time_ms = (time.time() - self.nlg_start_time) * 1000
-                    log_nlg_complete(self.current_session_id, nlg_msg.reply, processing_time_ms)
-
-                # Docker統合時間計測: メッセージ送信ログ
-                message_data = {
-                    "reply": nlg_msg.reply,
-                    "source_words": list(nlg_msg.source_words),
-                    "session_id": nlg_msg.session_id,
-                    "inference_duration_ms": nlg_msg.inference_duration_ms
-                }
-                log_nlg_send(self.current_session_id, message_data)
-
-            # 対話生成タイミング情報の読みやすい出力
-            if nlg_msg.start_timestamp_ns > 0 and nlg_msg.completion_timestamp_ns > 0:
-                start_time = datetime.fromtimestamp(nlg_msg.start_timestamp_ns / 1_000_000_000)
-                completion_time = datetime.fromtimestamp(nlg_msg.completion_timestamp_ns / 1_000_000_000)
-                sys.stdout.write(f"[{timestamp}][NLG TIMING] 対話生成開始: {start_time.strftime('%H:%M:%S.%f')[:-3]}\n")
-                sys.stdout.write(f"[{timestamp}][NLG TIMING] 対話生成完了: {completion_time.strftime('%H:%M:%S.%f')[:-3]}\n")
-                sys.stdout.write(f"[{timestamp}][NLG TIMING] 生成時間: {nlg_msg.inference_duration_ms:.1f}ms\n")
+            # ステージ開始から完了までの時間を計測
+            if self.stage_start_timestamp_ns > 0:
+                stage_duration_ms = (time.time_ns() - self.stage_start_timestamp_ns) / 1_000_000
             else:
-                sys.stdout.write(f"[{timestamp}][NLG WARNING] タイムスタンプが0です: start={nlg_msg.start_timestamp_ns}, completion={nlg_msg.completion_timestamp_ns}\n")
-            sys.stdout.write(f"[NLG-second_send] Second stage本応答送信: '{nlg_msg.reply}' @ {timestamp}\n")
-            sys.stdout.flush()
+                stage_duration_ms = 0.0
 
-            self.pub_nlg.publish(nlg_msg)
+            # ステージ完了ログ
+            stage_name = "相槌生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            self.get_logger().info(
+                f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
+                f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
+            )
+
+            self.pub_nlg.publish(nlg_msg)  # NLG生成文とステージ情報をNLGtoSSトピックで送信
+            # self.pub_nlg_dr.publish(nlg_msg)  # ← コメントアウト
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply
-            self.last_sent_source_words = self.naturalLanguageGeneration.last_source_words
+
+            # ★処理中フラグをリセット（次のリクエストを受け付けるため）
+            self.processing_request_id = None
+            self.processing_stage = None
+
         mm = Imm()
         mm.mod = "nlg"
         # self.pub_mm.publish(mm)
@@ -225,6 +152,8 @@ def main(args=None):
     naturalLanguageGeneration = NaturalLanguageGeneration()
     rclpy.init(args=args)
     rnlg = RosNaturalLanguageGeneration(naturalLanguageGeneration)
+    # ★ROS2NLG参照を設定（NLGから2.5秒間隔ASR履歴を取得するため）
+    naturalLanguageGeneration.rnlg_ref = rnlg
 
     ros = threading.Thread(target=runROS, args=(rnlg,))
     mod = threading.Thread(target=runNLG, args=(naturalLanguageGeneration,))
