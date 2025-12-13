@@ -36,8 +36,10 @@ class RosDialogManagement(Node):
             durability=DurabilityPolicy.VOLATILE
         )
 
-        # self.sub_dm = self.create_subscription(Iasr, 'DMtoDM', self.dm_update, qos_profile)
-        self.sub_lu = self.create_subscription(Iasr, 'NLUtoDM', self.dm_update, qos_profile)  # NaturalLanguageUnderstanding2DialogManagement（nluでは処理を短絡してるのでIasrをつかう）
+        # ASRからの直接入力を受け付ける（NLUノードが起動していない場合）
+        # 優先順位: ASRtoNLU（直接）> NLUtoDM（NLUを経由）
+        self.sub_asr_direct = self.create_subscription(Iasr, 'ASRtoNLU', self.dm_update, qos_profile)  # ASRからの直接入力
+        # self.sub_lu = self.create_subscription(Iasr, 'NLUtoDM', self.dm_update, qos_profile)  # NaturalLanguageUnderstanding2DialogManagement（nluでは処理を短絡してるのでIasrをつかう）
         self.sub_aa = self.create_subscription(Iaa, 'AAtoDM', self.aa_update, qos_profile)
         self.sub_tt = self.create_subscription(Itt, 'TTtoDM', self.tt_update, qos_profile) # TurnTaking2DialogManagement
         self.sub_bc = self.create_subscription(Ibc, 'BCtoDM', self.bc_update, qos_profile) # BackChannel2DialogManagement

@@ -439,64 +439,76 @@ class AutomaticSpeechRecognition:
                 #     sys.stdout.flush()
                 
                 if should_run_inference:
-                    # ASR推論開始時刻
-                    inference_start_time = time.time()
-                    from datetime import datetime
-                    timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                    sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_START] mic:{len(mic_input)}samples | new_audio:{new_audio_samples}samples\n")
-                    sys.stdout.flush()
+                    try:
+                        # ASR推論開始時刻
+                        inference_start_time = time.time()
+                        from datetime import datetime
+                        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                        sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_START] mic:{len(mic_input)}samples | new_audio:{new_audio_samples}samples\n")
+                        sys.stdout.flush()
 
-                    # 最新5秒分のデータで推論（すでにmic_inputに蓄積済み）
-                    inference_data = mic_input[-int(5 * SAMPLE_RATE):] if len(mic_input) >= int(5 * SAMPLE_RATE) else mic_input
-                    
-                    array = inference_data.astype(np.float32)
-                    inputs = self.processor(array, sampling_rate=SAMPLE_RATE, return_tensors="pt", padding=True)
-                    if USE_GPU and torch.cuda.is_available():
-                        inputs = {k: v.to(device) for k, v in inputs.items()}
-                        self.model = self.model.to(device)
-                    with torch.no_grad():
-                        logits = self.model(**inputs).logits
-                    predicted_ids = torch.argmax(logits, dim=-1)
-                    sentence = self.processor.batch_decode(predicted_ids)[0]
-                    
-                    # ASR推論完了時刻と処理時間計算
-                    inference_end_time = time.time()
-                    inference_duration_ms = (inference_end_time - inference_start_time) * 1000
-                    
-                    # 音声認識結果を標準出力（毎回出力）
-                    from datetime import datetime
-                    timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                    
-                    if audio_metadata_list:
-                        # 最も古い音声データからの遅延計算
-                        oldest_metadata = min(audio_metadata_list, key=lambda x: x['asr_receive_timestamp'])
-                        total_latency_ms = (inference_end_time - oldest_metadata['asr_receive_timestamp']) * 1000
-                        
-                        # 関連する音声IDを収集
-                        audio_ids = [metadata['audio_id'] for metadata in audio_metadata_list]
-                        audio_ids_str = ','.join(audio_ids[:3]) if len(audio_ids) <= 3 else f"{','.join(audio_ids[:2])}...(+{len(audio_ids)-2})"
+                        # 最新5秒分のデータで推論（すでにmic_inputに蓄積済み）
+                        inference_data = mic_input[-int(5 * SAMPLE_RATE):] if len(mic_input) >= int(5 * SAMPLE_RATE) else mic_input
 
-                        # sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 総遅延:{total_latency_ms:.1f}ms | IDs:[{audio_ids_str}] | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
-                        # sys.stdout.flush()
-                    else:
-                        # フォールバック
-                        # sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
-                        # sys.stdout.flush()
-                        pass
-                    
-                    # 推論実行後の状態更新
-                    last_inference_time = inference_end_time
-                    new_audio_samples = 0  # 新しい音声カウントをリセット
-                    
-                    now = time.time()
-                    elapsed_time = now - start_time
-                    diff = create_diff_list(last_sent, sentence)
-                    colored = apply_color_to_diff(diff)
-                    
-                    self.word = sentence
-                    self.is_final = True
-                    self.new_result = True  # 追加: 新しい認識結果が得られた
-                    last_sent = sentence
+                        array = inference_data.astype(np.float32)
+                        inputs = self.processor(array, sampling_rate=SAMPLE_RATE, return_tensors="pt", padding=True)
+                        if USE_GPU and torch.cuda.is_available():
+                            inputs = {k: v.to(device) for k, v in inputs.items()}
+                            self.model = self.model.to(device)
+                        with torch.no_grad():
+                            logits = self.model(**inputs).logits
+                        predicted_ids = torch.argmax(logits, dim=-1)
+                        sentence = self.processor.batch_decode(predicted_ids)[0]
+
+                        # ASR推論完了時刻と処理時間計算
+                        inference_end_time = time.time()
+                        inference_duration_ms = (inference_end_time - inference_start_time) * 1000
+
+                        # 音声認識結果を標準出力（毎回出力）
+                        from datetime import datetime
+                        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+
+                        if audio_metadata_list:
+                            # 最も古い音声データからの遅延計算
+                            oldest_metadata = min(audio_metadata_list, key=lambda x: x['asr_receive_timestamp'])
+                            total_latency_ms = (inference_end_time - oldest_metadata['asr_receive_timestamp']) * 1000
+
+                            # 関連する音声IDを収集
+                            audio_ids = [metadata['audio_id'] for metadata in audio_metadata_list]
+                            audio_ids_str = ','.join(audio_ids[:3]) if len(audio_ids) <= 3 else f"{','.join(audio_ids[:2])}...(+{len(audio_ids)-2})"
+
+                            # sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 総遅延:{total_latency_ms:.1f}ms | IDs:[{audio_ids_str}] | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
+                            # sys.stdout.flush()
+                        else:
+                            # フォールバック
+                            # sys.stdout.write(f"[💬 ASR_INFERENCE] {timestamp_str} | 推論時間:{inference_duration_ms:.1f}ms | 新音声:{new_audio_samples}samples | 認識:'{sentence}'\n")
+                            # sys.stdout.flush()
+                            pass
+
+                        # 推論実行後の状態更新
+                        last_inference_time = inference_end_time
+                        new_audio_samples = 0  # 新しい音声カウントをリセット
+
+                        now = time.time()
+                        elapsed_time = now - start_time
+                        diff = create_diff_list(last_sent, sentence)
+                        colored = apply_color_to_diff(diff)
+
+                        self.word = sentence
+                        self.is_final = True
+                        self.new_result = True  # 追加: 新しい認識結果が得られた
+                        last_sent = sentence
+
+                        sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_COMPLETE] 認識結果: '{sentence}' (遅延:{inference_duration_ms:.1f}ms)\n")
+                        sys.stdout.flush()
+
+                    except Exception as e:
+                        from datetime import datetime
+                        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                        sys.stdout.write(f"[{timestamp_str}][ERROR-ASR_INFERENCE] {type(e).__name__}: {str(e)}\n")
+                        import traceback
+                        sys.stdout.write(f"[{timestamp_str}][ERROR-TRACEBACK]\n{traceback.format_exc()}\n")
+                        sys.stdout.flush()
                 
                 # キューが空の場合は少し待機
                 if not new_data_found:
