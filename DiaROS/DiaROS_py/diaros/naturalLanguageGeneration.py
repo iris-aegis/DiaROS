@@ -228,10 +228,12 @@ class NaturalLanguageGeneration:
         self.current_stage = stage
         self.turn_taking_decision_timestamp_ns = turn_taking_decision_timestamp_ns
         # ★TT判定時の相槌を保存（Second stage用）
-        if first_stage_backchannel_at_tt:
+        # ★修正：空文字列も含めて常に更新（パラメータが渡された場合）
+        if first_stage_backchannel_at_tt is not None:
             self.first_stage_response = first_stage_backchannel_at_tt
         # ★2.5秒間隔ASR結果を保存（Second stage用）
-        if asr_history_2_5s:
+        # ★修正：空リストも含めて常に更新（パラメータが渡された場合）
+        if asr_history_2_5s is not None:
             self.asr_history_2_5s = asr_history_2_5s
 
         # ★性能監視: 大量履歴の受信を記録
@@ -502,27 +504,39 @@ class NaturalLanguageGeneration:
                 self.last_source_words = []
                 return
 
-            # プロンプトファイル読み込み
+            # プロンプトファイル読み込み（複数メッセージ方式）
             prompt_load_start = datetime.now()
             prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
-            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage.txt')
+
+            # ★修正：dialog_second_stage_triple_input.txt を使用（placeholder なし）
+            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage_triple_input_example.txt')
 
             try:
                 with open(second_stage_prompt_path, 'r', encoding='utf-8') as f:
-                    prompt_template = f.read()
+                    system_prompt = f.read()
 
                 # ★ログ出力を簡略化（プロンプト読み込みログを削除）
 
-                # ★修正：プロンプトテンプレート内の placeholder を置換
-                # {ここに音声認識結果リストを挿入} を実際のASR結果で置換
+                # ★修正：複数メッセージ方式 - 正しいロール構造で入力
+                # 1. system: システムのタスク説明
+                # 2. user: ユーザーの音声認識結果（発話）
+                # 3. assistant: システムが既に出力した相槌（第1段階の応答）
+                # この流れにより、LLMが対話コンテキストを正しく認識できる
+
+                # メッセージリストを構築
                 asr_text = ', '.join(asr_results) if asr_results else "[音声認識結果なし]"
-                prompt_with_asr = prompt_template.replace('{ここに音声認識結果リストを挿入}', asr_text)
+                backchannel_text = self.first_stage_response if self.first_stage_response else "[相槌なし]"
 
-                # {ここにリアクションワードを挿入} をfirst_stage_responseで置換
-                prompt_with_backchannel = prompt_with_asr.replace('{ここにリアクションワードを挿入}', self.first_stage_response)
+                # ★修正：first_stage（相槌）の末尾に「、」がなければ追加
+                if backchannel_text and backchannel_text != "[相槌なし]":
+                    if not backchannel_text.endswith("、"):
+                        backchannel_text = backchannel_text + "、"
 
-                # 最終プロンプト
-                prompt = prompt_with_backchannel
+                messages = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"複数のぶつ切りの音声認識結果：{asr_text}"},           # ★ユーザーの発話（ラベル付き）
+                    {"role": "assistant", "content": f"リアクションワード：{backchannel_text}"}  # ★システムが既に出力した相槌（ラベル付き、末尾に「、」追加）
+                ]
 
             except FileNotFoundError:
                 sys.stdout.write(f"[NLG ERROR] second_stageプロンプトが見つかりません: {second_stage_prompt_path}\n")
@@ -546,7 +560,11 @@ class NaturalLanguageGeneration:
 
             sys.stdout.write(f"[{timestamp}] [Second Stage] 2.5秒間隔ASR結果: {asr_2_5s_list}\n")
             sys.stdout.write(f"[{timestamp}] [Second Stage] First Stage結果: '{self.first_stage_response}'\n")
-            sys.stdout.write(f"[{timestamp}] [Second Stage] 最終プロンプト:\n{prompt}\n")
+
+            # ★修正：複数メッセージ方式のメッセージリストを表示
+            sys.stdout.write(f"[{timestamp}] [Second Stage] LLMへ送信するメッセージ:\n")
+            for i, msg in enumerate(messages, 1):
+                sys.stdout.write(f"  メッセージ{i} (role={msg['role']}): {msg['content']}\n")
             sys.stdout.flush()
 
             # LLM呼び出し
@@ -561,13 +579,12 @@ class NaturalLanguageGeneration:
 
                     api_start = datetime.now()
 
+                    # ★修正：複数メッセージ方式で送信（system + user1 + user2）
                     response = requests.post(
                         'http://localhost:11434/api/chat',
                         json={
                             'model': self.model_name,
-                            'messages': [
-                                {"role": "system", "content": prompt}
-                            ],
+                            'messages': messages,  # ★複数メッセージリストを直接使用
                             'stream': True,
                             'options': {
                                 'temperature': 0.3,
@@ -613,12 +630,10 @@ class NaturalLanguageGeneration:
                                 continue
 
                 elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
-                    messages = [
-                        {"role": "system", "content": prompt}
-                    ]
+                    # ★修正：既に構築されたmessagesリスト（複数メッセージ方式）を使用
                     response = openai.chat.completions.create(
                         model=self.model_name,
-                        messages=messages,
+                        messages=messages,  # ★複数メッセージリストを直接使用
                         max_completion_tokens=50,
                         temperature=0.3
                     )
