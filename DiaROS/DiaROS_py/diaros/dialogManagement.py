@@ -376,6 +376,10 @@ class DialogManagement:
                     self.word = self.asr["you"]
                     self.response_update = True
                     self.last_response_update_asr = self.asr["you"]  # 更新時のASR結果を保存
+                    # ★デバッグ：response_update が True になったことをログ出力
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[{timestamp}] [DEBUG-RESPONSE-UPDATE] response_update=True に設定: asr='{self.asr['you']}'\n")
+                    sys.stdout.flush()
                     # asr_historyとresponse_updateの値を出力
                     # print(f"[DEBUG] asr_history: {self.asr_history}")
                     # print(f"[DEBUG] response_update: {self.response_update}")
@@ -1107,6 +1111,14 @@ class DialogManagement:
     # 応答・相槌が切り替わらなくとも対話管理をさせる
     def pubDM(self):
         """NLGへfirst_stage（相槌生成）リクエストを送信"""
+        # ★デバッグ：response_update の状態をログ出力（頻繁なので100回おきに出力）
+        if not hasattr(self, 'pubdm_call_count'):
+            self.pubdm_call_count = 0
+        self.pubdm_call_count += 1
+        if self.pubdm_call_count % 100 == 0:
+            sys.stdout.write(f"[DEBUG-pubDM] response_update={self.response_update}, asr[you]='{self.asr['you']}'\n")
+            sys.stdout.flush()
+
         if self.response_update is True:
             self.response_update = False
             # asr_historyとresponse_updateの値を出力

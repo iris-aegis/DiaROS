@@ -141,6 +141,16 @@ class RosDialogManagement(Node):
         dm_result_update = pub_dm_return['update']
         stage = pub_dm_return.get('stage', 'first')
 
+        # ★デバッグ：pubDM() の返り値をログ（100回おきに出力）
+        if not hasattr(self, 'callback_count'):
+            self.callback_count = 0
+        self.callback_count += 1
+        if self.callback_count % 100 == 0:
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            self.get_logger().info(
+                f"[{timestamp}] [DEBUG-CALLBACK] pubDM return: update={dm_result_update}, words_count={len(words)}"
+            )
+
         if dm_result_update is True:
             # ★新しいステージの場合、リクエストIDを更新
             if stage != self.current_request_stage:
