@@ -50,16 +50,42 @@
 
 ### 現在の運用構成（NLG分散実行）
 **このリポジトリは、NLGモジュール（自然言語生成）を別PCで実行する構成で運用されています。**
-- **メインPC**: NLGノードなしで起動（`nlg:=false`）
-  - 音声入力、音響分析、音声認識、対話管理、相槌生成、ターンテイキング、相槌予測を実行
-  - DM から NLG PC へ Second stage リクエストを ROS2 トピック経由で送信
-- **NLG専用PC**: `ros2 run diaros_package ros2_natural_language_generation` で単独実行
-  - DM からのリクエストを受け取り、Second stage 応答を生成
-  - 生成した応答をメインPC へ返送
-- **通信**: ROS2 トピック（DMtoNLG / NLGtoDM）経由でメッセージ交換
-- **前提条件**: 両PC間で同一の `ROS_DOMAIN_ID` を設定し、ROS2 マルチキャスト通信が可能な環境
 
-このセットアップにより、応答生成処理をスケールアウト可能にし、推論処理の遅延をメインPC 音声処理から分離します。
+#### システム構成
+- **DMPC（このPC）**: このリポジトリの main ブランチを使用
+  - NLGノードなしで起動（`nlg:=false`）
+  - 音声入力、音響分析、音声認識、対話管理、相槌生成、ターンテイキング、相槌予測を実行
+  - DM から NLGPC へ Second stage リクエストを ROS2 トピック経由で送信
+
+- **NLGPC（NLG専用PC）**: 別リポジトリの `local_nlg` ブランチを使用
+  - リポジトリ: https://github.com/iris-aegis/DiaROS/tree/local_nlg
+  - `ros2 run diaros_package ros2_natural_language_generation` で単独実行
+  - DM からのリクエストを受け取り、Second stage 応答を生成
+  - 生成した応答を DMPC へ返送
+
+#### NLGPC で実行されるモジュール
+NLGPC では以下のソースコードが使用されます（別リポジトリ `local_nlg` ブランチから）：
+- `DiaROS_py/diaros/naturalLanguageGeneration.py`: コア NLG エンジン
+- `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`: ROS2 ラッパー
+- `DiaROS_py/diaros/prompts/`: プロンプトテンプレート
+
+**NLGモジュールの実装詳細を確認する場合は、以下のリポジトリのブランチを参照してください：**
+```
+https://github.com/iris-aegis/DiaROS/tree/local_nlg
+```
+
+#### 通信プロトコル
+- **ROS2 トピック**: DMtoNLG / NLGtoDM 経由でメッセージ交換
+- **メッセージ型**: Idm（DM→NLG）、Inlg（NLG→DM）
+  - `first_stage_backchannel_at_tt`: TurnTaking判定時の相槌
+  - `asr_history_2_5s`: 2.5秒間隔の音声認識結果リスト
+
+#### 前提条件
+- 両PC間で同一の `ROS_DOMAIN_ID` を設定
+- ROS2 マルチキャスト通信が可能なネットワーク環境
+- 両PC間の時刻同期（NTP推奨）
+
+このセットアップにより、応答生成処理をスケールアウト可能にし、推論処理の遅延をDMPC 音声処理から分離します。
 
 ### パスの汎用性維持
 **絶対パスは使用禁止。** 公開リポジトリとして配布されるため、汎用性を保つこと。
@@ -127,39 +153,54 @@ ros2 launch diaros_package sdsmod.launch.py nlg:=false
 ```
 
 ### 分散実行構成
-**重要**: このシステムは分散実行に対応しています。特にNLG（自然言語生成）を別PCで実行することが可能です。
+**重要**: このシステムはDMPC と NLGPC の分散実行で最適化されています。
 
-#### NLG分散実行セットアップ
-1. **メインPC（音声処理・対話管理）**:
-   ```bash
-   # NLGノードを除外して起動
-   ros2 launch diaros_package sdsmod.launch.py nlg:=false
-   ```
+#### DMPC・NLGPC セットアップ
 
-2. **NLG専用PC（対話生成処理）**:
-   ```bash
-   # NLGノードのみを実行
-   ros2 run diaros_package ros2_natural_language_generation
-   ```
-
-#### 分散実行時の注意事項
-- **ROS_DOMAIN_ID**: 両PC間で同一のROS_DOMAIN_IDを設定
-- **ネットワーク設定**: ROS2のマルチキャスト通信が可能なネットワーク環境
-- **同期**: 時刻同期（NTP）を推奨（タイミング分析の精度向上）
-- **レイテンシ**: ネットワーク遅延を考慮した応答時間設定
-
-#### 環境変数設定例
+**1. DMPC（このPC、main ブランチ）で実行**:
 ```bash
-# 両PCで同一設定
+# セットアップ
+cd DiaROS_ros
+source /opt/ros/humble/setup.bash  # または自分のROS2インストールパス
+source ./install/local_setup.bash
+
+# NLGノードを除外して起動
+ros2 launch diaros_package sdsmod.launch.py nlg:=false
+```
+
+**2. NLGPC（別PC、local_nlg ブランチ）で実行**:
+```bash
+# 別リポジトリの local_nlg ブランチをクローン
+git clone -b local_nlg https://github.com/iris-aegis/DiaROS.git DiaROS_local_nlg
+
+# セットアップと実行
+cd DiaROS_local_nlg/DiaROS_ros
+source /opt/ros/humble/setup.bash
+source ./install/local_setup.bash
+
+# NLGモジュールを単独実行
+ros2 run diaros_package ros2_natural_language_generation
+```
+
+#### 分散実行時の環境設定
+両PCで以下の環境変数を設定（同一値を使用）：
+
+```bash
+# ROS2通信設定（両PCで同じ値を使用）
 export ROS_DOMAIN_ID=0
 export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
-# ROS2ログ設定（ナノ秒タイムスタンプを非表示化）
+# ROS2ログ設定
 export RCL_LOGGING_SYSLOG=1
-
-# NLG専用PCでAPI設定
-export OPENAI_API_KEY="sk-your-openai-api-key"
+export RCUTILS_LOGGING_SEVERITY_THRESHOLD='ERROR'
+export RCUTILS_COLORIZED_OUTPUT='0'
 ```
+
+#### 分散実行時の注意事項
+- **ROS_DOMAIN_ID**: 両PC間で同一の値を設定（デフォルト: 0）
+- **ネットワーク設定**: ROS2 マルチキャスト通信が可能なネットワーク環境
+- **時刻同期**: NTP による時刻同期を推奨（タイミング分析精度向上）
+- **レイテンシ**: ネットワーク遅延（通常 1-50ms）を考慮した応答時間設定
 
 ### 起動スクリプト（クロスプラットフォーム対応）
 ```bash
