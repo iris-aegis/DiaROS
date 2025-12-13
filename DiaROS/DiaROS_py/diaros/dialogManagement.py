@@ -371,6 +371,16 @@ class DialogManagement:
                 # 前回response_updateがTrueになった時のASR結果と比較
                 diff = list(difflib.ndiff(self.last_response_update_asr, self.asr["you"]))
                 changed_chars = sum(1 for d in diff if d.startswith('+ ') or d.startswith('- '))
+
+                # ★デバッグ：ASR 結果の状態を100回おきにログ出力
+                if not hasattr(self, 'asr_check_count'):
+                    self.asr_check_count = 0
+                self.asr_check_count += 1
+                if self.asr_check_count % 100 == 0:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[{timestamp}] [DEBUG-ASR-STATE] asr[you]='{self.asr['you']}', last_update='{self.last_response_update_asr}', changed_chars={changed_chars}\n")
+                    sys.stdout.flush()
+
                 # 前回response_updateがTrueになった時のASR結果と1文字以上変わった場合のみ判定
                 if changed_chars >= 1 and self.asr["you"] != self.last_response_update_asr:
                     self.word = self.asr["you"]
@@ -380,15 +390,16 @@ class DialogManagement:
                     timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                     sys.stdout.write(f"[{timestamp}] [DEBUG-RESPONSE-UPDATE] response_update=True に設定: asr='{self.asr['you']}'\n")
                     sys.stdout.flush()
-                    # asr_historyとresponse_updateの値を出力
-                    # print(f"[DEBUG] asr_history: {self.asr_history}")
-                    # print(f"[DEBUG] response_update: {self.response_update}")
-                    # sys.stdout.write(f"ASR結果: {self.asr['you']}\n")  # コメントアウト：頻繁出力を避ける
-                    sys.stdout.flush()
-                    # asr_historyとresponse_updateの値を出力
-                    # print(f"[DEBUG] asr_history: {self.asr_history}")
-                    # print(f"[DEBUG] response_update: {self.response_update}")
                 self.prev_asr_you = self.asr["you"]  # 直前のASR結果は常に更新
+            else:
+                # ★デバッグ：asr["you"] が空の場合
+                if not hasattr(self, 'asr_empty_count'):
+                    self.asr_empty_count = 0
+                self.asr_empty_count += 1
+                if self.asr_empty_count % 100 == 0:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[{timestamp}] [DEBUG-ASR-EMPTY] asr[you]が空です\n")
+                    sys.stdout.flush()
 
             # TTデータの判定・再生
             if self.latest_tt_data is not None and self.latest_tt_time != last_handled_tt_time:
