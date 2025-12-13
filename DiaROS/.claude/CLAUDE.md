@@ -69,10 +69,21 @@ NLGPC では以下のソースコードが使用されます（別リポジト�
 - `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`: ROS2 ラッパー
 - `DiaROS_py/diaros/prompts/`: プロンプトテンプレート
 
-**NLGモジュールの実装詳細を確認する場合は、以下のリポジトリのブランチを参照してください：**
+##### 重要：NLGPC ブランチの確認
+
+このリポジトリ（DMPC）と NLGPC では**異なるブランチ**を使用しています。NLGモジュールに関する以下の作業を行う場合は、**NLGPC のブランチを確認・修正してください**：
+
+- NLGモジュールの実装詳細確認
+- 推論ロジックの変更
+- プロンプトテンプレートの修正
+- 応答生成パラメータ調整
+
+**NLGPC で使用されるブランチ（必要に応じて参照・修正）：**
 ```
 https://github.com/iris-aegis/DiaROS/tree/local_nlg
 ```
+
+DMPC での作業（音声入力、対話管理、相槌生成など）は、このリポジトリの main ブランチで実施してください。
 
 #### 通信プロトコル
 - **ROS2 トピック**: DMtoNLG / NLGtoDM 経由でメッセージ交換
