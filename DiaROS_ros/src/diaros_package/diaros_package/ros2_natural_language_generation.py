@@ -43,10 +43,16 @@ class RosNaturalLanguageGeneration(Node):
         # ★インスタンス変数に保存（NLGで使用）
         self.asr_history_2_5s = asr_history_2_5s
 
-        # ★デバッグ：受け取ったメッセージの詳細ログ
+        # ★詳細デバッグ：受け取ったメッセージの全フィールドをログ出力
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         self.get_logger().info(
-            f"[{timestamp}] [NLG-DEBUG] DM受信: words={len(words)}件, stage='{stage}', request_id={request_id}, msg.stage属性={hasattr(msg, 'stage')}"
+            f"[{timestamp}] [NLG-DEBUG] DMから受信:\n"
+            f"  - words: {words} (長さ={len(words)})\n"
+            f"  - stage: '{stage}'\n"
+            f"  - request_id: {request_id}\n"
+            f"  - first_stage_backchannel_at_tt: '{first_stage_backchannel_at_tt}'\n"
+            f"  - asr_history_2_5s: {asr_history_2_5s} (長さ={len(asr_history_2_5s)})\n"
+            f"  - turn_taking_decision_timestamp_ns: {turn_taking_decision_timestamp_ns}"
         )
 
         # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
