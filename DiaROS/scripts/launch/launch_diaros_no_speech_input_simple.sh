@@ -170,4 +170,15 @@ echo "🎵 ros2 bag playで音声データを再生してください"
 echo ""
 
 # DiaROS起動 (speech_inputノード除外)
-exec ros2 launch diaros_package sdsmod.launch.py mic:=false
+# ★分散実行対応：nlg:=false パラメータをサポート
+# 使用例:
+#   - 単一PC実行: bash launch_diaros_no_speech_input_simple.sh
+#   - 分散実行: bash launch_diaros_no_speech_input_simple.sh --nlg-distributed
+
+NLG_PARAM=""
+if [ "$1" = "--nlg-distributed" ] || [ "$1" = "nlg:=false" ]; then
+    NLG_PARAM="nlg:=false"
+    echo "⚙️  分散実行モード: NLGノードを除外します"
+fi
+
+exec ros2 launch diaros_package sdsmod.launch.py mic:=false $NLG_PARAM
