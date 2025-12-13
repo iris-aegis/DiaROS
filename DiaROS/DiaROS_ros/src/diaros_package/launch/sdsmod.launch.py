@@ -40,11 +40,11 @@ def generate_launch_description():
             executable='ros2_automatic_speech_recognition',
             output='screen'
         ),
-        Node(
-            package='diaros_package',
-            executable='ros2_natural_language_understanding',
-            output='screen'
-        ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_natural_language_understanding',
+        #     output='screen'
+        # ),
         Node(
             package='diaros_package',
             executable='ros2_dialog_management',
