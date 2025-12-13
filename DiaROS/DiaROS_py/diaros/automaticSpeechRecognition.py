@@ -261,15 +261,15 @@ class AutomaticSpeechRecognition:
         else:
             audio_id = hashlib.md5(audio_np.astype(np.float32).tobytes()).hexdigest()[:8]
         
-        # ASR音声受信をログ出力（コメントアウト）
-        # timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        # 
-        # # データ対応確認用: 先頭5サンプルの具体的な値を表示
-        # sample_values = audio_np[:5].tolist() if len(audio_np) >= 5 else audio_np.tolist()
-        # sample_str = '[' + ','.join([f'{v:.6f}' for v in sample_values]) + ']'
-        # 
-        # sys.stdout.write(f"[🧠 ASR_RECEIVE] {timestamp_str} | {asr_receive_timestamp:.6f} | {sample_str}\n")
-        # sys.stdout.flush()
+        # ASR音声受信をログ出力（デバッグ）
+        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+
+        # データ対応確認用: 先頭5サンプルの具体的な値を表示
+        sample_values = audio_np[:5].tolist() if len(audio_np) >= 5 else audio_np.tolist()
+        sample_str = '[' + ','.join([f'{v:.6f}' for v in sample_values]) + ']'
+
+        sys.stdout.write(f"[🧠 ASR_RECEIVE] {timestamp_str} | AudioID:{audio_id} | 受信数:{self.recv_count} | サンプル:{len(audio_np)}\n")
+        sys.stdout.flush()
         
         # メタデータ付きでキューに追加
         audio_metadata = {
@@ -285,6 +285,15 @@ class AutomaticSpeechRecognition:
     def pubASR(self):
         if self.new_result:
             self.new_result = False
+            # ★デバッグ: pubASR() で返される結果をログ出力
+            if not hasattr(self, 'pubASR_call_count'):
+                self.pubASR_call_count = 0
+            self.pubASR_call_count += 1
+            if self.pubASR_call_count % 10 == 0 or len(self.word) > 0:  # 認識結果がある場合は毎回表示
+                from datetime import datetime
+                timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                sys.stdout.write(f"[{timestamp_str}][DEBUG-pubASR] Returning result: '{self.word}' (len={len(self.word)}), is_final={self.is_final}\n")
+                sys.stdout.flush()
             return {"you": self.word, "is_final": self.is_final}
         else:
             return None
@@ -415,10 +424,14 @@ class AutomaticSpeechRecognition:
                     self.debug_count += 1
                 else:
                     self.debug_count = 0
-                
-                # if self.debug_count % 1000 == 0:  # 1000回に1回表示
-                #     sys.stdout.write(f"[DEBUG] mic_input: {len(mic_input)}samples, new_audio: {new_audio_samples}samples, should_run: {should_run_inference}\n")
-                #     sys.stdout.flush()
+
+                if self.debug_count % 50 == 0:  # 50回に1回表示
+                    from datetime import datetime
+                    timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                    min_data = int(SAMPLE_RATE * 0.1)
+                    min_new = int(SAMPLE_RATE * 0.1)
+                    sys.stdout.write(f"[{timestamp_str}][ASR_INFER_CONDITION] mic:{len(mic_input)}samples (min:{min_data}) | new:{new_audio_samples}samples (min:{min_new}) | should_infer:{should_run_inference} | queue:{self.audio_queue.qsize()}\n")
+                    sys.stdout.flush()
                 
                 # 推論条件に近づいた時も表示
                 # if new_audio_samples >= 1400:  # 1600に近づいた時
@@ -428,7 +441,11 @@ class AutomaticSpeechRecognition:
                 if should_run_inference:
                     # ASR推論開始時刻
                     inference_start_time = time.time()
-                    
+                    from datetime import datetime
+                    timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                    sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_START] mic:{len(mic_input)}samples | new_audio:{new_audio_samples}samples\n")
+                    sys.stdout.flush()
+
                     # 最新5秒分のデータで推論（すでにmic_inputに蓄積済み）
                     inference_data = mic_input[-int(5 * SAMPLE_RATE):] if len(mic_input) >= int(5 * SAMPLE_RATE) else mic_input
                     

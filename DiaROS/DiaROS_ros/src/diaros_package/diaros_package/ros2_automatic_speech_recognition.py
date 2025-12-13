@@ -4,6 +4,7 @@ import sys
 import time
 from datetime import datetime
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from interfaces.msg import Iasr
 # from interfaces.msg import Isa
 from interfaces.msg import Imm
@@ -17,8 +18,17 @@ class RosAutomaticSpeechRecognition(Node):
     def __init__(self, automaticSpeechRecognition):
         super().__init__('automatic_speech_recognition')
         self.automaticSpeechRecognition = automaticSpeechRecognition
-        self.sub_mic = self.create_subscription(Float32MultiArray, 'mic_audio_float32', self.audio_callback, 10)
-        self.pub_asr = self.create_publisher(Iasr, 'ASRtoNLU', 1)  # トピック名を変更
+
+        # 分散実行対応: RELIABLE QoSプロファイルを設定
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
+        )
+
+        self.sub_mic = self.create_subscription(Float32MultiArray, 'mic_audio_float32', self.audio_callback, qos_profile)
+        self.pub_asr = self.create_publisher(Iasr, 'ASRtoNLU', qos_profile)  # QoSをRELIABLEに統一
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(0.005, self.callback)
         
@@ -128,10 +138,10 @@ class RosAutomaticSpeechRecognition(Node):
                 log_asr_complete(self.current_session_id, asr.you, asr_duration_ms)
             
             self.pub_asr.publish(asr)
-            
+
             # ASR認識結果の遅延測定ログ出力
-            # sys.stdout.write(f"[🧠 ASR_OUTPUT] {timestamp_str} | 認識結果: '{asr.you}' | is_final: {asr.is_final}\n")
-            # sys.stdout.flush()
+            sys.stdout.write(f"[{timestamp_str}][🧠 ASR_OUTPUT] 認識結果: '{asr.you}' (len={len(asr.you)}) | is_final: {asr.is_final}\n")
+            sys.stdout.flush()
             
             # ASR結果を発行した後にビープ音を再生
             # self._play_beep()

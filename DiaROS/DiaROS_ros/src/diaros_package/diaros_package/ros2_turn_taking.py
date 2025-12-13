@@ -3,6 +3,7 @@ import rclpy
 import threading
 import sys
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from std_msgs.msg import Float32MultiArray, Float32, String
 import numpy as np
 from diaros.turnTaking import TurnTaking, push_audio_data, turn_taking_result_queue, push_asr_result, silero_vad_result_queue, vad_iterator_result_queue  # TurnTakingを実行するために読み込み
@@ -11,35 +12,44 @@ from interfaces.msg import Itt, Iasr
 class RosTurnTaking(Node):
     def __init__(self):
         super().__init__('turn_taking')
+
+        # RELIABLE QoSプロファイルを定義（分散実行対応）
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
+        )
+
         self.subscription = self.create_subscription(
             Float32MultiArray,
             'mic_audio_float32',
             self.listener_callback,
-            10
+            qos_profile
         )
         # ASR結果を受信するサブスクリプション追加
         self.asr_subscription = self.create_subscription(
             Iasr,
             'ASRtoNLU',
             self.asr_callback,
-            10
+            qos_profile
         )
-        self.pub_tt = self.create_publisher(Itt, 'TTtoDM', 10)
-        
+        self.pub_tt = self.create_publisher(Itt, 'TTtoDM', qos_profile)
+
         # SileroVAD監視用パブリッシャー（10ms間隔手法）
-        self.pub_silero_speech_prob = self.create_publisher(Float32, 'silero_vad/speech_probability', 10)
-        self.pub_silero_speech_ratio = self.create_publisher(Float32, 'silero_vad/speech_ratio', 10)
-        self.pub_silero_interval = self.create_publisher(Float32, 'silero_vad/judgment_interval_ms', 10)
-        self.pub_silero_segments = self.create_publisher(Float32, 'silero_vad/speech_segments_count', 10)
-        self.pub_silero_status = self.create_publisher(String, 'silero_vad/status', 10)
-        
+        self.pub_silero_speech_prob = self.create_publisher(Float32, 'silero_vad/speech_probability', qos_profile)
+        self.pub_silero_speech_ratio = self.create_publisher(Float32, 'silero_vad/speech_ratio', qos_profile)
+        self.pub_silero_interval = self.create_publisher(Float32, 'silero_vad/judgment_interval_ms', qos_profile)
+        self.pub_silero_segments = self.create_publisher(Float32, 'silero_vad/speech_segments_count', qos_profile)
+        self.pub_silero_status = self.create_publisher(String, 'silero_vad/status', qos_profile)
+
         # VADIterator監視用パブリッシャー（32ms間隔手法）
-        self.pub_iterator_speech_state = self.create_publisher(Float32, 'vad_iterator/speech_state', 10)  # 0=無声, 1=音声
-        self.pub_iterator_event_interval = self.create_publisher(Float32, 'vad_iterator/event_interval_ms', 10)
-        self.pub_iterator_total_events = self.create_publisher(Float32, 'vad_iterator/total_events', 10)
-        self.pub_iterator_event_type = self.create_publisher(String, 'vad_iterator/event_type', 10)  # start/end/null
-        self.pub_iterator_status = self.create_publisher(String, 'vad_iterator/status', 10)
-        
+        self.pub_iterator_speech_state = self.create_publisher(Float32, 'vad_iterator/speech_state', qos_profile)  # 0=無声, 1=音声
+        self.pub_iterator_event_interval = self.create_publisher(Float32, 'vad_iterator/event_interval_ms', qos_profile)
+        self.pub_iterator_total_events = self.create_publisher(Float32, 'vad_iterator/total_events', qos_profile)
+        self.pub_iterator_event_type = self.create_publisher(String, 'vad_iterator/event_type', qos_profile)  # start/end/null
+        self.pub_iterator_status = self.create_publisher(String, 'vad_iterator/status', qos_profile)
+
         self.timer = self.create_timer(0.0001, self.publish_turn_taking)  # 100ms→0.1msに短縮
         self.silero_timer = self.create_timer(0.001, self.publish_silero_vad)  # 1ms間隔でSileroVAD結果をパブリッシュ
         self.iterator_timer = self.create_timer(0.001, self.publish_vad_iterator)  # 1ms間隔でVADIterator結果をパブリッシュ

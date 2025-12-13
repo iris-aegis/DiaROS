@@ -6,6 +6,7 @@ import sys
 import time
 from datetime import datetime
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from interfaces.msg import Iasr
 from interfaces.msg import Isa
 from interfaces.msg import Iss
@@ -26,14 +27,23 @@ class RosDialogManagement(Node):
         super().__init__('dialog_management')
         self.dialogManagement = dialogManagement
         self.prev_word = ""
-        # self.sub_dm = self.create_subscription(Iasr, 'DMtoDM', self.dm_update, 1)
-        self.sub_lu = self.create_subscription(Iasr, 'NLUtoDM', self.dm_update, 1)  # NaturalLanguageUnderstanding2DialogManagement（nluでは処理を短絡してるのでIasrをつかう）
-        self.sub_aa = self.create_subscription(Iaa, 'AAtoDM', self.aa_update, 1)
-        self.sub_tt = self.create_subscription(Itt, 'TTtoDM', self.tt_update, 1) # TurnTaking2DialogManagement
-        self.sub_bc = self.create_subscription(Ibc, 'BCtoDM', self.bc_update, 1) # BackChannel2DialogManagement
-        self.sub_ss = self.create_subscription(Iss, 'SStoDM', self.ss_update, 1)
-        self.sub_nlg = self.create_subscription(Inlg, 'NLGtoSS', self.nlg_callback, 1)  # NLGからの応答を購読
-        self.pub_dm = self.create_publisher(Idm, 'DMtoNLG', 1)
+
+        # 分散実行対応: RELIABLE QoSプロファイルを設定
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
+        )
+
+        # self.sub_dm = self.create_subscription(Iasr, 'DMtoDM', self.dm_update, qos_profile)
+        self.sub_lu = self.create_subscription(Iasr, 'NLUtoDM', self.dm_update, qos_profile)  # NaturalLanguageUnderstanding2DialogManagement（nluでは処理を短絡してるのでIasrをつかう）
+        self.sub_aa = self.create_subscription(Iaa, 'AAtoDM', self.aa_update, qos_profile)
+        self.sub_tt = self.create_subscription(Itt, 'TTtoDM', self.tt_update, qos_profile) # TurnTaking2DialogManagement
+        self.sub_bc = self.create_subscription(Ibc, 'BCtoDM', self.bc_update, qos_profile) # BackChannel2DialogManagement
+        self.sub_ss = self.create_subscription(Iss, 'SStoDM', self.ss_update, qos_profile)
+        self.sub_nlg = self.create_subscription(Inlg, 'NLGtoSS', self.nlg_callback, qos_profile)  # NLGからの応答を購読
+        self.pub_dm = self.create_publisher(Idm, 'DMtoNLG', qos_profile)  # QoSをRELIABLEに統一
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(0.001, self.callback)
         self.recv_count = 0  # 受信回数カウンタ追加
@@ -48,11 +58,12 @@ class RosDialogManagement(Node):
     def dm_update(self, dm):
         new = { "you": dm.you, "is_final": dm.is_final, "timestamp_ns": dm.timestamp_ns }
         self.dialogManagement.updateASR(new)
-        
-        # デバッグ用：ASR結果受信ログ（コメントアウト）
-        # if dm.you:  # 空でない場合のみ表示
-        #     print(f"[🔊 DM] ASR受信: '{dm.you}' (is_final: {dm.is_final})")
-        #     sys.stdout.flush()
+
+        # ★デバッグ用：ASR結果受信ログ（毎回出力）
+        from datetime import datetime
+        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        sys.stdout.write(f"[{timestamp_str}][DM_UPDATE-ASR] 受信: '{dm.you}' (len={len(dm.you)}) | is_final: {dm.is_final}\n")
+        sys.stdout.flush()
         
     def ss_update(self, ss):# test
         new = {

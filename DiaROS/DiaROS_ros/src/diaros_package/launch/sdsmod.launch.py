@@ -17,6 +17,13 @@ def generate_launch_description():
     )
     use_mic = LaunchConfiguration('mic')
 
+    use_nlg_arg = DeclareLaunchArgument(
+        'nlg',
+        default_value='true',
+        description='Use NLG node (true/false) - Set to false for distributed execution on separate PC'
+    )
+    use_nlg = LaunchConfiguration('nlg')
+
     nodes = []
     # use_micが'true'のときのみspeech_inputノードを起動
     nodes.append(
@@ -53,7 +60,8 @@ def generate_launch_description():
         Node(
             package='diaros_package',
             executable='ros2_natural_language_generation',
-            output='screen'
+            output='screen',
+            condition=IfCondition(use_nlg)
         ),
         Node(
             package='diaros_package',
@@ -73,4 +81,4 @@ def generate_launch_description():
         ),
     ]
 
-    return LaunchDescription([use_mic_arg] + nodes)
+    return LaunchDescription([use_mic_arg, use_nlg_arg] + nodes)

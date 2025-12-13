@@ -2,6 +2,7 @@ import rclpy
 import threading
 import sys
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from interfaces.msg import Inlg
 from interfaces.msg import Iss
 from interfaces.msg import Imm
@@ -14,14 +15,23 @@ class RosSpeechSynthesis(Node):
     def __init__(self, speechSynthesis):
         super().__init__('speech_synthesis')
         self.speechSynthesis = speechSynthesis
-        self.sub_nlg = self.create_subscription(Inlg, 'NLGtoSS', self.play, 1)
-        self.pub_ss = self.create_publisher(Iss, 'SStoDM', 1)
-        # self.pub_ss = self.create_publisher(Iss, 'SStoDR', 1)
-        # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
-        # self.pub_wav = self.create_publisher(SynthWav, 'SynthWav', 1)  # ← 削除
+
+        # RELIABLE QoSプロファイルを定義（分散実行対応）
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
+        )
+
+        self.sub_nlg = self.create_subscription(Inlg, 'NLGtoSS', self.play, qos_profile)
+        self.pub_ss = self.create_publisher(Iss, 'SStoDM', qos_profile)
+        # self.pub_ss = self.create_publisher(Iss, 'SStoDR', qos_profile)
+        # self.pub_mm = self.create_publisher(Imm, 'MM', qos_profile)
+        # self.pub_wav = self.create_publisher(SynthWav, 'SynthWav', qos_profile)  # ← 削除
         self.timer = self.create_timer(0.0005, self.send)
         self.is_speaking = False
-        
+
         # 時間計測用
         self.timing_logger = get_timing_logger()
         self.current_session_id = None

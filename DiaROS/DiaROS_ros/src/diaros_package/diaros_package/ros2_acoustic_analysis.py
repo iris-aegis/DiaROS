@@ -2,6 +2,7 @@ import rclpy
 import threading
 import sys
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from std_msgs.msg import Float32MultiArray
 from interfaces.msg import Iaa, Imm
 from diaros.acousticAnalysis import AcousticAnalysis
@@ -11,9 +12,18 @@ class RosAcousticAnalysis(Node):
     def __init__(self, acousticAnalysis):
         super().__init__('acoustic_analysis')
         self.acousticAnalysis = acousticAnalysis
-        self.sub_audio = self.create_subscription(Float32MultiArray, 'mic_audio_float32', self.audio_callback, 10)  # 修正
-        self.pub_iaa = self.create_publisher(Iaa, 'AAtoDM', 10)
-        # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
+
+        # RELIABLE QoSプロファイルを定義（分散実行対応）
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
+        )
+
+        self.sub_audio = self.create_subscription(Float32MultiArray, 'mic_audio_float32', self.audio_callback, qos_profile)  # 修正
+        self.pub_iaa = self.create_publisher(Iaa, 'AAtoDM', qos_profile)
+        # self.pub_mm = self.create_publisher(Imm, 'MM', qos_profile)
         self.timer = self.create_timer(0.02, self.publish_acoustic)
         self.last_sent = None
 

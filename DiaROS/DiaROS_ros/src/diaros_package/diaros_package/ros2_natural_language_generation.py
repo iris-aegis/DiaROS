@@ -4,6 +4,7 @@ import sys
 import time
 from datetime import datetime
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from interfaces.msg import Idm
 from interfaces.msg import Inlg
 from interfaces.msg import Imm
@@ -13,8 +14,17 @@ class RosNaturalLanguageGeneration(Node):
     def __init__(self, naturalLanguageGeneration):
         super().__init__('natural_language_generation')
         self.naturalLanguageGeneration = naturalLanguageGeneration
-        self.sub_dm = self.create_subscription(Idm, 'DMtoNLG', self.dm_update, 1)
-        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', 1)  # NLG→SpeechSynthesis用
+
+        # 分散実行対応: RELIABLE QoSプロファイルを設定
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
+        )
+
+        self.sub_dm = self.create_subscription(Idm, 'DMtoNLG', self.dm_update, qos_profile)
+        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', qos_profile)  # NLG→SpeechSynthesis用（QoSをRELIABLEに統一）
         # self.pub_nlg_dr = self.create_publisher(Inlg, 'NLGtoDR', 1)
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(0.02, self.ping)

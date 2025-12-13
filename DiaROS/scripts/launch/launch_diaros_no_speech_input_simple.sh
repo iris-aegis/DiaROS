@@ -155,6 +155,18 @@ echo "  DIAROS_PROMPTS_DIR: $DIAROS_PROMPTS_DIR"
 echo "  speech_inputノード: 除外 (mic:=false)"
 
 echo ""
+echo "📦 最新の変更をビルド中..."
+cd "$SCRIPT_DIR/../.."
+if [ -d "DiaROS_ros" ]; then
+    cd DiaROS_ros
+    source /opt/ros/humble/setup.bash
+    colcon build --packages-select diaros_package 2>&1 | tail -5
+    source install/local_setup.bash
+    cd ..
+fi
+echo "✅ ビルド完了"
+echo ""
+
 echo "🚀 DiaROSを起動します (speech_inputノード除外)..."
 echo "📝 以下のノードが起動されます:"
 echo "  - acoustic_analysis"

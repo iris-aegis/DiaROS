@@ -1127,14 +1127,17 @@ class DialogManagement:
             self.pubdm_call_count = 0
         self.pubdm_call_count += 1
         if self.pubdm_call_count % 100 == 0:
-            sys.stdout.write(f"[DEBUG-pubDM] response_update={self.response_update}, asr[you]='{self.asr['you']}'\n")
+            sys.stdout.write(f"[DEBUG-pubDM] response_update={self.response_update}, asr[you]='{self.asr['you']}', asr_history_len={len(self.asr_history)}\n")
+            if len(self.asr_history) > 0:
+                sys.stdout.write(f"[DEBUG-pubDM] Latest 3 ASR entries: {self.asr_history[-3:]}\n")
             sys.stdout.flush()
 
         if self.response_update is True:
             self.response_update = False
             # asr_historyとresponse_updateの値を出力
-            # print(f"[DEBUG] asr_history: {self.asr_history}")
-            # print(f"[DEBUG] response_update: {self.response_update}")
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}][DEBUG-pubDM-SEND] response_update=True, asr_history_len={len(self.asr_history)}\n")
+            sys.stdout.flush()
 
             # 任意の秒数間隔でタイムスタンプベース選択
             words = []
@@ -1346,7 +1349,7 @@ class DialogManagement:
         # ここでASR結果の履歴を管理
         self.asr["you"] = asr["you"]
         self.asr["is_final"] = asr["is_final"]
-        
+
         # タイムスタンプ情報を含むasr_historyに追加
         asr_entry = {
             "text": asr["you"],
@@ -1354,6 +1357,15 @@ class DialogManagement:
             "is_final": asr["is_final"]
         }
         self.asr_history.append(asr_entry)
+
+        # ★デバッグ: updateASR() 呼び出しをログ出力（毎100回に1回）
+        if not hasattr(self, 'update_asr_count'):
+            self.update_asr_count = 0
+        self.update_asr_count += 1
+        if self.update_asr_count % 100 == 0:
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}][DEBUG-updateASR] you='{asr['you']}' (len={len(asr['you'])}), is_final={asr['is_final']}, asr_history_len={len(self.asr_history)}\n")
+            sys.stdout.flush()
         
         # ASRタイミング情報を記録
         current_time_ns = int(time.time_ns())

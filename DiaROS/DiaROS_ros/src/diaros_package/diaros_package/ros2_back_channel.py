@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import time
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from std_msgs.msg import Float32MultiArray
 from interfaces.msg import Ibc  # 追加
 from diaros.backChannel import main as back_channel_main, push_audio_data, back_channel_result_queue
@@ -11,8 +12,17 @@ from diaros.backChannel import main as back_channel_main, push_audio_data, back_
 class RosBackChannel(Node):
     def __init__(self):
         super().__init__('back_channel')
-        self.subscription = self.create_subscription(Float32MultiArray, 'mic_audio_float32', self.listener_callback, 10)
-        self.pub_bc = self.create_publisher(Ibc, 'BCtoDM', 10)  # 追加
+
+        # RELIABLE QoSプロファイルを定義（分散実行対応）
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
+        )
+
+        self.subscription = self.create_subscription(Float32MultiArray, 'mic_audio_float32', self.listener_callback, qos_profile)
+        self.pub_bc = self.create_publisher(Ibc, 'BCtoDM', qos_profile)  # 追加
         self.timer = self.create_timer(0.01, self.publish_back_channel)  # 追加
         self.send_count = 0  # 送信回数カウンタ追加
         self.recv_count = 0  # 受信回数カウンタ追加
