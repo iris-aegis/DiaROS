@@ -48,6 +48,33 @@
    chmod +x /path/to/script.sh
    ```
 
+### ソースコード変更時の自動コミット
+**ソースコード（.py, .sh, .launch.py など）に変更を加えた場合、セキュリティ上の確認が必要でない限り、自動的に git にコミットしてください。**
+
+#### 自動コミット対象
+- `DiaROS_py/diaros/` 内の Python モジュール（.py ファイル）
+- `DiaROS_ros/src/` 内の ROS2 パッケージファイル
+- `scripts/` 内のユーティリティスクリプト
+- PromptTemplate や設定ファイル（dialog_*.txt など）
+
+#### 自動コミット対象外（手動確認推奨）
+- セキュリティ認証情報（API キー、パスワードなど）を含むファイル
+- 依存関係の大幅な変更（requirements.txt、package.xml など大幅な修正）
+- 本番環境に直接影響する重大な変更（ユーザーに確認を取ってから実施）
+
+#### コミットメッセージの形式
+```
+Fix/Feature/Refactor/Docs: 変更内容の簡潔な説明
+
+詳細な説明（必要に応じて）
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+このルールにより、開発サイクルを効率化し、変更履歴を常に最新に保ちます。
+
 ### 現在の運用構成（NLG分散実行）
 **このリポジトリは、NLGモジュール（自然言語生成）を別PCで実行する構成で運用されています。**
 
