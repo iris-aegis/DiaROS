@@ -224,6 +224,125 @@ ros2 node list
 ros2 topic list
 ```
 
+## NLGPC に修正が必要な場合
+
+**Second stage の応答生成に問題がある場合や、推論ロジック・プロンプトを修正する必要がある場合、NLGPC（別リポジトリ `local_nlg` ブランチ）の Claude Code に以下のプロンプトを設定して修正してください。**
+
+### NLGPC 用プロンプト（コピーしてNLGPC側に設定）
+
+```
+# NLGPC での Claude Code 実行プロンプト
+
+このプロンプトを NLGPC（別リポジトリ `local_nlg` ブランチ）の Claude Code に設定してください。
+
+## 🔴 最重要事項
+
+### NLGPC での作業範囲
+
+このPC は **NLGモジュール専用** です。以下の作業のみを実施してください：
+
+#### ✅ 修正対象（NLGPC で実施）
+- `DiaROS_py/diaros/naturalLanguageGeneration.py`: 推論ロジック
+- `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`: ROS2 ラッパー
+- `DiaROS_py/diaros/prompts/`: プロンプトテンプレート修正
+- 応答生成パラメータ調整
+- 推論エンジン（Ollama、OpenAI API など）の設定
+
+#### ❌ 修正対象外（DMPC で実施 - 修正しないこと）
+- 音声入力（speechInput.py）
+- 音響分析（acousticAnalysis.py）
+- 音声認識（automaticSpeechRecognition.py）
+- 対話管理（dialogManagement.py）
+- 相槌生成（backChannel.py）
+- ターンテイキング（turnTaking.py）
+- 音声合成（speechSynthesis.py）
+
+DMPC 側で変更がある場合は DMPC で確認してください。
+
+### ブランチ確認
+- **使用ブランチ**: `local_nlg`
+- **リポジトリ**: https://github.com/iris-aegis/DiaROS/tree/local_nlg
+- DMPC（main ブランチ）とは異なるコードベースです
+
+### ソースコード変更時の自動コミット
+
+NLGモジュールの修正後、セキュリティ上の確認が必要でない限り、自動的に git にコミットしてください。
+
+#### 自動コミット対象
+- NLG関連のすべての Python モジュール修正
+- プロンプトテンプレート修正
+- 設定ファイル修正
+
+#### 自動コミット対象外
+- セキュリティ認証情報（API キーなど）
+- 本番環境に直接影響する重大な変更
+
+## 通信インターフェース
+
+### NLGPC が受け取るメッセージ（Idm - DMPC→NLGPC）
+- `first_stage_backchannel_at_tt`: TurnTaking判定時の相槌内容
+- `asr_history_2_5s`: 2.5秒間隔の音声認識結果リスト
+- `stage`: 処理段階（'first' または 'second'）
+- `request_id`: リクエスト識別子
+- `turn_taking_decision_timestamp_ns`: TurnTaking判定時刻
+
+### NLGPC が返送するメッセージ（Inlg - NLGPC→DMPC）
+- `reply`: 生成された応答テキスト
+- `stage`: 完了したステージ
+- `request_id`: リクエスト識別子
+
+## 修正後の確認項目
+
+修正後は以下を確認してください：
+- ✅ 応答生成の遅延（推奨: 1-2秒以内）
+- ✅ メッセージの送受信が正常に行われているか
+- ✅ DMPC 側のログで「応答生成完了」が表示されるか
+- ✅ Second stage のタイムアウト（デフォルト: 5秒）内に応答が生成されるか
+
+## デバッグコマンド
+
+```bash
+# NLGPCでの実行
+ros2 run diaros_package ros2_natural_language_generation
+
+# DMPCからのメッセージ確認
+ros2 topic echo /DMtoNLG
+
+# NLGPCからの応答確認
+ros2 topic echo /NLGtoDM
+
+# ノード状態確認
+ros2 node list
+```
+
+## 日本語対応
+**必ず日本語で対話してください。** コメント、説明、エラーメッセージなど、すべて日本語で記述してください。
+```
+
+### 使用方法
+
+NLGPC で修正が必要な場合、以下のステップで対応してください：
+
+1. **NLGPC のリポジトリを確認**:
+   ```bash
+   cd /path/to/DiaROS_local_nlg
+   git branch -a
+   ```
+
+2. **`local_nlg` ブランチに切り替え**:
+   ```bash
+   git checkout local_nlg
+   ```
+
+3. **NLGPC の `.claude/CLAUDE.md` に上記プロンプトを設定**
+
+4. **NLGPC の Claude Code で修正を実施**
+
+5. **修正完了後、DMPC で検証**:
+   - `ros2 topic echo /DMtoNLG` でメッセージ送受信を確認
+   - `ros2 topic echo /NLGtoDM` で応答を確認
+   - DMPC 側のログで「応答生成完了」が表示されることを確認
+
 ### パスの汎用性維持
 **絶対パスは使用禁止。** 公開リポジトリとして配布されるため、汎用性を保つこと。
 - スクリプト内では相対パスを使用
