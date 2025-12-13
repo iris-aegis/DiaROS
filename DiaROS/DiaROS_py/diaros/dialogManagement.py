@@ -372,15 +372,6 @@ class DialogManagement:
                 diff = list(difflib.ndiff(self.last_response_update_asr, self.asr["you"]))
                 changed_chars = sum(1 for d in diff if d.startswith('+ ') or d.startswith('- '))
 
-                # ★デバッグ：ASR 結果の状態を100回おきにログ出力
-                if not hasattr(self, 'asr_check_count'):
-                    self.asr_check_count = 0
-                self.asr_check_count += 1
-                if self.asr_check_count % 100 == 0:
-                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[{timestamp}] [DEBUG-ASR-STATE] asr[you]='{self.asr['you']}', last_update='{self.last_response_update_asr}', changed_chars={changed_chars}\n")
-                    sys.stdout.flush()
-
                 # 前回response_updateがTrueになった時のASR結果と1文字以上変わった場合のみ判定
                 if changed_chars >= 1 and self.asr["you"] != self.last_response_update_asr:
                     self.word = self.asr["you"]
