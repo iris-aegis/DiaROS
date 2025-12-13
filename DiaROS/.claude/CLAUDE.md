@@ -125,6 +125,105 @@ DMPC での作業（音声入力、対話管理、相槌生成など）は、こ
 
 このセットアップにより、応答生成処理をスケールアウト可能にし、推論処理の遅延をDMPC 音声処理から分離します。
 
+## NLGPC での Claude Code 実行ガイダンス
+
+**以下の指示は、NLGPC（別リポジトリの `local_nlg` ブランチ）で Claude Code を使用する場合に適用されます。**
+
+### NLGPC での作業範囲
+NLGPC では以下の作業を実施してください：
+
+#### 修正対象（NLGPC）
+- NLGモジュールの実装詳細確認と修正
+- `DiaROS_py/diaros/naturalLanguageGeneration.py`: 推論ロジック
+- `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`: ROS2 ラッパー
+- `DiaROS_py/diaros/prompts/`: プロンプトテンプレート修正
+- 応答生成パラメータ調整
+- 推論エンジン（Ollama、OpenAI API など）の設定
+
+#### 修正対象外（DMPC で実施）
+**以下の作業は DMPC（main ブランチ）で実施してください。修正しないでください：**
+- 音声入力（speechInput.py）
+- 音響分析（acousticAnalysis.py）
+- 音声認識（automaticSpeechRecognition.py）
+- 対話管理（dialogManagement.py）
+- 相槌生成（backChannel.py）
+- ターンテイキング（turnTaking.py）
+- 音声合成（speechSynthesis.py）
+
+DMPC での変更がある場合は、DMPC 側で確認してください。NLGPC では DMPC からのメッセージを受け取るインターフェース部分のみを修正してください。
+
+### NLGPC でのルール
+
+#### 1. ブランチ確認
+- 使用ブランチ：`local_nlg`
+- DMPC との違い：
+  - DMPC（main ブランチ）とは異なるコードベース
+  - NLG固有の実装に集中
+  - 音声入力・対話管理は含まない
+
+#### 2. ソースコード変更時の自動コミット
+NLGPC でも同じルールを適用：
+- **自動コミット対象**: NLG関連のすべてのファイル変更
+- **自動コミット対象外**: セキュリティ認証情報、本番環境に影響する重大な変更
+
+#### 3. 通信インターフェースの確認
+NLGPC が受け取るメッセージ：
+- **Idm メッセージ**（DMPC→NLGPC）:
+  - `first_stage_backchannel_at_tt`: TurnTaking判定時の相槌
+  - `asr_history_2_5s`: 2.5秒間隔の音声認識結果
+  - `stage`: 処理段階（'first' または 'second'）
+  - `request_id`: リクエスト識別子
+
+NLGPC が返送するメッセージ：
+- **Inlg メッセージ**（NLGPC→DMPC）:
+  - `reply`: 生成された応答テキスト
+  - `stage`: 完了したステージ
+  - `request_id`: リクエスト識別子
+  - タイミング情報
+
+#### 4. 環境設定（NLGPC）
+NLGPC で設定すべき環境変数：
+```bash
+# ROS2通信設定（DMPC と同一）
+export ROS_DOMAIN_ID=0
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+
+# ROS2ログ設定
+export RCL_LOGGING_SYSLOG=1
+export RCUTILS_LOGGING_SEVERITY_THRESHOLD='ERROR'
+export RCUTILS_COLORIZED_OUTPUT='0'
+
+# LLM設定
+export DIAROS_LLM_MODEL=gemma2  # または ollama, openai など
+export DIAROS_DEVICE=cuda       # または cpu, mps など
+
+# API設定（OpenAI 使用時）
+export OPENAI_API_KEY="sk-your-key"
+```
+
+#### 5. NLG固有の確認項目
+修正後は以下を確認してください：
+- 応答生成の遅延（推奨: 1-2秒以内）
+- メッセージの送受信が正常に行われているか
+- DMPC 側のログで「応答生成完了」が表示されるか
+- Second stage のタイムアウト（デフォルト: 5秒）内に応答が生成されるか
+
+#### 6. デバッグ時の推奨コマンド
+```bash
+# NLGPCでの実行
+ros2 run diaros_package ros2_natural_language_generation
+
+# DMPCからのメッセージ確認
+ros2 topic echo /DMtoNLG
+
+# NLGPCからの応答確認
+ros2 topic echo /NLGtoDM
+
+# ノード状態確認
+ros2 node list
+ros2 topic list
+```
+
 ### パスの汎用性維持
 **絶対パスは使用禁止。** 公開リポジトリとして配布されるため、汎用性を保つこと。
 - スクリプト内では相対パスを使用
