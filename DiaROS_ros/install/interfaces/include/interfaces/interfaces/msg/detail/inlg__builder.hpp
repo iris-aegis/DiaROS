@@ -117,15 +117,15 @@ private:
   ::interfaces::msg::Inlg msg_;
 };
 
-class Init_Inlg_stage
+class Init_Inlg_source_words
 {
 public:
-  explicit Init_Inlg_stage(::interfaces::msg::Inlg & msg)
+  explicit Init_Inlg_source_words(::interfaces::msg::Inlg & msg)
   : msg_(msg)
   {}
-  Init_Inlg_request_id stage(::interfaces::msg::Inlg::_stage_type arg)
+  Init_Inlg_request_id source_words(::interfaces::msg::Inlg::_source_words_type arg)
   {
-    msg_.stage = std::move(arg);
+    msg_.source_words = std::move(arg);
     return Init_Inlg_request_id(msg_);
   }
 
@@ -133,16 +133,16 @@ private:
   ::interfaces::msg::Inlg msg_;
 };
 
-class Init_Inlg_source_words
+class Init_Inlg_stage
 {
 public:
-  explicit Init_Inlg_source_words(::interfaces::msg::Inlg & msg)
+  explicit Init_Inlg_stage(::interfaces::msg::Inlg & msg)
   : msg_(msg)
   {}
-  Init_Inlg_stage source_words(::interfaces::msg::Inlg::_source_words_type arg)
+  Init_Inlg_source_words stage(::interfaces::msg::Inlg::_stage_type arg)
   {
-    msg_.source_words = std::move(arg);
-    return Init_Inlg_stage(msg_);
+    msg_.stage = std::move(arg);
+    return Init_Inlg_source_words(msg_);
   }
 
 private:
@@ -155,10 +155,10 @@ public:
   Init_Inlg_reply()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_Inlg_source_words reply(::interfaces::msg::Inlg::_reply_type arg)
+  Init_Inlg_stage reply(::interfaces::msg::Inlg::_reply_type arg)
   {
     msg_.reply = std::move(arg);
-    return Init_Inlg_source_words(msg_);
+    return Init_Inlg_stage(msg_);
   }
 
 private:

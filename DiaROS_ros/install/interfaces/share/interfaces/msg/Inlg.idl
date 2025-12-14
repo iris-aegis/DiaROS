@@ -8,9 +8,9 @@ module interfaces {
     struct Inlg {
       string reply;
 
-      sequence<string> source_words;
-
       string stage;
+
+      sequence<string> source_words;
 
       int32 request_id;
 

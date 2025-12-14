@@ -19,8 +19,8 @@ extern "C"
 
 // Include directives for member types
 // Member 'reply'
-// Member 'source_words'
 // Member 'stage'
+// Member 'source_words'
 // Member 'worker_name'
 // Member 'session_id'
 #include "rosidl_runtime_c/string.h"
@@ -29,8 +29,8 @@ extern "C"
 typedef struct interfaces__msg__Inlg
 {
   rosidl_runtime_c__String reply;
-  rosidl_runtime_c__String__Sequence source_words;
   rosidl_runtime_c__String stage;
+  rosidl_runtime_c__String__Sequence source_words;
   int32_t request_id;
   rosidl_runtime_c__String worker_name;
   int64_t start_timestamp_ns;

@@ -101,23 +101,6 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember Inlg_message_
     nullptr  // resize(index) function pointer
   },
   {
-    "source_words",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    true,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(interfaces::msg::Inlg, source_words),  // bytes offset in struct
-    nullptr,  // default value
-    size_function__Inlg__source_words,  // size() function pointer
-    get_const_function__Inlg__source_words,  // get_const(index) function pointer
-    get_function__Inlg__source_words,  // get(index) function pointer
-    fetch_function__Inlg__source_words,  // fetch(index, &value) function pointer
-    assign_function__Inlg__source_words,  // assign(index, value) function pointer
-    resize_function__Inlg__source_words  // resize(index) function pointer
-  },
-  {
     "stage",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
     0,  // upper bound of string
@@ -133,6 +116,23 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember Inlg_message_
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
+  },
+  {
+    "source_words",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    true,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::Inlg, source_words),  // bytes offset in struct
+    nullptr,  // default value
+    size_function__Inlg__source_words,  // size() function pointer
+    get_const_function__Inlg__source_words,  // get_const(index) function pointer
+    get_function__Inlg__source_words,  // get(index) function pointer
+    fetch_function__Inlg__source_words,  // fetch(index, &value) function pointer
+    assign_function__Inlg__source_words,  // assign(index, value) function pointer
+    resize_function__Inlg__source_words  // resize(index) function pointer
   },
   {
     "request_id",  // name

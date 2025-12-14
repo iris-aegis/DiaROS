@@ -14,8 +14,8 @@
 
 // Include directives for member types
 // Member `reply`
-// Member `source_words`
 // Member `stage`
+// Member `source_words`
 // Member `worker_name`
 // Member `session_id`
 #include "rosidl_runtime_c/string_functions.h"
@@ -113,23 +113,6 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Inlg__
     NULL  // resize(index) function pointer
   },
   {
-    "source_words",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    true,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(interfaces__msg__Inlg, source_words),  // bytes offset in struct
-    NULL,  // default value
-    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__size_function__Inlg__source_words,  // size() function pointer
-    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__get_const_function__Inlg__source_words,  // get_const(index) function pointer
-    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__get_function__Inlg__source_words,  // get(index) function pointer
-    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__fetch_function__Inlg__source_words,  // fetch(index, &value) function pointer
-    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__assign_function__Inlg__source_words,  // assign(index, value) function pointer
-    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__resize_function__Inlg__source_words  // resize(index) function pointer
-  },
-  {
     "stage",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
     0,  // upper bound of string
@@ -145,6 +128,23 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Inlg__
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "source_words",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    true,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__Inlg, source_words),  // bytes offset in struct
+    NULL,  // default value
+    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__size_function__Inlg__source_words,  // size() function pointer
+    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__get_const_function__Inlg__source_words,  // get_const(index) function pointer
+    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__get_function__Inlg__source_words,  // get(index) function pointer
+    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__fetch_function__Inlg__source_words,  // fetch(index, &value) function pointer
+    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__assign_function__Inlg__source_words,  // assign(index, value) function pointer
+    interfaces__msg__Inlg__rosidl_typesupport_introspection_c__resize_function__Inlg__source_words  // resize(index) function pointer
   },
   {
     "request_id",  // name

@@ -73,12 +73,12 @@ struct Inlg_
   using _reply_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _reply_type reply;
-  using _source_words_type =
-    std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>>;
-  _source_words_type source_words;
   using _stage_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _stage_type stage;
+  using _source_words_type =
+    std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>>;
+  _source_words_type source_words;
   using _request_id_type =
     int32_t;
   _request_id_type request_id;
@@ -105,16 +105,16 @@ struct Inlg_
     this->reply = _arg;
     return *this;
   }
-  Type & set__source_words(
-    const std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>> & _arg)
-  {
-    this->source_words = _arg;
-    return *this;
-  }
   Type & set__stage(
     const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
     this->stage = _arg;
+    return *this;
+  }
+  Type & set__source_words(
+    const std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>> & _arg)
+  {
+    this->source_words = _arg;
     return *this;
   }
   Type & set__request_id(
@@ -199,10 +199,10 @@ struct Inlg_
     if (this->reply != other.reply) {
       return false;
     }
-    if (this->source_words != other.source_words) {
+    if (this->stage != other.stage) {
       return false;
     }
-    if (this->stage != other.stage) {
+    if (this->source_words != other.source_words) {
       return false;
     }
     if (this->request_id != other.request_id) {

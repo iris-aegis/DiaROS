@@ -32,6 +32,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: stage
+  {
+    out << "stage: ";
+    rosidl_generator_traits::value_to_yaml(msg.stage, out);
+    out << ", ";
+  }
+
   // member: source_words
   {
     if (msg.source_words.size() == 0) {
@@ -47,13 +54,6 @@ inline void to_flow_style_yaml(
       }
       out << "]";
     }
-    out << ", ";
-  }
-
-  // member: stage
-  {
-    out << "stage: ";
-    rosidl_generator_traits::value_to_yaml(msg.stage, out);
     out << ", ";
   }
 
@@ -114,6 +114,16 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
+  // member: stage
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "stage: ";
+    rosidl_generator_traits::value_to_yaml(msg.stage, out);
+    out << "\n";
+  }
+
   // member: source_words
   {
     if (indentation > 0) {
@@ -132,16 +142,6 @@ inline void to_block_style_yaml(
         out << "\n";
       }
     }
-  }
-
-  // member: stage
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "stage: ";
-    rosidl_generator_traits::value_to_yaml(msg.stage, out);
-    out << "\n";
   }
 
   // member: request_id

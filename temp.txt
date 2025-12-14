@@ -1,904 +1,592 @@
-[ros2_natural_language_generation-1] [16:31:09.409][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:09.409][NLG] 新規セッションID作成: 8eadf474
-[ros2_natural_language_generation-1] [16:31:09.410][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:09.410][NLG] 履歴受信（7個）: ['', 'えっ', '今度の休日なんだ', '...', '映画を見に行くかカフェでのんびり独書するかでない', 'カフェでのんびり独書するかで悩んでてでも天気', 'でも天気が良かったらサイクリングもいいなと思う']
-[ros2_natural_language_generation-1] [16:31:09.410][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:09.410][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:09.502][NLG] 🎯 TTFT: 91.3ms
-[ros2_natural_language_generation-1] [16:31:09.545][NLG] ⏱️ load: 69.1ms, prompt: 17.0ms, eval: 45.1ms → total: 135.1ms
-[ros2_natural_language_generation-1] [16:31:09.546][NLG] ✅ gemma3:4b推論完了 (LLM時間: 135.3ms)
-[ros2_natural_language_generation-1] [16:31:09.546][NLG VERBOSE] 生成応答: 'へー、すごい'
-[ros2_natural_language_generation-1] [16:31:09.546][NLG] 🏁 処理完了 (総時間: 135.5ms): へー、すごい
-[ros2_natural_language_generation-1] [16:31:09.409][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 8eadf474 が見つかりません
-[ros2_natural_language_generation-1] [16:31:09.547][NLG TIMING] 対話生成開始: 16:31:09.410
-[ros2_natural_language_generation-1] [16:31:09.547][NLG TIMING] 対話生成完了: 16:31:09.546
-[ros2_natural_language_generation-1] [16:31:09.547][NLG TIMING] 生成時間: 135.5ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'へー、すごい' @ 16:31:09.547
-[ros2_natural_language_generation-1] [16:31:09.549][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:09.549][NLG] 音声認識結果受信時刻: 16:31:09.549
-[ros2_natural_language_generation-1] [16:31:09.549][NLG] 受信した音声認識結果リスト: ['', 'えっ', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで悩んだ', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って']
-[ros2_natural_language_generation-1] [16:31:09.549][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:09.549][NLG] 新規セッションID作成: 1fcdb4f3
-[ros2_natural_language_generation-1] [16:31:09.550][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:09.550][NLG] 履歴受信（7個）: ['', 'えっ', '今度の休日なんだけど', '...', '映画を見に行くかカフェでのんびり独書するかで悩んだ', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って']
-[ros2_natural_language_generation-1] [16:31:09.550][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:09.550][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:09.651][NLG] 🎯 TTFT: 100.7ms
-[ros2_natural_language_generation-1] [16:31:09.727][NLG] ⏱️ load: 73.9ms, prompt: 22.1ms, eval: 78.2ms → total: 177.6ms
-[ros2_natural_language_generation-1] [16:31:09.728][NLG] ✅ gemma3:4b推論完了 (LLM時間: 177.8ms)
-[ros2_natural_language_generation-1] [16:31:09.728][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:09.728][NLG] 🏁 処理完了 (総時間: 178.0ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:09.549][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 1fcdb4f3 が見つかりません
-[ros2_natural_language_generation-1] [16:31:09.728][NLG TIMING] 対話生成開始: 16:31:09.550
-[ros2_natural_language_generation-1] [16:31:09.728][NLG TIMING] 対話生成完了: 16:31:09.728
-[ros2_natural_language_generation-1] [16:31:09.728][NLG TIMING] 生成時間: 178.0ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'えー、まじか' @ 16:31:09.728
-[ros2_natural_language_generation-1] [16:31:09.730][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:09.730][NLG] 音声認識結果受信時刻: 16:31:09.730
-[ros2_natural_language_generation-1] [16:31:09.730][NLG] 受信した音声認識結果リスト: ['', 'えっえっ[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでた', 'カフェでのんびり独書するかで悩んでてでも天気がよく', 'でも天気が良かったらサイクリングもいいなと思ってた']
-[ros2_natural_language_generation-1] [16:31:09.730][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:09.730][NLG] 新規セッションID作成: 16855a79
-[ros2_natural_language_generation-1] [16:31:09.731][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:09.731][NLG] 履歴受信（7個）: ['', 'えっえっ[雑音]', '今度の休日なんだけど', '...', '映画を見に行くかカフェでのんびり独書するかで悩んでた', 'カフェでのんびり独書するかで悩んでてでも天気がよく', 'でも天気が良かったらサイクリングもいいなと思ってた']
-[ros2_natural_language_generation-1] [16:31:09.731][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:09.731][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:09.833][NLG] 🎯 TTFT: 102.1ms
-[ros2_natural_language_generation-1] [16:31:09.862][NLG] ⏱️ load: 77.0ms, prompt: 20.9ms, eval: 30.1ms → total: 131.2ms
-[ros2_natural_language_generation-1] [16:31:09.862][NLG] ✅ gemma3:4b推論完了 (LLM時間: 131.5ms)
-[ros2_natural_language_generation-1] [16:31:09.862][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:09.862][NLG] 🏁 処理完了 (総時間: 131.6ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:09.730][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 16855a79 が見つかりません
-[ros2_natural_language_generation-1] [16:31:09.863][NLG TIMING] 対話生成開始: 16:31:09.731
-[ros2_natural_language_generation-1] [16:31:09.863][NLG TIMING] 対話生成完了: 16:31:09.862
-[ros2_natural_language_generation-1] [16:31:09.863][NLG TIMING] 生成時間: 131.6ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'へーすごい' @ 16:31:09.863
-[ros2_natural_language_generation-1] [16:31:09.865][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:09.865][NLG] 音声認識結果受信時刻: 16:31:09.865
-[ros2_natural_language_generation-1] [16:31:09.865][NLG] 受信した音声認識結果リスト: ['', 'えっえっ[無音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんびり独書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて']
-[ros2_natural_language_generation-1] [16:31:09.865][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:09.865][NLG] 新規セッションID作成: b0006101
-[ros2_natural_language_generation-1] [16:31:09.866][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:09.866][NLG] 履歴受信（7個）: ['', 'えっえっ[無音]', '今度の休日なんだけど', '...', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんびり独書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて']
-[ros2_natural_language_generation-1] [16:31:09.866][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:09.866][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:09.983][NLG] 🎯 TTFT: 116.8ms
-[ros2_natural_language_generation-1] [16:31:10.013][NLG] ⏱️ load: 92.2ms, prompt: 20.4ms, eval: 32.1ms → total: 147.8ms
-[ros2_natural_language_generation-1] [16:31:10.014][NLG] ✅ gemma3:4b推論完了 (LLM時間: 148.0ms)
-[ros2_natural_language_generation-1] [16:31:10.014][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:10.014][NLG] 🏁 処理完了 (総時間: 148.2ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:09.865][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:10.380][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] 音声認識結果受信時刻: 16:31:10.380
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] 受信した音声認識結果リスト: ['', '[無音]', '今度の休日なんだけど[無音]', '日なんだけど映画を見に行くかカフェで', 'を見に行くかカフェでのんびり独書するかで悩んでて', '独書で悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]']
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] 新規セッションID作成: a5313415
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] 履歴受信（7個）: ['', '[無音]', '今度の休日なんだけど[無音]', '...', 'を見に行くかカフェでのんびり独書するかで悩んでて', '独書で悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]']
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:10.380][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:10.484][NLG] 🎯 TTFT: 103.6ms
-[ros2_natural_language_generation-1] [16:31:10.551][NLG] ⏱️ load: 77.1ms, prompt: 21.8ms, eval: 68.2ms → total: 170.2ms
-[ros2_natural_language_generation-1] [16:31:10.551][NLG] ✅ gemma3:4b推論完了 (LLM時間: 170.4ms)
-[ros2_natural_language_generation-1] [16:31:10.551][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:10.551][NLG] 🏁 処理完了 (総時間: 170.5ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:10.380][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID a5313415 が見つかりません
-[ros2_natural_language_generation-1] [16:31:10.551][NLG TIMING] 対話生成開始: 16:31:10.380
-[ros2_natural_language_generation-1] [16:31:10.551][NLG TIMING] 対話生成完了: 16:31:10.551
-[ros2_natural_language_generation-1] [16:31:10.551][NLG TIMING] 生成時間: 170.5ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'えー、まじか' @ 16:31:10.551
-[ros2_natural_language_generation-1] [16:31:10.553][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:10.553][NLG] 音声認識結果受信時刻: 16:31:10.553
-[ros2_natural_language_generation-1] [16:31:10.553][NLG] 受信した音声認識結果リスト: ['', '[無音]', '今度の休日なんだけど[雑音][無音]', '映画を見に行くかカフェでの', 'かカフェでのんびり毒書するかで悩んでて[無音]', '独悩んででも天気が良かったら最', 'でも天気が良かったらサイクリングもいいなと思ってて']
-[ros2_natural_language_generation-1] [16:31:10.553][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:10.553][NLG] 新規セッションID作成: ff4794d9
-[ros2_natural_language_generation-1] [16:31:10.554][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:10.554][NLG] 履歴受信（7個）: ['', '[無音]', '今度の休日なんだけど[雑音][無音]', '...', 'かカフェでのんびり毒書するかで悩んでて[無音]', '独悩んででも天気が良かったら最', 'でも天気が良かったらサイクリングもいいなと思ってて']
-[ros2_natural_language_generation-1] [16:31:10.554][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:10.554][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:10.649][NLG] 🎯 TTFT: 94.7ms
-[ros2_natural_language_generation-1] [16:31:10.678][NLG] ⏱️ load: 72.2ms, prompt: 18.4ms, eval: 30.3ms → total: 124.3ms
-[ros2_natural_language_generation-1] [16:31:10.678][NLG] ✅ gemma3:4b推論完了 (LLM時間: 124.5ms)
-[ros2_natural_language_generation-1] [16:31:10.678][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:10.679][NLG] 🏁 処理完了 (総時間: 124.7ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:10.553][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID ff4794d9 が見つかりません
-[ros2_natural_language_generation-1] [16:31:10.679][NLG TIMING] 対話生成開始: 16:31:10.554
-[ros2_natural_language_generation-1] [16:31:10.679][NLG TIMING] 対話生成完了: 16:31:10.679
-[ros2_natural_language_generation-1] [16:31:10.679][NLG TIMING] 生成時間: 124.7ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'へーすごい' @ 16:31:10.679
-[ros2_natural_language_generation-1] [16:31:10.681][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:10.681][NLG] 音声認識結果受信時刻: 16:31:10.681
-[ros2_natural_language_generation-1] [16:31:10.681][NLG] 受信した音声認識結果リスト: ['', '', '今度の休日なんだけどええ', '映画を見に行くかカフェでのんび', 'カフェでのんびり毒書するかで悩んでて[無音]', 'でも天気が良かったら最行くり', 'でも天気が良かったらサイクリングもいいなと思っててほか']
-[ros2_natural_language_generation-1] [16:31:10.681][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:10.681][NLG] 新規セッションID作成: fb87e9e9
-[ros2_natural_language_generation-1] [16:31:10.682][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:10.682][NLG] 履歴受信（7個）: ['', '', '今度の休日なんだけどええ', '...', 'カフェでのんびり毒書するかで悩んでて[無音]', 'でも天気が良かったら最行くり', 'でも天気が良かったらサイクリングもいいなと思っててほか']
-[ros2_natural_language_generation-1] [16:31:10.682][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:10.682][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:10.768][NLG] 🎯 TTFT: 86.4ms
-[ros2_natural_language_generation-1] [16:31:10.806][NLG] ⏱️ load: 62.0ms, prompt: 19.8ms, eval: 39.9ms → total: 124.7ms
-[ros2_natural_language_generation-1] [16:31:10.807][NLG] ✅ gemma3:4b推論完了 (LLM時間: 124.8ms)
-[ros2_natural_language_generation-1] [16:31:10.807][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:10.807][NLG] 🏁 処理完了 (総時間: 124.9ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:10.681][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:10.807][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:10.807][NLG] 音声認識結果受信時刻: 16:31:10.807
-[ros2_natural_language_generation-1] [16:31:10.807][NLG] 受信した音声認識結果リスト: ['', '', '今度の休日なんだけど映画', '映画を見に行くかカフェでのんびり', 'カフェでのんびり毒書するかで悩んでて[雑音]', 'でも天気が良かったら最くに', 'でも天気がかったらサイクリングもいいななと思っててほかに']
-[ros2_natural_language_generation-1] [16:31:10.807][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:10.807][NLG] 新規セッションID作成: 8b095c88
-[ros2_natural_language_generation-1] [16:31:10.808][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:10.808][NLG] 履歴受信（7個）: ['', '', '今度の休日なんだけど映画', '...', 'カフェでのんびり毒書するかで悩んでて[雑音]', 'でも天気が良かったら最くに', 'でも天気がかったらサイクリングもいいななと思っててほかに']
-[ros2_natural_language_generation-1] [16:31:10.808][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:10.808][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:10.902][NLG] 🎯 TTFT: 94.0ms
-[ros2_natural_language_generation-1] [16:31:10.937][NLG] ⏱️ load: 71.3ms, prompt: 18.5ms, eval: 35.8ms → total: 129.1ms
-[ros2_natural_language_generation-1] [16:31:10.938][NLG] ✅ gemma3:4b推論完了 (LLM時間: 129.3ms)
-[ros2_natural_language_generation-1] [16:31:10.938][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:10.938][NLG] 🏁 処理完了 (総時間: 129.5ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:10.807][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:10.938][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:10.938][NLG] 音声認識結果受信時刻: 16:31:10.938
-[ros2_natural_language_generation-1] [16:31:10.938][NLG] 受信した音声認識結果リスト: ['', '今どの', '今度の休日なんだけど笑映画', '映画を見に行くかカフェでのんびり', 'カフェでのんびり毒書するかで悩んでて[雑音][雑音]', 'でも天気が良かったらサイクリン', '天気がかったらサイクリングもいいななと思っててほかに']
-[ros2_natural_language_generation-1] [16:31:10.938][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:10.938][NLG] 新規セッションID作成: 10b3a956
-[ros2_natural_language_generation-1] [16:31:10.940][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:10.940][NLG] 履歴受信（7個）: ['', '今どの', '今度の休日なんだけど笑映画', '...', 'カフェでのんびり毒書するかで悩んでて[雑音][雑音]', 'でも天気が良かったらサイクリン', '天気がかったらサイクリングもいいななと思っててほかに']
-[ros2_natural_language_generation-1] [16:31:10.940][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:10.940][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:11.046][NLG] 🎯 TTFT: 105.6ms
-[ros2_natural_language_generation-1] [16:31:11.079][NLG] ⏱️ load: 78.6ms, prompt: 21.8ms, eval: 34.8ms → total: 139.1ms
-[ros2_natural_language_generation-1] [16:31:11.079][NLG] ✅ gemma3:4b推論完了 (LLM時間: 139.3ms)
-[ros2_natural_language_generation-1] [16:31:11.079][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:11.079][NLG] 🏁 処理完了 (総時間: 139.5ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:10.938][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:11.080][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:11.080][NLG] 音声認識結果受信時刻: 16:31:11.080
-[ros2_natural_language_generation-1] [16:31:11.080][NLG] 受信した音声認識結果リスト: ['', '今度な', '今度の休日なんだけど映画を見', '映画を見に行くかカフェでのんびりとか', 'カフェでのんびり独書するかで悩んでてで', 'でも天気が良かったらサイクリングも', '天気が良かったらサイクリングもいいなと思っててほかに']
-[ros2_natural_language_generation-1] [16:31:11.080][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:11.080][NLG] 新規セッションID作成: 9b78971a
-[ros2_natural_language_generation-1] [16:31:11.081][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:11.081][NLG] 履歴受信（7個）: ['', '今度な', '今度の休日なんだけど映画を見', '...', 'カフェでのんびり独書するかで悩んでてで', 'でも天気が良かったらサイクリングも', '天気が良かったらサイクリングもいいなと思っててほかに']
-[ros2_natural_language_generation-1] [16:31:11.081][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:11.081][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:11.188][NLG] 🎯 TTFT: 107.1ms
-[ros2_natural_language_generation-1] [16:31:11.203][NLG] ⏱️ load: 79.7ms, prompt: 22.6ms, eval: 15.7ms → total: 121.4ms
-[ros2_natural_language_generation-1] [16:31:11.203][NLG] ✅ gemma3:4b推論完了 (LLM時間: 121.6ms)
-[ros2_natural_language_generation-1] [16:31:11.203][NLG VERBOSE] 生成応答: 'いいね'
-[ros2_natural_language_generation-1] [16:31:11.203][NLG] 🏁 処理完了 (総時間: 121.7ms): いいね
-[ros2_natural_language_generation-1] [16:31:11.080][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 9b78971a が見つかりません
-[ros2_natural_language_generation-1] [16:31:11.204][NLG TIMING] 対話生成開始: 16:31:11.081
-[ros2_natural_language_generation-1] [16:31:11.204][NLG TIMING] 対話生成完了: 16:31:11.203
-[ros2_natural_language_generation-1] [16:31:11.204][NLG TIMING] 生成時間: 121.7ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'いいね' @ 16:31:11.204
-[ros2_natural_language_generation-1] [16:31:11.279][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=7
-[ros2_natural_language_generation-1] [16:31:11.279][NLG] 音声認識結果受信時刻: 16:31:11.279
-[ros2_natural_language_generation-1] [16:31:11.279][NLG] 受信した音声認識結果リスト: ['', '度の休', '今度の休日なんだけど映画を見に', '映画を見に行くかカフェでのんびり独書', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいね', '天気が良かったらサイクリングもいいなと思ってて他にな']
-[ros2_natural_language_generation-1] [16:31:11.279][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:11.279][NLG] 新規セッションID作成: 3e9a0743
-[ros2_natural_language_generation-1] [16:31:11.280][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:11.280][NLG] 履歴受信（7個）: ['', '度の休', '今度の休日なんだけど映画を見に', '...', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいね', '天気が良かったらサイクリングもいいなと思ってて他にな']
-[ros2_natural_language_generation-1] [16:31:11.280][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:11.280][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:11.384][NLG] 🎯 TTFT: 103.8ms
-[ros2_natural_language_generation-1] [16:31:11.418][NLG] ⏱️ load: 76.9ms, prompt: 21.6ms, eval: 35.0ms → total: 137.8ms
-[ros2_natural_language_generation-1] [16:31:11.418][NLG] ✅ gemma3:4b推論完了 (LLM時間: 138.0ms)
-[ros2_natural_language_generation-1] [16:31:11.418][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:11.418][NLG] 🏁 処理完了 (総時間: 138.1ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:11.279][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 3e9a0743 が見つかりません
-[ros2_natural_language_generation-1] [16:31:11.419][NLG TIMING] 対話生成開始: 16:31:11.280
-[ros2_natural_language_generation-1] [16:31:11.419][NLG TIMING] 対話生成完了: 16:31:11.418
-[ros2_natural_language_generation-1] [16:31:11.419][NLG TIMING] 生成時間: 138.1ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'へーすごい' @ 16:31:11.419
-[ros2_natural_language_generation-1] [16:31:11.421][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:11.421][NLG] 音声認識結果受信時刻: 16:31:11.421
-[ros2_natural_language_generation-1] [16:31:11.421][NLG] 受信した音声認識結果リスト: ['', '', '今度の休日', '今度の休日なんだけど映画を見に行', '映画を見に行くかカフェでのんびり独書する', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', '天気が良かったらサイクリングもいいなと思っててほかに何']
-[ros2_natural_language_generation-1] [16:31:11.421][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:11.421][NLG] 新規セッションID作成: 728ea9b4
-[ros2_natural_language_generation-1] [16:31:11.422][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:11.422][NLG] 履歴受信（8個）: ['', '', '今度の休日', '...', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', '天気が良かったらサイクリングもいいなと思っててほかに何']
-[ros2_natural_language_generation-1] [16:31:11.422][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:11.422][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:11.530][NLG] 🎯 TTFT: 107.4ms
-[ros2_natural_language_generation-1] [16:31:11.572][NLG] ⏱️ load: 80.3ms, prompt: 22.2ms, eval: 43.4ms → total: 149.9ms
-[ros2_natural_language_generation-1] [16:31:11.572][NLG] ✅ gemma3:4b推論完了 (LLM時間: 150.2ms)
-[ros2_natural_language_generation-1] [16:31:11.572][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:11.572][NLG] 🏁 処理完了 (総時間: 150.4ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:11.421][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:11.573][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:11.573][NLG] 音声認識結果受信時刻: 16:31:11.573
-[ros2_natural_language_generation-1] [16:31:11.573][NLG] 受信した音声認識結果リスト: ['', '', '度の休日な', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するか', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', 'がかったらサイクリングもいいなと思っててほかに何か']
-[ros2_natural_language_generation-1] [16:31:11.573][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:11.573][NLG] 新規セッションID作成: ccc66df6
-[ros2_natural_language_generation-1] [16:31:11.575][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:11.575][NLG] 履歴受信（8個）: ['', '', '度の休日な', '...', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', 'がかったらサイクリングもいいなと思っててほかに何か']
-[ros2_natural_language_generation-1] [16:31:11.575][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:11.575][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:11.685][NLG] 🎯 TTFT: 109.7ms
-[ros2_natural_language_generation-1] [16:31:11.718][NLG] ⏱️ load: 83.0ms, prompt: 21.3ms, eval: 34.5ms → total: 142.9ms
-[ros2_natural_language_generation-1] [16:31:11.718][NLG] ✅ gemma3:4b推論完了 (LLM時間: 143.1ms)
-[ros2_natural_language_generation-1] [16:31:11.718][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:11.718][NLG] 🏁 処理完了 (総時間: 143.3ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:11.573][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:11.719][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:11.719][NLG] 音声認識結果受信時刻: 16:31:11.719
-[ros2_natural_language_generation-1] [16:31:11.719][NLG] 受信した音声認識結果リスト: ['', '', '今度の休日な', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで', 'カフェでのんびり独書するかで悩んでてでも手', 'でも天気が良かったらサイクリングもいいな', 'らサイクリングもいいなと思っててほかに何かい']
-[ros2_natural_language_generation-1] [16:31:11.719][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:11.719][NLG] 新規セッションID作成: 9ff1a3db
-[ros2_natural_language_generation-1] [16:31:11.720][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:11.720][NLG] 履歴受信（8個）: ['', '', '今度の休日な', '...', 'カフェでのんびり独書するかで悩んでてでも手', 'でも天気が良かったらサイクリングもいいな', 'らサイクリングもいいなと思っててほかに何かい']
-[ros2_natural_language_generation-1] [16:31:11.720][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:11.720][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:11.820][NLG] 🎯 TTFT: 100.0ms
-[ros2_natural_language_generation-1] [16:31:11.854][NLG] ⏱️ load: 73.2ms, prompt: 21.9ms, eval: 35.3ms → total: 134.1ms
-[ros2_natural_language_generation-1] [16:31:11.854][NLG] ✅ gemma3:4b推論完了 (LLM時間: 134.3ms)
-[ros2_natural_language_generation-1] [16:31:11.854][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:11.854][NLG] 🏁 処理完了 (総時間: 134.5ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:11.719][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:11.855][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:11.855][NLG] 音声認識結果受信時刻: 16:31:11.855
-[ros2_natural_language_generation-1] [16:31:11.855][NLG] 受信した音声認識結果リスト: ['', 'えっ', '今度の休日なんだ', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかでな', 'カフェでのんびり独書するかで悩んでてでも天', 'でも天気が良かったらサイクリングもいいなとと思う', 'らサイクリングもいいななと思っててほかに何かい']
-[ros2_natural_language_generation-1] [16:31:11.855][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:11.855][NLG] 新規セッションID作成: 36a48a66
-[ros2_natural_language_generation-1] [16:31:11.856][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:11.856][NLG] 履歴受信（8個）: ['', 'えっ', '今度の休日なんだ', '...', 'カフェでのんびり独書するかで悩んでてでも天', 'でも天気が良かったらサイクリングもいいなとと思う', 'らサイクリングもいいななと思っててほかに何かい']
-[ros2_natural_language_generation-1] [16:31:11.856][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:11.857][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:11.970][NLG] 🎯 TTFT: 113.2ms
-[ros2_natural_language_generation-1] [16:31:12.017][NLG] ⏱️ load: 84.8ms, prompt: 23.8ms, eval: 48.2ms → total: 160.4ms
-[ros2_natural_language_generation-1] [16:31:12.017][NLG] ✅ gemma3:4b推論完了 (LLM時間: 160.6ms)
-[ros2_natural_language_generation-1] [16:31:12.017][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:12.017][NLG] 🏁 処理完了 (総時間: 160.8ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:11.855][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:12.018][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:12.018][NLG] 音声認識結果受信時刻: 16:31:12.018
-[ros2_natural_language_generation-1] [16:31:12.018][NLG] 受信した音声認識結果リスト: ['', 'えっ', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで悩んだ', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って', 'サイクリングもいいななと思っててほかに何かいあん']
-[ros2_natural_language_generation-1] [16:31:12.018][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:12.018][NLG] 新規セッションID作成: 17f31b67
-[ros2_natural_language_generation-1] [16:31:12.019][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:12.019][NLG] 履歴受信（8個）: ['', 'えっ', '今度の休日なんだけど', '...', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って', 'サイクリングもいいななと思っててほかに何かいあん']
-[ros2_natural_language_generation-1] [16:31:12.019][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:12.019][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:12.126][NLG] 🎯 TTFT: 106.8ms
-[ros2_natural_language_generation-1] [16:31:12.170][NLG] ⏱️ load: 79.5ms, prompt: 22.7ms, eval: 45.1ms → total: 151.0ms
-[ros2_natural_language_generation-1] [16:31:12.170][NLG] ✅ gemma3:4b推論完了 (LLM時間: 151.2ms)
-[ros2_natural_language_generation-1] [16:31:12.170][NLG VERBOSE] 生成応答: 'へー、すごい'
-[ros2_natural_language_generation-1] [16:31:12.170][NLG] 🏁 処理完了 (総時間: 151.4ms): へー、すごい
-[ros2_natural_language_generation-1] [16:31:12.018][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 17f31b67 が見つかりません
-[ros2_natural_language_generation-1] [16:31:12.171][NLG TIMING] 対話生成開始: 16:31:12.019
-[ros2_natural_language_generation-1] [16:31:12.171][NLG TIMING] 対話生成完了: 16:31:12.170
-[ros2_natural_language_generation-1] [16:31:12.171][NLG TIMING] 生成時間: 151.4ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'へー、すごい' @ 16:31:12.171
-[ros2_natural_language_generation-1] [16:31:12.173][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:12.173][NLG] 音声認識結果受信時刻: 16:31:12.173
-[ros2_natural_language_generation-1] [16:31:12.173][NLG] 受信した音声認識結果リスト: ['', 'えっえっ', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んで', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って', 'サイクリングもいいなと思っててほかに何かいあんんだ']
-[ros2_natural_language_generation-1] [16:31:12.173][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:12.173][NLG] 新規セッションID作成: b7ef669d
-[ros2_natural_language_generation-1] [16:31:12.173][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:12.173][NLG] 履歴受信（8個）: ['', 'えっえっ', '今度の休日なんだけど', '...', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って', 'サイクリングもいいなと思っててほかに何かいあんんだ']
-[ros2_natural_language_generation-1] [16:31:12.173][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:12.174][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:12.281][NLG] 🎯 TTFT: 107.8ms
-[ros2_natural_language_generation-1] [16:31:12.312][NLG] ⏱️ load: 80.5ms, prompt: 22.9ms, eval: 31.6ms → total: 138.2ms
-[ros2_natural_language_generation-1] [16:31:12.312][NLG] ✅ gemma3:4b推論完了 (LLM時間: 138.4ms)
-[ros2_natural_language_generation-1] [16:31:12.312][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:12.312][NLG] 🏁 処理完了 (総時間: 138.6ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:12.173][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID b7ef669d が見つかりません
-[ros2_natural_language_generation-1] [16:31:12.313][NLG TIMING] 対話生成開始: 16:31:12.173
-[ros2_natural_language_generation-1] [16:31:12.313][NLG TIMING] 対話生成完了: 16:31:12.312
-[ros2_natural_language_generation-1] [16:31:12.313][NLG TIMING] 生成時間: 138.6ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'へーすごい' @ 16:31:12.313
-[ros2_natural_language_generation-1] [16:31:12.315][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:12.315][NLG] 音声認識結果受信時刻: 16:31:12.315
-[ros2_natural_language_generation-1] [16:31:12.315][NLG] 受信した音声認識結果リスト: ['', 'えっえっ[無音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんびり独書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて', 'サイクリングもいいなと思ってて他に何か言いあんない']
-[ros2_natural_language_generation-1] [16:31:12.315][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:12.315][NLG] 新規セッションID作成: 9f5f2334
-[ros2_natural_language_generation-1] [16:31:12.316][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:12.316][NLG] 履歴受信（8個）: ['', 'えっえっ[無音]', '今度の休日なんだけど', '...', 'のんびり独書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて', 'サイクリングもいいなと思ってて他に何か言いあんない']
-[ros2_natural_language_generation-1] [16:31:12.316][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:12.316][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:12.419][NLG] 🎯 TTFT: 102.8ms
-[ros2_natural_language_generation-1] [16:31:12.496][NLG] ⏱️ load: 73.6ms, prompt: 24.4ms, eval: 78.1ms → total: 179.8ms
-[ros2_natural_language_generation-1] [16:31:12.497][NLG] ✅ gemma3:4b推論完了 (LLM時間: 180.1ms)
-[ros2_natural_language_generation-1] [16:31:12.497][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:12.497][NLG] 🏁 処理完了 (総時間: 180.2ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:12.315][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 9f5f2334 が見つかりません
-[ros2_natural_language_generation-1] [16:31:12.497][NLG TIMING] 対話生成開始: 16:31:12.316
-[ros2_natural_language_generation-1] [16:31:12.497][NLG TIMING] 対話生成完了: 16:31:12.497
-[ros2_natural_language_generation-1] [16:31:12.497][NLG TIMING] 生成時間: 180.2ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'えー、まじか' @ 16:31:12.497
-[ros2_natural_language_generation-1] [16:31:12.499][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:12.499][NLG] 音声認識結果受信時刻: 16:31:12.499
-[ros2_natural_language_generation-1] [16:31:12.499][NLG] 受信した音声認識結果リスト: ['', 'えっえっ', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんびり毒書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて', 'サイクリングもいいなと思っててほかに何か言いあんないかな']
-[ros2_natural_language_generation-1] [16:31:12.499][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:12.499][NLG] 新規セッションID作成: e57f5d00
-[ros2_natural_language_generation-1] [16:31:12.500][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:12.500][NLG] 履歴受信（8個）: ['', 'えっえっ', '今度の休日なんだけど', '...', 'のんびり毒書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて', 'サイクリングもいいなと思っててほかに何か言いあんないかな']
-[ros2_natural_language_generation-1] [16:31:12.500][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:12.500][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:12.605][NLG] 🎯 TTFT: 105.1ms
-[ros2_natural_language_generation-1] [16:31:12.640][NLG] ⏱️ load: 74.0ms, prompt: 25.8ms, eval: 36.8ms → total: 140.5ms
-[ros2_natural_language_generation-1] [16:31:12.641][NLG] ✅ gemma3:4b推論完了 (LLM時間: 140.7ms)
-[ros2_natural_language_generation-1] [16:31:12.641][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:12.641][NLG] 🏁 処理完了 (総時間: 140.8ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:12.499][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID e57f5d00 が見つかりません
-[ros2_natural_language_generation-1] [16:31:12.641][NLG TIMING] 対話生成開始: 16:31:12.500
-[ros2_natural_language_generation-1] [16:31:12.641][NLG TIMING] 対話生成完了: 16:31:12.641
-[ros2_natural_language_generation-1] [16:31:12.641][NLG TIMING] 生成時間: 140.8ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'へーすごい' @ 16:31:12.641
-[ros2_natural_language_generation-1] [16:31:12.643][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:12.643][NLG] 音声認識結果受信時刻: 16:31:12.643
-[ros2_natural_language_generation-1] [16:31:12.643][NLG] 受信した音声認識結果リスト: ['', '[無音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか課', '映画を見に行くかカフェでのんびり独書するかで悩んでて', '独書するかで悩んでてでも天気が良かったら', 'でも天気が良かったらサイクリングもいいなと思ってて', 'クリングもいいなと思っててほかに何か言いあんないかな']
-[ros2_natural_language_generation-1] [16:31:12.643][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:12.643][NLG] 新規セッションID作成: 2d016a6b
-[ros2_natural_language_generation-1] [16:31:12.644][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:12.644][NLG] 履歴受信（8個）: ['', '[無音]', '今度の休日なんだけど', '...', '独書するかで悩んでてでも天気が良かったら', 'でも天気が良かったらサイクリングもいいなと思ってて', 'クリングもいいなと思っててほかに何か言いあんないかな']
-[ros2_natural_language_generation-1] [16:31:12.644][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:12.644][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:12.746][NLG] 🎯 TTFT: 102.2ms
-[ros2_natural_language_generation-1] [16:31:12.779][NLG] ⏱️ load: 74.4ms, prompt: 22.7ms, eval: 33.9ms → total: 134.9ms
-[ros2_natural_language_generation-1] [16:31:12.779][NLG] ✅ gemma3:4b推論完了 (LLM時間: 135.2ms)
-[ros2_natural_language_generation-1] [16:31:12.779][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:12.779][NLG] 🏁 処理完了 (総時間: 135.3ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:12.643][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:12.789][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:12.789][NLG] 音声認識結果受信時刻: 16:31:12.789
-[ros2_natural_language_generation-1] [16:31:12.789][NLG] 受信した音声認識結果リスト: ['', '[雑音]', '今度の休日なんだけど[無音]', '今度の休日なんだけど映画を見に行くかカフェで', '映画を見に行くかカフェでのんびり独書するかで悩んでて', '独書するかで悩んでてでも天気が良かったら', 'でも天気が良かったらサイクリングもいいなと思ってて', 'なと思っててほかに何か言いあんないかな']
-[ros2_natural_language_generation-1] [16:31:12.789][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:12.789][NLG] 新規セッションID作成: 1362bf3f
-[ros2_natural_language_generation-1] [16:31:12.790][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:12.790][NLG] 履歴受信（8個）: ['', '[雑音]', '今度の休日なんだけど[無音]', '...', '独書するかで悩んでてでも天気が良かったら', 'でも天気が良かったらサイクリングもいいなと思ってて', 'なと思っててほかに何か言いあんないかな']
-[ros2_natural_language_generation-1] [16:31:12.790][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:12.790][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:12.889][NLG] 🎯 TTFT: 99.1ms
-[ros2_natural_language_generation-1] [16:31:12.933][NLG] ⏱️ load: 69.5ms, prompt: 24.8ms, eval: 46.0ms → total: 143.6ms
-[ros2_natural_language_generation-1] [16:31:12.934][NLG] ✅ gemma3:4b推論完了 (LLM時間: 143.8ms)
-[ros2_natural_language_generation-1] [16:31:12.934][NLG VERBOSE] 生成応答: 'へーすごい'
-[ros2_natural_language_generation-1] [16:31:12.934][NLG] 🏁 処理完了 (総時間: 143.9ms): へーすごい
-[ros2_natural_language_generation-1] [16:31:12.789][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:12.934][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=8
-[ros2_natural_language_generation-1] [16:31:12.935][NLG] 音声認識結果受信時刻: 16:31:12.935
-[ros2_natural_language_generation-1] [16:31:12.935][NLG] 受信した音声認識結果リスト: ['', '[無音]', '今度の休日なんだけど[無音]', '日なんだけど映画を見に行くかカフェで', 'を見に行くかカフェでのんびり独書するかで悩んでて', '独書で悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'なと思っててほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:12.935][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:12.935][NLG] 新規セッションID作成: 803df9c5
-[ros2_natural_language_generation-1] [16:31:12.935][NLG] stage='first' で更新 (turn_taking_timestamp: 0ns)
-[ros2_natural_language_generation-1] [16:31:12.935][NLG] 履歴受信（8個）: ['', '[無音]', '今度の休日なんだけど[無音]', '...', '独書で悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'なと思っててほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:12.935][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:12.936][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:13.036][NLG] 🎯 TTFT: 100.7ms
-[ros2_natural_language_generation-1] [16:31:13.060][NLG] ⏱️ load: 71.2ms, prompt: 24.3ms, eval: 25.6ms → total: 124.8ms
-[ros2_natural_language_generation-1] [16:31:13.061][NLG] ✅ gemma3:4b推論完了 (LLM時間: 125.0ms)
-[ros2_natural_language_generation-1] [16:31:13.061][NLG VERBOSE] 生成応答: 'なるほど'
-[ros2_natural_language_generation-1] [16:31:13.061][NLG] 🏁 処理完了 (総時間: 125.1ms): なるほど
-[ros2_natural_language_generation-1] [16:31:12.935][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 803df9c5 が見つかりません
-[ros2_natural_language_generation-1] [16:31:13.061][NLG TIMING] 対話生成開始: 16:31:12.935
-[ros2_natural_language_generation-1] [16:31:13.061][NLG TIMING] 対話生成完了: 16:31:13.061
-[ros2_natural_language_generation-1] [16:31:13.061][NLG TIMING] 生成時間: 125.1ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'なるほど' @ 16:31:13.061
-[ros2_natural_language_generation-1] [16:31:13.096][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:13.097][NLG] 音声認識結果受信時刻: 16:31:13.097
-[ros2_natural_language_generation-1] [16:31:13.097][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'いいなと思っててほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.097][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:13.097][NLG] 新規セッションID作成: efcc1abe
-[ros2_natural_language_generation-1] [16:31:13.097][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:13.097][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'いいなと思っててほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.097][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:13.098][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:13.194][NLG] 🎯 TTFT: 96.4ms
-[ros2_natural_language_generation-1] [16:31:13.206][NLG] ⏱️ load: 76.8ms, prompt: 15.5ms, eval: 12.8ms → total: 108.3ms
-[ros2_natural_language_generation-1] [16:31:13.206][NLG] ✅ gemma3:4b推論完了 (LLM時間: 108.5ms)
-[ros2_natural_language_generation-1] [16:31:13.206][NLG VERBOSE] 生成応答: 'いいね'
-[ros2_natural_language_generation-1] [16:31:13.206][NLG] 🏁 処理完了 (総時間: 108.6ms): いいね
-[ros2_natural_language_generation-1] [16:31:13.097][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID efcc1abe が見つかりません
-[ros2_natural_language_generation-1] [16:31:13.207][NLG TIMING] 対話生成開始: 16:31:13.098
-[ros2_natural_language_generation-1] [16:31:13.207][NLG TIMING] 対話生成完了: 16:31:13.206
-[ros2_natural_language_generation-1] [16:31:13.207][NLG TIMING] 生成時間: 108.6ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'いいね' @ 16:31:13.207
-[ros2_natural_language_generation-1] [16:31:13.209][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:13.209][NLG] 音声認識結果受信時刻: 16:31:13.209
-[ros2_natural_language_generation-1] [16:31:13.209][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.209][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:13.209][NLG] 新規セッションID作成: 20a4c551
-[ros2_natural_language_generation-1] [16:31:13.209][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:13.209][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.209][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:13.210][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:13.303][NLG] 🎯 TTFT: 93.5ms
-[ros2_natural_language_generation-1] [16:31:13.328][NLG] ⏱️ load: 75.4ms, prompt: 13.7ms, eval: 25.7ms → total: 118.1ms
-[ros2_natural_language_generation-1] [16:31:13.328][NLG] ✅ gemma3:4b推論完了 (LLM時間: 118.3ms)
-[ros2_natural_language_generation-1] [16:31:13.328][NLG VERBOSE] 生成応答: 'なるほど'
-[ros2_natural_language_generation-1] [16:31:13.328][NLG] 🏁 処理完了 (総時間: 118.4ms): なるほど
-[ros2_natural_language_generation-1] [16:31:13.209][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 20a4c551 が見つかりません
-[ros2_natural_language_generation-1] [16:31:13.328][NLG TIMING] 対話生成開始: 16:31:13.209
-[ros2_natural_language_generation-1] [16:31:13.328][NLG TIMING] 対話生成完了: 16:31:13.328
-[ros2_natural_language_generation-1] [16:31:13.328][NLG TIMING] 生成時間: 118.4ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'なるほど' @ 16:31:13.328
-[ros2_natural_language_generation-1] [16:31:13.489][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] 音声認識結果受信時刻: 16:31:13.489
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] 新規セッションID作成: 4372dd2b
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:13.489][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:13.582][NLG] 🎯 TTFT: 92.8ms
-[ros2_natural_language_generation-1] [16:31:13.616][NLG] ⏱️ load: 75.7ms, prompt: 13.5ms, eval: 34.5ms → total: 126.8ms
-[ros2_natural_language_generation-1] [16:31:13.616][NLG] ✅ gemma3:4b推論完了 (LLM時間: 127.0ms)
-[ros2_natural_language_generation-1] [16:31:13.616][NLG VERBOSE] 生成応答: 'なるほど'
-[ros2_natural_language_generation-1] [16:31:13.616][NLG] 🏁 処理完了 (総時間: 127.1ms): なるほど
-[ros2_natural_language_generation-1] [16:31:13.489][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:13.617][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:13.617][NLG] 音声認識結果受信時刻: 16:31:13.617
-[ros2_natural_language_generation-1] [16:31:13.617][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.617][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:13.617][NLG] 新規セッションID作成: 9355a544
-[ros2_natural_language_generation-1] [16:31:13.618][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:13.618][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.618][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:13.618][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:13.703][NLG] 🎯 TTFT: 84.4ms
-[ros2_natural_language_generation-1] [16:31:13.735][NLG] ⏱️ load: 58.6ms, prompt: 16.0ms, eval: 38.0ms → total: 116.9ms
-[ros2_natural_language_generation-1] [16:31:13.735][NLG] ✅ gemma3:4b推論完了 (LLM時間: 117.1ms)
-[ros2_natural_language_generation-1] [16:31:13.735][NLG VERBOSE] 生成応答: 'なるほど'
-[ros2_natural_language_generation-1] [16:31:13.735][NLG] 🏁 処理完了 (総時間: 117.3ms): なるほど
-[ros2_natural_language_generation-1] [16:31:13.617][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:13.736][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:13.736][NLG] 音声認識結果受信時刻: 16:31:13.736
-[ros2_natural_language_generation-1] [16:31:13.736][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'と思っててほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.736][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:13.736][NLG] 新規セッションID作成: 5e3d3d56
-[ros2_natural_language_generation-1] [16:31:13.737][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:13.737][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'と思っててほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.737][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:13.737][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:13.841][NLG] 🎯 TTFT: 103.6ms
-[ros2_natural_language_generation-1] [16:31:13.910][NLG] ⏱️ load: 73.7ms, prompt: 16.2ms, eval: 75.8ms → total: 173.1ms
-[ros2_natural_language_generation-1] [16:31:13.911][NLG] ✅ gemma3:4b推論完了 (LLM時間: 173.3ms)
-[ros2_natural_language_generation-1] [16:31:13.911][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:13.911][NLG] 🏁 処理完了 (総時間: 173.5ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:13.736][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID 5e3d3d56 が見つかりません
-[ros2_natural_language_generation-1] [16:31:13.912][NLG TIMING] 対話生成開始: 16:31:13.737
-[ros2_natural_language_generation-1] [16:31:13.912][NLG TIMING] 対話生成完了: 16:31:13.911
-[ros2_natural_language_generation-1] [16:31:13.912][NLG TIMING] 生成時間: 173.5ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'えー、まじか' @ 16:31:13.912
-[ros2_natural_language_generation-1] [16:31:13.914][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:13.914][NLG] 音声認識結果受信時刻: 16:31:13.914
-[ros2_natural_language_generation-1] [16:31:13.914][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.914][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:13.914][NLG] 新規セッションID作成: 4a15209f
-[ros2_natural_language_generation-1] [16:31:13.915][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:13.915][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:13.915][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:13.915][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:14.008][NLG] 🎯 TTFT: 93.1ms
-[ros2_natural_language_generation-1] [16:31:14.081][NLG] ⏱️ load: 71.7ms, prompt: 15.6ms, eval: 75.3ms → total: 166.3ms
-[ros2_natural_language_generation-1] [16:31:14.081][NLG] ✅ gemma3:4b推論完了 (LLM時間: 166.5ms)
-[ros2_natural_language_generation-1] [16:31:14.081][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:14.081][NLG] 🏁 処理完了 (総時間: 166.7ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:13.914][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:14.083][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:14.083][NLG] 音声認識結果受信時刻: 16:31:14.083
-[ros2_natural_language_generation-1] [16:31:14.083][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:14.083][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:14.083][NLG] 新規セッションID作成: b22e2cd7
-[ros2_natural_language_generation-1] [16:31:14.084][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:14.084][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:14.084][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:14.084][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:14.180][NLG] 🎯 TTFT: 96.3ms
-[ros2_natural_language_generation-1] [16:31:14.240][NLG] ⏱️ load: 76.7ms, prompt: 14.5ms, eval: 61.6ms → total: 156.4ms
-[ros2_natural_language_generation-1] [16:31:14.240][NLG] ✅ gemma3:4b推論完了 (LLM時間: 156.6ms)
-[ros2_natural_language_generation-1] [16:31:14.240][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:14.240][NLG] 🏁 処理完了 (総時間: 156.8ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:14.083][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:14.241][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:14.241][NLG] 音声認識結果受信時刻: 16:31:14.241
-[ros2_natural_language_generation-1] [16:31:14.241][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:14.241][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:14.241][NLG] 新規セッションID作成: 6c0e60a6
-[ros2_natural_language_generation-1] [16:31:14.242][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:14.242][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:14.242][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:14.243][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:14.339][NLG] 🎯 TTFT: 96.7ms
-[ros2_natural_language_generation-1] [16:31:14.405][NLG] ⏱️ load: 75.1ms, prompt: 15.7ms, eval: 68.2ms → total: 162.8ms
-[ros2_natural_language_generation-1] [16:31:14.406][NLG] ✅ gemma3:4b推論完了 (LLM時間: 163.0ms)
-[ros2_natural_language_generation-1] [16:31:14.406][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:14.406][NLG] 🏁 処理完了 (総時間: 163.3ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:14.241][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:14.499][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:14.499][NLG] 音声認識結果受信時刻: 16:31:14.499
-[ros2_natural_language_generation-1] [16:31:14.499][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:14.499][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:14.499][NLG] 新規セッションID作成: 5d519bb1
-[ros2_natural_language_generation-1] [16:31:14.500][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:14.500][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:14.500][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:14.500][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:14.608][NLG] 🎯 TTFT: 108.1ms
-[ros2_natural_language_generation-1] [16:31:14.673][NLG] ⏱️ load: 87.3ms, prompt: 14.8ms, eval: 66.3ms → total: 172.6ms
-[ros2_natural_language_generation-1] [16:31:14.673][NLG] ✅ gemma3:4b推論完了 (LLM時間: 172.8ms)
-[ros2_natural_language_generation-1] [16:31:14.673][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:14.673][NLG] 🏁 処理完了 (総時間: 172.9ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:14.499][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:14.708][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:14.708][NLG] 音声認識結果受信時刻: 16:31:14.708
-[ros2_natural_language_generation-1] [16:31:14.708][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音]']
-[ros2_natural_language_generation-1] [16:31:14.708][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:14.708][NLG] 新規セッションID作成: 9f527f34
-[ros2_natural_language_generation-1] [16:31:14.709][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:14.709][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音]']
-[ros2_natural_language_generation-1] [16:31:14.709][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:14.709][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:14.826][NLG] 🎯 TTFT: 116.8ms
-[ros2_natural_language_generation-1] [16:31:14.890][NLG] ⏱️ load: 82.5ms, prompt: 16.6ms, eval: 78.8ms → total: 181.6ms
-[ros2_natural_language_generation-1] [16:31:14.891][NLG] ✅ gemma3:4b推論完了 (LLM時間: 181.8ms)
-[ros2_natural_language_generation-1] [16:31:14.891][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:14.891][NLG] 🏁 処理完了 (総時間: 182.0ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:14.708][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:14.892][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:14.892][NLG] 音声認識結果受信時刻: 16:31:14.892
-[ros2_natural_language_generation-1] [16:31:14.892][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音][雑音]']
-[ros2_natural_language_generation-1] [16:31:14.892][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:14.892][NLG] 新規セッションID作成: 67828b10
-[ros2_natural_language_generation-1] [16:31:14.893][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:14.893][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音][雑音]']
-[ros2_natural_language_generation-1] [16:31:14.893][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:14.893][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:14.988][NLG] 🎯 TTFT: 95.5ms
-[ros2_natural_language_generation-1] [16:31:15.051][NLG] ⏱️ load: 76.0ms, prompt: 14.3ms, eval: 64.0ms → total: 157.9ms
-[ros2_natural_language_generation-1] [16:31:15.051][NLG] ✅ gemma3:4b推論完了 (LLM時間: 158.2ms)
-[ros2_natural_language_generation-1] [16:31:15.051][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:15.051][NLG] 🏁 処理完了 (総時間: 158.4ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:14.892][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:15.052][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:15.052][NLG] 音声認識結果受信時刻: 16:31:15.052
-[ros2_natural_language_generation-1] [16:31:15.052][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音]']
-[ros2_natural_language_generation-1] [16:31:15.052][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:15.052][NLG] 新規セッションID作成: fd784b37
-[ros2_natural_language_generation-1] [16:31:15.053][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:15.053][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[雑音]']
-[ros2_natural_language_generation-1] [16:31:15.053][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:15.053][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:15.160][NLG] 🎯 TTFT: 106.3ms
-[ros2_natural_language_generation-1] [16:31:15.225][NLG] ⏱️ load: 87.2ms, prompt: 14.0ms, eval: 66.4ms → total: 171.7ms
-[ros2_natural_language_generation-1] [16:31:15.225][NLG] ✅ gemma3:4b推論完了 (LLM時間: 171.9ms)
-[ros2_natural_language_generation-1] [16:31:15.225][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:15.225][NLG] 🏁 処理完了 (総時間: 172.1ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:15.052][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:15.226][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:15.226][NLG] 音声認識結果受信時刻: 16:31:15.226
-[ros2_natural_language_generation-1] [16:31:15.226][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', '他に何かに言いあんないかな[雑音][雑音]']
-[ros2_natural_language_generation-1] [16:31:15.226][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:15.226][NLG] 新規セッションID作成: c9d66a60
-[ros2_natural_language_generation-1] [16:31:15.227][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:15.227][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', '他に何かに言いあんないかな[雑音][雑音]']
-[ros2_natural_language_generation-1] [16:31:15.227][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:15.227][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:15.321][NLG] 🎯 TTFT: 93.8ms
-[ros2_natural_language_generation-1] [16:31:15.383][NLG] ⏱️ load: 74.5ms, prompt: 14.3ms, eval: 63.1ms → total: 155.6ms
-[ros2_natural_language_generation-1] [16:31:15.383][NLG] ✅ gemma3:4b推論完了 (LLM時間: 155.8ms)
-[ros2_natural_language_generation-1] [16:31:15.383][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:15.383][NLG] 🏁 処理完了 (総時間: 156.0ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:15.226][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:15.384][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:15.384][NLG] 音声認識結果受信時刻: 16:31:15.384
-[ros2_natural_language_generation-1] [16:31:15.384][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', '他に何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.384][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:15.384][NLG] 新規セッションID作成: ec66d8a1
-[ros2_natural_language_generation-1] [16:31:15.385][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:15.385][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', '他に何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.385][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:15.385][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:15.478][NLG] 🎯 TTFT: 92.3ms
-[ros2_natural_language_generation-1] [16:31:15.504][NLG] ⏱️ load: 72.9ms, prompt: 14.1ms, eval: 27.9ms → total: 119.1ms
-[ros2_natural_language_generation-1] [16:31:15.504][NLG] ✅ gemma3:4b推論完了 (LLM時間: 119.2ms)
-[ros2_natural_language_generation-1] [16:31:15.504][NLG VERBOSE] 生成応答: 'なるほど'
-[ros2_natural_language_generation-1] [16:31:15.505][NLG] 🏁 処理完了 (総時間: 119.4ms): なるほど
-[ros2_natural_language_generation-1] [16:31:15.384][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID ec66d8a1 が見つかりません
-[ros2_natural_language_generation-1] [16:31:15.505][NLG TIMING] 対話生成開始: 16:31:15.385
-[ros2_natural_language_generation-1] [16:31:15.505][NLG TIMING] 対話生成完了: 16:31:15.505
-[ros2_natural_language_generation-1] [16:31:15.505][NLG TIMING] 生成時間: 119.4ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'なるほど' @ 16:31:15.505
-[ros2_natural_language_generation-1] [16:31:15.507][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=2
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:15.507][NLG] 音声認識結果受信時刻: 16:31:15.507
-[ros2_natural_language_generation-1] [16:31:15.507][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', '何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.507][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:15.507][NLG] 新規セッションID作成: f84bb582
-[ros2_natural_language_generation-1] [16:31:15.507][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:15.507][NLG] 履歴受信（2個）: ['なと思っててほかに何か言いあんないかな[無音]', '何か言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.507][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:15.508][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:15.602][NLG] 🎯 TTFT: 94.1ms
-[ros2_natural_language_generation-1] [16:31:15.667][NLG] ⏱️ load: 74.5ms, prompt: 14.6ms, eval: 66.3ms → total: 159.2ms
-[ros2_natural_language_generation-1] [16:31:15.667][NLG] ✅ gemma3:4b推論完了 (LLM時間: 159.5ms)
-[ros2_natural_language_generation-1] [16:31:15.667][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:15.667][NLG] 🏁 処理完了 (総時間: 159.6ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:15.507][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [TimeTracker] 警告: セッションID f84bb582 が見つかりません
-[ros2_natural_language_generation-1] [16:31:15.668][NLG TIMING] 対話生成開始: 16:31:15.507
-[ros2_natural_language_generation-1] [16:31:15.668][NLG TIMING] 対話生成完了: 16:31:15.667
-[ros2_natural_language_generation-1] [16:31:15.668][NLG TIMING] 生成時間: 159.6ms
-[ros2_natural_language_generation-1] [NLG-second_send] Second stage本応答送信: 'えー、まじか' @ 16:31:15.668
-[ros2_natural_language_generation-1] [16:31:15.670][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:15.670][NLG] 音声認識結果受信時刻: 16:31:15.670
-[ros2_natural_language_generation-1] [16:31:15.670][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'いいなと思っててほかに何か言いあんないかな[無音][無音]', '何かにか言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.670][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:15.670][NLG] 新規セッションID作成: 408e455b
-[ros2_natural_language_generation-1] [16:31:15.671][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:15.671][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', 'いいなと思っててほかに何か言いあんないかな[無音][無音]', '何かにか言いあんないかな[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.671][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:15.671][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:15.770][NLG] 🎯 TTFT: 98.7ms
-[ros2_natural_language_generation-1] [16:31:15.836][NLG] ⏱️ load: 75.7ms, prompt: 17.2ms, eval: 68.2ms → total: 164.8ms
-[ros2_natural_language_generation-1] [16:31:15.836][NLG] ✅ gemma3:4b推論完了 (LLM時間: 165.1ms)
-[ros2_natural_language_generation-1] [16:31:15.836][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:15.836][NLG] 🏁 処理完了 (総時間: 165.2ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:15.670][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:15.837][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:15.837][NLG] 音声認識結果受信時刻: 16:31:15.837
-[ros2_natural_language_generation-1] [16:31:15.837][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:15.837][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:15.837][NLG] 新規セッションID作成: 38d03037
-[ros2_natural_language_generation-1] [16:31:15.838][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:15.838][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音]']
-[ros2_natural_language_generation-1] [16:31:15.838][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:15.838][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:15.934][NLG] 🎯 TTFT: 95.9ms
-[ros2_natural_language_generation-1] [16:31:15.994][NLG] ⏱️ load: 74.5ms, prompt: 16.4ms, eval: 61.0ms → total: 155.7ms
-[ros2_natural_language_generation-1] [16:31:15.994][NLG] ✅ gemma3:4b推論完了 (LLM時間: 156.0ms)
-[ros2_natural_language_generation-1] [16:31:15.994][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:15.994][NLG] 🏁 処理完了 (総時間: 156.1ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:15.837][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:15.995][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:15.995][NLG] 音声認識結果受信時刻: 16:31:15.995
-[ros2_natural_language_generation-1] [16:31:15.995][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.995][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:15.995][NLG] 新規セッションID作成: cf56ee23
-[ros2_natural_language_generation-1] [16:31:15.997][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:15.997][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:15.997][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:15.997][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:16.092][NLG] 🎯 TTFT: 95.3ms
-[ros2_natural_language_generation-1] [16:31:16.167][NLG] ⏱️ load: 73.9ms, prompt: 14.4ms, eval: 78.2ms → total: 170.4ms
-[ros2_natural_language_generation-1] [16:31:16.168][NLG] ✅ gemma3:4b推論完了 (LLM時間: 170.6ms)
-[ros2_natural_language_generation-1] [16:31:16.168][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:16.168][NLG] 🏁 処理完了 (総時間: 170.8ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:15.995][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:16.247][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:16.247][NLG] 音声認識結果受信時刻: 16:31:16.247
-[ros2_natural_language_generation-1] [16:31:16.247][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'と思っててほかに何か言いあんないかな[無音][無音]', 'あんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:16.247][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:16.247][NLG] 新規セッションID作成: 94ab6627
-[ros2_natural_language_generation-1] [16:31:16.248][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:16.248][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', 'と思っててほかに何か言いあんないかな[無音][無音]', 'あんないかな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:16.248][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:16.248][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:16.345][NLG] 🎯 TTFT: 96.6ms
-[ros2_natural_language_generation-1] [16:31:16.404][NLG] ⏱️ load: 74.6ms, prompt: 17.0ms, eval: 61.0ms → total: 155.8ms
-[ros2_natural_language_generation-1] [16:31:16.404][NLG] ✅ gemma3:4b推論完了 (LLM時間: 156.1ms)
-[ros2_natural_language_generation-1] [16:31:16.404][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:16.404][NLG] 🏁 処理完了 (総時間: 156.2ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:16.247][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:16.752][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:16.752][NLG] 音声認識結果受信時刻: 16:31:16.752
-[ros2_natural_language_generation-1] [16:31:16.752][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]', 'かな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:16.752][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:16.752][NLG] 新規セッションID作成: 4a354168
-[ros2_natural_language_generation-1] [16:31:16.753][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:16.753][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]', 'かな[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:16.753][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:16.753][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:16.875][NLG] 🎯 TTFT: 122.2ms
-[ros2_natural_language_generation-1] [16:31:16.938][NLG] ⏱️ load: 96.8ms, prompt: 17.5ms, eval: 67.2ms → total: 185.2ms
-[ros2_natural_language_generation-1] [16:31:16.939][NLG] ✅ gemma3:4b推論完了 (LLM時間: 185.5ms)
-[ros2_natural_language_generation-1] [16:31:16.939][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:16.939][NLG] 🏁 処理完了 (総時間: 185.7ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:16.752][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:16.952][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:16.952][NLG] 音声認識結果受信時刻: 16:31:16.952
-[ros2_natural_language_generation-1] [16:31:16.952][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:16.952][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:16.952][NLG] 新規セッションID作成: 378bddc6
-[ros2_natural_language_generation-1] [16:31:16.954][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:16.954][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', 'ほかに何か言いあんないかな[無音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:16.954][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:16.954][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:17.048][NLG] 🎯 TTFT: 94.4ms
-[ros2_natural_language_generation-1] [16:31:17.109][NLG] ⏱️ load: 75.2ms, prompt: 14.5ms, eval: 61.5ms → total: 155.1ms
-[ros2_natural_language_generation-1] [16:31:17.109][NLG] ✅ gemma3:4b推論完了 (LLM時間: 155.3ms)
-[ros2_natural_language_generation-1] [16:31:17.109][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:17.109][NLG] 🏁 処理完了 (総時間: 155.5ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:16.952][NLG-first] First stage完了: 相槌=''
-^A[ros2_natural_language_generation-1] [16:31:17.763][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:17.763][NLG] 音声認識結果受信時刻: 16:31:17.763
-[ros2_natural_language_generation-1] [16:31:17.763][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', '他に何かに言いあんないかな[雑音][雑音]', '[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:17.763][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:17.763][NLG] 新規セッションID作成: abc0104f
-[ros2_natural_language_generation-1] [16:31:17.764][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:17.764][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', '他に何かに言いあんないかな[雑音][雑音]', '[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:17.764][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:17.764][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:17.867][NLG] 🎯 TTFT: 102.8ms
-[ros2_natural_language_generation-1] [16:31:17.928][NLG] ⏱️ load: 77.2ms, prompt: 15.7ms, eval: 67.2ms → total: 163.6ms
-[ros2_natural_language_generation-1] [16:31:17.928][NLG] ✅ gemma3:4b推論完了 (LLM時間: 163.8ms)
-[ros2_natural_language_generation-1] [16:31:17.928][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:17.928][NLG] 🏁 処理完了 (総時間: 163.9ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:17.763][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:17.929][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=3
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:17.929][NLG] 音声認識結果受信時刻: 16:31:17.929
-[ros2_natural_language_generation-1] [16:31:17.929][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', '他に何か言いあんないかな[雑音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:17.929][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:17.929][NLG] 新規セッションID作成: 01f435c1
-[ros2_natural_language_generation-1] [16:31:17.930][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:17.930][NLG] 履歴受信（3個）: ['なと思っててほかに何か言いあんないかな[無音]', '他に何か言いあんないかな[雑音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:17.930][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:17.930][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:18.023][NLG] 🎯 TTFT: 92.8ms
-[ros2_natural_language_generation-1] [16:31:18.082][NLG] ⏱️ load: 71.3ms, prompt: 16.2ms, eval: 60.5ms → total: 151.7ms
-[ros2_natural_language_generation-1] [16:31:18.082][NLG] ✅ gemma3:4b推論完了 (LLM時間: 152.0ms)
-[ros2_natural_language_generation-1] [16:31:18.082][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:18.082][NLG] 🏁 処理完了 (総時間: 152.2ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:17.929][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:18.083][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=4
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:18.083][NLG] 音声認識結果受信時刻: 16:31:18.083
-[ros2_natural_language_generation-1] [16:31:18.083][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音]', '何か言いあんないかな[無音][無音]', '[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:18.083][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:18.083][NLG] 新規セッションID作成: ac9bb98b
-[ros2_natural_language_generation-1] [16:31:18.084][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:18.084][NLG] 履歴受信（4個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音]', '何か言いあんないかな[無音][無音]', '[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:18.084][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:18.084][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:18.193][NLG] 🎯 TTFT: 108.8ms
-[ros2_natural_language_generation-1] [16:31:18.254][NLG] ⏱️ load: 75.8ms, prompt: 16.6ms, eval: 73.9ms → total: 169.6ms
-[ros2_natural_language_generation-1] [16:31:18.254][NLG] ✅ gemma3:4b推論完了 (LLM時間: 169.8ms)
-[ros2_natural_language_generation-1] [16:31:18.254][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:18.254][NLG] 🏁 処理完了 (総時間: 169.9ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:18.083][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:18.255][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=4
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:18.255][NLG] 音声認識結果受信時刻: 16:31:18.255
-[ros2_natural_language_generation-1] [16:31:18.255][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'いいなと思っててほかに何か言いあんないかな[無音][無音]', '何かにか言いあんないかな[雑音][無音]', '[雑音]']
-[ros2_natural_language_generation-1] [16:31:18.255][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:18.255][NLG] 新規セッションID作成: 4e72ee61
-[ros2_natural_language_generation-1] [16:31:18.256][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:18.256][NLG] 履歴受信（4個）: ['なと思っててほかに何か言いあんないかな[無音]', 'いいなと思っててほかに何か言いあんないかな[無音][無音]', '何かにか言いあんないかな[雑音][無音]', '[雑音]']
-[ros2_natural_language_generation-1] [16:31:18.256][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:18.256][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:18.351][NLG] 🎯 TTFT: 94.4ms
-[ros2_natural_language_generation-1] [16:31:18.410][NLG] ⏱️ load: 71.5ms, prompt: 17.8ms, eval: 60.8ms → total: 153.8ms
-[ros2_natural_language_generation-1] [16:31:18.410][NLG] ✅ gemma3:4b推論完了 (LLM時間: 154.1ms)
-[ros2_natural_language_generation-1] [16:31:18.410][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:18.410][NLG] 🏁 処理完了 (総時間: 154.2ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:18.255][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:18.411][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=4
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:18.411][NLG] 音声認識結果受信時刻: 16:31:18.411
-[ros2_natural_language_generation-1] [16:31:18.411][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音]', '[無音]']
-[ros2_natural_language_generation-1] [16:31:18.411][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:18.411][NLG] 新規セッションID作成: a863bed5
-[ros2_natural_language_generation-1] [16:31:18.412][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:18.412][NLG] 履歴受信（4個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音]', '[無音]']
-[ros2_natural_language_generation-1] [16:31:18.412][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:18.413][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:18.512][NLG] 🎯 TTFT: 99.0ms
-[ros2_natural_language_generation-1] [16:31:18.571][NLG] ⏱️ load: 74.3ms, prompt: 17.0ms, eval: 62.9ms → total: 158.0ms
-[ros2_natural_language_generation-1] [16:31:18.571][NLG] ✅ gemma3:4b推論完了 (LLM時間: 158.3ms)
-[ros2_natural_language_generation-1] [16:31:18.571][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:18.571][NLG] 🏁 処理完了 (総時間: 158.6ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:18.411][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:18.572][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=4
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:18.572][NLG] 音声認識結果受信時刻: 16:31:18.572
-[ros2_natural_language_generation-1] [16:31:18.572][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音][無音]', '[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:18.572][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:18.572][NLG] 新規セッションID作成: 3218de73
-[ros2_natural_language_generation-1] [16:31:18.573][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:18.573][NLG] 履歴受信（4個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音][無音]', '[雑音][無音]']
-[ros2_natural_language_generation-1] [16:31:18.573][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:18.573][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:18.654][NLG] 🎯 TTFT: 81.5ms
-[ros2_natural_language_generation-1] [16:31:18.716][NLG] ⏱️ load: 62.1ms, prompt: 14.9ms, eval: 62.6ms → total: 143.0ms
-[ros2_natural_language_generation-1] [16:31:18.716][NLG] ✅ gemma3:4b推論完了 (LLM時間: 143.2ms)
-[ros2_natural_language_generation-1] [16:31:18.716][NLG VERBOSE] 生成応答: 'えー、まじか'
-[ros2_natural_language_generation-1] [16:31:18.716][NLG] 🏁 処理完了 (総時間: 143.3ms): えー、まじか
-[ros2_natural_language_generation-1] [16:31:18.572][NLG-first] First stage完了: 相槌=''
-[ros2_natural_language_generation-1] [16:31:18.717][NLG DEBUG] dm_updateコールバック呼び出し
-[ros2_natural_language_generation-1] [NLG-ros2] リクエスト受信: stage=first, 音声認識結果数=4
-[ros2_natural_language_generation-1] [NLG-ros2] TurnTaking判定時刻: 1765179072925772032ns
-[ros2_natural_language_generation-1] [16:31:18.717][NLG] 音声認識結果受信時刻: 16:31:18.717
-[ros2_natural_language_generation-1] [16:31:18.717][NLG] 受信した音声認識結果リスト: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[雑音][無音]', '何か言いあんないかな[無音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:18.717][NLG] リクエストステージ: first
-[ros2_natural_language_generation-1] [16:31:18.717][NLG] 新規セッションID作成: 9c50f76e
-[ros2_natural_language_generation-1] [16:31:18.718][NLG] stage='first' で更新 (turn_taking_timestamp: 1765179072925772032ns)
-[ros2_natural_language_generation-1] [16:31:18.718][NLG] 履歴受信（4個）: ['なと思っててほかに何か言いあんないかな[無音]', 'なと思っててほかに何か言いあんないかな[雑音][無音]', '何か言いあんないかな[無音][無音]', '[無音][無音]']
-[ros2_natural_language_generation-1] [16:31:18.718][NLG] 🚀 推論開始 (ID: 1, モデル: gemma3:4b)
-[ros2_natural_language_generation-1] [16:31:18.718][NLG] 🤖 gemma3:4b推論開始
-[ros2_natural_language_generation-1] [16:31:18.832][NLG] 🎯 TTFT: 113.9ms
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 38
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684000.405712535] [natural_language_generation]: [12:46:40.404] [NLG] 相槌生成ステージ開始 (request_id=38, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:40.406] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:40.406] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684000.671973571] [natural_language_generation]: [12:46:40.671] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '度の休次', '今度の休日なんだけど映画を見に', '映画を見に行くかカフェでのんびり独書', 'カフェでのんびり独書するかで悩んでてでも'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 39
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684000.672915649] [natural_language_generation]: [12:46:40.672] [NLG] 相槌生成ステージ開始 (request_id=39, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:40.673] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:40.673] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684000.954606173] [natural_language_generation]: [12:46:40.953] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんで', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで', 'カフェでのんびり独書するかで悩んでてでも手に'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 40
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684000.955567611] [natural_language_generation]: [12:46:40.954] [NLG] 相槌生成ステージ開始 (request_id=40, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:40.955] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:40.955] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684001.227997557] [natural_language_generation]: [12:46:41.226] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだ', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかでない', 'カフェでのんびり独書するかで悩んでてでもて'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 41
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684001.228954905] [natural_language_generation]: [12:46:41.228] [NLG] 相槌生成ステージ開始 (request_id=41, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:41.229] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:41.229] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684001.533770332] [natural_language_generation]: [12:46:41.532] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで悩んだ', 'カフェでのんびり独書するかで悩んでてでも天気が'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 42
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684001.534639209] [natural_language_generation]: [12:46:41.533] [NLG] 相槌生成ステージ開始 (request_id=42, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:41.534] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:41.534] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684001.817220780] [natural_language_generation]: [12:46:41.816] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音][雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんび独書するかで悩んでてでも天気が良かった'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 43
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684001.818445860] [natural_language_generation]: [12:46:41.817] [NLG] 相槌生成ステージ開始 (request_id=43, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:41.818] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:41.818] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684002.082545478] [natural_language_generation]: [12:46:42.081] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど[雑音]', '今度の休日なんだけど映画を見に行くかカフェ', '映画を見に行くかカフェでのんびり独書するかで悩んでて', '毒書するかで悩んでてでも天気が良かったら'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 44
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684002.083642377] [natural_language_generation]: [12:46:42.082] [NLG] 相槌生成ステージ開始 (request_id=44, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:42.084] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:42.084] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684002.341114349] [natural_language_generation]: [12:46:42.340] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 45
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684002.342099797] [natural_language_generation]: [12:46:42.341] [NLG] 相槌生成ステージ開始 (request_id=45, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:42.342] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:42.342] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684002.555965667] [natural_language_generation]: [12:46:42.554] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけどええ', '映画を見に行くかカフェでのんび', 'カフェでのんびり独書するかで悩んでて[無音]', '悩でも天気が良かったら最句'] (長さ=5)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 46
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684002.556872434] [natural_language_generation]: [12:46:42.556] [NLG] 相槌生成ステージ開始 (request_id=46, 入力数=5)
+[ros2_natural_language_generation-1] [12:46:42.557] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:42.557] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765684002.755196124] [natural_language_generation]: [12:46:42.754] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の', '今度の休日なんだけど笑映画', '映画を見に行くかカフェでのんびり', 'かカフェでのんびり独書するかで悩んでて[雑音][雑音]', 'でも天気が良かったら最句'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 47
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684002.756040601] [natural_language_generation]: [12:46:42.755] [NLG] 相槌生成ステージ開始 (request_id=47, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:42.756] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:42.756] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684002.985730063] [natural_language_generation]: [12:46:42.984] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の木', '今度の休日なんだけど映画を見', '映画を見に行くかカフェでのんびりとか', 'カフェでのんびり独書するかで悩んでてで', 'でも天気が良かったらサイクリングも'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 48
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684002.986686361] [natural_language_generation]: [12:46:42.985] [NLG] 相槌生成ステージ開始 (request_id=48, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:42.987] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:42.987] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684003.223886174] [natural_language_generation]: [12:46:43.222] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '度の休次', '今度の休日なんだけど映画を見に', '映画を見に行くかカフェでのんびり独書', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいい'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 49
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684003.224826092] [natural_language_generation]: [12:46:43.223] [NLG] 相槌生成ステージ開始 (request_id=49, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:43.225] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:43.225] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684003.471558955] [natural_language_generation]: [12:46:43.470] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '度の休日', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するか', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 50
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684003.472440853] [natural_language_generation]: [12:46:43.471] [NLG] 相槌生成ステージ開始 (request_id=50, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:43.472] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:43.472] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684003.739004920] [natural_language_generation]: [12:46:43.738] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんで', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで', 'カフェでのんびり独書するかで悩んでてでも手に', 'でも天気が良かったらサイクリングもいいなと'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 51
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684003.739886008] [natural_language_generation]: [12:46:43.739] [NLG] 相槌生成ステージ開始 (request_id=51, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:43.740] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:43.740] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684004.016530720] [natural_language_generation]: [12:46:44.015] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで悩んだ', 'カフェでのんびり独書するかで悩んでてでも天気が', 'でも天気が良かったらサイクリングもいいななと思って'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 52
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684004.017505508] [natural_language_generation]: [12:46:44.016] [NLG] 相槌生成ステージ開始 (request_id=52, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:44.017] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:44.017] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684004.296449029] [natural_language_generation]: [12:46:44.295] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音][雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんび独書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 53
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684004.297329516] [natural_language_generation]: [12:46:44.296] [NLG] 相槌生成ステージ開始 (request_id=53, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:44.297] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:44.297] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684004.591159501] [natural_language_generation]: [12:46:44.590] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど[雑音]', '今度の休日なんだけど映画を見に行くか課し', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんびり毒書するかで悩んでてでも天気が良かったら', 'でも天気がかったらサイクリングもいいなと思ってて'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 54
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684004.592077559] [natural_language_generation]: [12:46:44.591] [NLG] 相槌生成ステージ開始 (request_id=54, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:44.592] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:44.592] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684004.827215915] [natural_language_generation]: [12:46:44.826] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど[無音]', '休日なんだけど映画を見に行くかカフェで', '映画を見に行くかカフェでのんびり独書するかで悩んでて', '独書するかで悩んでてでも天気が良かったら', 'でも天気が良かったらサイクリングもいいなと思ってて[雑音]'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 55
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684004.828160973] [natural_language_generation]: [12:46:44.827] [NLG] 相槌生成ステージ開始 (request_id=55, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:44.828] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:44.828] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684004.896839625] [natural_language_generation]: [12:46:44.895] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけどええ', '映画を見に行くかカフェで飲み', 'カフェでのんびり独書するかで悩んでて[無音]', 'で悩んでてでも天気が良かったら最', 'でも天気が良かったらサイクリングもいいなと思ってて'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 56
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684004.897765242] [natural_language_generation]: [12:46:44.896] [NLG] 相槌生成ステージ開始 (request_id=56, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:44.898] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:44.898] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684005.192513765] [natural_language_generation]: [12:46:45.191] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけどええ', '映画を見に行くかカフェでのんび', 'カフェでのんびり独書するかで悩んでて[無音]', '悩でも天気が良かったら最句', 'でも天気が良かったらサイクリングもいいなと思っててほか'] (長さ=6)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 57
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684005.193428712] [natural_language_generation]: [12:46:45.192] [NLG] 相槌生成ステージ開始 (request_id=57, 入力数=6)
+[ros2_natural_language_generation-1] [12:46:45.193] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:45.193] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765684005.469607460] [natural_language_generation]: [12:46:45.468] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度なか', '今度の休日なんだけど映画を見', '映画を見に行くかカフェでのんびりとか', 'かカフェでのんびり独書するかで悩んでて[雑音][無音]', 'でも天気が良かったらサイクリング', '天気がかったらサイクリングもいいなと思っててほかに'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 58
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684005.470495348] [natural_language_generation]: [12:46:45.469] [NLG] 相槌生成ステージ開始 (request_id=58, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:45.470] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:45.470] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765684005.485501073] [natural_language_generation]: [12:46:45.484] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の木', '今度の休日なんだけど映画を見', '映画を見に行くかカフェでのんびりとか', 'カフェでのんびり独書するかで悩んでてで', 'でも天気が良かったらサイクリングも', '天気が良かったらサイクリングもいいなと思っててほかに'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 59
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684005.486334360] [natural_language_generation]: [12:46:45.485] [NLG] 相槌生成ステージ開始 (request_id=59, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:45.486] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:45.486] 履歴受信（7個）
+[ros2_natural_language_generation-1] [12:46:45.587]
+[ros2_natural_language_generation-1] [12:46:45.589]
+[ros2_natural_language_generation-1] [INFO] [1765684005.604189810] [natural_language_generation]: [12:46:45.603] [NLG] 相槌生成ステージ完了 (request_id=59, 処理時間=117.7ms, 応答='えー...' )
+[ros2_natural_language_generation-1] [INFO] [1765684005.773588520] [natural_language_generation]: [12:46:45.772] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '度の休次', '今度の休日なんだけど映画を見に', '映画を見に行くかカフェでのんびり独書', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいい', '天気が良かったらサイクリングもいいと思っててほかに'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 60
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684005.774440037] [natural_language_generation]: [12:46:45.773] [NLG] 相槌生成ステージ開始 (request_id=60, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:45.774] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:45.774] 履歴受信（7個）
+[ros2_natural_language_generation-1] [12:46:45.799]
+[ros2_natural_language_generation-1] [12:46:45.890]
+[ros2_natural_language_generation-1] [INFO] [1765684006.096709168] [natural_language_generation]: [12:46:46.095] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '度の休日', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するか', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', '天気がかったらサイクリングもいいなと思っててほかに何か'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 61
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684006.097567415] [natural_language_generation]: [12:46:46.096] [NLG] 相槌生成ステージ開始 (request_id=61, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:46.097] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:46.097] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765684006.105760224] [natural_language_generation]: [12:46:46.104] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんで', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかで', 'カフェでのんびり独書するかで悩んでてでも', 'でも天気が良かったらサイクリングもいいな', 'よかったらサイクリングもいいなと思っててほかに何かい'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 62
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684006.106668891] [natural_language_generation]: [12:46:46.105] [NLG] 相槌生成ステージ開始 (request_id=62, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:46.106] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:46.106] 履歴受信（7個）
+[ros2_natural_language_generation-1] [12:46:46.125]
+[ros2_natural_language_generation-1] [12:46:46.210]
+[ros2_natural_language_generation-1] [12:46:46.410]
+[ros2_natural_language_generation-1] [INFO] [1765684006.424272884] [natural_language_generation]: [12:46:46.423] [NLG] 相槌生成ステージ完了 (request_id=62, 処理時間=317.4ms, 応答='なるほど...' )
+[ros2_natural_language_generation-1] [INFO] [1765684006.428097685] [natural_language_generation]: [12:46:46.427] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだ', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかでない', 'カフェでのんびり独書するかで悩んでてでもて', 'でも天気が良かったらサイクリングもいいなとと思う', 'らサイクリングもいいななと思っててほかに何かいいや'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 63
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684006.428918642] [natural_language_generation]: [12:46:46.428] [NLG] 相槌生成ステージ開始 (request_id=63, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:46.429] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:46.429] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765684006.458353137] [natural_language_generation]: [12:46:46.457] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日ななんだけ', '今度の休日なんだけど映画を見に行くか', '映画を見に行くかカフェでのんびり独書するかでな', 'カフェでのんびり独書するかで悩んでてでも天気', 'でも天気が良かったらサイクリングもいいななと思って', 'サイクリングもいいななと思っててほかに何かいあ'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 64
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684006.459232535] [natural_language_generation]: [12:46:46.458] [NLG] 相槌生成ステージ開始 (request_id=64, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:46.459] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:46.459] 履歴受信（7個）
+[ros2_natural_language_generation-1] [12:46:46.545]
+[ros2_natural_language_generation-1] [INFO] [1765684006.564251768] [natural_language_generation]: [12:46:46.563] [NLG] 相槌生成ステージ完了 (request_id=64, 処理時間=104.8ms, 応答='えー...' )
+[ros2_natural_language_generation-1] [12:46:46.675]
+[ros2_natural_language_generation-1] [INFO] [1765684006.684106416] [natural_language_generation]: [12:46:46.683] [NLG] 相槌生成ステージ完了 (request_id=64, 処理時間=224.8ms, 応答='なるほど...' )
+[ros2_natural_language_generation-1] [INFO] [1765684006.752512805] [natural_language_generation]: [12:46:46.751] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んで', 'カフェでのんびり独書するかで悩んでてでも天気がよ', 'でも天気が良かったらサイクリングもいいなと思って', 'サイクリングもいいなと思ってて他に何かい案んない'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 65
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684006.753329822] [natural_language_generation]: [12:46:46.752] [NLG] 相槌生成ステージ開始 (request_id=65, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:46.753] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:46.753] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765684006.789639644] [natural_language_generation]: [12:46:46.788] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'カフェでのんびり独書するかで悩んでてでも天気がよく', 'でも天気が良かったらサイクリングもいいなと思ってて', 'サイクリングもいいなと思ってて他に何か言いあんない'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 66
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684006.790495161] [natural_language_generation]: [12:46:46.789] [NLG] 相槌生成ステージ開始 (request_id=66, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:46.790] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:46.790] 履歴受信（7個）
+[ros2_natural_language_generation-1] [12:46:46.926]
+[ros2_natural_language_generation-1] [INFO] [1765684006.944048548] [natural_language_generation]: [12:46:46.943] [NLG] 相槌生成ステージ完了 (request_id=66, 処理時間=153.5ms, 応答='そっかー...' )
+[ros2_natural_language_generation-1] [12:46:47.076]
+[ros2_natural_language_generation-1] [INFO] [1765684007.164357602] [natural_language_generation]: [12:46:47.163] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど', '今度の休日なんだけど映画を見に行くか[雑音][雑音]', '映画を見に行くかカフェでのんびり独書するかで悩んでて', 'のんび独書するかで悩んでてでも天気が良かった', 'でも天気が良かったらサイクリングもいいなと思ってて', 'サイクリングもいいなと思ってて他に何か言いあんないか'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 67
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765684007.165198649] [natural_language_generation]: [12:46:47.164] [NLG] 相槌生成ステージ開始 (request_id=67, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:47.165] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:47.165] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765684007.194351961] [natural_language_generation]: [12:46:47.193] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 68
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684007.195224048] [natural_language_generation]: [12:46:47.194] [NLG] 相槌生成ステージ開始 (request_id=68, 入力数=7)
+[ros2_natural_language_generation-1] [12:46:47.195] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:47.195] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765684007.198475205] [natural_language_generation]: [12:46:47.196] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: [] (長さ=0)
+[ros2_natural_language_generation-1]   - stage: 'second'
+[ros2_natural_language_generation-1]   - request_id: 69
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684007.199320483] [natural_language_generation]: [12:46:47.198] [NLG] 応答生成ステージ開始 (request_id=69, 入力数=0)
+[ros2_natural_language_generation-1] [12:46:47.199] stage='second' で更新
+[ros2_natural_language_generation-1] [12:46:47.199][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用
+[ros2_natural_language_generation-1] [12:46:47.200] [Second Stage] 2.5秒間隔ASR結果: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]']
+[ros2_natural_language_generation-1] [12:46:47.200] [Second Stage] First Stage結果: 'そっかー'
+[ros2_natural_language_generation-1] [12:46:47.200] [Second Stage] LLMへ送信するメッセージ:
+[ros2_natural_language_generation-1]   メッセージ1 (role=system): あなたは男性ユーザの友達である優しく明るい性格である女性のアンドロイドです。
+[ros2_natural_language_generation-1] 「複数のぶつ切りの音声認識結果」から「元の発話」を復元し、最後まで読んでユーザの意図を読み取り、ユーザの意図に沿って「リアクションワード」に自然に続く「タメ口の応答」を一言で出力してください。
+[ros2_natural_language_generation-1] 
+[ros2_natural_language_generation-1] この処理のイメージとして、以下の例を参考にしてください。
+[ros2_natural_language_generation-1] 例
+[ros2_natural_language_generation-1] 「複数のぶつ切りの音声認識結果」：週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]
+[ros2_natural_language_generation-1] 「元の発話」：週末に時間ができるとついついスマホを見て一日終わっちゃうのが嫌で、何か新しいことを始めたいんだけど、家の中で一人でも没頭できるような趣味のアイデアってないかな？
+[ros2_natural_language_generation-1] 「リアクションワード」：なるほど
+[ros2_natural_language_generation-1] 「タメ口の応答」：それなら読書とかプラモデル作りとかはどう？
+[ros2_natural_language_generation-1] 
+[ros2_natural_language_generation-1] 以上の例を参考に20程度に収めた「タメ口の応答」のみを出力してください。
+[ros2_natural_language_generation-1]   メッセージ2 (role=user): 複数のぶつ切りの音声認識結果：[雑音], 今度の休日なんだけど[無音], なんだけど映画を見に行くかカフェでの, に行くかカフェでのんびり独書するかで悩んでて[雑音], 独書するかで悩んでてでも天気が良かったらさ, でも天気が良かったらサイクリングもいいなと思ってて[無音], いなと思っててほかに何か言いあんないかな[無音]
+[ros2_natural_language_generation-1]   メッセージ3 (role=assistant): リアクションワード：そっかー、
+[ros2_natural_language_generation-1] [12:46:47.285]
+[ros2_natural_language_generation-1] [12:46:47.345]
+[ros2_natural_language_generation-1] [INFO] [1765684007.364129544] [natural_language_generation]: [12:46:47.363] [NLG] 応答生成ステージ完了 (request_id=69, 処理時間=164.6ms, 応答='うんうん...' )
+[ros2_natural_language_generation-1] [12:46:47.547]
+[ros2_natural_language_generation-1] [12:46:47.626]
+[ros2_natural_language_generation-1] [INFO] [1765684007.644119833] [natural_language_generation]: [12:46:47.643] [NLG] 応答生成ステージ完了 (request_id=69, 処理時間=444.7ms, 応答='えー...' )
+[ros2_natural_language_generation-1] [12:46:47.827]
+[ros2_natural_language_generation-1] [INFO] [1765684007.844085797] [natural_language_generation]: [12:46:47.843] [NLG] 応答生成ステージ完了 (request_id=69, 処理時間=644.7ms, 応答='へー...' )
+[ros2_natural_language_generation-1] [12:46:48.015]
+[ros2_natural_language_generation-1] [INFO] [1765684008.024030315] [natural_language_generation]: [12:46:48.023] [NLG] 応答生成ステージ完了 (request_id=69, 処理時間=824.7ms, 応答='そっかー...' )
+[ros2_natural_language_generation-1] [12:46:48.194]
+[ros2_natural_language_generation-1] [12:46:48.388]
+[ros2_natural_language_generation-1] [12:46:48.436]
+[ros2_natural_language_generation-1] [INFO] [1765684008.444245611] [natural_language_generation]: [12:46:48.443] [NLG] 応答生成ステージ完了 (request_id=69, 処理時間=1244.7ms, 応答='なるほど...' )
+[ros2_natural_language_generation-1] [12:46:48.619]
+[ros2_natural_language_generation-1] [INFO] [1765684008.710777779] [natural_language_generation]: [12:46:48.709] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: [] (長さ=0)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 70
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [12:46:48.712]
+[ros2_natural_language_generation-1] [12:46:48.890]
+[ros2_natural_language_generation-1] [INFO] [1765684008.938638095] [natural_language_generation]: [12:46:48.937] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '他に何か言いあんないかな[無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 71
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684008.939623733] [natural_language_generation]: [12:46:48.938] [NLG] 相槌生成ステージ開始 (request_id=71, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:48.939] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:48.939] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:49.056]
+[ros2_natural_language_generation-1] [INFO] [1765684009.064173769] [natural_language_generation]: [12:46:49.063] [NLG] 相槌生成ステージ完了 (request_id=71, 処理時間=124.5ms, 応答='そっかー...' )
+[ros2_natural_language_generation-1] [12:46:49.139]
+[ros2_natural_language_generation-1] [INFO] [1765684009.144104084] [natural_language_generation]: [12:46:49.143] [NLG] 相槌生成ステージ完了 (request_id=71, 処理時間=204.5ms, 応答='なるほど...' )
+[ros2_natural_language_generation-1] [INFO] [1765684009.167551839] [natural_language_generation]: [12:46:49.166] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', 'ほかに何か言いあんないかな[雑音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 72
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684009.168405186] [natural_language_generation]: [12:46:49.167] [NLG] 相槌生成ステージ開始 (request_id=72, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:49.168] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:49.168] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:49.396]
+[ros2_natural_language_generation-1] [12:46:49.397]
+[ros2_natural_language_generation-1] [INFO] [1765684009.414985738] [natural_language_generation]: [12:46:49.413] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', 'ほかに何か言いあんないかな[無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 73
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684009.415873295] [natural_language_generation]: [12:46:49.415] [NLG] 相槌生成ステージ開始 (request_id=73, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:49.416] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:49.416] 履歴受信（2個）
+[ros2_natural_language_generation-1] [INFO] [1765684009.562814108] [natural_language_generation]: [12:46:49.561] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '他に何か言いあんないかな[無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 74
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684009.563728096] [natural_language_generation]: [12:46:49.562] [NLG] 相槌生成ステージ開始 (request_id=74, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:49.564] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:49.564] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:49.587]
+[ros2_natural_language_generation-1] [INFO] [1765684009.647060829] [natural_language_generation]: [12:46:49.646] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '他に何かに言いあんないかな[雑音][雑音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 75
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684009.647908026] [natural_language_generation]: [12:46:49.647] [NLG] 相槌生成ステージ開始 (request_id=75, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:49.648] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:49.648] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:49.667]
+[ros2_natural_language_generation-1] [12:46:49.860]
+[ros2_natural_language_generation-1] [12:46:49.953]
+[ros2_natural_language_generation-1] [INFO] [1765684009.956178121] [natural_language_generation]: [12:46:49.955] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[雑音][雑音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 76
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684009.957034978] [natural_language_generation]: [12:46:49.956] [NLG] 相槌生成ステージ開始 (request_id=76, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:49.957] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:49.957] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:50.133]
+[ros2_natural_language_generation-1] [INFO] [1765684010.198441857] [natural_language_generation]: [12:46:50.197] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 77
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684010.199313884] [natural_language_generation]: [12:46:50.198] [NLG] 相槌生成ステージ開始 (request_id=77, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:50.199] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:50.199] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:50.213]
+[ros2_natural_language_generation-1] [12:46:50.400]
+[ros2_natural_language_generation-1] [12:46:50.485]
+[ros2_natural_language_generation-1] [INFO] [1765684010.671410042] [natural_language_generation]: [12:46:50.670] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', 'あんないかな[無音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 78
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684010.672484701] [natural_language_generation]: [12:46:50.671] [NLG] 相槌生成ステージ開始 (request_id=78, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:50.672] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:50.672] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:50.690]
+[ros2_natural_language_generation-1] [12:46:50.781]
+[ros2_natural_language_generation-1] [12:46:51.001]
+[ros2_natural_language_generation-1] [12:46:51.081]
+[ros2_natural_language_generation-1] [INFO] [1765684011.136136019] [natural_language_generation]: [12:46:51.135] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', 'かな[無音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 79
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684011.137024656] [natural_language_generation]: [12:46:51.136] [NLG] 相槌生成ステージ開始 (request_id=79, 入力数=2)
+[ros2_natural_language_generation-1] [12:46:51.137] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:51.137] 履歴受信（2個）
+[ros2_natural_language_generation-1] [12:46:51.305]
+[ros2_natural_language_generation-1] [INFO] [1765684011.312160714] [natural_language_generation]: [12:46:51.311] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', 'ほかに何か言いあんないかな[無音][無音]', '[無音][無音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 80
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684011.313158962] [natural_language_generation]: [12:46:51.312] [NLG] 相槌生成ステージ開始 (request_id=80, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:51.313] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:51.313] 履歴受信（3個）
+[ros2_natural_language_generation-1] [12:46:51.387]
+[ros2_natural_language_generation-1] [12:46:51.610]
+[ros2_natural_language_generation-1] [12:46:51.706]
+[ros2_natural_language_generation-1] [12:46:51.938]
+[ros2_natural_language_generation-1] [12:46:52.024]
+[ros2_natural_language_generation-1] [INFO] [1765684012.039210203] [natural_language_generation]: [12:46:52.038] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '他に何か言いあんないかな[無音]', '[雑音][無音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 81
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684012.040174701] [natural_language_generation]: [12:46:52.039] [NLG] 相槌生成ステージ開始 (request_id=81, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:52.040] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:52.040] 履歴受信（3個）
+[ros2_natural_language_generation-1] [INFO] [1765684012.206230393] [natural_language_generation]: [12:46:52.205] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '他に何かに言いあんないかな[雑音][雑音]', '[無音][無音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 82
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684012.206996719] [natural_language_generation]: [12:46:52.206] [NLG] 相槌生成ステージ開始 (request_id=82, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:52.207] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:52.207] 履歴受信（3個）
+[ros2_natural_language_generation-1] [12:46:52.251]
+[ros2_natural_language_generation-1] [12:46:52.344]
+[ros2_natural_language_generation-1] [INFO] [1765684012.452941196] [natural_language_generation]: [12:46:52.451] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[雑音][無音]', '[雑音][雑音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 83
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684012.453806703] [natural_language_generation]: [12:46:52.453] [NLG] 相槌生成ステージ開始 (request_id=83, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:52.454] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:52.454] 履歴受信（3個）
+[ros2_natural_language_generation-1] [12:46:52.569]
+[ros2_natural_language_generation-1] [INFO] [1765684012.590418109] [natural_language_generation]: [12:46:52.589] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[雑音][無音]', '[雑音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 84
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684012.591331697] [natural_language_generation]: [12:46:52.590] [NLG] 相槌生成ステージ開始 (request_id=84, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:52.591] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:52.591] 履歴受信（3個）
+[ros2_natural_language_generation-1] [12:46:52.655]
+[ros2_natural_language_generation-1] [INFO] [1765684012.743140680] [natural_language_generation]: [12:46:52.742] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音]', '[無音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 85
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684012.744007617] [natural_language_generation]: [12:46:52.743] [NLG] 相槌生成ステージ開始 (request_id=85, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:52.744] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:52.744] 履歴受信（3個）
+[ros2_natural_language_generation-1] [12:46:52.881]
+[ros2_natural_language_generation-1] [INFO] [1765684012.915418924] [natural_language_generation]: [12:46:52.914] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', '何か言いあんないかな[無音][無音]', '[雑音][無音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 86
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684012.916051349] [natural_language_generation]: [12:46:52.915] [NLG] 相槌生成ステージ開始 (request_id=86, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:52.916] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:52.916] 履歴受信（3個）
+[ros2_natural_language_generation-1] [12:46:52.972]
+[ros2_natural_language_generation-1] [INFO] [1765684013.116342725] [natural_language_generation]: [12:46:53.115] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['ほかに何か言いあんないかな[無音][無音]', 'あんないかな[無音][無音]', '[雑音][雑音]'] (長さ=3)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 87
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'そっかー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['[雑音]', '今度の休日なんだけど[無音]', 'なんだけど映画を見に行くかカフェでの', 'に行くかカフェでのんびり独書するかで悩んでて[雑音]', '独書するかで悩んでてでも天気が良かったらさ', 'でも天気が良かったらサイクリングもいいなと思ってて[無音]', 'いなと思っててほかに何か言いあんないかな[無音]'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765684007191973888
+[ros2_natural_language_generation-1] [INFO] [1765684013.117229463] [natural_language_generation]: [12:46:53.116] [NLG] 相槌生成ステージ開始 (request_id=87, 入力数=3)
+[ros2_natural_language_generation-1] [12:46:53.117] stage='first' で更新
+[ros2_natural_language_generation-1] [12:46:53.117] 履歴受信（3個）
+[ros2_natural_language_generation-1] [12:46:53.223]
+[ros2_natural_language_generation-1] [12:46:53.359]
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[ros2_natural_language_generation-1] Exception in thread Thread-1 (runROS):
+[ros2_natural_language_generation-1] Traceback (most recent call last):
+[ros2_natural_language_generation-1]   File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+[ros2_natural_language_generation-1]     self.run()
+[ros2_natural_language_generation-1]   File "/usr/lib/python3.10/threading.py", line 953, in run
+[ros2_natural_language_generation-1] Traceback (most recent call last):
+[ros2_natural_language_generation-1]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_natural_language_generation", line 33, in <module>
+[ros2_natural_language_generation-1]     sys.exit(load_entry_point('diaros-package==0.0.1', 'console_scripts', 'ros2_natural_language_generation')())
+[ros2_natural_language_generation-1]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_natural_language_generation.py", line 182, in main
+[ros2_natural_language_generation-1]     shutdown()
+[ros2_natural_language_generation-1]   File "/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/python3.10/site-packages/diaros_package/ros2_natural_language_generation.py", line 162, in shutdown
+[ros2_natural_language_generation-1]     key = input()
+[ros2_natural_language_generation-1] KeyboardInterrupt
+[ERROR] [ros2_natural_language_generation-1]: process has died [pid 2495545, exit code -2, cmd '/workspace/DiaROS/DiaROS_ros/install/diaros_package/lib/diaros_package/ros2_natural_language_generation --ros-args'].
+root@melchor:/workspace/DiaROS/DiaROS_ros# 

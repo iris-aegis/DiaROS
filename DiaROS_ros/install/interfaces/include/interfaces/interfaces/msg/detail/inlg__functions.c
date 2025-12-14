@@ -13,8 +13,8 @@
 
 // Include directives for member types
 // Member `reply`
-// Member `source_words`
 // Member `stage`
+// Member `source_words`
 // Member `worker_name`
 // Member `session_id`
 #include "rosidl_runtime_c/string_functions.h"
@@ -30,13 +30,13 @@ interfaces__msg__Inlg__init(interfaces__msg__Inlg * msg)
     interfaces__msg__Inlg__fini(msg);
     return false;
   }
-  // source_words
-  if (!rosidl_runtime_c__String__Sequence__init(&msg->source_words, 0)) {
+  // stage
+  if (!rosidl_runtime_c__String__init(&msg->stage)) {
     interfaces__msg__Inlg__fini(msg);
     return false;
   }
-  // stage
-  if (!rosidl_runtime_c__String__init(&msg->stage)) {
+  // source_words
+  if (!rosidl_runtime_c__String__Sequence__init(&msg->source_words, 0)) {
     interfaces__msg__Inlg__fini(msg);
     return false;
   }
@@ -65,10 +65,10 @@ interfaces__msg__Inlg__fini(interfaces__msg__Inlg * msg)
   }
   // reply
   rosidl_runtime_c__String__fini(&msg->reply);
-  // source_words
-  rosidl_runtime_c__String__Sequence__fini(&msg->source_words);
   // stage
   rosidl_runtime_c__String__fini(&msg->stage);
+  // source_words
+  rosidl_runtime_c__String__Sequence__fini(&msg->source_words);
   // request_id
   // worker_name
   rosidl_runtime_c__String__fini(&msg->worker_name);
@@ -91,15 +91,15 @@ interfaces__msg__Inlg__are_equal(const interfaces__msg__Inlg * lhs, const interf
   {
     return false;
   }
-  // source_words
-  if (!rosidl_runtime_c__String__Sequence__are_equal(
-      &(lhs->source_words), &(rhs->source_words)))
-  {
-    return false;
-  }
   // stage
   if (!rosidl_runtime_c__String__are_equal(
       &(lhs->stage), &(rhs->stage)))
+  {
+    return false;
+  }
+  // source_words
+  if (!rosidl_runtime_c__String__Sequence__are_equal(
+      &(lhs->source_words), &(rhs->source_words)))
   {
     return false;
   }
@@ -148,15 +148,15 @@ interfaces__msg__Inlg__copy(
   {
     return false;
   }
-  // source_words
-  if (!rosidl_runtime_c__String__Sequence__copy(
-      &(input->source_words), &(output->source_words)))
-  {
-    return false;
-  }
   // stage
   if (!rosidl_runtime_c__String__copy(
       &(input->stage), &(output->stage)))
+  {
+    return false;
+  }
+  // source_words
+  if (!rosidl_runtime_c__String__Sequence__copy(
+      &(input->source_words), &(output->source_words)))
   {
     return false;
   }

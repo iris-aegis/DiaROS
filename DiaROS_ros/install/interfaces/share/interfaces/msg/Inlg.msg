@@ -1,6 +1,6 @@
 string reply
-string[] source_words
 string stage
+string[] source_words
 int32 request_id
 string worker_name
 int64 start_timestamp_ns
