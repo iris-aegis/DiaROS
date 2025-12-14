@@ -179,7 +179,51 @@ ros_speech_input.py
 ros_speech_synthesis.py
 ros_turn_taking.py
 
-# ROS2 build artifacts
+# Model input sound files (generated during inference)
+model_input_sound_*.wav
+model_input_sound_*.raw
+
+# ROS2 build and install directories (contain sensitive API keys)
+*/build/
+*/install/
+*/log/
+
+# API keys and credentials
+*.env
+.env.*
+**/colcon_command_prefix_*.sh.env
+credentials/
+*.key
+*.token
+*.auth
+*.credentials
+
+# Google Cloud credentials
+google-credentials*.json
+service-account*.json
+
+# Colcon specific ignore patterns
+COLCON_IGNORE
+.colcon_ignore
+
+# Ignore DiaROS_imamoto directory
+DiaROS_imamoto/
+
+# Ignore all .wav files by default, except for static responses
+# -------------------------------------------------------------
+# 1. Ignore all .wav files
+*.wav
+
+# 2. Re-include (un-ignore) .wav files that are static responses
+!DiaROS_ros/static_back_channel_*.wav
+!DiaROS_ros/static_long_question/**/*.wav
+!DiaROS_ros/static_response_archive/**/*.wav
+!DiaROS_ros/static_response_archive_def12/**/*.wav
+!DiaROS_ros/static_response_random/**/*.wav
+!DiaROS_ros/static_response_source/**/*.wav
+# Claude Code backups
+CLAUDE_md_backup_*.md
+*_conbined_archive.py
 DiaROS_ros/build/
 DiaROS_ros/install/
 DiaROS_ros/log/
