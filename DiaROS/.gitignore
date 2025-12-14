@@ -220,3 +220,6 @@ DiaROS_imamoto/
 !DiaROS_ros/static_response_archive_def12/**/*.wav
 !DiaROS_ros/static_response_random/**/*.wav
 !DiaROS_ros/static_response_source/**/*.wav
+# Claude Code backups
+CLAUDE_md_backup_*.md
+*_conbined_archive.py
