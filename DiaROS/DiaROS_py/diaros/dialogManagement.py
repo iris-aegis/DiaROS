@@ -387,10 +387,10 @@ class DialogManagement:
                 if not hasattr(self, 'asr_empty_count'):
                     self.asr_empty_count = 0
                 self.asr_empty_count += 1
-                if self.asr_empty_count % 100 == 0:
-                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[{timestamp}] [DEBUG-ASR-EMPTY] asr[you]が空です\n")
-                    sys.stdout.flush()
+                # if self.asr_empty_count % 100 == 0:
+                #     timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                #     sys.stdout.write(f"[{timestamp}] [DEBUG-ASR-EMPTY] asr[you]が空です\n")
+                #     sys.stdout.flush()
 
             # TTデータの判定・再生
             if self.latest_tt_data is not None and self.latest_tt_time != last_handled_tt_time:

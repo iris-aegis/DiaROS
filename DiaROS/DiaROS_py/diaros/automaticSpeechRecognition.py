@@ -268,8 +268,8 @@ class AutomaticSpeechRecognition:
         sample_values = audio_np[:5].tolist() if len(audio_np) >= 5 else audio_np.tolist()
         sample_str = '[' + ','.join([f'{v:.6f}' for v in sample_values]) + ']'
 
-        sys.stdout.write(f"[🧠 ASR_RECEIVE] {timestamp_str} | AudioID:{audio_id} | 受信数:{self.recv_count} | サンプル:{len(audio_np)}\n")
-        sys.stdout.flush()
+        # sys.stdout.write(f"[🧠 ASR_RECEIVE] {timestamp_str} | AudioID:{audio_id} | 受信数:{self.recv_count} | サンプル:{len(audio_np)}\n")
+        # sys.stdout.flush()
         
         # メタデータ付きでキューに追加
         audio_metadata = {
