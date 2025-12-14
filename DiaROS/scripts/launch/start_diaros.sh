@@ -250,46 +250,30 @@ check_ros_changes() {
     return 0  # 変更なし
 }
 
-# ビルドオプションのチェック
-FORCE_BUILD=${FORCE_BUILD:-false}
-BUILD_NEEDED=false
-
-if [ "$FORCE_BUILD" = true ]; then
-    echo -e "${YELLOW}🔧 強制ビルドモードが有効です${NC}"
-    BUILD_NEEDED=true
-elif ! check_ros_changes; then
-    echo -e "${YELLOW}⚠️  ROS2パッケージの変更を検出しました${NC}"
-    BUILD_NEEDED=true
-else
-    echo -e "${GREEN}✅ ROS2パッケージに変更はありません${NC}"
-fi
-
 # ビルド実行（SDSモジュール編集時は常に実行）
-echo -e "${YELLOW}🔨 SDSモジュール編集を反映するため、ROS2パッケージを再ビルドします...${NC}"
-cd /workspace/DiaROS/DiaROS_ros
-source /opt/ros/humble/setup.bash
+echo -e "${YELLOW}🔨 SDSモジュール編集を反映するため、完全ビルドを実行します...${NC}"
 
-# interfacesパッケージのビルド
-echo -e "${YELLOW}📦 interfacesパッケージをビルド中...${NC}"
-colcon build --cmake-args -DCMAKE_C_FLAGS=-fPIC --packages-select interfaces
-. ./install/local_setup.bash
-
-# diaros_packageのビルド
-echo -e "${YELLOW}📦 diaros_packageをビルド中...${NC}"
-colcon build --packages-select diaros_package
-. ./install/local_setup.bash
-
-echo -e "${GREEN}✅ ROS2パッケージのビルドが完了しました${NC}"
-FORCE_REINSTALL=true
-
-# Pythonモジュールのインストール確認
-echo -e "${YELLOW}🔍 Pythonモジュールの確認...${NC}"
-
-# SDSモジュール編集時は常に再インストールを実行
-echo -e "${YELLOW}⚠️  SDSモジュール編集を反映するため、DiaROSモジュールを再インストールします...${NC}"
+# 1. Pythonモジュールの再インストール
+echo -e "${YELLOW}📦 Step 1/3: Pythonモジュールを再インストール中...${NC}"
 cd /workspace/DiaROS/DiaROS_py
 pip install . --upgrade
-echo -e "${GREEN}✅ モジュールのインストールが完了しました${NC}"
+echo -e "${GREEN}✅ Pythonモジュールの再インストール完了${NC}"
+
+# 2. ROS2環境セットアップとinterfacesビルド
+echo -e "${YELLOW}📦 Step 2/3: interfacesパッケージをビルド中...${NC}"
+cd /workspace/DiaROS/DiaROS_ros
+source /opt/ros/humble/setup.bash
+colcon build --cmake-args -DCMAKE_C_FLAGS=-fPIC --packages-select interfaces
+. ./install/local_setup.bash
+echo -e "${GREEN}✅ interfacesパッケージのビルド完了${NC}"
+
+# 3. diaros_packageのビルド
+echo -e "${YELLOW}📦 Step 3/3: diaros_packageをビルド中...${NC}"
+colcon build --packages-select diaros_package
+. ./install/local_setup.bash
+echo -e "${GREEN}✅ diaros_packageのビルド完了${NC}"
+
+echo -e "${GREEN}✅ 完全ビルドプロセス完了${NC}"
 
 echo ""
 echo -e "${GREEN}🎯 DiaROSを起動します...${NC}"
