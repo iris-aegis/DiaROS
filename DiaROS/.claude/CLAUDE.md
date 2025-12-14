@@ -106,6 +106,75 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 このルールにより、開発サイクルを効率化し、変更履歴を常に最新に保ちます。
 
+### ブランチ管理とファイル別コミット戦略
+**DMPC（このPC）ではmainブランチとlocal_nlgブランチを使い分けてコミットします。**
+
+#### ブランチ戦略
+- **mainブランチ**: DMPC専用モジュール（ASR, DM, BC, TT, SS など）+ 共通インターフェース
+- **local_nlgブランチ**: NLG関連モジュール + 共通インターフェース（cherry-pick）
+
+#### NLG関連ファイルの判定と自動ブランチ切り替え
+
+**NLG関連ファイル（local_nlgブランチでコミット）**:
+- `DiaROS_py/diaros/naturalLanguageGeneration.py`
+- `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`
+- `DiaROS_py/diaros/prompts/*`（プロンプトテンプレート）
+
+**共通インターフェースファイル（mainブランチでコミット → local_nlgにcherry-pick）**:
+- `DiaROS_ros/src/interfaces/msg/*.msg`（Idm.msg, Inlg.msg など）
+
+**DMPC専用ファイル（mainブランチでコミット）**:
+- 上記以外のすべてのファイル（DM, ASR, BC, TT, SS, sdsmod.launch.py など）
+
+#### 編集時の自動ワークフロー
+
+**1. NLG関連ファイルを編集する場合**:
+```bash
+# 編集前にlocal_nlgブランチに切り替え
+git checkout local_nlg
+git pull origin local_nlg
+
+# ファイル編集...
+
+# コミット
+git add DiaROS_py/diaros/naturalLanguageGeneration.py \
+        DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
+git commit -m "NLG: 修正内容"
+git push origin local_nlg
+
+# mainブランチに戻る
+git checkout main
+```
+
+**2. 共通インターフェースファイルを編集する場合**:
+```bash
+# mainブランチで編集・コミット
+git add DiaROS_ros/src/interfaces/msg/Idm.msg
+git commit -m "Fix: Idm.msgにフィールド追加"
+git push origin main
+
+# local_nlgブランチにもcherry-pick
+COMMIT_HASH=$(git rev-parse HEAD)
+git checkout local_nlg
+git pull origin local_nlg
+git cherry-pick $COMMIT_HASH
+git push origin local_nlg
+git checkout main
+```
+
+**3. DMPC専用ファイルを編集する場合**:
+```bash
+# mainブランチで通常通りコミット
+git add .
+git commit -m "Fix: DM相槌ロジック修正"
+git push origin main
+```
+
+#### 重要な注意事項
+- **編集前に必ずブランチを確認**: 対象ファイルがNLG関連かを判定し、適切なブランチに切り替え
+- **編集後は必ずmainに戻る**: 次回の編集時に間違ったブランチで作業しないように
+- **sdsmod.launch.pyは各ブランチで別管理**: DMPC（main）とNLGPC（local_nlg）で内容が異なるため、絶対にマージしない
+
 ### 現在の運用構成（NLG分散実行）
 **このリポジトリは、NLGモジュール（自然言語生成）を別PCで実行する構成で運用されています。**
 
@@ -127,21 +196,74 @@ NLGPC では以下のソースコードが使用されます（別リポジト�
 - `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`: ROS2 ラッパー
 - `DiaROS_py/diaros/prompts/`: プロンプトテンプレート
 
-##### 重要：NLGPC ブランチの確認
+#### NLGPC側での同期方法
 
-このリポジトリ（DMPC）と NLGPC では**異なるブランチ**を使用しています。NLGモジュールに関する以下の作業を行う場合は、**NLGPC のブランチを確認・修正してください**：
+**DMPC Claude Codeがlocal_nlgブランチにコミットした変更をNLGPCに反映する方法**:
 
-- NLGモジュールの実装詳細確認
-- 推論ロジックの変更
-- プロンプトテンプレートの修正
-- 応答生成パラメータ調整
+**方法1: VSCode Git Graph 拡張機能（推奨）**
+1. NLGPC側のVSCodeに「Git Graph」拡張機能をインストール
+2. VSCode設定で自動フェッチを有効化：
+   ```json
+   {
+     "git.autofetch": true,
+     "git.autofetchPeriod": 60
+   }
+   ```
+3. VSCodeステータスバーの同期ボタンをクリック、またはソース管理パネルで「プル」実行
 
-**NLGPC で使用されるブランチ（必要に応じて参照・修正）：**
+**方法2: 手動同期（コマンド）**
+```bash
+# NLGPC側（Docker内）で実行
+cd /workspace/DiaROS
+git pull origin local_nlg
+
+# ビルド（変更があった場合のみ）
+cd DiaROS_py
+pip install . --upgrade
+
+cd ../DiaROS_ros
+source /opt/ros/humble/setup.bash
+colcon build --packages-select interfaces
+colcon build --packages-select diaros_package
+source install/local_setup.bash
+```
+
+**方法3: 定期同期スクリプト（オプション）**
+NLGPC側に定期同期スクリプトを配置：
+```bash
+#!/bin/bash
+# /workspace/scripts/nlg_sync.sh
+cd /workspace/DiaROS
+git fetch origin local_nlg
+if [ $(git rev-parse HEAD) != $(git rev-parse @{u}) ]; then
+    echo "🔄 変更検出、同期中..."
+    git pull origin local_nlg
+    # 自動ビルド処理...
+fi
+```
+
+**推奨運用フロー**:
+1. DMPC Claude CodeがNLG関連ファイルを編集 → local_nlgにコミット・プッシュ
+2. NLGPC側でVSCodeステータスバーの同期ボタンをクリック（または自動フェッチ後に手動プル）
+3. NLGPC側で必要に応じて再ビルド・再起動
+
+##### 重要：NLGモジュール編集時の注意
+
+**すべての編集はDMPC Claude Codeで実施します。**
+
+- **NLGモジュール編集**: DMPC Claude Codeが `local_nlg` ブランチに切り替えて編集・コミット
+- **DMPC専用モジュール編集**: DMPC Claude Codeが `main` ブランチで編集・コミット
+- **NLGPC Claude Code**: 基本的に編集作業には使用せず、参照・確認のみ
+
+**NLGPC Claude Codeを使用する場合の注意**:
+- NLG関連ファイル以外（DM, ASR, BC, TT, SS など）を編集しない
+- 編集が必要な場合は、DMPC側で実施してlocal_nlgブランチにコミット
+- NLGPC側では `git pull origin local_nlg` で同期
+
+**NLGPC で使用されるブランチ**:
 ```
 https://github.com/iris-aegis/DiaROS/tree/local_nlg
 ```
-
-DMPC での作業（音声入力、対話管理、相槌生成など）は、このリポジトリの main ブランチで実施してください。
 
 #### 通信プロトコル
 - **ROS2 トピック**: DMtoNLG / NLGtoDM 経由でメッセージ交換
@@ -727,8 +849,8 @@ curl -fsSL https://pixi.sh/install.sh | bash
 #### Linux（従来の方法）
 ```bash
 # ROS2 Foxy/Humbleのインストール
-sudo apt update
-sudo apt install ros-foxy-desktop
+apt update
+apt install ros-humble-desktop
 
 # 環境のセットアップ
 ./scripts/setup/setup_ros2_env.sh
