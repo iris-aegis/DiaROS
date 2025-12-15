@@ -7,9 +7,9 @@
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
-MODEL_NAME = "gemma3:4b"             # 軽量・高速
+# MODEL_NAME = "gemma3:4b"             # 軽量・高速
 # MODEL_NAME = "gemma3:12b"            # 高品質
-# MODEL_NAME = "gemma3:27b"            # 最高品質
+MODEL_NAME = "gemma3:27b"            # 最高品質
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え

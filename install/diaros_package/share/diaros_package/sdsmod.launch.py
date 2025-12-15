@@ -19,57 +19,57 @@ def generate_launch_description():
 
     nodes = []
     # use_micが'true'のときのみspeech_inputノードを起動
-    nodes.append(
-        Node(
-            package='diaros_package',
-            executable='ros2_speech_input',
-            output='screen',
-            condition=IfCondition(use_mic)
-        )
-    )
+    # nodes.append(
+    #     # Node(
+    #     #     package='diaros_package',
+    #     #     executable='ros2_speech_input',
+    #     #     output='screen',
+    #     #     condition=IfCondition(use_mic)
+    #     # )
+    # )
 
     nodes += [
-        Node(
-            package='diaros_package',
-            executable='ros2_acoustic_analysis',
-            name='acoustic_analysis',
-            output='screen'
-        ),
-        Node(
-            package='diaros_package',
-            executable='ros2_automatic_speech_recognition',
-            output='screen'
-        ),
-        Node(
-            package='diaros_package',
-            executable='ros2_natural_language_understanding',
-            output='screen'
-        ),
-        Node(
-            package='diaros_package',
-            executable='ros2_dialog_management',
-            output='screen'
-        ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_acoustic_analysis',
+        #     name='acoustic_analysis',
+        #     output='screen'
+        # ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_automatic_speech_recognition',
+        #     output='screen'
+        # ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_natural_language_understanding',
+        #     output='screen'
+        # ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_dialog_management',
+        #     output='screen'
+        # ),
         Node(
             package='diaros_package',
             executable='ros2_natural_language_generation',
             output='screen'
         ),
-        Node(
-            package='diaros_package',
-            executable='ros2_speech_synthesis',
-            output='screen'
-        ),
-        Node(
-            package='diaros_package',
-            executable='ros2_turn_taking',
-            output='screen'
-        ),
-        Node(
-            package='diaros_package',
-            executable='ros2_back_channel',
-            output='screen',
-        ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_speech_synthesis',
+        #     output='screen'
+        # ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_turn_taking',
+        #     output='screen'
+        # ),
+        # Node(
+        #     package='diaros_package',
+        #     executable='ros2_back_channel',
+        #     output='screen',
+        # ),
     ]
 
     return LaunchDescription([use_mic_arg] + nodes)
