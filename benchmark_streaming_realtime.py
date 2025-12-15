@@ -241,7 +241,7 @@ def benchmark_streaming_realtime(audio_file):
 
 def main():
     start_time = datetime.datetime.now() # 開始時刻を取得
-    audio_file = '/workspace/DiaROS/script1.wav'
+    audio_file = '/workspace/script1.wav'
     result = benchmark_streaming_realtime(audio_file)
     end_time = datetime.datetime.now() # 終了時刻を取得
     

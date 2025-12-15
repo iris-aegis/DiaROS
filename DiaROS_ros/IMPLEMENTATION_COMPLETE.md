@@ -19,7 +19,7 @@
 
 ### 2️⃣ メッセージインターフェース拡張
 
-**ファイル**: `/workspace/DiaROS/DiaROS_ros/src/interfaces/msg/Idm.msg`
+**ファイル**: `/workspace/DiaROS_ros/src/interfaces/msg/Idm.msg`
 
 変更内容：
 ```
@@ -124,7 +124,7 @@
 #### ステップ1: ターミナル1 でシステム起動
 
 ```bash
-bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
+bash /workspace/scripts/launch/launch_diaros_no_speech_input_simple.sh
 ```
 
 **完了メッセージ**:
@@ -146,7 +146,7 @@ bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
 #### ステップ2: ターミナル2 でマイクデータ再生
 
 ```bash
-ros2 bag play /workspace/DiaROS/log/diaros_20250713_151409/diaros_20250713_151409_0.db3 --topics /mic_audio_float32
+ros2 bag play /workspace/log/diaros_20250713_151409/diaros_20250713_151409_0.db3 --topics /mic_audio_float32
 ```
 
 #### ステップ3: ターミナル1 でログ確認
@@ -271,14 +271,14 @@ IMPLEMENTATION_SUMMARY.md (実装サマリー)
 
 1. **検証実施** (推奨)
    ```bash
-   bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
+   bash /workspace/scripts/launch/launch_diaros_no_speech_input_simple.sh
    # 別ターミナルで
-   ros2 bag play /workspace/DiaROS/log/diaros_20250713_151409/diaros_20250713_151409_0.db3 --topics /mic_audio_float32
+   ros2 bag play /workspace/log/diaros_20250713_151409/diaros_20250713_151409_0.db3 --topics /mic_audio_float32
    ```
 
 2. **テスト実施** (オプション)
    ```bash
-   python3 /workspace/DiaROS/DiaROS_ros/test_stage_based_communication.py
+   python3 /workspace/DiaROS_ros/test_stage_based_communication.py
    ```
 
 ### 将来の拡張

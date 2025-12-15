@@ -17,7 +17,7 @@
 
 ### 必要なデータファイル
 ```
-/workspace/DiaROS/log/diaros_20250713_151409/diaros_20250713_151409_0.db3
+/workspace/log/diaros_20250713_151409/diaros_20250713_151409_0.db3
 ```
 
 このROSバッグファイルには、実際のマイクデータが格納されています。
@@ -32,7 +32,7 @@
 ### ステップ1: ターミナル1 でDiaROSシステムを起動
 
 ```bash
-bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
+bash /workspace/scripts/launch/launch_diaros_no_speech_input_simple.sh
 ```
 
 このコマンド実行後、以下のが起動されます：
@@ -67,15 +67,15 @@ bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
 ### ステップ2: ターミナル2 でマイクデータを再生
 
 ```bash
-ros2 bag play /workspace/DiaROS/log/diaros_20250713_151409/diaros_20250713_151409_0.db3 --topics /mic_audio_float32
+ros2 bag play /workspace/log/diaros_20250713_151409/diaros_20250713_151409_0.db3 --topics /mic_audio_float32
 ```
 
 このコマンドは、ROSバッグファイルから `/mic_audio_float32` トピックのデータを再生します。
 
 **実行例**:
 ```
-[INFO] [player]: Playback of [/workspace/DiaROS/log/diaros_20250713_151409] paused [0.000000s/X.XXXs]
-[INFO] [player]: Playback of [/workspace/DiaROS/log/diaros_20250713_151409] started
+[INFO] [player]: Playback of [/workspace/log/diaros_20250713_151409] paused [0.000000s/X.XXXs]
+[INFO] [player]: Playback of [/workspace/log/diaros_20250713_151409] started
 ```
 
 ## 検証ポイント
@@ -173,7 +173,7 @@ session_id: ''
 
 **解決策**: sdsmod.launch.py を確認
 ```bash
-cat /workspace/DiaROS/DiaROS_ros/src/diaros_package/launch/sdsmod.launch.py | grep -A 3 natural_language_generation
+cat /workspace/DiaROS_ros/src/diaros_package/launch/sdsmod.launch.py | grep -A 3 natural_language_generation
 ```
 
 出力例（正常）:

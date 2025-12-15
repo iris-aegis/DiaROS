@@ -67,7 +67,7 @@ echo "   NVIDIA_VISIBLE_DEVICES=$NVIDIA_VISIBLE_DEVICES"
 echo "   VOICEVOX_USE_GPU=$VOICEVOX_USE_GPU"
 
 # GPU起動用ラッパースクリプト作成
-WRAPPER_SCRIPT="/workspace/DiaROS/scripts/launch/launch_voicevox_gpu.sh"
+WRAPPER_SCRIPT="/workspace/scripts/launch/launch_voicevox_gpu.sh"
 echo ""
 echo "5. GPU起動スクリプト作成..."
 
@@ -103,7 +103,7 @@ chmod +x "$WRAPPER_SCRIPT"
 echo "✅ GPU起動スクリプト作成: $WRAPPER_SCRIPT"
 
 # テスト用スクリプト作成
-TEST_SCRIPT="/workspace/DiaROS/scripts/test/test_voicevox_gpu.sh"
+TEST_SCRIPT="/workspace/scripts/test/test_voicevox_gpu.sh"
 echo ""
 echo "6. GPU動作テストスクリプト作成..."
 

@@ -10,14 +10,14 @@
 
 ```bash
 # 各PCで実行
-chmod +x /workspace/DiaROS/scripts/setup/setup_time_sync.sh
-sudo /workspace/DiaROS/scripts/setup/setup_time_sync.sh
+chmod +x /workspace/scripts/setup/setup_time_sync.sh
+sudo /workspace/scripts/setup/setup_time_sync.sh
 ```
 
 ### Step 2: インターフェース再ビルド
 
 ```bash
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 colcon build --cmake-args -DCMAKE_C_FLAGS=-fPIC --packages-select interfaces
 source ./install/local_setup.bash
@@ -114,8 +114,8 @@ def synthesize_and_play(self, session_id, text):
 
 ```bash
 # メインPC
-cd /workspace/DiaROS/DiaROS_ros
-bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
+cd /workspace/DiaROS_ros
+bash /workspace/scripts/launch/launch_diaros_no_speech_input_simple.sh
 
 # NLG専用PC
 ros2 run diaros_package ros2_natural_language_generation
@@ -128,10 +128,10 @@ ros2 run diaros_package ros2_natural_language_generation
 tail -f /tmp/diaros_timing.log
 
 # 可視化
-python3 /workspace/DiaROS/scripts/debug/timing_visualizer.py timeline_dialog_123.json plot
+python3 /workspace/scripts/debug/timing_visualizer.py timeline_dialog_123.json plot
 
 # 詳細レポート
-python3 /workspace/DiaROS/scripts/debug/timing_visualizer.py timeline_dialog_123.json report
+python3 /workspace/scripts/debug/timing_visualizer.py timeline_dialog_123.json report
 ```
 
 ## 📊 計測結果例

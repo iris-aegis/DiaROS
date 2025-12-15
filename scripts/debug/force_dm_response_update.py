@@ -8,7 +8,7 @@ import sys
 import os
 
 # DiaROS dialogManagement.py のパス
-DM_FILE_PATH = "/workspace/DiaROS/DiaROS_py/diaros/dialogManagement.py"
+DM_FILE_PATH = "/workspace/DiaROS_py/diaros/dialogManagement.py"
 
 def backup_original():
     """元ファイルのバックアップ"""
@@ -111,7 +111,7 @@ def main():
         apply_patch()
         print("\n📋 次の手順:")
         print("1. DiaROSパッケージを再インストール:")
-        print("   cd /workspace/DiaROS/DiaROS_py && python -m pip install . --user")
+        print("   cd /workspace/DiaROS_py && python -m pip install . --user")
         print("2. DiaROSシステムを再起動")
         print("3. テストメッセージを送信してDM→NLG通信を確認")
         
@@ -119,7 +119,7 @@ def main():
         restore_original()
         print("\n📋 次の手順:")
         print("1. DiaROSパッケージを再インストール:")
-        print("   cd /workspace/DiaROS/DiaROS_py && python -m pip install . --user")
+        print("   cd /workspace/DiaROS_py && python -m pip install . --user")
         print("2. DiaROSシステムを再起動")
         
     else:

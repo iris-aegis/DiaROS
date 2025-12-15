@@ -16,7 +16,7 @@ frame_duration = 30  # ms
 frame_samples = int(sample_rate * frame_duration / 1000)  # 480サンプル
 
 # WAVファイル読み込み
-wav_file = '/workspace/DiaROS/script1.wav'
+wav_file = '/workspace/script1.wav'
 print(f"WAVファイル読み込み: {wav_file}")
 print("=" * 80)
 

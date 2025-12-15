@@ -18,7 +18,7 @@ else
 fi
 
 # DiaROSローカル環境セットアップ
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 if [ -f "$DIAROS_DIR/install/local_setup.bash" ]; then
     source "$DIAROS_DIR/install/local_setup.bash"
     echo "✅ DiaROSローカル環境をロード"

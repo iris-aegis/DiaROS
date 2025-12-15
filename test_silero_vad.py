@@ -232,9 +232,9 @@ def main():
     
     # 3. 音声ファイルテスト（もしファイルがあれば）
     test_audio_files = [
-        "/workspace/DiaROS/DiaROS_ros/static_response_source/static_response_1.wav",
-        "/workspace/DiaROS/DiaROS_ros/start_announce.wav",
-        "/workspace/DiaROS/DiaROS_ros/power_calibration.wav"
+        "/workspace/DiaROS_ros/static_response_source/static_response_1.wav",
+        "/workspace/DiaROS_ros/start_announce.wav",
+        "/workspace/DiaROS_ros/power_calibration.wav"
     ]
     
     for audio_file in test_audio_files:

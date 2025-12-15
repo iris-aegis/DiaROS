@@ -7,7 +7,7 @@ response_update条件の各段階を詳細にログ出力
 import sys
 import os
 
-DM_FILE_PATH = "/workspace/DiaROS/DiaROS_py/diaros/dialogManagement.py"
+DM_FILE_PATH = "/workspace/DiaROS_py/diaros/dialogManagement.py"
 
 def add_detailed_debug():
     """詳細デバッグログを追加"""
@@ -131,7 +131,7 @@ def main():
         add_detailed_debug()
         print("\n📋 次の手順:")
         print("1. DiaROSパッケージを再インストール:")
-        print("   cd /workspace/DiaROS/DiaROS_py && python -m pip install . --user")
+        print("   cd /workspace/DiaROS_py && python -m pip install . --user")
         print("2. DiaROSシステムを再起動")
         print("3. テストメッセージを送信して詳細ログを確認")
         print("4. 確認後、remove で詳細ログを削除")
@@ -140,7 +140,7 @@ def main():
         remove_detailed_debug()
         print("\n📋 次の手順:")
         print("1. DiaROSパッケージを再インストール:")
-        print("   cd /workspace/DiaROS/DiaROS_py && python -m pip install . --user")
+        print("   cd /workspace/DiaROS_py && python -m pip install . --user")
         print("2. DiaROSシステムを再起動")
         
     else:

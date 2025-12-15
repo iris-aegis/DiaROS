@@ -218,7 +218,7 @@ else:
 
 ```bash
 # WebRTC VAD の閾値メカニズムを検証
-python3 /workspace/DiaROS/test_webrtc_vad_threshold_modes_v2.py
+python3 /workspace/test_webrtc_vad_threshold_modes_v2.py
 ```
 
 このスクリプトは以下を示します：
@@ -233,8 +233,8 @@ python3 /workspace/DiaROS/test_webrtc_vad_threshold_modes_v2.py
 
 - WebRTC VAD Python ラッパー: https://github.com/wiseman/py-webrtcvad
 - Silero VAD: https://github.com/snakers4/silero-vad
-- DiaROS VAD比較テスト: `/workspace/DiaROS/test_vad_comparison_fixed_audio.py`
-- WebRTC VAD タイミング検証: `/workspace/DiaROS/README_VAD_TESTS.md`
+- DiaROS VAD比較テスト: `/workspace/test_vad_comparison_fixed_audio.py`
+- WebRTC VAD タイミング検証: `/workspace/README_VAD_TESTS.md`
 
 ---
 

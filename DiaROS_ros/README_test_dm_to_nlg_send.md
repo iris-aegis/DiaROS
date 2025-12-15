@@ -91,7 +91,7 @@ python3 test_dm_to_nlg_send.py asr_result_lists/asr_result_list_1s.json
 ### 成功時の出力
 ```
 🚀 DM to NLG送信テスト開始
-📂 対象JSONファイル: /workspace/DiaROS/DiaROS_ros/asr_result_lists/asr_result_list_1s.json
+📂 対象JSONファイル: /workspace/DiaROS_ros/asr_result_lists/asr_result_list_1s.json
 ==================================================
 ✅ JSONファイル 'asr_result_lists/asr_result_list_1s.json' から14件のASR結果を読み込みました
 📄 JSONファイル形式: リスト（14項目）

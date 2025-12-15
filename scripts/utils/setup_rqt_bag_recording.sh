@@ -15,7 +15,7 @@ if [ -z "$ROS_DISTRO" ]; then
 fi
 
 # DiaROS環境の確認
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 if [ -f "$DIAROS_DIR/install/local_setup.bash" ]; then
     source "$DIAROS_DIR/install/local_setup.bash"
     echo "✅ DiaROSローカル環境をセットアップしました"

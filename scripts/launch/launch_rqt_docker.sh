@@ -16,7 +16,7 @@ echo "DISPLAY=$DISPLAY"
 # 仮想ディスプレイが無い場合は起動
 if ! pgrep Xvfb >/dev/null; then
     echo "仮想ディスプレイを起動中..."
-    /workspace/DiaROS/scripts/utils/start_virtual_display.sh
+    /workspace/scripts/utils/start_virtual_display.sh
 fi
 
 echo ""
@@ -24,7 +24,7 @@ echo "2. RQT起動試行..."
 
 # ROS2環境設定
 source /opt/ros/foxy/setup.bash
-source /workspace/DiaROS/DiaROS_ros/install/local_setup.bash
+source /workspace/DiaROS_ros/install/local_setup.bash
 
 # RQTをバックグラウンドで起動（出力制限）
 rqt --force-discover > /tmp/rqt.log 2>&1 &

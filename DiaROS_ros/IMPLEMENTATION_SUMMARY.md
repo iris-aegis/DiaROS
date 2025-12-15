@@ -14,7 +14,7 @@ DiaROSシステムの核となる設計思想「ROS通信による疎結合ア�
 ### 1. ドキュメント更新
 
 #### CLAUDE.md
-**場所**: `/workspace/DiaROS/CLAUDE.md`
+**場所**: `/workspace/CLAUDE.md`
 
 追加セクション:
 ```markdown
@@ -34,7 +34,7 @@ DiaROSシステムの核となる設計思想「ROS通信による疎結合ア�
 
 ### 2. NLGノードの改善
 
-**ファイル**: `/workspace/DiaROS/DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`
+**ファイル**: `/workspace/DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`
 
 **変更点**:
 - `time` モジュールをインポート
@@ -57,7 +57,7 @@ DiaROSシステムの核となる設計思想「ROS通信による疎結合ア�
 
 ### 3. DMノードの改善
 
-**ファイル**: `/workspace/DiaROS/DiaROS_ros/src/diaros_package/diaros_package/ros2_dialog_management.py`
+**ファイル**: `/workspace/DiaROS_ros/src/diaros_package/diaros_package/ros2_dialog_management.py`
 
 **変更点**:
 - リクエストID管理機構を追加:
@@ -80,7 +80,7 @@ DiaROSシステムの核となる設計思想「ROS通信による疎結合ア�
 
 ### 4. テストスクリプト新規作成
 
-**ファイル**: `/workspace/DiaROS/DiaROS_ros/test_stage_based_communication.py`
+**ファイル**: `/workspace/DiaROS_ros/test_stage_based_communication.py`
 
 **機能**:
 - First stage リクエストのテスト
@@ -92,13 +92,13 @@ DiaROSシステムの核となる設計思想「ROS通信による疎結合ア�
 
 **実行方法**:
 ```bash
-python3 /workspace/DiaROS/DiaROS_ros/test_stage_based_communication.py
+python3 /workspace/DiaROS_ros/test_stage_based_communication.py
 ```
 
 ### 5. ドキュメント新規作成
 
 #### STAGE_BASED_COMMUNICATION.md
-**ファイル**: `/workspace/DiaROS/DiaROS_ros/STAGE_BASED_COMMUNICATION.md`
+**ファイル**: `/workspace/DiaROS_ros/STAGE_BASED_COMMUNICATION.md`
 
 内容:
 - システム設計原則の詳細説明

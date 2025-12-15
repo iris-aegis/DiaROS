@@ -9,7 +9,7 @@ echo "====================================="
 
 # 現在のディレクトリを保存
 ORIGINAL_DIR=$(pwd)
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 
 # DiaROSディレクトリに移動
 if [ -d "$DIAROS_DIR" ]; then

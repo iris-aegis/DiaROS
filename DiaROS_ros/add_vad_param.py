@@ -1,6 +1,6 @@
 import os
 
-file_path = "/workspace/DiaROS/test_vad_comparison_fixed_audio copy.py"
+file_path = "/workspace/test_vad_comparison_fixed_audio copy.py"
 
 try:
     with open(file_path, "r", encoding="utf-8") as f:

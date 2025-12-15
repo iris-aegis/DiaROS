@@ -18,7 +18,7 @@ else
 fi
 
 # DiaROSローカル環境セットアップ
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 if [ -f "$DIAROS_DIR/install/local_setup.bash" ]; then
     source "$DIAROS_DIR/install/local_setup.bash"
     echo "✅ DiaROSローカル環境をロード"
@@ -46,7 +46,7 @@ if ! ros2 topic list | grep -q "^/NLGtoSS$"; then
 fi
 
 # Python監視スクリプト実行
-python3 /workspace/DiaROS/scripts/debug/test_nlg_to_ss.py
+python3 /workspace/scripts/debug/test_nlg_to_ss.py
 
 echo ""
 echo "🏁 NLGtoSS監視完了"

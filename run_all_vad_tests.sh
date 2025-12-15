@@ -20,9 +20,9 @@ fi
 # 入力ファイルチェック
 echo ""
 echo "📂 入力ファイルチェック..."
-if [ -f "/workspace/DiaROS/script1.wav" ]; then
+if [ -f "/workspace/script1.wav" ]; then
     echo "✓ script1.wav が見つかりました"
-    ls -lh /workspace/DiaROS/script1.wav
+    ls -lh /workspace/script1.wav
 else
     echo "❌ script1.wav が見つかりません"
     echo "利用可能なWAVファイル:"
@@ -34,21 +34,21 @@ echo ""
 echo "=============================================================================="
 echo "テスト 1/3: 100ms無声検出タイミング検証"
 echo "=============================================================================="
-python3 /workspace/DiaROS/test_webrtc_vad_timing.py
+python3 /workspace/test_webrtc_vad_timing.py
 
 echo ""
 echo ""
 echo "=============================================================================="
 echo "テスト 2/3: バッチ処理 vs ストリーミング処理"
 echo "=============================================================================="
-python3 /workspace/DiaROS/test_webrtc_batch_vs_stream.py
+python3 /workspace/test_webrtc_batch_vs_stream.py
 
 echo ""
 echo ""
 echo "=============================================================================="
 echo "テスト 3/3: 最速設定（10msフレーム）での全フレーム出力"
 echo "=============================================================================="
-python3 /workspace/DiaROS/test_webrtc_fastest_streaming.py
+python3 /workspace/test_webrtc_fastest_streaming.py
 
 echo ""
 echo ""

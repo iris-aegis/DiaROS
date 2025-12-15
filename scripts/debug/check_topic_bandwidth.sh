@@ -16,7 +16,7 @@ else
 fi
 
 # DiaROSローカル環境セットアップ
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 if [ -f "$DIAROS_DIR/install/local_setup.bash" ]; then
     source "$DIAROS_DIR/install/local_setup.bash"
 else
@@ -72,7 +72,7 @@ echo "  ros2 topic bw /DMtoNLG      # DMtoNLGの帯域幅"
 echo "  ros2 topic hz /DMtoNLG      # DMtoNLGの送信頻度"
 echo ""
 echo "Python監視スクリプト："
-echo "  python3 /workspace/DiaROS/scripts/debug/monitor_ros_performance.py"
+echo "  python3 /workspace/scripts/debug/monitor_ros_performance.py"
 echo ""
 echo "全トピック同時監視："
 echo "  ros2 topic list | xargs -I {} ros2 topic hz {}"

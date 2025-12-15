@@ -112,7 +112,7 @@ class VADSpeedTest:
 
 def main():
     """メイン関数"""
-    wav_file_path = "/workspace/DiaROS/他になにかいい案無いかな.wav"
+    wav_file_path = "/workspace/他になにかいい案無いかな.wav"
     test = VADSpeedTest(wav_path=wav_file_path)
     test.start()
 

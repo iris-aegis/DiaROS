@@ -499,7 +499,7 @@ def test_vad_comparison(audio_file, save_results=None):
 def main():
     """メイン関数"""
     parser = argparse.ArgumentParser(description='VADIterator + TurnTaking統合テスト')
-    parser.add_argument('audio_file', nargs='?', default='/workspace/DiaROS/script10.wav', help='テスト用音声ファイルパス')
+    parser.add_argument('audio_file', nargs='?', default='/workspace/script10.wav', help='テスト用音声ファイルパス')
     parser.add_argument('--save-results', help='結果を保存するJSONファイルパス（任意）')
 
     args = parser.parse_args()

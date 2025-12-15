@@ -16,7 +16,7 @@ pip install numpy scipy librosa webrtcvad
 ### 2. 入力ファイルの確認
 
 ```bash
-ls -lh /workspace/DiaROS/script1.wav
+ls -lh /workspace/script1.wav
 ```
 
 ---
@@ -117,7 +117,7 @@ ls -lt vad_test_results_*.log | head -1 | awk '{print $9}' | xargs cat
 実行後、以下のファイルが作成されます:
 
 ```
-/workspace/DiaROS/
+/workspace/
 ├── test_webrtc_vad_timing.py           # テストスクリプト1
 ├── test_webrtc_batch_vs_stream.py      # テストスクリプト2
 ├── test_webrtc_fastest_streaming.py    # テストスクリプト3
@@ -159,8 +159,8 @@ pip install numpy scipy librosa webrtcvad
 
 **解決策**:
 ```bash
-chmod +x /workspace/DiaROS/run_all_vad_tests.sh
-chmod +x /workspace/DiaROS/test_webrtc*.py
+chmod +x /workspace/run_all_vad_tests.sh
+chmod +x /workspace/test_webrtc*.py
 ```
 
 ---
@@ -176,7 +176,7 @@ chmod +x /workspace/DiaROS/test_webrtc*.py
 各スクリプトの先頭付近にある以下の行を編集:
 
 ```python
-wav_file = '/workspace/DiaROS/script1.wav'  # ← ここを変更
+wav_file = '/workspace/script1.wav'  # ← ここを変更
 ```
 
 ### 出力を絞りたい
@@ -193,5 +193,5 @@ python3 test_webrtc_vad_timing.py | grep -E "(検出イベント|結論|平均)"
 詳細なドキュメントは `README_VAD_TESTS.md` を参照してください。
 
 ```bash
-cat /workspace/DiaROS/README_VAD_TESTS.md
+cat /workspace/README_VAD_TESTS.md
 ```

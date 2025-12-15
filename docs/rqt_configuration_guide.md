@@ -50,7 +50,7 @@ DiaROSの監視に最適化されたRQT設定を保存・再利用できる機�
 6. **設定を保存**
    ```
    # RQTのメニューで: File → Save Perspective
-   # 保存場所: /workspace/DiaROS/config/rqt_diaros_monitoring.perspective
+   # 保存場所: /workspace/config/rqt_diaros_monitoring.perspective
    
    # または monitor.sh で「36a」を選択
    ```
@@ -107,7 +107,7 @@ DiaROSの監視に最適化されたRQT設定を保存・再利用できる機�
 
 ### 場所
 ```
-/workspace/DiaROS/config/rqt_diaros_monitoring.perspective
+/workspace/config/rqt_diaros_monitoring.perspective
 ```
 
 ### 内容
@@ -120,7 +120,7 @@ DiaROSの監視に最適化されたRQT設定を保存・再利用できる機�
 ### 設定が読み込まれない
 1. 設定ファイルの存在確認
    ```bash
-   ls -la /workspace/DiaROS/config/rqt_diaros_monitoring.perspective
+   ls -la /workspace/config/rqt_diaros_monitoring.perspective
    ```
 2. 「36b」で設定を初期化
 3. 再度設定を作成
@@ -143,8 +143,8 @@ DiaROSの監視に最適化されたRQT設定を保存・再利用できる機�
 ### 複数の設定を作成
 ```bash
 # 設定ファイルを複数作成
-cp /workspace/DiaROS/config/rqt_diaros_monitoring.perspective /workspace/DiaROS/config/rqt_audio_only.perspective
-cp /workspace/DiaROS/config/rqt_diaros_monitoring.perspective /workspace/DiaROS/config/rqt_dialog_only.perspective
+cp /workspace/config/rqt_diaros_monitoring.perspective /workspace/config/rqt_audio_only.perspective
+cp /workspace/config/rqt_diaros_monitoring.perspective /workspace/config/rqt_dialog_only.perspective
 ```
 
 ### カスタムメニューの追加
@@ -159,6 +159,6 @@ monitor.shを編集して、カスタム設定オプションを追加可能で�
 
 ## 関連ファイル
 
-- `/workspace/DiaROS/scripts/debug/monitor.sh` - メイン監視スクリプト
-- `/workspace/DiaROS/config/rqt_diaros_monitoring.perspective` - RQT設定ファイル
-- `/workspace/DiaROS/docs/rqt_configuration_guide.md` - このガイド
+- `/workspace/scripts/debug/monitor.sh` - メイン監視スクリプト
+- `/workspace/config/rqt_diaros_monitoring.perspective` - RQT設定ファイル
+- `/workspace/docs/rqt_configuration_guide.md` - このガイド

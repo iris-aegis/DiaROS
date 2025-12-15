@@ -18,7 +18,7 @@ if [ -f /.dockerenv ]; then
 fi
 
 # ========== 現在の環境設定 ==========
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 
 # ROS2環境自動セットアップ関数
 setup_ros2_environment() {

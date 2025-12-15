@@ -18,8 +18,8 @@ echo ""
 # power_calibration.wavファイルの存在確認
 if [ ! -f "/workspace/power_calibration.wav" ]; then
     echo -e "${YELLOW}⚠️  power_calibration.wavファイルが見つかりません。コピーします...${NC}"
-    if [ -f "/workspace/DiaROS/DiaROS_py/power_calibration.wav" ]; then
-        cp /workspace/DiaROS/DiaROS_py/power_calibration.wav /workspace/
+    if [ -f "/workspace/DiaROS_py/power_calibration.wav" ]; then
+        cp /workspace/DiaROS_py/power_calibration.wav /workspace/
         echo -e "${GREEN}✅ ファイルをコピーしました${NC}"
     else
         echo -e "${YELLOW}⚠️  ソースファイルが見つかりません。スキップします${NC}"
@@ -231,8 +231,8 @@ echo "=================================="
 
 # 変更検出のための関数
 check_ros_changes() {
-    local src_dir="/workspace/DiaROS/DiaROS_ros/src"
-    local install_dir="/workspace/DiaROS/DiaROS_ros/install"
+    local src_dir="/workspace/DiaROS_ros/src"
+    local install_dir="/workspace/DiaROS_ros/install"
     
     # installディレクトリが存在しない場合は初回ビルド
     if [ ! -d "$install_dir" ]; then
@@ -255,13 +255,13 @@ echo -e "${YELLOW}🔨 SDSモジュール編集を反映するため、完全ビ
 
 # 1. Pythonモジュールの再インストール
 echo -e "${YELLOW}📦 Step 1/3: Pythonモジュールを再インストール中...${NC}"
-cd /workspace/DiaROS/DiaROS_py
+cd /workspace/DiaROS_py
 pip install . --upgrade
 echo -e "${GREEN}✅ Pythonモジュールの再インストール完了${NC}"
 
 # 2. ROS2環境セットアップとinterfacesビルド
 echo -e "${YELLOW}📦 Step 2/3: interfacesパッケージをビルド中...${NC}"
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 colcon build --cmake-args -DCMAKE_C_FLAGS=-fPIC --packages-select interfaces
 . ./install/local_setup.bash
@@ -280,7 +280,7 @@ echo -e "${GREEN}🎯 DiaROSを起動します...${NC}"
 echo "=================================="
 
 # ROS2環境の設定
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 
 # 既存のビルドがある場合はセットアップスクリプトを実行

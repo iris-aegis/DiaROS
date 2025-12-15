@@ -63,7 +63,7 @@ start_voicevox() {
 }
 
 # 作業ディレクトリ
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 
 # ディレクトリ存在確認
 if [ ! -d "$DIAROS_DIR" ]; then
@@ -92,13 +92,13 @@ echo "🔧 DiaROSの完全ビルドを実行中..."
 
 # 1. Pythonモジュールの再インストール
 echo "📦 Step 1/6: Pythonモジュールを再インストール中..."
-cd /workspace/DiaROS/DiaROS_py
+cd /workspace/DiaROS_py
 pip install . --upgrade
 echo "✅ Pythonモジュールの再インストール完了"
 
 # 2. DiaROS_rosディレクトリに移動
 echo "📦 Step 2/6: DiaROS_rosディレクトリに移動中..."
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 echo "✅ 作業ディレクトリ: $(pwd)"
 
 # 3. ROS2環境セットアップ
@@ -146,7 +146,7 @@ fi
 export ROS_DOMAIN_ID=0
 export DIAROS_DEVICE="${DIAROS_DEVICE:-cpu}"
 # NLGのプロンプトディレクトリを明示的に設定
-export DIAROS_PROMPTS_DIR="/workspace/DiaROS/DiaROS_py/diaros/prompts"
+export DIAROS_PROMPTS_DIR="/workspace/DiaROS_py/diaros/prompts"
 
 echo "📋 設定確認:"
 echo "  ROS_DOMAIN_ID: $ROS_DOMAIN_ID"

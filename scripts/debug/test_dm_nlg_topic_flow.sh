@@ -6,7 +6,7 @@ echo "🔍 DM→NLGトピック通信テスト"
 echo "=" * 50
 
 # ROS2環境設定
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 source ./install/local_setup.bash
 

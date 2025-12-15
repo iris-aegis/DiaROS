@@ -15,8 +15,8 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # 作業ディレクトリ
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
-SCRIPT_DIR="/workspace/DiaROS/scripts/debug"
+DIAROS_DIR="/workspace/DiaROS_ros"
+SCRIPT_DIR="/workspace/scripts/debug"
 
 # ROS2環境セットアップ
 setup_ros_environment() {

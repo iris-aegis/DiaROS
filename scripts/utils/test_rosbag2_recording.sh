@@ -7,7 +7,7 @@ echo "ROS2 Bag Recording Test"
 echo "====================================="
 
 # 作業ディレクトリ
-DIAROS_DIR="/workspace/DiaROS/DiaROS_ros"
+DIAROS_DIR="/workspace/DiaROS_ros"
 cd "$DIAROS_DIR"
 
 # ROS2環境の設定
@@ -107,7 +107,7 @@ if [ -d "$TEST_DIR" ] || [ -f "${TEST_DIR}/metadata.yaml" ]; then
     echo "✅ rosbag2レコーディングは正常に動作しています"
     echo ""
     echo "📋 rqt_bagでのレコーディング手順:"
-    echo "1. bash /workspace/DiaROS/scripts/debug/monitor.sh"
+    echo "1. bash /workspace/scripts/debug/monitor.sh"
     echo "2. 1a を選択（rqt_bag専用起動）"
     echo "3. Plugins → Logging → Bag を選択"
     echo "4. Record タブでトピックを選択してレコーディング"

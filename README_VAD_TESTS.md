@@ -106,11 +106,11 @@ python3 -c "import numpy, scipy, librosa, webrtcvad; print('All dependencies ins
 
 ## 入力ファイル
 
-すべてのスクリプトは `/workspace/DiaROS/script1.wav` を使用します。
+すべてのスクリプトは `/workspace/script1.wav` を使用します。
 
 **ファイルの確認**:
 ```bash
-ls -lh /workspace/DiaROS/script1.wav
+ls -lh /workspace/script1.wav
 ```
 
 **別のWAVファイルを使用する場合**:
@@ -118,7 +118,7 @@ ls -lh /workspace/DiaROS/script1.wav
 各スクリプトの以下の行を編集してください：
 
 ```python
-wav_file = '/workspace/DiaROS/script1.wav'  # ← ここを変更
+wav_file = '/workspace/script1.wav'  # ← ここを変更
 ```
 
 ---
@@ -169,7 +169,7 @@ python3 test_webrtc_vad_timing.py > vad_timing_$(date +%Y%m%d_%H%M%S).log 2>&1
 
 ## トラブルシューティング
 
-### エラー: `No such file or directory: '/workspace/DiaROS/script1.wav'`
+### エラー: `No such file or directory: '/workspace/script1.wav'`
 
 **解決策**: WAVファイルのパスを確認
 ```bash

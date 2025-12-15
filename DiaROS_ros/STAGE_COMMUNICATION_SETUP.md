@@ -26,7 +26,7 @@
 ### ステップ1: ROS2環境のセットアップ
 
 ```bash
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 source ./install/local_setup.bash
 ```
@@ -46,7 +46,7 @@ ros2 launch diaros_package sdsmod.launch.py nlg:=false
 **別のターミナルで実行**:
 
 ```bash
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 source ./install/local_setup.bash
 

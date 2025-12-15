@@ -47,7 +47,7 @@ else
 fi
 
 # 仮想ディスプレイ起動スクリプト作成
-cat > /workspace/DiaROS/scripts/utils/start_virtual_display.sh << 'EOF'
+cat > /workspace/scripts/utils/start_virtual_display.sh << 'EOF'
 #!/bin/bash
 # 仮想ディスプレイ起動スクリプト
 
@@ -75,11 +75,11 @@ else
 fi
 EOF
 
-chmod +x /workspace/DiaROS/scripts/utils/start_virtual_display.sh
-echo "✅ 仮想ディスプレイ起動スクリプト作成: /workspace/DiaROS/scripts/utils/start_virtual_display.sh"
+chmod +x /workspace/scripts/utils/start_virtual_display.sh
+echo "✅ 仮想ディスプレイ起動スクリプト作成: /workspace/scripts/utils/start_virtual_display.sh"
 
 # RQT用設定スクリプト作成
-cat > /workspace/DiaROS/scripts/launch/launch_rqt_docker.sh << 'EOF'
+cat > /workspace/scripts/launch/launch_rqt_docker.sh << 'EOF'
 #!/bin/bash
 # Docker環境用RQT起動スクリプト
 
@@ -98,7 +98,7 @@ echo "DISPLAY=$DISPLAY"
 # 仮想ディスプレイが無い場合は起動
 if ! pgrep Xvfb >/dev/null; then
     echo "仮想ディスプレイを起動中..."
-    /workspace/DiaROS/scripts/utils/start_virtual_display.sh
+    /workspace/scripts/utils/start_virtual_display.sh
 fi
 
 echo ""
@@ -106,7 +106,7 @@ echo "2. RQT起動試行..."
 
 # ROS2環境設定
 source /opt/ros/foxy/setup.bash
-source /workspace/DiaROS/DiaROS_ros/install/local_setup.bash
+source /workspace/DiaROS_ros/install/local_setup.bash
 
 # RQTをバックグラウンドで起動（出力制限）
 rqt --force-discover > /tmp/rqt.log 2>&1 &
@@ -124,8 +124,8 @@ else
 fi
 EOF
 
-chmod +x /workspace/DiaROS/scripts/launch/launch_rqt_docker.sh
-echo "✅ Docker用RQT起動スクリプト作成: /workspace/DiaROS/scripts/launch/launch_rqt_docker.sh"
+chmod +x /workspace/scripts/launch/launch_rqt_docker.sh
+echo "✅ Docker用RQT起動スクリプト作成: /workspace/scripts/launch/launch_rqt_docker.sh"
 
 echo ""
 echo "4. 環境変数の永続化..."
@@ -141,8 +141,8 @@ echo "5. 設定完了"
 echo "============"
 echo ""
 echo "📋 次のステップ:"
-echo "1. Docker用RQT起動: /workspace/DiaROS/scripts/launch/launch_rqt_docker.sh"
-echo "2. 仮想ディスプレイ起動: /workspace/DiaROS/scripts/utils/start_virtual_display.sh"
+echo "1. Docker用RQT起動: /workspace/scripts/launch/launch_rqt_docker.sh"
+echo "2. 仮想ディスプレイ起動: /workspace/scripts/utils/start_virtual_display.sh"
 echo "3. 通常RQT起動: QT_QPA_PLATFORM=offscreen rqt"
 echo ""
 echo "⚠️  注意事項:"

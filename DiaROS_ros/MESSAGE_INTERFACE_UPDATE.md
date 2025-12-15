@@ -13,7 +13,7 @@
 
 ### Idm メッセージ（Dialog Management → Natural Language Generation）
 
-**ファイル**: `/workspace/DiaROS/DiaROS_ros/src/interfaces/msg/Idm.msg`
+**ファイル**: `/workspace/DiaROS_ros/src/interfaces/msg/Idm.msg`
 
 #### 変更前
 ```

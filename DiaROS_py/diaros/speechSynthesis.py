@@ -180,7 +180,7 @@ class SpeechSynthesis():
             print(f"Error: {e}")
             print("VOICEVOX must be running for DiaROS to work.")
             print("Please start VOICEVOX with the following command:")
-            print("  /workspace/DiaROS/scripts/launch/launch_voicevox_gpu.sh")
+            print("  /workspace/scripts/launch/launch_voicevox_gpu.sh")
             print("=" * 60)
             print("DiaROS is shutting down...")
             print("=" * 60)

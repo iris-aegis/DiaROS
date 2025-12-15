@@ -179,7 +179,7 @@ class SileroVADWavTest:
 
 def main():
     """メイン関数"""
-    wav_file = "/workspace/DiaROS/他になにかいい案無いかな.wav"
+    wav_file = "/workspace/他になにかいい案無いかな.wav"
     
     if not wav_file:
         print("エラー: WAVファイルが指定されていません。", file=sys.stderr)

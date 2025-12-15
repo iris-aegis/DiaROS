@@ -11,7 +11,7 @@ NLG専用Docker環境で対話生成の時間計測を行い、メインPCと協
 python3 -c "from diaros.timeTracker_docker import get_time_tracker; print('✅ Docker TimeTracker OK')"
 
 # エラーが出る場合は以下を実行
-cd /workspace/DiaROS/DiaROS_py
+cd /workspace/DiaROS_py
 python -m pip install . --user
 ```
 
@@ -81,7 +81,7 @@ ls -la /tmp/diaros_timing/timeline_*.json
 
 # 最新セッション分析
 latest=$(ls -t /tmp/diaros_timing/timeline_*.json | head -1)
-python3 /workspace/DiaROS/scripts/debug/timing_visualizer.py "$latest" analyze
+python3 /workspace/scripts/debug/timing_visualizer.py "$latest" analyze
 ```
 
 #### B. NLG専用の性能監視
@@ -152,7 +152,7 @@ ros2 topic pub /NLGtoSS interfaces/msg/Inlg "{reply: 'テスト応答', session_
 
 #### A. NLGノード単体起動
 ```bash
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 source ./install/local_setup.bash
 
@@ -163,7 +163,7 @@ ros2 run diaros_package ros2_natural_language_generation
 #### B. 計測データの統合確認
 ```bash
 # メインPCで実行されるコマンド
-# bash /workspace/DiaROS/scripts/launch/launch_diaros_no_speech_input_simple.sh
+# bash /workspace/scripts/launch/launch_diaros_no_speech_input_simple.sh
 
 # Docker内で計測データ確認
 watch -n 3 'ls -t /tmp/diaros_timing/timeline_*.json | head -3'
