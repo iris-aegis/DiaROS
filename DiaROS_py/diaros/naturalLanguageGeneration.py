@@ -82,6 +82,10 @@ class NaturalLanguageGeneration:
         self.first_stage_response_cached = ""  # first_stageリアクションワードキャッシュ
         self.asr_history_2_5s = []  # 2.5秒間隔のASR結果リスト（Second stage生成用）
 
+        # Second stage 処理中の first stage リクエスト管理
+        self.is_generating_second_stage = False  # Second stage 生成中フラグ
+        self.pending_first_stage_request = None  # 保留中の first_stage リクエスト（最新のみ保持）
+
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
         self.last_worker_name = ""
@@ -222,6 +226,22 @@ class NaturalLanguageGeneration:
 
         # 接続エラー抑制中は新しいリクエストを受け付けない
         if self.connection_error_suppress_until and now < self.connection_error_suppress_until:
+            return
+
+        # ★【重要】Second stage 生成中に first_stage のリクエストが来た場合は保留
+        if self.is_generating_second_stage and stage == 'first':
+            # Second stage 生成中の first_stage リクエストを保留
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}] ⏸️  Second stage 生成中のため、first_stage をリクエストキューに保存\n")
+            sys.stdout.flush()
+
+            # 最新の first_stage リクエストだけを保持（上書き）
+            self.pending_first_stage_request = {
+                'words': words,
+                'turn_taking_decision_timestamp_ns': turn_taking_decision_timestamp_ns,
+                'first_stage_backchannel_at_tt': first_stage_backchannel_at_tt,
+                'asr_history_2_5s': asr_history_2_5s
+            }
             return
 
         # ★stage情報とタイムスタンプを保存
@@ -477,6 +497,12 @@ class NaturalLanguageGeneration:
         """Second stage: turnTakingが応答判定を出したら実行"""
         start_time = datetime.now()
 
+        # ★【重要】Second stage 処理開始時にフラグを設定
+        self.is_generating_second_stage = True
+        timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
+        sys.stdout.write(f"[{timestamp}] 🔄 Second stage 処理開始\n")
+        sys.stdout.flush()
+
         try:
             # ★修正：queryが空の場合は、2.5秒間隔ASR結果またはfirst_stageのASR結果を使用
             if isinstance(query, list) and (not query or all((not x or x.strip() == "") for x in query)):
@@ -663,17 +689,86 @@ class NaturalLanguageGeneration:
                 sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}]\n")
                 sys.stdout.flush()
 
+                # ★【重要】Second stage 処理完了時にフラグをリセット
+                self.is_generating_second_stage = False
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了\n")
+                sys.stdout.flush()
+
+                # ★保留中の first_stage リクエストがあれば処理
+                if self.pending_first_stage_request:
+                    sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行\n")
+                    sys.stdout.flush()
+
+                    pending_req = self.pending_first_stage_request
+                    self.pending_first_stage_request = None  # 保留キューをクリア
+
+                    # 保留されていたリクエストを実行
+                    self.update(
+                        words=pending_req['words'],
+                        stage='first',
+                        turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
+                        first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                        asr_history_2_5s=pending_req['asr_history_2_5s']
+                    )
+
             except Exception as api_error:
                 sys.stdout.write(f"[NLG ERROR] second_stage生成エラー: {api_error}\n")
                 sys.stdout.flush()
                 self.last_reply = self.first_stage_response  # リアクションワードのみフォールバック
                 self.last_source_words = asr_results
 
+                # ★【重要】エラー時もフラグをリセット
+                self.is_generating_second_stage = False
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（エラー）\n")
+                sys.stdout.flush()
+
+                # ★保留中の first_stage リクエストがあれば処理
+                if self.pending_first_stage_request:
+                    sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（エラー後）\n")
+                    sys.stdout.flush()
+
+                    pending_req = self.pending_first_stage_request
+                    self.pending_first_stage_request = None  # 保留キューをクリア
+
+                    # 保留されていたリクエストを実行
+                    self.update(
+                        words=pending_req['words'],
+                        stage='first',
+                        turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
+                        first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                        asr_history_2_5s=pending_req['asr_history_2_5s']
+                    )
+
         except Exception as e:
             sys.stdout.write(f"[NLG ERROR] second_stage処理エラー: {e}\n")
             sys.stdout.flush()
             self.last_reply = self.first_stage_response  # リアクションワードのみフォールバック
             self.last_source_words = asr_results
+
+            # ★【重要】外側の例外ハンドラーでもフラグをリセット
+            self.is_generating_second_stage = False
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（外部エラー）\n")
+            sys.stdout.flush()
+
+            # ★保留中の first_stage リクエストがあれば処理
+            if self.pending_first_stage_request:
+                sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（外部エラー後）\n")
+                sys.stdout.flush()
+
+                pending_req = self.pending_first_stage_request
+                self.pending_first_stage_request = None  # 保留キューをクリア
+
+                # 保留されていたリクエストを実行
+                self.update(
+                    words=pending_req['words'],
+                    stage='first',
+                    turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
+                    first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                    asr_history_2_5s=pending_req['asr_history_2_5s']
+                )
 
     def _perform_simple_inference(self, query):
         """シンプルな単一スレッド推論 (gemma3:12b使用)"""
