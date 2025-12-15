@@ -535,7 +535,7 @@ class NaturalLanguageGeneration:
             prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
 
             # ★修正：dialog_second_stage_triple_input.txt を使用（placeholder なし）
-            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage_triple_input_example.txt')
+            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage_triple_input_example_role.txt')
 
             try:
                 with open(second_stage_prompt_path, 'r', encoding='utf-8') as f:
@@ -594,7 +594,7 @@ class NaturalLanguageGeneration:
             # ★修正：複数メッセージ方式のメッセージリストを表示
             sys.stdout.write(f"[{timestamp}] [Second Stage] LLMへ送信するメッセージ:\n")
             for i, msg in enumerate(messages, 1):
-                sys.stdout.write(f"  メッセージ{i} (role={msg['role']}): {msg['content']}\n")
+                sys.stdout.write(f"  {i} (role={msg['role']}): {msg['content']}\n")
             sys.stdout.flush()
 
             # LLM呼び出し
