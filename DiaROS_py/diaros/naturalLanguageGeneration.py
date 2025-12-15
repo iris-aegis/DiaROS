@@ -7,9 +7,9 @@
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
-# MODEL_NAME = "gemma3:4b"             # 軽量・高速
-# MODEL_NAME = "gemma3:12b"            # 高品質
-MODEL_NAME = "gemma3:27b"            # 最高品質
+# MODEL_NAME = "gemma3:4b"             
+# MODEL_NAME = "gemma3:12b"            
+MODEL_NAME = "gemma3:27b"            
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
@@ -560,8 +560,12 @@ class NaturalLanguageGeneration:
 
                 messages = [
                     {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"複数のぶつ切りの音声認識結果：週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]"},
+                    {"role": "assistant", "content": f"リアクションワード：なるほど"},
+                    {"role": "assistant", "content": f"タメ口の応答：それなら読書とかプラモデル作りとかはどう？"},
                     {"role": "user", "content": f"複数のぶつ切りの音声認識結果：{asr_text}"},           # ★ユーザーの発話（ラベル付き）
-                    {"role": "assistant", "content": f"リアクションワード：{backchannel_text}"}  # ★システムが既に出力したリアクションワード（ラベル付き、末尾に「、」追加）
+                    {"role": "assistant", "content": f"リアクションワード：{backchannel_text}"},  # ★システムが既に出力したリアクションワード（ラベル付き、末尾に「、」追加）
+                    {"role": "assistant", "content": f"タメ口の応答："}
                 ]
 
             except FileNotFoundError:
