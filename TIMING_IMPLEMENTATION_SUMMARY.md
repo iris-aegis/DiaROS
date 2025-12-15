@@ -6,7 +6,7 @@ NLG PCでの音声対話システムの高精度時間計測システムを実�
 ## 📋 実装完了項目
 
 ### 1. ✅ タイムトラッカーコア実装
-- **ファイル**: `/workspace/DiaROS/DiaROS_py/diaros/timeTracker.py`
+- **ファイル**: `/workspace/DiaROS_py/diaros/timeTracker.py`
 - **機能**: 
   - 高精度時間計測（ナノ秒精度）
   - セッション管理
@@ -20,7 +20,7 @@ NLG PCでの音声対話システムの高精度時間計測システムを実�
   - `Inlg.msg` にsession_idフィールド追加
 
 ### 3. ✅ NLGノード統合
-- **ファイル**: `/workspace/DiaROS/DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`
+- **ファイル**: `/workspace/DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`
 - **機能**:
   - TimeTracker初期化
   - セッションID管理
@@ -28,31 +28,31 @@ NLG PCでの音声対話システムの高精度時間計測システムを実�
   - ROS2メッセージでのセッションID伝達
 
 ### 4. ✅ NLG処理統合
-- **ファイル**: `/workspace/DiaROS/DiaROS_py/diaros/naturalLanguageGeneration.py`
+- **ファイル**: `/workspace/DiaROS_py/diaros/naturalLanguageGeneration.py`
 - **機能**:
   - 推論開始/完了チェックポイント
   - LLM推論開始/完了チェックポイント
   - エラーハンドリング統合
 
 ### 5. ✅ 時刻同期スクリプト
-- **ファイル**: `/workspace/DiaROS/scripts/setup/setup_time_sync.sh`
+- **ファイル**: `/workspace/scripts/setup/setup_time_sync.sh`
 - **機能**: 分散環境での高精度時刻同期
 
 ### 6. ✅ デバッグ・可視化ツール
-- **テストスクリプト**: `/workspace/DiaROS/scripts/debug/test_timing_system.py`
-- **可視化ツール**: `/workspace/DiaROS/scripts/debug/timing_visualizer.py`
+- **テストスクリプト**: `/workspace/scripts/debug/test_timing_system.py`
+- **可視化ツール**: `/workspace/scripts/debug/timing_visualizer.py`
 
 ## 🔧 使用方法
 
 ### 1. 時刻同期設定
 ```bash
-sudo chmod +x /workspace/DiaROS/scripts/setup/setup_time_sync.sh
-sudo /workspace/DiaROS/scripts/setup/setup_time_sync.sh
+sudo chmod +x /workspace/scripts/setup/setup_time_sync.sh
+sudo /workspace/scripts/setup/setup_time_sync.sh
 ```
 
 ### 2. NLGシステム起動
 ```bash
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 source ./install/local_setup.bash
 ros2 run diaros_package ros2_natural_language_generation
@@ -64,7 +64,7 @@ ros2 run diaros_package ros2_natural_language_generation
 tail -f /tmp/diaros_timing_nlg_pc.json
 
 # 可視化
-python3 /workspace/DiaROS/scripts/debug/timing_visualizer.py /tmp/diaros_timing_nlg_pc.json both
+python3 /workspace/scripts/debug/timing_visualizer.py /tmp/diaros_timing_nlg_pc.json both
 ```
 
 ## 📊 計測されるチェックポイント

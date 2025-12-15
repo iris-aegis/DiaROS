@@ -28,7 +28,7 @@ class DiaROSFlowTester:
             stderr=subprocess.STDOUT,
             text=True,
             env=env,
-            cwd="/workspace/DiaROS/DiaROS_ros",
+            cwd="/workspace/DiaROS_ros",
             executable='/bin/bash'
         )
         
@@ -80,7 +80,7 @@ ros2 topic pub --once /DMtoNLG interfaces/msg/Idm '{words: ["こんにちは", "
             capture_output=True,
             text=True,
             env=env,
-            cwd="/workspace/DiaROS/DiaROS_ros",
+            cwd="/workspace/DiaROS_ros",
             executable='/bin/bash'
         )
         

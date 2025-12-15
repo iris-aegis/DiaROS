@@ -4,7 +4,7 @@ NLGコンポーネントの直接テスト
 """
 import sys
 import os
-sys.path.insert(0, '/workspace/DiaROS/DiaROS_py')
+sys.path.insert(0, '/workspace/DiaROS_py')
 
 from diaros.naturalLanguageGeneration import NaturalLanguageGeneration
 

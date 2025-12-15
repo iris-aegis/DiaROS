@@ -12,7 +12,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # DiaROSのパスを追加
-sys.path.append('/workspace/DiaROS/DiaROS_py')
+sys.path.append('/workspace/DiaROS_py')
 from diaros.naturalLanguageGeneration import NaturalLanguageGeneration
 
 def test_nlg_parallel_requests():

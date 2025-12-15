@@ -41,7 +41,7 @@ git checkout local_nlg
 
 ```bash
 # ビルドスクリプトを実行
-bash /workspace/DiaROS/scripts/build/rebuild_nlg_distributed.sh
+bash /workspace/scripts/build/rebuild_nlg_distributed.sh
 ```
 
 このスクリプトは以下を自動実行します：
@@ -54,7 +54,7 @@ bash /workspace/DiaROS/scripts/build/rebuild_nlg_distributed.sh
 メインPCでも同様にinterfacesパッケージをビルド：
 
 ```bash
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/foxy/setup.bash
 rm -rf build/interfaces install/interfaces
 colcon build --cmake-args -DCMAKE_C_FLAGS=-fPIC --packages-select interfaces
@@ -101,20 +101,20 @@ string session_id
 ### 1. メインPCでDiaROSシステムを起動（NLG除外）
 
 ```bash
-cd /workspace/DiaROS
+cd /workspace
 ros2 launch diaros_package sdsmod.launch.py nlg:=false
 ```
 
 または：
 
 ```bash
-bash /workspace/DiaROS/scripts/launch/start_diaros.sh
+bash /workspace/scripts/launch/start_diaros.sh
 ```
 
 ### 2. NLG PCでNLGノードを起動
 
 ```bash
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/foxy/setup.bash
 source ./install/local_setup.bash
 ros2 run diaros_package ros2_natural_language_generation
@@ -123,7 +123,7 @@ ros2 run diaros_package ros2_natural_language_generation
 または：
 
 ```bash
-bash /workspace/DiaROS/scripts/launch/start_nlg_node.sh
+bash /workspace/scripts/launch/start_nlg_node.sh
 ```
 
 ## 動作確認
@@ -230,7 +230,7 @@ export ROS_DOMAIN_ID=0
 **解決策**:
 ```bash
 # 両PCでinterfacesを再ビルド
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 rm -rf build/interfaces install/interfaces
 colcon build --cmake-args -DCMAKE_C_FLAGS=-fPIC --packages-select interfaces
 source ./install/local_setup.bash

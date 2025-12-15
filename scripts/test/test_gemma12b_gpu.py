@@ -23,7 +23,7 @@ def test_gemma12b_gpu():
     )
     
     # 複雑なプロンプト（実際のASR用）
-    prompt_file_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/asr_dialogue_prompt.txt"
+    prompt_file_path = "/workspace/DiaROS_py/diaros/prompts/asr_dialogue_prompt.txt"
     try:
         with open(prompt_file_path, 'r', encoding='utf-8') as f:
             complex_prompt_text = f.read()

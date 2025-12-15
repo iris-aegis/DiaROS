@@ -18,8 +18,8 @@ echo ""
 # power_calibration.wavファイルの存在確認
 if [ ! -f "/workspace/power_calibration.wav" ]; then
     echo -e "${YELLOW}⚠️  power_calibration.wavファイルが見つかりません。コピーします...${NC}"
-    if [ -f "/workspace/DiaROS/DiaROS_py/power_calibration.wav" ]; then
-        cp /workspace/DiaROS/DiaROS_py/power_calibration.wav /workspace/
+    if [ -f "/workspace/DiaROS_py/power_calibration.wav" ]; then
+        cp /workspace/DiaROS_py/power_calibration.wav /workspace/
         echo -e "${GREEN}✅ ファイルをコピーしました${NC}"
     else
         echo -e "${YELLOW}⚠️  ソースファイルが見つかりません。スキップします${NC}"
@@ -281,13 +281,13 @@ echo "=================================="
 
 # Pythonモジュールのインストール（常に実行）
 echo -e "${YELLOW}🔍 Pythonモジュールの更新...${NC}"
-cd /workspace/DiaROS/DiaROS_py
+cd /workspace/DiaROS_py
 pip install . --upgrade
 echo -e "${GREEN}✅ モジュールのインストールが完了しました${NC}"
 
 # ROS2パッケージのビルド（常に実行）
 echo -e "${YELLOW}🔨 ROS2パッケージをビルドします...${NC}"
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 
 # interfacesパッケージのビルド
@@ -307,7 +307,7 @@ echo -e "${GREEN}🎯 DiaROSを起動します...${NC}"
 echo "=================================="
 
 # ROS2環境の設定
-cd /workspace/DiaROS/DiaROS_ros
+cd /workspace/DiaROS_ros
 source /opt/ros/humble/setup.bash
 
 # セットアップスクリプトを実行

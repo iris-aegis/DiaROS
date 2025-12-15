@@ -26,13 +26,13 @@ def test_ros2_node():
         
         # タイムアウト付きでプロセス起動
         proc = subprocess.Popen(
-            cmd, 
-            shell=True, 
-            stdout=subprocess.PIPE, 
+            cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
             env=env,
-            cwd="/workspace/DiaROS/DiaROS_ros"
+            cwd="/workspace/DiaROS_ros"
         )
         
         # 10秒間出力を監視

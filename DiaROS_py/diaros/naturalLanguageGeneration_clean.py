@@ -211,7 +211,7 @@ class NaturalLanguageGeneration:
                 prompt_file_path = os.path.join(current_dir, "prompts", "remdis_test.txt")
 
                 if not os.path.exists(prompt_file_path):
-                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/remdis_test.txt"
+                    workspace_path = "/workspace/DiaROS_py/diaros/prompts/remdis_test.txt"
                     if os.path.exists(workspace_path):
                         prompt_file_path = workspace_path
                 
@@ -506,7 +506,7 @@ class NaturalLanguageGeneration:
                 prompt_file_path = os.path.join(current_dir, "prompts", "example_dialog.txt")
 
                 if not os.path.exists(prompt_file_path):
-                    workspace_path = "/workspace/DiaROS/DiaROS_py/diaros/prompts/example_dialog.txt"
+                    workspace_path = "/workspace/DiaROS_py/diaros/prompts/example_dialog.txt"
                     if os.path.exists(workspace_path):
                         prompt_file_path = workspace_path
                 

@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 
 # パスを追加
-sys.path.insert(0, '/workspace/DiaROS/DiaROS_py')
+sys.path.insert(0, '/workspace/DiaROS_py')
 
 from diaros.timeTracker import get_time_tracker
 

@@ -337,7 +337,7 @@ export OPENAI_API_KEY="sk-your-openai-api-key"
 
 ### DiaROS Pythonモジュールのパス設定
 ```bash
-export PYTHONPATH="/workspace/DiaROS/DiaROS_py:$PYTHONPATH"
+export PYTHONPATH="/workspace/DiaROS_py:$PYTHONPATH"
 ```
 
 ## ✅ 修正後の確認項目

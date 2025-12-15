@@ -21,7 +21,7 @@ class DockerTimeTracker:
         self.lock = threading.Lock()
         
         # Docker環境での出力ディレクトリ設定
-        self.output_dir = "/workspace/DiaROS/logs"
+        self.output_dir = "/workspace/logs"
         os.makedirs(self.output_dir, exist_ok=True)
         
         # 出力ファイルの設定
