@@ -21,8 +21,9 @@ MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
 # PROMPT_FILE_NAME = "dialog_tag_ver2.txt"          # タグ処理付き
 # PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
-PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
+PROMPT_FILE_NAME = "dialog_all_role.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
@@ -434,8 +435,8 @@ class NaturalLanguageGeneration:
                         {"role": "system", "content": prompt_text}
                     ]
 
-                    # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
-                    if self.prompt_file_name == "dialog_example_role.txt":
+                    # ★dialog_example_role.txt / dialog_all_role.txt 使用時は1-shot例示メッセージを追加
+                    if self.prompt_file_name in ["dialog_example_role.txt", "dialog_all_role.txt"]:
                         # 1-shot例示：例示ユーザー発話
                         messages.append({
                             "role": "user",
@@ -980,8 +981,8 @@ class NaturalLanguageGeneration:
                             {"role": "system", "content": prompt}
                         ]
 
-                        # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
-                        if self.prompt_file_name == "dialog_example_role.txt":
+                        # ★dialog_example_role.txt / dialog_all_role.txt 使用時は1-shot例示メッセージを追加
+                        if self.prompt_file_name in ["dialog_example_role.txt", "dialog_all_role.txt"]:
                             # 1-shot例示：例示ユーザー発話
                             messages.append({
                                 "role": "user",
