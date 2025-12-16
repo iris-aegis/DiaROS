@@ -228,8 +228,10 @@ DiaROS_ros/build/
 DiaROS_ros/install/
 DiaROS_ros/log/
 
-# JSON and database files (generated data)
+# JSON, YAML, and database files (generated data)
 *.json
+*.yaml
+*.yml
 *.db3
 
 # Temporary directories
