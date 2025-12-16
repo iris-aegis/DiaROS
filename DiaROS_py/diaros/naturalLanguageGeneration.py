@@ -7,15 +7,9 @@ MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
-<<<<<<< HEAD
-MODEL_NAME = "gemma3:4b"             
-# MODEL_NAME = "gemma3:12b"            
-# MODEL_NAME = "gemma3:27b"            
-=======
 # MODEL_NAME = "gemma3:4b"
 # MODEL_NAME = "gemma3:12b"
 # MODEL_NAME = "gemma3:27b"
->>>>>>> 55154d4 (Fix: NLGをGPT-4.1で1-shot例示による1回応答に変更)
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
@@ -30,6 +24,7 @@ MODEL_NAME = "gemma3:4b"
 PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
+# PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
 # PROMPT_FILE_NAME = "dialog_phone.txt"        # 電話対話用
 
@@ -41,11 +36,6 @@ PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタ�
 # PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"     #
 # PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
 # PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
-<<<<<<< HEAD
-# PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
-=======
-PROMPT_FILE_NAME = "dialog_example_role.txt"     # 1-shot例示付き（GPT-4.1推奨）
->>>>>>> 55154d4 (Fix: NLGをGPT-4.1で1-shot例示による1回応答に変更)
 
 # 【タイミング調整プロンプト】
 # PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用

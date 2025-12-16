@@ -1,783 +1,776 @@
-] 相槌生成ステージ開始 (request_id=3, 入力数=2)
-[ros2_natural_language_generation-1] [11:50:55.156] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:55.156] 履歴受信（2個）
-[ros2_natural_language_generation-1] [INFO] [1765853455.513401171] [natural_language_generation]: [11:50:55.512] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]'] (長さ=2)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 4
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853455.514592401] [natural_language_generation]: [11:50:55.513] [NLG] 相槌生成ステージ開始 (request_id=4, 入力数=2)
-[ros2_natural_language_generation-1] [11:50:55.515] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:55.515] 履歴受信（2個）
-[ros2_natural_language_generation-1] [INFO] [1765853456.028037982] [natural_language_generation]: [11:50:56.027] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'えっ'] (長さ=2)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 5
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853456.029211431] [natural_language_generation]: [11:50:56.028] [NLG] 相槌生成ステージ開始 (request_id=5, 入力数=2)
-[ros2_natural_language_generation-1] [11:50:56.029] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:56.029] 履歴受信（2個）
-[ros2_natural_language_generation-1] [INFO] [1765853456.329689738] [natural_language_generation]: [11:50:56.328] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS'] (長さ=2)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 6
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853456.330560054] [natural_language_generation]: [11:50:56.329] [NLG] 相槌生成ステージ開始 (request_id=6, 入力数=2)
-[ros2_natural_language_generation-1] [11:50:56.330] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:56.330] 履歴受信（2個）
-[ros2_natural_language_generation-1] [INFO] [1765853456.819928693] [natural_language_generation]: [11:50:56.818] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNSを'] (長さ=2)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 7
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853456.820668309] [natural_language_generation]: [11:50:56.820] [NLG] 相槌生成ステージ開始 (request_id=7, 入力数=2)
-[ros2_natural_language_generation-1] [11:50:56.821] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:56.821] 履歴受信（2個）
-[ros2_natural_language_generation-1] [INFO] [1765853456.952166836] [natural_language_generation]: [11:50:56.951] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNSを見'] (長さ=2)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 8
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853456.952840171] [natural_language_generation]: [11:50:56.952] [NLG] 相槌生成ステージ開始 (request_id=8, 入力数=2)
-[ros2_natural_language_generation-1] [11:50:56.953] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:56.953] 履歴受信（2個）
-[ros2_natural_language_generation-1] [INFO] [1765853457.219685593] [natural_language_generation]: [11:50:57.218] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見る'] (長さ=3)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 9
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853457.220423249] [natural_language_generation]: [11:50:57.219] [NLG] 相槌生成ステージ開始 (request_id=9, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:57.221] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:57.221] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853457.370136603] [natural_language_generation]: [11:50:57.369] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ている'] (長さ=3)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 10
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853457.370903739] [natural_language_generation]: [11:50:57.370] [NLG] 相槌生成ステージ開始 (request_id=10, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:57.371] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:57.371] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853457.521029577] [natural_language_generation]: [11:50:57.520] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ていると'] (長さ=3)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 11
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853457.521594411] [natural_language_generation]: [11:50:57.521] [NLG] 相槌生成ステージ開始 (request_id=11, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:57.522] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:57.522] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853457.669814944] [natural_language_generation]: [11:50:57.668] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'えっ', 'SNSを見と'] (長さ=3)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 12
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853457.670781072] [natural_language_generation]: [11:50:57.669] [NLG] 相槌生成ステージ開始 (request_id=12, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:57.671] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:57.671] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853457.936269304] [natural_language_generation]: [11:50:57.935] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ると'] (長さ=3)
-[ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 13
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
-[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853457.937141400] [natural_language_generation]: [11:50:57.936] [NLG] 相槌生成ステージ開始 (request_id=13, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:57.937] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:57.937] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853458.082785674] [natural_language_generation]: [11:50:58.081] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見るとい'] (長さ=3)
+[ros2_natural_language_generation-1] [INFO] [1765859743.694164212] [natural_language_generation]: [13:35:43.692] [NLG] 相槌生成ステージ開始 (request_id=13, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:43.694] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:43.694] 履歴受信（2個）
+[ros2_natural_language_generation-1] [13:35:43.701]
+[ros2_natural_language_generation-1] [13:35:43.724]
+[ros2_natural_language_generation-1] [INFO] [1765859743.853972260] [natural_language_generation]: [13:35:43.852] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見るとい'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 14
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853458.083634901] [natural_language_generation]: [11:50:58.082] [NLG] 相槌生成ステージ開始 (request_id=14, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:58.084] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:58.084] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853458.243274800] [natural_language_generation]: [11:50:58.242] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると色の'] (長さ=3)
+[ros2_natural_language_generation-1] [INFO] [1765859743.854788286] [natural_language_generation]: [13:35:43.854] [NLG] 相槌生成ステージ開始 (request_id=14, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:43.855] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:43.855] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:43.862]
+[ros2_natural_language_generation-1] [INFO] [1765859744.024844345] [natural_language_generation]: [13:35:44.023] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見ていると色の'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 15
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853458.244101326] [natural_language_generation]: [11:50:58.243] [NLG] 相槌生成ステージ開始 (request_id=15, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:58.244] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:58.244] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853458.400618022] [natural_language_generation]: [11:50:58.399] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見といろんな'] (長さ=3)
+[ros2_natural_language_generation-1] [INFO] [1765859744.025658561] [natural_language_generation]: [13:35:44.024] [NLG] 相槌生成ステージ開始 (request_id=15, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:44.025] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:44.025] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:44.099]
+[ros2_natural_language_generation-1] [INFO] [1765859744.192061343] [natural_language_generation]: [13:35:44.191] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見といろんな'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 16
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853458.401432869] [natural_language_generation]: [11:50:58.400] [NLG] 相槌生成ステージ開始 (request_id=16, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:58.401] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:58.401] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853458.581471384] [natural_language_generation]: [11:50:58.580] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ているといろんな'] (長さ=3)
+[ros2_natural_language_generation-1] [INFO] [1765859744.192876009] [natural_language_generation]: [13:35:44.192] [NLG] 相槌生成ステージ開始 (request_id=16, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:44.193] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:44.193] 履歴受信（3個）
+[ros2_natural_language_generation-1] [INFO] [1765859744.373814823] [natural_language_generation]: [13:35:44.373] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '[雑音]', 'SNSを見ているといろんな'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 17
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853458.582325940] [natural_language_generation]: [11:50:58.581] [NLG] 相槌生成ステージ開始 (request_id=17, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:58.582] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:58.582] 履歴受信（3個）
-[ros2_natural_language_generation-1] [INFO] [1765853458.770024442] [natural_language_generation]: [11:50:58.769] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ているといろんな人の'] (長さ=3)
+[ros2_natural_language_generation-1] [INFO] [1765859744.374371587] [natural_language_generation]: [13:35:44.373] [NLG] 相槌生成ステージ開始 (request_id=17, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:44.374] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:44.374] 履歴受信（3個）
+[ros2_natural_language_generation-1] [INFO] [1765859744.561322260] [natural_language_generation]: [13:35:44.560] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'え', 'SNSを見ているといろんな人の'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 18
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853458.770854309] [natural_language_generation]: [11:50:58.770] [NLG] 相槌生成ステージ開始 (request_id=18, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:58.771] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:58.771] 履歴受信（3個）
-[ros2_natural_language_generation-1] [11:50:58.899]
-[ros2_natural_language_generation-1] [INFO] [1765853458.905077606] [natural_language_generation]: [11:50:58.903] [NLG] 相槌生成ステージ完了 (request_id=18, 処理時間=133.7ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-1] [11:50:58.939]
-[ros2_natural_language_generation-1] [11:50:59.045]
-[ros2_natural_language_generation-1] [11:50:59.074]
-[ros2_natural_language_generation-1] [11:50:59.146]
-[ros2_natural_language_generation-1] [INFO] [1765853459.164540322] [natural_language_generation]: [11:50:59.163] [NLG] 相槌生成ステージ完了 (request_id=18, 処理時間=393.3ms, 応答='うんうん...' )
-[ros2_natural_language_generation-1] [11:50:59.172]
-[ros2_natural_language_generation-1] [INFO] [1765853459.184149781] [natural_language_generation]: [11:50:59.183] [NLG] 相槌生成ステージ完了 (request_id=18, 処理時間=413.2ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-1] [11:50:59.223]
-[ros2_natural_language_generation-1] [INFO] [1765853459.244272327] [natural_language_generation]: [11:50:59.243] [NLG] 相槌生成ステージ完了 (request_id=18, 処理時間=473.3ms, 応答='うんうん...' )
-[ros2_natural_language_generation-1] [11:50:59.277]
-[ros2_natural_language_generation-1] [INFO] [1765853459.284229390] [natural_language_generation]: [11:50:59.283] [NLG] 相槌生成ステージ完了 (request_id=18, 処理時間=513.2ms, 応答='へーすごい...' )
-[ros2_natural_language_generation-1] [11:50:59.316]
-[ros2_natural_language_generation-1] [INFO] [1765853459.331828370] [natural_language_generation]: [11:50:59.330] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見といろんな人の十'] (長さ=3)
+[ros2_natural_language_generation-1] [INFO] [1765859744.562195376] [natural_language_generation]: [13:35:44.561] [NLG] 相槌生成ステージ開始 (request_id=18, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:44.562] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:44.562] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:44.620]
+[ros2_natural_language_generation-1] [13:35:44.650]
+[ros2_natural_language_generation-1] [13:35:44.664]
+[ros2_natural_language_generation-1] [13:35:44.819]
+[ros2_natural_language_generation-1] [13:35:44.849]
+[ros2_natural_language_generation-1] [INFO] [1765859744.940458874] [natural_language_generation]: [13:35:44.939] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見といろんな人のじ'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 19
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853459.332651116] [natural_language_generation]: [11:50:59.331] [NLG] 相槌生成ステージ開始 (request_id=19, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:59.333] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:59.333] 履歴受信（3個）
-[ros2_natural_language_generation-1] [11:50:59.368]
-[ros2_natural_language_generation-1] [11:50:59.420]
-[ros2_natural_language_generation-1] [11:50:59.507]
-[ros2_natural_language_generation-1] [INFO] [1765853459.508907162] [natural_language_generation]: [11:50:59.507] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNSを見', 'SNSを見といろんな人の充実'] (長さ=3)
+[ros2_natural_language_generation-1] [INFO] [1765859744.941300871] [natural_language_generation]: [13:35:44.940] [NLG] 相槌生成ステージ開始 (request_id=19, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:44.941] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:44.941] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:45.000]
+[ros2_natural_language_generation-1] [INFO] [1765859745.118493236] [natural_language_generation]: [13:35:45.117] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見といろんな人の十'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 20
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853459.509945150] [natural_language_generation]: [11:50:59.509] [NLG] 相槌生成ステージ開始 (request_id=20, 入力数=3)
-[ros2_natural_language_generation-1] [11:50:59.510] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:59.510] 履歴受信（3個）
-[ros2_natural_language_generation-1] [11:50:59.511]
-[ros2_natural_language_generation-1] [INFO] [1765853459.524439570] [natural_language_generation]: [11:50:59.523] [NLG] 相槌生成ステージ完了 (request_id=20, 処理時間=14.4ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-1] [11:50:59.572]
-[ros2_natural_language_generation-1] [INFO] [1765853459.584264453] [natural_language_generation]: [11:50:59.583] [NLG] 相槌生成ステージ完了 (request_id=20, 処理時間=74.3ms, 応答='へーすごい...' )
-[ros2_natural_language_generation-1] [11:50:59.605]
-[ros2_natural_language_generation-1] [11:50:59.673]
-[ros2_natural_language_generation-1] [11:50:59.707]
-[ros2_natural_language_generation-1] [INFO] [1765853459.711252866] [natural_language_generation]: [11:50:59.710] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見', 'SNSを見ているといろんな人の充実'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859745.119325733] [natural_language_generation]: [13:35:45.118] [NLG] 相槌生成ステージ開始 (request_id=20, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:45.119] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:45.119] 履歴受信（3個）
+[ros2_natural_language_generation-1] [INFO] [1765859745.301132194] [natural_language_generation]: [13:35:45.300] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見といろんな人の充実'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 21
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853459.712433885] [natural_language_generation]: [11:50:59.711] [NLG] 相槌生成ステージ開始 (request_id=21, 入力数=4)
-[ros2_natural_language_generation-1] [11:50:59.712] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:59.712] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:50:59.780]
-[ros2_natural_language_generation-1] [11:50:59.812]
-[ros2_natural_language_generation-1] [11:50:59.873]
-[ros2_natural_language_generation-1] [INFO] [1765853459.886228492] [natural_language_generation]: [11:50:59.885] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見', 'SNSを見といろんな人の充実した'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859745.301946410] [natural_language_generation]: [13:35:45.301] [NLG] 相槌生成ステージ開始 (request_id=21, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:45.302] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:45.302] 履歴受信（3個）
+[ros2_natural_language_generation-1] [INFO] [1765859745.504037781] [natural_language_generation]: [13:35:45.503] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見ているといろんな人の充実'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 22
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853459.887090059] [natural_language_generation]: [11:50:59.886] [NLG] 相槌生成ステージ開始 (request_id=22, 入力数=4)
-[ros2_natural_language_generation-1] [11:50:59.887] stage='first' で更新
-[ros2_natural_language_generation-1] [11:50:59.887] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:50:59.923]
-[ros2_natural_language_generation-1] [INFO] [1765853459.944317332] [natural_language_generation]: [11:50:59.943] [NLG] 相槌生成ステージ完了 (request_id=22, 処理時間=57.0ms, 応答='あははいいね...' )
-[ros2_natural_language_generation-1] [11:51:00.024]
-[ros2_natural_language_generation-1] [INFO] [1765853460.043893007] [natural_language_generation]: [11:51:00.043] [NLG] 相槌生成ステージ完了 (request_id=22, 処理時間=157.0ms, 応答='へーすごい...' )
-[ros2_natural_language_generation-1] [INFO] [1765853460.108803519] [natural_language_generation]: [11:51:00.108] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859745.504859028] [natural_language_generation]: [13:35:45.504] [NLG] 相槌生成ステージ開始 (request_id=22, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:45.505] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:45.505] 履歴受信（3個）
+[ros2_natural_language_generation-1] [INFO] [1765859745.693710295] [natural_language_generation]: [13:35:45.692] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 23
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853460.109445484] [natural_language_generation]: [11:51:00.108] [NLG] 相槌生成ステージ開始 (request_id=23, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:00.109] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:00.109] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:00.252]
-[ros2_natural_language_generation-1] [INFO] [1765853460.332617565] [natural_language_generation]: [11:51:00.331] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した毎日'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859745.694539501] [natural_language_generation]: [13:35:45.693] [NLG] 相槌生成ステージ開始 (request_id=23, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:45.694] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:45.694] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:45.740]
+[ros2_natural_language_generation-1] [INFO] [1765859745.891818334] [natural_language_generation]: [13:35:45.890] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ていると', 'SNSを見といろんな人の充実した前'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 24
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853460.333822394] [natural_language_generation]: [11:51:00.332] [NLG] 相槌生成ステージ開始 (request_id=24, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:00.334] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:00.334] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:00.486]
-[ros2_natural_language_generation-1] [INFO] [1765853460.504286926] [natural_language_generation]: [11:51:00.503] [NLG] 相槌生成ステージ完了 (request_id=24, 処理時間=170.6ms, 応答='うんうんなるほど...' )
-[ros2_natural_language_generation-1] [INFO] [1765853460.542840959] [natural_language_generation]: [11:51:00.542] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ると', 'SNSを見といろんな人の充実した毎日が直'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859745.892623881] [natural_language_generation]: [13:35:45.891] [NLG] 相槌生成ステージ開始 (request_id=24, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:45.892] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:45.892] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:45.908]
+[ros2_natural_language_generation-1] [13:35:45.974]
+[ros2_natural_language_generation-1] [INFO] [1765859746.043390018] [natural_language_generation]: [13:35:46.042] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ていると', 'SNSを見といろんな人の充実した毎日'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 25
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853460.543901107] [natural_language_generation]: [11:51:00.542] [NLG] 相槌生成ステージ開始 (request_id=25, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:00.544] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:00.544] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:00.667]
-[ros2_natural_language_generation-1] [INFO] [1765853460.684257830] [natural_language_generation]: [11:51:00.683] [NLG] 相槌生成ステージ完了 (request_id=25, 処理時間=140.4ms, 応答='なるほど...' )
-[ros2_natural_language_generation-1] [INFO] [1765853460.767051798] [natural_language_generation]: [11:51:00.766] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると色の', 'SNSを見といろんな人の充実した毎日が流れ'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859746.044237865] [natural_language_generation]: [13:35:46.043] [NLG] 相槌生成ステージ開始 (request_id=25, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:46.044] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:46.044] 履歴受信（3個）
+[ros2_natural_language_generation-1] [INFO] [1765859746.109807251] [natural_language_generation]: [13:35:46.108] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見と', 'SNSを見ているといろんな人の充実した毎日が'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 26
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853460.767853094] [natural_language_generation]: [11:51:00.767] [NLG] 相槌生成ステージ開始 (request_id=26, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:00.768] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:00.768] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:00.910]
-[ros2_natural_language_generation-1] [INFO] [1765853460.924356650] [natural_language_generation]: [11:51:00.923] [NLG] 相槌生成ステージ完了 (request_id=26, 処理時間=156.3ms, 応答='へーすごい...' )
-[ros2_natural_language_generation-1] [INFO] [1765853460.985000069] [natural_language_generation]: [11:51:00.984] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859746.110623107] [natural_language_generation]: [13:35:46.109] [NLG] 相槌生成ステージ開始 (request_id=26, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:46.110] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:46.110] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:46.313]
+[ros2_natural_language_generation-1] [13:35:46.324]
+[ros2_natural_language_generation-1] [INFO] [1765859746.338941105] [natural_language_generation]: [13:35:46.338] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見と', 'SNSを見ているといろんな人の充実した毎日がね'] (長さ=3)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 27
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853460.985809945] [natural_language_generation]: [11:51:00.985] [NLG] 相槌生成ステージ開始 (request_id=27, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:00.986] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:00.986] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:01.120]
-[ros2_natural_language_generation-1] [INFO] [1765853461.224790065] [natural_language_generation]: [11:51:01.223] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'えっ', 'SNSを見ているといろんな人', 'SNSを見るといろんな人の充実した毎日が流れてきて'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859746.339779132] [natural_language_generation]: [13:35:46.339] [NLG] 相槌生成ステージ開始 (request_id=27, 入力数=3)
+[ros2_natural_language_generation-1] [13:35:46.340] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:46.340] 履歴受信（3個）
+[ros2_natural_language_generation-1] [13:35:46.530]
+[ros2_natural_language_generation-1] [INFO] [1765859746.576408744] [natural_language_generation]: [13:35:46.575] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見ていると色の', 'SNSを見ているといろんな人の充実した毎日が流れ'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 28
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853461.225663512] [natural_language_generation]: [11:51:01.224] [NLG] 相槌生成ステージ開始 (request_id=28, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:01.225] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:01.225] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:01.366]
-[ros2_natural_language_generation-1] [INFO] [1765853461.436476760] [natural_language_generation]: [11:51:01.435] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859746.577266401] [natural_language_generation]: [13:35:46.576] [NLG] 相槌生成ステージ開始 (request_id=28, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:46.577] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:46.577] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:46.592]
+[ros2_natural_language_generation-1] [INFO] [1765859746.706827761] [natural_language_generation]: [13:35:46.705] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 29
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853461.437338307] [natural_language_generation]: [11:51:01.436] [NLG] 相槌生成ステージ開始 (request_id=29, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:01.437] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:01.437] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:01.582]
-[ros2_natural_language_generation-1] [INFO] [1765853461.635473889] [natural_language_generation]: [11:51:01.634] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859746.707651678] [natural_language_generation]: [13:35:46.706] [NLG] 相槌生成ステージ開始 (request_id=29, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:46.707] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:46.707] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:46.776]
+[ros2_natural_language_generation-1] [INFO] [1765859746.806273234] [natural_language_generation]: [13:35:46.805] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '[雑音]', 'SNSを見ているといろんな', 'SNSを見といろんな人の充実した毎日が流れてききて'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 30
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853461.636333515] [natural_language_generation]: [11:51:01.635] [NLG] 相槌生成ステージ開始 (request_id=30, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:01.636] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:01.636] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:01.833]
-[ros2_natural_language_generation-1] [INFO] [1765853461.844297991] [natural_language_generation]: [11:51:01.843] [NLG] 相槌生成ステージ完了 (request_id=30, 処理時間=207.7ms, 応答='うんうんそっかー...' )
-[ros2_natural_language_generation-1] [INFO] [1765853461.869365681] [natural_language_generation]: [11:51:01.868] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見といろんな人のじ', 'いろんな人の充実した毎日が流れてきて[雑音][無音]'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859746.807117851] [natural_language_generation]: [13:35:46.806] [NLG] 相槌生成ステージ開始 (request_id=30, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:46.807] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:46.807] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:46.829]
+[ros2_natural_language_generation-1] [INFO] [1765859746.891043061] [natural_language_generation]: [13:35:46.890] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '[無音]', 'SNSを見ているといろんな人', 'SNSを見といろんな人の充実した毎日が流れてきて'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 31
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853461.870162227] [natural_language_generation]: [11:51:01.869] [NLG] 相槌生成ステージ開始 (request_id=31, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:01.870] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:01.870] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:02.025]
-[ros2_natural_language_generation-1] [INFO] [1765853462.044292207] [natural_language_generation]: [11:51:02.043] [NLG] 相槌生成ステージ完了 (request_id=31, 処理時間=173.9ms, 応答='へーすごい...' )
-[ros2_natural_language_generation-1] [INFO] [1765853462.100960736] [natural_language_generation]: [11:51:02.100] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見といろんな人の重字', 'いろんな人の充実した毎日が流れてきて'] (長さ=4)
+[ros2_natural_language_generation-1] [INFO] [1765859746.891881528] [natural_language_generation]: [13:35:46.891] [NLG] 相槌生成ステージ開始 (request_id=31, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:46.892] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:46.892] 履歴受信（4個）
+[ros2_natural_language_generation-1] [INFO] [1765859747.038866725] [natural_language_generation]: [13:35:47.037] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 32
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853462.101749242] [natural_language_generation]: [11:51:02.101] [NLG] 相槌生成ステージ開始 (request_id=32, 入力数=4)
-[ros2_natural_language_generation-1] [11:51:02.102] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:02.102] 履歴受信（4個）
-[ros2_natural_language_generation-1] [11:51:02.236]
-[ros2_natural_language_generation-1] [INFO] [1765853462.332384220] [natural_language_generation]: [11:51:02.331] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見', 'SNSを見ているといろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分で'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859747.039716942] [natural_language_generation]: [13:35:47.038] [NLG] 相槌生成ステージ開始 (request_id=32, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:47.040] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:47.040] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:47.061]
+[ros2_natural_language_generation-1] [13:35:47.175]
+[ros2_natural_language_generation-1] [INFO] [1765859747.246722272] [natural_language_generation]: [13:35:47.244] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 33
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853462.333233076] [natural_language_generation]: [11:51:02.332] [NLG] 相槌生成ステージ開始 (request_id=33, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:02.333] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:02.333] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:02.462]
-[ros2_natural_language_generation-1] [INFO] [1765853462.464361720] [natural_language_generation]: [11:51:02.463] [NLG] 相槌生成ステージ完了 (request_id=33, 処理時間=130.9ms, 応答='うんうん...' )
-[ros2_natural_language_generation-1] [INFO] [1765853462.580110428] [natural_language_generation]: [11:51:02.579] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ている', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ'] (長さ=5)
+[ros2_natural_language_generation-1] [13:35:47.248]
+[ros2_natural_language_generation-1] [INFO] [1765859747.248922219] [natural_language_generation]: [13:35:47.246] [NLG] 相槌生成ステージ開始 (request_id=33, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:47.249] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:47.249] 履歴受信（4個）
+[ros2_natural_language_generation-1] [INFO] [1765859747.415960154] [natural_language_generation]: [13:35:47.415] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて[雑音]'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 34
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853462.581050765] [natural_language_generation]: [11:51:02.580] [NLG] 相槌生成ステージ開始 (request_id=34, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:02.581] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:02.581] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:02.747]
-[ros2_natural_language_generation-1] [INFO] [1765853462.764332444] [natural_language_generation]: [11:51:02.763] [NLG] 相槌生成ステージ完了 (request_id=34, 処理時間=183.2ms, 応答='あははいいね...' )
-[ros2_natural_language_generation-1] [INFO] [1765853462.840597501] [natural_language_generation]: [11:51:02.839] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'えっ', 'SNSを見と', 'SNSを見ているといろんな人の充実した毎日が', 'いろんな人の充実した毎日が流れてきて自分だけ[雑音]'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859747.416848781] [natural_language_generation]: [13:35:47.416] [NLG] 相槌生成ステージ開始 (request_id=34, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:47.417] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:47.417] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:47.453]
+[ros2_natural_language_generation-1] [INFO] [1765859747.457837544] [natural_language_generation]: [13:35:47.456] [NLG] 相槌生成ステージ完了 (request_id=34, 処理時間=40.9ms, 応答='へー...' )
+[ros2_natural_language_generation-1] [13:35:47.475]
+[ros2_natural_language_generation-1] [INFO] [1765859747.477821171] [natural_language_generation]: [13:35:47.476] [NLG] 相槌生成ステージ完了 (request_id=34, 処理時間=60.9ms, 応答='えー...' )
+[ros2_natural_language_generation-1] [INFO] [1765859747.487352316] [natural_language_generation]: [13:35:47.486] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見といろんな人の十', 'いろんな人の充実した毎日が流れてきて[無音]'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 35
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853462.841419047] [natural_language_generation]: [11:51:02.840] [NLG] 相槌生成ステージ開始 (request_id=35, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:02.841] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:02.841] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:03.024]
-[ros2_natural_language_generation-1] [INFO] [1765853463.044287056] [natural_language_generation]: [11:51:03.043] [NLG] 相槌生成ステージ完了 (request_id=35, 処理時間=202.7ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-1] [INFO] [1765853463.086335014] [natural_language_generation]: [11:51:03.085] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見と', 'SNSを見るといろんな人の充実した毎日がね', 'いろんな人の充実した毎日が流れてきて自分だけ'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859747.488179433] [natural_language_generation]: [13:35:47.487] [NLG] 相槌生成ステージ開始 (request_id=35, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:47.488] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:47.488] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:47.718]
+[ros2_natural_language_generation-1] [INFO] [1765859747.811467948] [natural_language_generation]: [13:35:47.810] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを', 'SNSを見といろんな人の重字', 'いろんな人の充実した毎日が流れてきて'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 36
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853463.087200861] [natural_language_generation]: [11:51:03.086] [NLG] 相槌生成ステージ開始 (request_id=36, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:03.087] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:03.087] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:03.214]
-[ros2_natural_language_generation-1] [INFO] [1765853463.224258350] [natural_language_generation]: [11:51:03.223] [NLG] 相槌生成ステージ完了 (request_id=36, 処理時間=136.9ms, 応答='なるほど...' )
-[ros2_natural_language_generation-1] [INFO] [1765853463.326647946] [natural_language_generation]: [11:51:03.325] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見るとい', 'SNSを見といろんな人の充実した毎日が流れ', '充実した毎日が流れてきて自分だけ取りの'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859747.812300645] [natural_language_generation]: [13:35:47.811] [NLG] 相槌生成ステージ開始 (request_id=36, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:47.812] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:47.812] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:47.838]
+[ros2_natural_language_generation-1] [13:35:47.925]
+[ros2_natural_language_generation-1] [INFO] [1765859748.070233105] [natural_language_generation]: [13:35:48.069] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 37
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853463.327450682] [natural_language_generation]: [11:51:03.326] [NLG] 相槌生成ステージ開始 (request_id=37, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:03.327] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:03.327] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:03.472]
-[ros2_natural_language_generation-1] [INFO] [1765853463.484172529] [natural_language_generation]: [11:51:03.483] [NLG] 相槌生成ステージ完了 (request_id=37, 処理時間=156.6ms, 応答='へーすごい...' )
-[ros2_natural_language_generation-1] [INFO] [1765853463.572438178] [natural_language_generation]: [11:51:03.571] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき', '充実した毎日が流れてきて自分だけ取り残され'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859748.071075062] [natural_language_generation]: [13:35:48.070] [NLG] 相槌生成ステージ開始 (request_id=37, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:48.071] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:48.071] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:48.236]
+[ros2_natural_language_generation-1] [INFO] [1765859748.300196626] [natural_language_generation]: [13:35:48.299] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ている', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 38
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853463.573246964] [natural_language_generation]: [11:51:03.572] [NLG] 相槌生成ステージ開始 (request_id=38, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:03.573] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:03.573] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:03.746]
-[ros2_natural_language_generation-1] [INFO] [1765853463.764261922] [natural_language_generation]: [11:51:03.763] [NLG] 相槌生成ステージ完了 (request_id=38, 処理時間=190.8ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-1] [INFO] [1765853463.822175401] [natural_language_generation]: [11:51:03.821] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'えっ', 'SNSを見ているといろんな人', 'SNSを見るといろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されて'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859748.301053623] [natural_language_generation]: [13:35:48.300] [NLG] 相槌生成ステージ開始 (request_id=38, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:48.301] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:48.301] 履歴受信（4個）
+[ros2_natural_language_generation-1] [13:35:48.498]
+[ros2_natural_language_generation-1] [13:35:48.718]
+[ros2_natural_language_generation-1] [INFO] [1765859748.760809054] [natural_language_generation]: [13:35:48.759] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見と', 'SNSを見ているといろんな人の充実した毎日が', 'いろんな人の充実した毎日が流れてきて自分だけ[雑音]'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 39
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853463.822995277] [natural_language_generation]: [11:51:03.822] [NLG] 相槌生成ステージ開始 (request_id=39, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:03.823] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:03.823] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:03.991]
-[ros2_natural_language_generation-1] [INFO] [1765853464.085144394] [natural_language_generation]: [11:51:04.084] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる気'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859748.761654801] [natural_language_generation]: [13:35:48.760] [NLG] 相槌生成ステージ開始 (request_id=39, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:48.761] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:48.761] 履歴受信（4個）
+[ros2_natural_language_generation-1] [INFO] [1765859748.973064504] [natural_language_generation]: [13:35:48.972] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ると', 'SNSを見ているといろんな人の充実した毎日が長', '人の充実した毎日が流れてきて自分だけ取り'] (長さ=4)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 40
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853464.085965480] [natural_language_generation]: [11:51:04.085] [NLG] 相槌生成ステージ開始 (request_id=40, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:04.086] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:04.086] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:04.253]
-[ros2_natural_language_generation-1] [INFO] [1765853464.313104901] [natural_language_generation]: [11:51:04.311] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて[雑音]', 'てきて自分だけ取り残されてる気がし'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859748.973902490] [natural_language_generation]: [13:35:48.973] [NLG] 相槌生成ステージ開始 (request_id=40, 入力数=4)
+[ros2_natural_language_generation-1] [13:35:48.974] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:48.974] 履歴受信（4個）
+[ros2_natural_language_generation-1] [INFO] [1765859749.185499657] [natural_language_generation]: [13:35:49.184] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見ているといろんな', 'SNSを見ているといろんな人の充実した毎日が流れて', '充実した毎日が流れてきて自分だけ取り残す'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 41
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853464.314007788] [natural_language_generation]: [11:51:04.313] [NLG] 相槌生成ステージ開始 (request_id=41, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:04.314] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:04.314] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:04.483]
-[ros2_natural_language_generation-1] [INFO] [1765853464.518213346] [natural_language_generation]: [11:51:04.517] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見といろんな人の十', 'いろんな人の充実した毎日が流れてきて[雑音][無音]', '自分だけ取り残されて気がして'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859749.186382144] [natural_language_generation]: [13:35:49.185] [NLG] 相槌生成ステージ開始 (request_id=41, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:49.186] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:49.186] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:49.197]
+[ros2_natural_language_generation-1] [INFO] [1765859749.398571964] [natural_language_generation]: [13:35:49.397] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき', '充実した毎日が流れてきて自分だけ取り残さ'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 42
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853464.519111473] [natural_language_generation]: [11:51:04.518] [NLG] 相槌生成ステージ開始 (request_id=42, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:04.519] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:04.519] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:04.683]
-[ros2_natural_language_generation-1] [INFO] [1765853464.738577656] [natural_language_generation]: [11:51:04.737] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分', 'てきて自分だけ取り残されて気がして'] (長さ=5)
+[ros2_natural_language_generation-1] [INFO] [1765859749.399436121] [natural_language_generation]: [13:35:49.398] [NLG] 相槌生成ステージ開始 (request_id=42, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:49.399] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:49.399] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:49.417]
+[ros2_natural_language_generation-1] [INFO] [1765859749.630267918] [natural_language_generation]: [13:35:49.629] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'え', 'SNSを見ているといろんな人の', 'SNSを見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 43
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853464.739427402] [natural_language_generation]: [11:51:04.738] [NLG] 相槌生成ステージ開始 (request_id=43, 入力数=5)
-[ros2_natural_language_generation-1] [11:51:04.739] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:04.739] 履歴受信（5個）
-[ros2_natural_language_generation-1] [11:51:04.900]
-[ros2_natural_language_generation-1] [INFO] [1765853464.942139328] [natural_language_generation]: [11:51:04.941] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見', 'SNSを見ているといろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分で', '自分だけ取り残されて気がして'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859749.631132425] [natural_language_generation]: [13:35:49.630] [NLG] 相槌生成ステージ開始 (request_id=43, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:49.631] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:49.631] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:49.682]
+[ros2_natural_language_generation-1] [INFO] [1765859749.874515311] [natural_language_generation]: [13:35:49.873] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '末', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる気が'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 44
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853464.942990325] [natural_language_generation]: [11:51:04.942] [NLG] 相槌生成ステージ開始 (request_id=44, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:04.943] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:04.943] 履歴受信（6個）
-[ros2_natural_language_generation-1] [INFO] [1765853465.084924291] [natural_language_generation]: [11:51:05.084] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859749.875370198] [natural_language_generation]: [13:35:49.874] [NLG] 相槌生成ステージ開始 (request_id=44, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:49.875] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:49.875] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:50.022]
+[ros2_natural_language_generation-1] [INFO] [1765859750.078897529] [natural_language_generation]: [13:35:50.077] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて[雑音]', 'てきて自分だけ取り残されてる気がし'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 45
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853465.085781107] [natural_language_generation]: [11:51:05.085] [NLG] 相槌生成ステージ開始 (request_id=45, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:05.086] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:05.086] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:05.128]
-[ros2_natural_language_generation-1] [INFO] [1765853465.167756219] [natural_language_generation]: [11:51:05.166] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した毎日', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[雑音][雑音]'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859750.079743886] [natural_language_generation]: [13:35:50.078] [NLG] 相槌生成ステージ開始 (request_id=45, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:50.080] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:50.080] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:50.124]
+[ros2_natural_language_generation-1] [INFO] [1765859750.263417103] [natural_language_generation]: [13:35:50.262] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見といろんな人の十', 'いろんな人の充実した毎日が流れてきて[無音]', '自分だけ取り残されて気がして'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 46
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853465.168618095] [natural_language_generation]: [11:51:05.167] [NLG] 相槌生成ステージ開始 (request_id=46, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:05.168] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:05.168] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:05.268]
-[ros2_natural_language_generation-1] [11:51:05.344]
-[ros2_natural_language_generation-1] [INFO] [1765853465.364315368] [natural_language_generation]: [11:51:05.363] [NLG] 相槌生成ステージ完了 (request_id=46, 処理時間=195.5ms, 応答='そっかー...' )
-[ros2_natural_language_generation-1] [INFO] [1765853465.394244915] [natural_language_generation]: [11:51:05.393] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した毎日', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がしてでも'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859750.264259459] [natural_language_generation]: [13:35:50.263] [NLG] 相槌生成ステージ開始 (request_id=46, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:50.264] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:50.264] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:50.383]
+[ros2_natural_language_generation-1] [INFO] [1765859750.471047307] [natural_language_generation]: [13:35:50.470] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分', 'てきて自分だけ取り残されて気がして'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 47
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853465.395054091] [natural_language_generation]: [11:51:05.394] [NLG] 相槌生成ステージ開始 (request_id=47, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:05.395] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:05.395] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:05.554]
-[ros2_natural_language_generation-1] [INFO] [1765853465.564323524] [natural_language_generation]: [11:51:05.563] [NLG] 相槌生成ステージ完了 (request_id=47, 処理時間=169.1ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-1] [INFO] [1765853466.059401615] [natural_language_generation]: [11:51:06.058] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき', '充実した毎日が流れてきて自分だけ取り残され', '自分だけ取り残されて気がしてでもと'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859750.471900904] [natural_language_generation]: [13:35:50.471] [NLG] 相槌生成ステージ開始 (request_id=47, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:50.472] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:50.472] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765859750.619185864] [natural_language_generation]: [13:35:50.618] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見ているといろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分で', '自分だけ取り残されて気がして'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 48
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853466.060295421] [natural_language_generation]: [11:51:06.059] [NLG] 相槌生成ステージ開始 (request_id=48, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:06.060] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:06.060] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:06.230]
-[ros2_natural_language_generation-1] [INFO] [1765853466.283289842] [natural_language_generation]: [11:51:06.282] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ているといろんな', 'SNSを見といろんな人の充実した毎日が流れててきた', '充実した毎日が流れてきて自分だけ取り残されて', '自分だけ取り残されて気がしてでも投稿'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859750.620018660] [natural_language_generation]: [13:35:50.619] [NLG] 相槌生成ステージ開始 (request_id=48, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:50.620] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:50.620] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765859750.658658985] [natural_language_generation]: [13:35:50.657] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ている', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[雑音]'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 49
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853466.284125518] [natural_language_generation]: [11:51:06.283] [NLG] 相槌生成ステージ開始 (request_id=49, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:06.284] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:06.284] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:06.449]
-[ros2_natural_language_generation-1] [INFO] [1765853466.516732861] [natural_language_generation]: [11:51:06.515] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる気', '自分だけ取り残されて気がしてでも投稿する'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859750.659498911] [natural_language_generation]: [13:35:50.658] [NLG] 相槌生成ステージ開始 (request_id=49, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:50.659] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:50.659] 履歴受信（5個）
+[ros2_natural_language_generation-1] [INFO] [1765859750.855281953] [natural_language_generation]: [13:35:50.854] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ていると', 'SNSを見といろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 50
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853466.517548677] [natural_language_generation]: [11:51:06.516] [NLG] 相槌生成ステージ開始 (request_id=50, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:06.517] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:06.517] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:06.672]
-[ros2_natural_language_generation-1] [INFO] [1765853466.757300524] [natural_language_generation]: [11:51:06.756] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ているといろんな人の', 'といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる気が', '自分だけ取り残されて気がしてでも投稿する気'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859750.856124939] [natural_language_generation]: [13:35:50.855] [NLG] 相槌生成ステージ開始 (request_id=50, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:50.856] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:50.856] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:50.886]
+[ros2_natural_language_generation-1] [13:35:50.989]
+[ros2_natural_language_generation-1] [INFO] [1765859751.099442215] [natural_language_generation]: [13:35:51.098] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ていると', 'SNSを見といろんな人の充実した前に', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[雑音][雑音]'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 51
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853466.758128851] [natural_language_generation]: [11:51:06.757] [NLG] 相槌生成ステージ開始 (request_id=51, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:06.758] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:06.758] 履歴受信（6個）
-[ros2_natural_language_generation-1] [INFO] [1765853466.904720532] [natural_language_generation]: [11:51:06.903] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見といろんな人のじ', 'いろんな人の充実した毎日が流れてきて[雑音][無音]', 'てきて自分だけ取り残されて気がして', 'だけ取り残されて気がしてでも投稿する木にも'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859751.100298272] [natural_language_generation]: [13:35:51.099] [NLG] 相槌生成ステージ開始 (request_id=51, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:51.100] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:51.100] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:51.300]
+[ros2_natural_language_generation-1] [INFO] [1765859751.320291604] [natural_language_generation]: [13:35:51.319] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見と', 'SNSを見ているといろんな人の充実した毎日がね', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がしてでも'] (長さ=5)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 52
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853466.905552408] [natural_language_generation]: [11:51:06.904] [NLG] 相槌生成ステージ開始 (request_id=52, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:06.905] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:06.905] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:06.919]
-[ros2_natural_language_generation-1] [INFO] [1765853467.006233811] [natural_language_generation]: [11:51:07.005] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見といろんな人の十', 'いろんな人の充実した毎日が流れてきて[雑音][無音]', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にも'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859751.321130870] [natural_language_generation]: [13:35:51.320] [NLG] 相槌生成ステージ開始 (request_id=52, 入力数=5)
+[ros2_natural_language_generation-1] [13:35:51.321] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:51.321] 履歴受信（5個）
+[ros2_natural_language_generation-1] [13:35:51.339]
+[ros2_natural_language_generation-1] [13:35:51.371]
+[ros2_natural_language_generation-1] [13:35:51.530]
+[ros2_natural_language_generation-1] [13:35:51.531]
+[ros2_natural_language_generation-1] [INFO] [1765859751.771930019] [natural_language_generation]: [13:35:51.771] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき', '充実した毎日が流れてきて自分だけ取り残さ', '自分だけ取り残されて気がしてでもと'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 53
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853467.007041707] [natural_language_generation]: [11:51:07.006] [NLG] 相槌生成ステージ開始 (request_id=53, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:07.007] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:07.007] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:07.085]
-[ros2_natural_language_generation-1] [11:51:07.173]
-[ros2_natural_language_generation-1] [INFO] [1765853467.264831451] [natural_language_generation]: [11:51:07.263] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分', 'てきて自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもな'] (長さ=6)
+[ros2_natural_language_generation-1] [INFO] [1765859751.772784676] [natural_language_generation]: [13:35:51.771] [NLG] 相槌生成ステージ開始 (request_id=53, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:51.773] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:51.773] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:51.795]
+[ros2_natural_language_generation-1] [INFO] [1765859751.994440351] [natural_language_generation]: [13:35:51.993] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '[雑音]', 'SNSを見ているといろんな', 'SNSを見といろんな人の充実した毎日が流れてききて', '充実した毎日が流れてきて自分だけ取り残されて', '自分だけ取り残されて気がしてでもト'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 54
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853467.265712687] [natural_language_generation]: [11:51:07.264] [NLG] 相槌生成ステージ開始 (request_id=54, 入力数=6)
-[ros2_natural_language_generation-1] [11:51:07.266] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:07.266] 履歴受信（6個）
-[ros2_natural_language_generation-1] [11:51:07.432]
-[ros2_natural_language_generation-1] [INFO] [1765853467.488476506] [natural_language_generation]: [11:51:07.487] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見', 'SNSを見ているといろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分で', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859751.995357089] [natural_language_generation]: [13:35:51.994] [NLG] 相槌生成ステージ開始 (request_id=54, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:51.995] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:51.995] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765859752.185047842] [natural_language_generation]: [13:35:52.184] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'え', 'SNSを見ているといろんな人の', 'SNSを見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる', '自分だけ取り残されて気がしてでも投稿'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 55
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853467.489322822] [natural_language_generation]: [11:51:07.488] [NLG] 相槌生成ステージ開始 (request_id=55, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:07.489] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:07.489] 履歴受信（7個）
-[ros2_natural_language_generation-1] [INFO] [1765853467.548136068] [natural_language_generation]: [11:51:07.547] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '取り残されている気がしてでも投稿する気にもなれない'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859752.185913919] [natural_language_generation]: [13:35:52.185] [NLG] 相槌生成ステージ開始 (request_id=55, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:52.186] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:52.186] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:52.229]
+[ros2_natural_language_generation-1] [INFO] [1765859752.230333939] [natural_language_generation]: [13:35:52.229] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '末', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる気が', '自分だけ取り残されて気がしてでも投稿する'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 56
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853467.548968404] [natural_language_generation]: [11:51:07.548] [NLG] 相槌生成ステージ開始 (request_id=56, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:07.549] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:07.549] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:07.643]
-[ros2_natural_language_generation-1] [11:51:07.743]
-[ros2_natural_language_generation-1] [INFO] [1765853467.755335898] [natural_language_generation]: [11:51:07.754] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前に', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '気がしてでも投稿する気にもなれないから'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859752.231198456] [natural_language_generation]: [13:35:52.230] [NLG] 相槌生成ステージ開始 (request_id=56, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:52.231] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:52.231] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:52.398]
+[ros2_natural_language_generation-1] [INFO] [1765859752.478912916] [natural_language_generation]: [13:35:52.477] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて', '実した毎日が流れてきて自分だけ取り残されて気がした', '自分だけ取り残されて気がしてでも投稿する気'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 57
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853467.756023813] [natural_language_generation]: [11:51:07.755] [NLG] 相槌生成ステージ開始 (request_id=57, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:07.756] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:07.756] 履歴受信（7個）
-[ros2_natural_language_generation-1] [INFO] [1765853467.764118875] [natural_language_generation]: [11:51:07.763] [NLG] 相槌生成ステージ完了 (request_id=57, 処理時間=7.9ms, 応答='うんうんそっかー...' )
-[ros2_natural_language_generation-1] [INFO] [1765853467.779675453] [natural_language_generation]: [11:51:07.779] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した毎日', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[雑音][雑音]', 'でも投稿する木にもなれないから'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859752.479778863] [natural_language_generation]: [13:35:52.478] [NLG] 相槌生成ステージ開始 (request_id=57, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:52.480] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:52.480] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:52.586]
+[ros2_natural_language_generation-1] [INFO] [1765859752.736469884] [natural_language_generation]: [13:35:52.735] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて[雑音]', 'てきて自分だけ取り残されてる気がし', '自分だけ取り残されて気がしてでも投稿する気にも'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 58
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853467.780316567] [natural_language_generation]: [11:51:07.779] [NLG] 相槌生成ステージ開始 (request_id=58, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:07.780] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:07.780] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:07.940]
-[ros2_natural_language_generation-1] [INFO] [1765853467.944354621] [natural_language_generation]: [11:51:07.943] [NLG] 相槌生成ステージ完了 (request_id=58, 処理時間=163.6ms, 応答='あーなるほど...' )
-[ros2_natural_language_generation-1] [11:51:07.998]
-[ros2_natural_language_generation-1] [INFO] [1765853468.000230494] [natural_language_generation]: [11:51:07.999] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した毎日', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がしてでも', 'でも投稿する気にもなれないから'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859752.737353581] [natural_language_generation]: [13:35:52.736] [NLG] 相槌生成ステージ開始 (request_id=58, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:52.737] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:52.737] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765859752.790911262] [natural_language_generation]: [13:35:52.790] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分', 'てきて自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にも'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 59
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853468.001118611] [natural_language_generation]: [11:51:08.000] [NLG] 相槌生成ステージ開始 (request_id=59, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:08.001] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:08.001] 履歴受信（7個）
-[ros2_natural_language_generation-1] [INFO] [1765853468.005119511] [natural_language_generation]: [11:51:08.003] [NLG] 相槌生成ステージ完了 (request_id=59, 処理時間=3.6ms, 応答='うんうん寂しいな...' )
-[ros2_natural_language_generation-1] [11:51:08.124]
-[ros2_natural_language_generation-1] [INFO] [1765853468.144237636] [natural_language_generation]: [11:51:08.143] [NLG] 相槌生成ステージ完了 (request_id=59, 処理時間=143.0ms, 応答='うんうん...' )
-[ros2_natural_language_generation-1] [INFO] [1765853468.460925206] [natural_language_generation]: [11:51:08.459] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき', '充実した毎日が流れてきて自分だけ取り残され', '自分だけ取り残されて気がしてでもと', 'でも投稿する気にもなれないから燃え'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859752.791738799] [natural_language_generation]: [13:35:52.790] [NLG] 相槌生成ステージ開始 (request_id=59, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:52.792] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:52.792] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:52.853]
+[ros2_natural_language_generation-1] [13:35:52.968]
+[ros2_natural_language_generation-1] [INFO] [1765859752.981760245] [natural_language_generation]: [13:35:52.980] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分', '自分だけ取り残されて気がして', '取り残されて気がしてでも投稿する木にもな'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 60
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853468.461758672] [natural_language_generation]: [11:51:08.461] [NLG] 相槌生成ステージ開始 (request_id=60, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:08.462] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:08.462] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:08.647]
-[ros2_natural_language_generation-1] [INFO] [1765853468.664347738] [natural_language_generation]: [11:51:08.663] [NLG] 相槌生成ステージ完了 (request_id=60, 処理時間=202.4ms, 応答='えーまじか...' )
-[ros2_natural_language_generation-1] [INFO] [1765853468.692687732] [natural_language_generation]: [11:51:08.691] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見といろんな', 'SNSを見といろんな人の充実した毎日が流れてき', '充実した毎日が流れてきて自分だけ取り残され', '自分だけ取り残されて気がしてでもト', 'でも投稿する気にもなれないからもや'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859752.982669412] [natural_language_generation]: [13:35:52.981] [NLG] 相槌生成ステージ開始 (request_id=60, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:52.982] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:52.982] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:53.073]
+[ros2_natural_language_generation-1] [INFO] [1765859753.244129770] [natural_language_generation]: [13:35:53.243] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見ているといろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分で', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれ'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 61
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853468.693494269] [natural_language_generation]: [11:51:08.692] [NLG] 相槌生成ステージ開始 (request_id=61, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:08.693] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:08.693] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:08.866]
-[ros2_natural_language_generation-1] [INFO] [1765853468.936098487] [natural_language_generation]: [11:51:08.935] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ているといろんな人の', 'SNSを見るといろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる', '自分だけ取り残されて気がしてでも投稿', 'でも投稿する気にもなれないからモヤもヤ'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859753.245040178] [natural_language_generation]: [13:35:53.244] [NLG] 相槌生成ステージ開始 (request_id=61, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:53.245] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:53.245] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:53.250]
+[ros2_natural_language_generation-1] [INFO] [1765859753.479940768] [natural_language_generation]: [13:35:53.479] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ていると', 'SNSを見といろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '取り残されている気がしてでも投稿する気にもなれない'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 62
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853468.936937713] [natural_language_generation]: [11:51:08.936] [NLG] 相槌生成ステージ開始 (request_id=62, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:08.937] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:08.937] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:09.091]
-[ros2_natural_language_generation-1] [INFO] [1765853469.104256282] [natural_language_generation]: [11:51:09.103] [NLG] 相槌生成ステージ完了 (request_id=62, 処理時間=167.1ms, 応答='モヤもヤ...' )
-[ros2_natural_language_generation-1] [INFO] [1765853469.196821843] [natural_language_generation]: [11:51:09.195] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる気', '自分だけ取り残されて気がしてでも投稿する', 'でも投稿する気にもなれないからモヤモヤしちゃ'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859753.480802285] [natural_language_generation]: [13:35:53.480] [NLG] 相槌生成ステージ開始 (request_id=62, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:53.481] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:53.481] 履歴受信（6個）
+[ros2_natural_language_generation-1] [INFO] [1765859753.514790002] [natural_language_generation]: [13:35:53.513] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見ていると', 'SNSを見といろんな人の充実した毎日', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', 'でも投稿する気にもなれないから'] (長さ=6)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 63
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853469.197614749] [natural_language_generation]: [11:51:09.196] [NLG] 相槌生成ステージ開始 (request_id=63, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:09.197] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:09.197] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:09.375]
-[ros2_natural_language_generation-1] [INFO] [1765853469.384475025] [natural_language_generation]: [11:51:09.383] [NLG] 相槌生成ステージ完了 (request_id=63, 処理時間=186.5ms, 応答='モヤモヤ…...' )
-[ros2_natural_language_generation-1] [INFO] [1765853469.469831902] [natural_language_generation]: [11:51:09.469] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて[雑音]', 'てきて自分だけ取り残されてる気がし', '自分だけ取り残されて気がしてでも投稿する気にも', 'でも投稿する気にもなれないからモヤモヤしちゃうんで'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859753.515627298] [natural_language_generation]: [13:35:53.514] [NLG] 相槌生成ステージ開始 (request_id=63, 入力数=6)
+[ros2_natural_language_generation-1] [13:35:53.515] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:53.515] 履歴受信（6個）
+[ros2_natural_language_generation-1] [13:35:53.591]
+[ros2_natural_language_generation-1] [13:35:53.705]
+[ros2_natural_language_generation-1] [13:35:53.931]
+[ros2_natural_language_generation-1] [13:35:54.248]
+[ros2_natural_language_generation-1] [INFO] [1765859754.403218686] [natural_language_generation]: [13:35:54.402] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '[雑音]', 'SNSを見ているといろんな', 'SNSを見といろんな人の充実した毎日が流れてききて', '充実した毎日が流れてきて自分だけ取り残されて', '自分だけ取り残されて気がしてでもト', 'でも投稿する気にもなれないからもや'] (長さ=7)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 64
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853469.470944111] [natural_language_generation]: [11:51:09.469] [NLG] 相槌生成ステージ開始 (request_id=64, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:09.471] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:09.471] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:09.645]
-[ros2_natural_language_generation-1] [INFO] [1765853469.751420666] [natural_language_generation]: [11:51:09.748] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNS', 'SNSを見といろんな人の十', 'いろんな人の充実した毎日が流れてきて[雑音][無音]', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にも', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよ'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859754.404098183] [natural_language_generation]: [13:35:54.403] [NLG] 相槌生成ステージ開始 (request_id=64, 入力数=7)
+[ros2_natural_language_generation-1] [13:35:54.404] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:54.404] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765859754.640297494] [natural_language_generation]: [13:35:54.639] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '[無音]', 'SNSを見ているといろんな人', 'SNSを見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されて', '自分だけ取り残されて気がしてでも投稿', 'でも投稿する気にもなれないからモヤも'] (長さ=7)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 65
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853469.752419534] [natural_language_generation]: [11:51:09.751] [NLG] 相槌生成ステージ開始 (request_id=65, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:09.752] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:09.752] 履歴受信（7個）
-[ros2_natural_language_generation-1] [11:51:09.929]
-[ros2_natural_language_generation-1] [INFO] [1765853470.025054830] [natural_language_generation]: [11:51:10.024] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれ', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1] [INFO] [1765859754.641166641] [natural_language_generation]: [13:35:54.640] [NLG] 相槌生成ステージ開始 (request_id=65, 入力数=7)
+[ros2_natural_language_generation-1] [13:35:54.641] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:54.641] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765859754.889287054] [natural_language_generation]: [13:35:54.888] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', '末', 'SNSを見ているといろんな人の', 'を見といろんな人の充実した毎日が流れてきて', '充実した毎日が流れてきて自分だけ取り残されてる気が', '自分だけ取り残されて気がしてでも投稿する', 'でも投稿する気にもなれないからモヤモやしし'] (長さ=7)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 66
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
 [ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
-[ros2_natural_language_generation-1] [INFO] [1765853470.027191846] [natural_language_generation]: [11:51:10.025] [NLG] 相槌生成ステージ開始 (request_id=66, 入力数=7)
-[ros2_natural_language_generation-1] [11:51:10.027] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:10.027] 履歴受信（7個）
-[ros2_natural_language_generation-1] [INFO] [1765853470.050026899] [natural_language_generation]: [11:51:10.049] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '取り残されている気がしてでも投稿する気にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね[無音]'] (長さ=8)
+[ros2_natural_language_generation-1] [INFO] [1765859754.890213941] [natural_language_generation]: [13:35:54.889] [NLG] 相槌生成ステージ開始 (request_id=66, 入力数=7)
+[ros2_natural_language_generation-1] [13:35:54.890] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:54.890] 履歴受信（7個）
+[ros2_natural_language_generation-1] [13:35:54.938]
+[ros2_natural_language_generation-1] [13:35:55.111]
+[ros2_natural_language_generation-1] [INFO] [1765859755.146600909] [natural_language_generation]: [13:35:55.145] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNS', 'SNSを見ているといろんな人の', 'いろんな人の充実した毎日が流れてきて[雑音]', 'てきて自分だけ取り残されてる気がし', '自分だけ取り残されて気がしてでも投稿する気に', 'でも投稿する気にもなれないからモヤモヤしちゃう'] (長さ=7)
 [ros2_natural_language_generation-1]   - stage: 'first'
 [ros2_natural_language_generation-1]   - request_id: 67
 [ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
 [ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765853470047767040
-[ros2_natural_language_generation-1] [INFO] [1765853470.050840685] [natural_language_generation]: [11:51:10.050] [NLG] 相槌生成ステージ開始 (request_id=67, 入力数=8)
-[ros2_natural_language_generation-1] [11:51:10.051] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:10.051] 履歴受信（8個）
-[ros2_natural_language_generation-1] [INFO] [1765853470.054971797] [natural_language_generation]: [11:51:10.051] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765859755.147469496] [natural_language_generation]: [13:35:55.146] [NLG] 相槌生成ステージ開始 (request_id=67, 入力数=7)
+[ros2_natural_language_generation-1] [13:35:55.147] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:55.147] 履歴受信（7個）
+[ros2_natural_language_generation-1] [13:35:55.341]
+[ros2_natural_language_generation-1] [INFO] [1765859755.419373057] [natural_language_generation]: [13:35:55.418] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを', 'SNSを見といろんな人の重字', 'いろんな人の充実した毎日が流れてきて', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にも', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよ'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 68
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765859755.420231854] [natural_language_generation]: [13:35:55.419] [NLG] 相槌生成ステージ開始 (request_id=68, 入力数=7)
+[ros2_natural_language_generation-1] [13:35:55.420] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:55.420] 履歴受信（7個）
+[ros2_natural_language_generation-1] [13:35:55.606]
+[ros2_natural_language_generation-1] [INFO] [1765859755.639601301] [natural_language_generation]: [13:35:55.638] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['えっ', 'SNSを見', 'SNSを見といろんな人の充実', 'いろんな人の充実した毎日が流れてきて自分', '自分だけ取り残されて気がして', '取り残されて気がしてでも投稿する木にもな', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 69
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: ''
+[ros2_natural_language_generation-1]   - asr_history_2_5s: [] (長さ=0)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 0
+[ros2_natural_language_generation-1] [INFO] [1765859755.640460697] [natural_language_generation]: [13:35:55.639] [NLG] 相槌生成ステージ開始 (request_id=69, 入力数=7)
+[ros2_natural_language_generation-1] [13:35:55.640] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:55.640] 履歴受信（7個）
+[ros2_natural_language_generation-1] [INFO] [1765859755.668162696] [natural_language_generation]: [13:35:55.667] [NLG-DEBUG] DMから受信:
 [ros2_natural_language_generation-1]   - words: [] (長さ=0)
 [ros2_natural_language_generation-1]   - stage: 'second'
-[ros2_natural_language_generation-1]   - request_id: 68
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'モヤモヤ…'
-[ros2_natural_language_generation-1]   - asr_history_2_5s: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '取り残されている気がしてでも投稿する気にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね[無音]'] (長さ=8)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765853470047767040
-[ros2_natural_language_generation-1] [INFO] [1765853470.055808473] [natural_language_generation]: [11:51:10.055] [NLG] 応答生成ステージ開始 (request_id=68, 入力数=0)
-[ros2_natural_language_generation-1] [11:51:10.056] stage='second' で更新
-[ros2_natural_language_generation-1] [11:51:10.056] 🔄 Second stage 処理開始
-[ros2_natural_language_generation-1] [11:51:10.056][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用
-[ros2_natural_language_generation-1] [11:51:10.056] [Second Stage] 2.5秒間隔ASR結果: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '取り残されている気がしてでも投稿する気にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね[無音]']
-[ros2_natural_language_generation-1] [11:51:10.056] [Second Stage] First Stage結果: 'モヤモヤ…'
-[ros2_natural_language_generation-1] [11:51:10.056] [Second Stage] LLMへ送信するメッセージ:
+[ros2_natural_language_generation-1]   - request_id: 70
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859755.668994962] [natural_language_generation]: [13:35:55.668] [NLG] 応答生成ステージ開始 (request_id=70, 入力数=0)
+[ros2_natural_language_generation-1] [13:35:55.669] stage='second' で更新
+[ros2_natural_language_generation-1] [13:35:55.669] 🔄 Second stage 処理開始
+[ros2_natural_language_generation-1] [13:35:55.669][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用
+[ros2_natural_language_generation-1] [13:35:55.670] [Second Stage] 2.5秒間隔ASR結果: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね']
+[ros2_natural_language_generation-1] [13:35:55.670] [Second Stage] First Stage結果: 'えー'
+[ros2_natural_language_generation-1] [13:35:55.670] [Second Stage] LLMへ送信するメッセージ:
 [ros2_natural_language_generation-1]   1 (role=system): あなたは男性ユーザの友達である優しく明るい性格である女性のアンドロイドです。
 [ros2_natural_language_generation-1] 「複数のぶつ切りの音声認識結果」から「元の発話」を復元し、最後まで読んでユーザの意図を読み取り、ユーザの意図に沿って「リアクションワード」に自然に続く「タメ口の応答」を一言で出力してください。
 [ros2_natural_language_generation-1]   2 (role=user): 複数のぶつ切りの音声認識結果：週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]
 [ros2_natural_language_generation-1]   3 (role=assistant): リアクションワード：なるほど
 [ros2_natural_language_generation-1]   4 (role=assistant): タメ口の応答：それなら読書とかプラモデル作りとかはどう？
-[ros2_natural_language_generation-1]   5 (role=user): 複数のぶつ切りの音声認識結果：, [雑音], SNSを見ていると, SNSを見ているといろんな人の充実した前, いろんな人の充実した毎日が流れてきて自分だけ, 自分だけ取り残されて気がして[無音], 取り残されている気がしてでも投稿する気にもなれない, でも投稿する気にもなれないからモヤモヤしちゃうんだよね[無音]
-[ros2_natural_language_generation-1]   6 (role=assistant): リアクションワード：モヤモヤ…、
+[ros2_natural_language_generation-1]   5 (role=user): 複数のぶつ切りの音声認識結果：えっ, SNSを見る, SNSを見といろんな人の充実した, いろんな人の充実した毎日が流れてきて自分だけ, 自分だけ取り残されて気がして, 取り残されている気がしてでも投稿する木にもなれない, でも投稿する気にもなれないからモヤモヤしちゃうんだよね
+[ros2_natural_language_generation-1]   6 (role=assistant): リアクションワード：えー、
 [ros2_natural_language_generation-1]   7 (role=assistant): タメ口の応答：
-[ros2_natural_language_generation-1] [11:51:10.250]
-[ros2_natural_language_generation-1] [11:51:10.273]
-[ros2_natural_language_generation-1] [11:51:10.405]
-[ros2_natural_language_generation-1] [11:51:10.405] ✅ Second stage 処理完了
-[ros2_natural_language_generation-1] [INFO] [1765853470.424291956] [natural_language_generation]: [11:51:10.423] [NLG] 応答生成ステージ完了 (request_id=68, 処理時間=368.3ms, 応答='それはつらいね…！...' )
-[ros2_natural_language_generation-1] [INFO] [1765853471.919510627] [natural_language_generation]: [11:51:11.918] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1] [13:35:55.906]
+[ros2_natural_language_generation-1] [13:35:56.088]
+[ros2_natural_language_generation-1] [INFO] [1765859756.241305327] [natural_language_generation]: [13:35:56.240] [NLG-DEBUG] DMから受信:
 [ros2_natural_language_generation-1]   - words: [] (長さ=0)
 [ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 69
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'モヤモヤ…'
-[ros2_natural_language_generation-1]   - asr_history_2_5s: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '取り残されている気がしてでも投稿する気にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね[無音]'] (長さ=8)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765853470047767040
-[ros2_natural_language_generation-1] [INFO] [1765853472.095612462] [natural_language_generation]: [11:51:12.094] [NLG-DEBUG] DMから受信:
-[ros2_natural_language_generation-1]   - words: ['もやモやしちゃうんだよね[無音]'] (長さ=1)
+[ros2_natural_language_generation-1]   - request_id: 71
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [13:35:56.360]
+[ros2_natural_language_generation-1] [13:35:56.360] ✅ Second stage 処理完了
+[ros2_natural_language_generation-1] [INFO] [1765859756.377957723] [natural_language_generation]: [13:35:56.377] [NLG] 応答生成ステージ完了 (request_id=70, 処理時間=708.8ms, 応答='なるほどね、それってちょっとわかる気がするよ。...' )
+[ros2_natural_language_generation-1] [INFO] [1765859756.446188430] [natural_language_generation]: [13:35:56.445] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]'] (長さ=1)
 [ros2_natural_language_generation-1]   - stage: 'first'
-[ros2_natural_language_generation-1]   - request_id: 70
-[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'モヤモヤ…'
-[ros2_natural_language_generation-1]   - asr_history_2_5s: ['', '[雑音]', 'SNSを見ていると', 'SNSを見ているといろんな人の充実した前', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして[無音]', '取り残されている気がしてでも投稿する気にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね[無音]'] (長さ=8)
-[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765853470047767040
-[ros2_natural_language_generation-1] [INFO] [1765853472.096463518] [natural_language_generation]: [11:51:12.095] [NLG] 相槌生成ステージ開始 (request_id=70, 入力数=1)
-[ros2_natural_language_generation-1] [11:51:12.096] stage='first' で更新
-[ros2_natural_language_generation-1] [11:51:12.096] 履歴受信（1個）
-[ros2_natural_language_generation-1] [11:51:12.265]
-[ros2_natural_language_generation-1] [INFO] [1765853472.284383713] [natural_language_generation]: [11:51:12.283] [NLG] 相槌生成ステージ完了 (request_id=70, 処理時間=187.7ms, 応答='えーまじか...' )
+[ros2_natural_language_generation-1]   - request_id: 72
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859756.447105677] [natural_language_generation]: [13:35:56.446] [NLG] 相槌生成ステージ開始 (request_id=72, 入力数=1)
+[ros2_natural_language_generation-1] [13:35:56.447] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:56.447] 履歴受信（1個）
+[ros2_natural_language_generation-1] [INFO] [1765859756.543132214] [natural_language_generation]: [13:35:56.542] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', '投稿する気にも慣れないからモヤモヤしちゃうんだよね[無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 73
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859756.544064991] [natural_language_generation]: [13:35:56.543] [NLG] 相槌生成ステージ開始 (request_id=73, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:56.544] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:56.544] 履歴受信（2個）
+[ros2_natural_language_generation-1] [INFO] [1765859756.752914425] [natural_language_generation]: [13:35:56.751] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', '気にもれないからモやモヤしちゃうんだよね[無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 74
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859756.755208263] [natural_language_generation]: [13:35:56.753] [NLG] 相槌生成ステージ開始 (request_id=74, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:56.755] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:56.755] 履歴受信（2個）
+[ros2_natural_language_generation-1] [13:35:56.934]
+[ros2_natural_language_generation-1] [INFO] [1765859756.937988772] [natural_language_generation]: [13:35:56.937] [NLG] 相槌生成ステージ完了 (request_id=74, 処理時間=184.0ms, 応答='そっかー...' )
+[ros2_natural_language_generation-1] [INFO] [1765859756.960379599] [natural_language_generation]: [13:35:56.959] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', 'にもからモやモヤしちゃうんだよね[雑音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 75
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859756.961294256] [natural_language_generation]: [13:35:56.960] [NLG] 相槌生成ステージ開始 (request_id=75, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:56.961] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:56.961] 履歴受信（2個）
+[ros2_natural_language_generation-1] [13:35:56.999]
+[ros2_natural_language_generation-1] [13:35:57.177]
+[ros2_natural_language_generation-1] [INFO] [1765859757.178667587] [natural_language_generation]: [13:35:57.177] [NLG] 相槌生成ステージ完了 (request_id=75, 処理時間=217.2ms, 応答='なるほど...' )
+[ros2_natural_language_generation-1] [INFO] [1765859757.181927683] [natural_language_generation]: [13:35:57.181] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', 'もやモヤしちゃうんだよね[無音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 76
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859757.182736269] [natural_language_generation]: [13:35:57.181] [NLG] 相槌生成ステージ開始 (request_id=76, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:57.183] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:57.183] 履歴受信（2個）
+[ros2_natural_language_generation-1] [13:35:57.384]
+[ros2_natural_language_generation-1] [INFO] [1765859757.396094289] [natural_language_generation]: [13:35:57.395] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', 'もやモやしちゃうんだよね[無音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 77
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859757.396983636] [natural_language_generation]: [13:35:57.396] [NLG] 相槌生成ステージ開始 (request_id=77, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:57.397] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:57.397] 履歴受信（2個）
+[ros2_natural_language_generation-1] [INFO] [1765859757.633362137] [natural_language_generation]: [13:35:57.632] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', 'れないからもやモやしちゃうんだよね[無音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 78
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859757.634272154] [natural_language_generation]: [13:35:57.633] [NLG] 相槌生成ステージ開始 (request_id=78, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:57.634] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:57.634] 履歴受信（2個）
+[ros2_natural_language_generation-1] [INFO] [1765859757.821664570] [natural_language_generation]: [13:35:57.820] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', 'もやモやしちゃうんだよね[無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 79
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859757.822586197] [natural_language_generation]: [13:35:57.821] [NLG] 相槌生成ステージ開始 (request_id=79, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:57.822] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:57.822] 履歴受信（2個）
+[ros2_natural_language_generation-1] [13:35:57.860]
+[ros2_natural_language_generation-1] [INFO] [1765859757.877923463] [natural_language_generation]: [13:35:57.877] [NLG] 相槌生成ステージ完了 (request_id=79, 処理時間=55.2ms, 応答='そっかー...' )
+[ros2_natural_language_generation-1] [13:35:57.947]
+[ros2_natural_language_generation-1] [INFO] [1765859758.015813678] [natural_language_generation]: [13:35:58.014] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', 'モやモやしちゃうんだよね[無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 80
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859758.016653555] [natural_language_generation]: [13:35:58.015] [NLG] 相槌生成ステージ開始 (request_id=80, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:58.016] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:58.016] 履歴受信（2個）
+[ros2_natural_language_generation-1] [INFO] [1765859758.113339576] [natural_language_generation]: [13:35:58.112] [NLG-DEBUG] DMから受信:
+[ros2_natural_language_generation-1]   - words: ['投稿する気にもなれないからモヤモヤしちゃうんだよね[無音][無音]', 'モやモやしちゃうんだよね[無音][無音]'] (長さ=2)
+[ros2_natural_language_generation-1]   - stage: 'first'
+[ros2_natural_language_generation-1]   - request_id: 81
+[ros2_natural_language_generation-1]   - first_stage_backchannel_at_tt: 'えー'
+[ros2_natural_language_generation-1]   - asr_history_2_5s: ['えっ', 'SNSを見る', 'SNSを見といろんな人の充実した', 'いろんな人の充実した毎日が流れてきて自分だけ', '自分だけ取り残されて気がして', '取り残されている気がしてでも投稿する木にもなれない', 'でも投稿する気にもなれないからモヤモヤしちゃうんだよね'] (長さ=7)
+[ros2_natural_language_generation-1]   - turn_taking_decision_timestamp_ns: 1765859755665038080
+[ros2_natural_language_generation-1] [INFO] [1765859758.114227663] [natural_language_generation]: [13:35:58.113] [NLG] 相槌生成ステージ開始 (request_id=81, 入力数=2)
+[ros2_natural_language_generation-1] [13:35:58.114] stage='first' で更新
+[ros2_natural_language_generation-1] [13:35:58.114] 履歴受信（2個）
+[ros2_natural_language_generation-1] [13:35:58.259]
+[ros2_natural_language_generation-1] [13:35:58.444]
+[ros2_natural_language_generation-1] [INFO] [1765859758.459502202] [natural_language_generation]: [13:35:58.457] [NLG] 相槌生成ステージ完了 (request_id=81, 処理時間=343.6ms, 応答='なるほど...' )
+[ros2_natural_language_generation-1] [13:35:58.463]
+[ros2_natural_language_generation-1] [INFO] [1765859758.477925267] [natural_language_generation]: [13:35:58.477] [NLG] 相槌生成ステージ完了 (request_id=81, 処理時間=363.6ms, 応答='そっかー...' )
+[ros2_natural_language_generation-1] [13:35:58.643]
+[ros2_natural_language_generation-1] [INFO] [1765859758.657917043] [natural_language_generation]: [13:35:58.657] [NLG] 相槌生成ステージ完了 (request_id=81, 処理時間=543.6ms, 応答='なるほど...' )
