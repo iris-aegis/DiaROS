@@ -314,16 +314,13 @@ class NaturalLanguageGeneration:
         # sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}] 🚀 推論開始\n")
         # sys.stdout.flush()
 
-        # ★ステージに応じたプロンプト選択と推論実行
-        # Stage ごとに異なるプロンプトを使い分けて実行（同期処理）
-        if self.current_stage == 'first':
-            # First stage: dialog_first_stage.txt でリアクションワード生成
-            # ★ログ出力を削除（簡略化）
+        # ★ステージに応じた推論実行
+        # First stage と Second stage の両方で dialog_example_role.txt を使用して本応答を生成
+        # （2段階ロジックを1段階に統一）
+        if self.current_stage == 'first' or self.current_stage == 'second':
+            # First stage / Second stage: dialog_example_role.txt で本応答を直接生成
+            # ★修正：2段階から1段階に統一
             self.generate_first_stage(query)
-        elif self.current_stage == 'second':
-            # Second stage: dialog_second_stage.txt で本応答生成
-            # ★ログ出力を削除（簡略化）
-            self.generate_second_stage(query)
         else:
             # その他: 従来の _perform_simple_inference()
             self._perform_simple_inference(query)
@@ -338,51 +335,53 @@ class NaturalLanguageGeneration:
         self.current_session_id = session_id
 
     def generate_first_stage(self, query):
-        """First stage: リアクションワード生成（dialog_first_stage.txt + humanタグでASR結果を別口入力）"""
+        """First stage: 本応答を直接生成（dialog_example_role.txt を使用）"""
         start_time = datetime.now()
 
         try:
             asr_results = query if isinstance(query, list) else [str(query)]
 
-            # ★修正：音声認識結果が空の場合はリアクションワード生成を行わない
+            # ★修正：音声認識結果が空の場合は応答生成を行わない
             if not asr_results or all((not x or x.strip() == "") for x in asr_results):
                 self.first_stage_response = ""
+                self.last_reply = ""
+                self.last_source_words = []
                 timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
                 sys.stdout.write(f"[{timestamp}] First stage: ASR結果が空のためスキップ\n")
                 sys.stdout.flush()
                 return
 
-            # ★プロンプトファイル読み込み
-            prompt_build_start = datetime.now()
-            try:
-                prompt_text = self._load_first_stage_prompt()
-            except FileNotFoundError as e:
-                sys.stdout.write(f"[NLG ERROR] first_stageプロンプトが見つかりません: {e}\n")
-                sys.stdout.flush()
-                self.first_stage_response = "うん"
-                return
+            # ★プロンプトファイル読み込み（dialog_example_role.txtを使用）
+            prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
+            prompt_path = os.path.join(prompt_dir, self.prompt_file_name)
 
-            prompt_build_end = datetime.now()
-            # ★ログ出力を簡略化：プロンプト読み込みログを削除
+            try:
+                with open(prompt_path, 'r', encoding='utf-8') as f:
+                    prompt_text = f.read()
+            except FileNotFoundError as e:
+                sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {prompt_path}\n")
+                sys.stdout.flush()
+                self.first_stage_response = "申し訳ありません"
+                self.last_reply = "申し訳ありません"
+                self.last_source_words = asr_results
+                return
 
             # LLM呼び出し
             llm_start_time = datetime.now()
 
             try:
                 if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
-                    # ★Ollama API /api/chat エンドポイント（humanタグ形式）
+                    # ★Ollama API /api/chat エンドポイント
                     import requests
 
                     api_start = datetime.now()
 
-                    # humanタグで別口入力: system (プロンプト) + user (ASR結果)
+                    # system (プロンプト) + user (ASR結果)
                     asr_text = ', '.join(asr_results)
                     messages = [
                         {"role": "system", "content": prompt_text},
-                        {"role": "user", "content": f"ぶつ切りの音声認識結果: {asr_text}"}
+                        {"role": "user", "content": f"複数のぶつ切りの音声認識結果: {asr_text}"}
                     ]
-
-                    # ★ログ出力を簡略化：messages送信ログを削除
 
                     response = requests.post(
                         'http://localhost:11434/api/chat',
@@ -391,8 +390,8 @@ class NaturalLanguageGeneration:
                             'messages': messages,
                             'stream': True,
                             'options': {
-                                'temperature': 0.3,
-                                'num_predict': 10,
+                                'temperature': 0.7,
+                                'num_predict': 50,  # 本応答生成用（20文字程度）
                                 'num_ctx': 512,
                                 'num_batch': 256
                             }
@@ -403,7 +402,6 @@ class NaturalLanguageGeneration:
 
                     res = ""
                     first_token_time = None
-                    token_count = 0
 
                     for line in response.iter_lines():
                         if line:
@@ -413,44 +411,81 @@ class NaturalLanguageGeneration:
                                 token_fragment = message_data.get('content', '')
 
                                 if token_fragment:
-                                    token_count += 1
-
-                                    # Time to First Token (TTFT) 計測
                                     if first_token_time is None:
                                         first_token_time = datetime.now()
-                                        ttft_ms = (first_token_time - api_start).total_seconds() * 1000
-                                        # ★ログ出力を簡略化：TTFT計測ログを削除
 
                                     res += token_fragment
 
                                 # 完了チェック
                                 if chunk_data.get('done', False):
-                                    api_end = datetime.now()
-                                    total_time = (api_end - api_start).total_seconds() * 1000
-                                    # ★ログ出力を簡略化：中間の推論時間ログを削除
                                     break
 
                             except json.JSONDecodeError:
                                 continue
 
                 elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
-                    # OpenAI API: systemプロンプト + humanタグ（user）でASR結果
+                    # OpenAI API
                     asr_text = ', '.join(asr_results)
                     messages = [
-                        {"role": "system", "content": prompt_text},
-                        {"role": "user", "content": f"ぶつ切りの音声認識結果: {asr_text}"}
+                        {"role": "system", "content": prompt_text}
                     ]
 
-                    response = openai.chat.completions.create(
-                        model=self.model_name,
-                        messages=messages,
-                        max_completion_tokens=20,
-                        temperature=0.3
-                    )
+                    # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
+                    if self.prompt_file_name == "dialog_example_role.txt":
+                        # 1-shot例示：例示ユーザー発話
+                        messages.append({
+                            "role": "user",
+                            "content": "複数のぶつ切りの音声認識結果: 今日会社で新しい, 今日会社で新しいプロジェクトの話があって, プロジェクトの話があって最初はすごく面白そうでやってみ, すごく面白そうでやってみたいって思んだけどシメ, 思んだけど締め切れがかなりタイトだから頑張ら"
+                        })
+                        # 1-shot例示：例示応答
+                        messages.append({
+                            "role": "assistant",
+                            "content": "そうなんだ、無理しないで頑張ってね！"
+                        })
+
+                    # 現在のASR結果（user）
+                    messages.append({
+                        "role": "user",
+                        "content": f"複数のぶつ切りの音声認識結果：{asr_text}"
+                    })
+
+                    # モデルタイプ別の最適化設定
+                    if self.model_name.startswith("gpt-4.1"):
+                        # GPT-4.1系: 最速
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_completion_tokens=50,
+                            temperature=0.7
+                        )
+                    elif "chat-latest" in self.model_name:
+                        # GPT-5-chat-latest
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_completion_tokens=50
+                        )
+                    elif self.model_name.startswith("gpt-5") or self.model_name.startswith("o1"):
+                        # GPT-5/o1: 推論モデル
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_completion_tokens=500,
+                            reasoning_effort="low"
+                        )
+                    else:
+                        # GPT-4o系: 標準
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_tokens=50,
+                            temperature=0.7
+                        )
+
                     res = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
 
-                # リアクションワードの後処理: 改行・句読点除去
-                res = res.replace('\n', '').replace('\r', '').replace('。', '').replace('、', '').strip()
+                # 改行を除去して1行にする
+                res = res.replace('\n', '').replace('\r', '')
 
                 llm_end_time = datetime.now()
                 llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
@@ -458,19 +493,32 @@ class NaturalLanguageGeneration:
                 self.first_stage_response = res
                 # ★ROS トピック発行用に last_reply にも格納（ROS2ラッパーが監視している）
                 self.last_reply = res
+                self.last_source_words = asr_results
+
+                # タイミング情報を設定
+                self.request_id = 1
+                self.worker_name = "nlg-single"
+                self.start_timestamp_ns = int(start_time.timestamp() * 1_000_000_000)
+                self.completion_timestamp_ns = int(llm_end_time.timestamp() * 1_000_000_000)
+                self.inference_duration_ms = llm_duration
+
                 # ★簡略化：[HH:MM:SS.mmm] 形式のみ表示
                 sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}]\n")
                 sys.stdout.flush()
 
             except Exception as api_error:
-                sys.stdout.write(f"[NLG ERROR] first_stage生成エラー: {api_error}\n")
+                sys.stdout.write(f"[NLG ERROR] 応答生成エラー: {api_error}\n")
                 sys.stdout.flush()
-                self.first_stage_response = "うん"  # フォールバック
+                self.first_stage_response = "申し訳ありません"  # フォールバック
+                self.last_reply = "申し訳ありません"
+                self.last_source_words = asr_results
 
         except Exception as e:
-            sys.stdout.write(f"[NLG ERROR] first_stage処理エラー: {e}\n")
+            sys.stdout.write(f"[NLG ERROR] 応答生成処理エラー: {e}\n")
             sys.stdout.flush()
-            self.first_stage_response = "うん"  # フォールバック
+            self.first_stage_response = "申し訳ありません"  # フォールバック
+            self.last_reply = "申し訳ありません"
+            self.last_source_words = []
 
     def _load_first_stage_prompt(self):
         """dialog_first_stage.txt を読み込みます"""
