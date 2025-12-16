@@ -316,20 +316,27 @@ echo ""
 
 # パラメータ処理：複数の引数を `ros2 launch` に渡す
 # サポート形式: mic:=false, mic=false, nlg:=false, nlg=false など
+# ros2 launchは `:=` 形式を必須としているため、すべて `:=` に統一
 LAUNCH_PARAMS=""
 HAS_NLG_FALSE=false
 HAS_MIC_FALSE=false
 
 # すべての引数をループして処理
 for arg in "$@"; do
-    # ":" を "=" に統一（ros2 launchは両方をサポート）
-    arg_normalized="${arg//:=/=}"
+    # ros2 launch形式 `name:=value` に統一
+    if [[ "$arg" == *":="* ]]; then
+        # 既に :=形式
+        arg_normalized="$arg"
+    else
+        # = を := に変換
+        arg_normalized="${arg/=/\:=}"
+    fi
 
     # 特定のパラメータをチェック
-    if [[ "$arg_normalized" == "nlg=false" ]] || [[ "$arg_normalized" == "nlg=true" ]]; then
+    if [[ "$arg_normalized" == "nlg:=false" ]] || [[ "$arg_normalized" == "nlg:=true" ]]; then
         HAS_NLG_FALSE=true
     fi
-    if [[ "$arg_normalized" == "mic=false" ]] || [[ "$arg_normalized" == "mic=true" ]]; then
+    if [[ "$arg_normalized" == "mic:=false" ]] || [[ "$arg_normalized" == "mic:=true" ]]; then
         HAS_MIC_FALSE=true
     fi
 
