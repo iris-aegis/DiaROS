@@ -329,4 +329,5 @@ fi
 
 # DiaROSの起動
 echo -e "${GREEN}🚀 DiaROSを起動中...${NC}"
-ros2 launch diaros_package sdsmod.launch.py
+# NLGPC用：NLGモジュール以外を除外
+ros2 launch diaros_package sdsmod.launch.py mic:=false aa:=false asr:=false nlu:=false dm:=false ss:=false tt:=false bc:=false
