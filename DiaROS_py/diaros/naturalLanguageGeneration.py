@@ -920,9 +920,27 @@ class NaturalLanguageGeneration:
                     elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                         # OpenAI API（GPT-5, GPT-4, o1など）
                         messages = [
-                            {"role": "system", "content": prompt},
-                            {"role": "user", "content": f"ぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}"}
+                            {"role": "system", "content": prompt}
                         ]
+
+                        # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
+                        if self.prompt_file_name == "dialog_example_role.txt":
+                            # 1-shot例示：例示ユーザー発話
+                            messages.append({
+                                "role": "user",
+                                "content": "ぶつ切りの音声認識結果: 週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]"
+                            })
+                            # 1-shot例示：例示応答
+                            messages.append({
+                                "role": "assistant",
+                                "content": "それなら読書とかプラモデル作りとかはどう？"
+                            })
+
+                        # 現在のASR結果（user）
+                        messages.append({
+                            "role": "user",
+                            "content": f"ぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}"
+                        })
 
                         # デバッグ用ログ
                         sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字\n")
