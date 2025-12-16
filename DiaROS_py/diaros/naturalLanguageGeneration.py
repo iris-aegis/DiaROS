@@ -1076,14 +1076,38 @@ class NaturalLanguageGeneration:
 
                     elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                         # OpenAI API（GPT-5, GPT-4, o1など）
+                        # ★messages形式で直接構築（プロンプトテンプレート + ASR + リアクションワード）
+
+                        # messages形式を構築
                         messages = [
-                            {"role": "system", "content": prompt},
-                            {"role": "user", "content": f"ぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}"}
+                            {"role": "system", "content": prompt}  # プロンプトテンプレートをsystemプロンプトとして使用
                         ]
 
+                        # 対話履歴/例示メッセージを含める場合
+                        if hasattr(self, 'example_messages') and self.example_messages:
+                            messages.extend(self.example_messages)
+
+                        # 現在のASR結果（user）
+                        messages.append({
+                            "role": "user",
+                            "content": f"複数のぶつ切りの音声認識結果：{', '.join(asr_results_for_prompt)}"
+                        })
+
+                        # 既出のリアクションワード（assistant）がある場合
+                        if self.first_stage_response_cached:
+                            messages.append({
+                                "role": "assistant",
+                                "content": f"リアクションワード：{self.first_stage_response_cached}、"
+                            })
+
+                        # 応答生成指示（assistant）
+                        messages.append({
+                            "role": "assistant",
+                            "content": "タメ口の応答："
+                        })
+
                         # デバッグ用ログ
-                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字\n")
-                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] 音声認識結果数: {len(asr_results_for_prompt)}\n")
+                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字, ASR結果数: {len(asr_results_for_prompt)}, messages形式: {len(messages)}ターン\n")
                         sys.stdout.flush()
 
                         # モデルタイプ別の最適化設定
