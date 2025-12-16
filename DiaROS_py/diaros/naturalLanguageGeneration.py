@@ -928,23 +928,32 @@ class NaturalLanguageGeneration:
                             # 1-shot例示：例示ユーザー発話
                             messages.append({
                                 "role": "user",
-                                "content": "ぶつ切りの音声認識結果: 週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]"
+                                "content": "複数のぶつ切りの音声認識結果: 今日会社で新しい, 今日会社で新しいプロジェクトの話があって, プロジェクトの話があって最初はすごく面白そうでやってみ, すごく面白そうでやってみたいって思んだけどシメ, 思んだけど締め切れがかなりタイトだから頑張ら"
                             })
                             # 1-shot例示：例示応答
                             messages.append({
                                 "role": "assistant",
-                                "content": "それなら読書とかプラモデル作りとかはどう？"
+                                "content": "アンドロイドの応答: そうなんだ、無理しないで頑張ってね！"
                             })
+
+                        # 対話履歴/例示メッセージを含める場合
+                        if hasattr(self, 'example_messages') and self.example_messages:
+                            messages.extend(self.example_messages)
 
                         # 現在のASR結果（user）
                         messages.append({
                             "role": "user",
-                            "content": f"ぶつ切りの音声認識結果: {', '.join(asr_results_for_prompt)}"
+                            "content": f"複数のぶつ切りの音声認識結果：{', '.join(asr_results_for_prompt)}"
+                        })
+
+                        # 応答生成指示（assistant）
+                        messages.append({
+                            "role": "assistant",
+                            "content": "アンドロイドの応答: "
                         })
 
                         # デバッグ用ログ
-                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字\n")
-                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] 音声認識結果数: {len(asr_results_for_prompt)}\n")
+                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字, ASR結果数: {len(asr_results_for_prompt)}, messages形式: {len(messages)}ターン\n")
                         sys.stdout.flush()
 
                         # モデルタイプ別の最適化設定
