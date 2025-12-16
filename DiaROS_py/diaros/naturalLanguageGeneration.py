@@ -315,12 +315,16 @@ class NaturalLanguageGeneration:
         # sys.stdout.flush()
 
         # ★ステージに応じた推論実行
-        # First stage と Second stage の両方で dialog_example_role.txt を使用して本応答を生成
-        # （2段階ロジックを1段階に統一）
-        if self.current_stage == 'first' or self.current_stage == 'second':
-            # First stage / Second stage: dialog_example_role.txt で本応答を直接生成
-            # ★修正：2段階から1段階に統一
+        # First stage のみで応答を生成（Second stage は無視）
+        if self.current_stage == 'first':
+            # First stage のみ: dialog_example_role.txt で本応答を直接生成
             self.generate_first_stage(query)
+        elif self.current_stage == 'second':
+            # Second stage: 応答生成をスキップ（first_stage_responseのみを使用）
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}] Second stage リクエスト受け取り → スキップ（first_stageのみで応答生成）\n")
+            sys.stdout.flush()
+            # last_reply は設定せず（前の応答を保持）
         else:
             # その他: 従来の _perform_simple_inference()
             self._perform_simple_inference(query)
