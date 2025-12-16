@@ -12,7 +12,11 @@ echo "=================================="
 echo ""
 echo -e "${YELLOW}💡 使用方法:${NC}"
 echo "  通常起動: bash start_diaros.sh"
-echo "  強制ビルド: FORCE_BUILD=true bash start_diaros.sh"
+echo "  マイク無しで起動: bash start_diaros.sh mic:=false"
+echo "  分散実行（NLG除外）: bash start_diaros.sh nlg:=false"
+echo "  両方除外: bash start_diaros.sh mic:=false nlg:=false"
+echo "  強制ビルド: FORCE_BUILD=true bash start_diaros.sh [その他のパラメータ]"
+echo "  複数パラメータ: bash start_diaros.sh mic:=false nlg:=false"
 echo ""
 
 # power_calibration.wavファイルの存在確認
@@ -310,16 +314,42 @@ echo -e "${GREEN}📋 ROS設定:${NC}"
 echo "  ROS_DOMAIN_ID: $ROS_DOMAIN_ID"
 echo ""
 
-# 分散実行対応：nlg:=false オプション
-NLG_PARAM=""
-if [ "$1" = "--nlg-distributed" ] || [ "$1" = "nlg:=false" ]; then
-    NLG_PARAM="nlg:=false"
+# パラメータ処理：複数の引数を `ros2 launch` に渡す
+# サポート形式: mic:=false, mic=false, nlg:=false, nlg=false など
+LAUNCH_PARAMS=""
+HAS_NLG_FALSE=false
+HAS_MIC_FALSE=false
+
+# すべての引数をループして処理
+for arg in "$@"; do
+    # ":" を "=" に統一（ros2 launchは両方をサポート）
+    arg_normalized="${arg//:=/=}"
+
+    # 特定のパラメータをチェック
+    if [[ "$arg_normalized" == "nlg=false" ]] || [[ "$arg_normalized" == "nlg=true" ]]; then
+        HAS_NLG_FALSE=true
+    fi
+    if [[ "$arg_normalized" == "mic=false" ]] || [[ "$arg_normalized" == "mic=true" ]]; then
+        HAS_MIC_FALSE=true
+    fi
+
+    # パラメータを追加
+    LAUNCH_PARAMS="$LAUNCH_PARAMS $arg_normalized"
+done
+
+# ユーザーへのフィードバック
+if [ "$HAS_NLG_FALSE" = true ]; then
     echo -e "${YELLOW}⚙️  分散実行モード: NLGノードを除外します${NC}"
     echo -e "${YELLOW}📝 NLGPC側で以下を実行してください:${NC}"
     echo "   ros2 run diaros_package ros2_natural_language_generation"
     echo ""
 fi
 
+if [ "$HAS_MIC_FALSE" = true ]; then
+    echo -e "${YELLOW}⚙️  マイク入力無効: ros2 bag リプレイ用です${NC}"
+    echo ""
+fi
+
 # DiaROSの起動
 echo -e "${GREEN}🚀 DiaROSを起動中...${NC}"
-ros2 launch diaros_package sdsmod.launch.py $NLG_PARAM
+ros2 launch diaros_package sdsmod.launch.py $LAUNCH_PARAMS

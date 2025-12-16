@@ -132,6 +132,16 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ```bash
 # 編集前にlocal_nlgブランチに切り替え
 git checkout local_nlg
+
+# リモートリポジトリの最新状態を確認
+git fetch origin local_nlg
+
+# ローカルとリモートの差分を確認してから取得
+git diff HEAD origin/local_nlg DiaROS_py/diaros/naturalLanguageGeneration.py \
+                               DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py \
+                               DiaROS_py/diaros/prompts/
+
+# リモートの最新を取得
 git pull origin local_nlg
 
 # ファイル編集...
