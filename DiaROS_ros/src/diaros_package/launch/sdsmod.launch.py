@@ -25,7 +25,7 @@ def generate_launch_description():
     )
     use_mic = LaunchConfiguration('mic')
 
-    use_acoustic_arg = DeclareLaunchArgument(
+    use_aa_arg = DeclareLaunchArgument(
         'aa',
         default_value='true',
         description='Use acoustic_analysis node (true/false)'
@@ -60,7 +60,7 @@ def generate_launch_description():
     )
     use_nlg = LaunchConfiguration('nlg')
 
-    use_tts_arg = DeclareLaunchArgument(
+    use_ss_arg = DeclareLaunchArgument(
         'ss',
         default_value='true',
         description='Use speech_synthesis node (true/false)'
@@ -142,12 +142,12 @@ def generate_launch_description():
 
     return LaunchDescription([
         use_mic_arg,
-        use_acoustic_arg,
+        use_aa_arg,
         use_asr_arg,
         use_nlu_arg,
         use_dm_arg,
         use_nlg_arg,
-        use_tts_arg,
+        use_ss_arg,
         use_tt_arg,
         use_bc_arg,
     ] + nodes)
