@@ -88,6 +88,7 @@ class NaturalLanguageGeneration:
 
         # 対話履歴管理（プロンプトに埋め込む用）
         self.conversation_history = []  # 対話履歴リスト（user/assistantのターン）
+        self.example_messages = []  # 例示用メッセージリスト（OpenAI API用）
 
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
@@ -243,6 +244,111 @@ class NaturalLanguageGeneration:
     def get_conversation_history(self):
         """対話履歴を取得（読み取り専用）"""
         return self.conversation_history.copy()
+
+    # ============================================================
+    # OpenAI API用のmessages形式メソッド
+    # ============================================================
+    def build_messages(self, system_prompt, asr_text, backchannel_text="", use_conversation_history=False):
+        """OpenAI API用のmessages形式を構築
+
+        Args:
+            system_prompt: システムプロンプト（roleが"system"）
+            asr_text: 現在の音声認識結果テキスト
+            backchannel_text: 既に生成されたリアクションワード（省略可）
+            use_conversation_history: 対話履歴を使用するか（Trueの場合、example_messagesから追加）
+
+        Returns:
+            OpenAI API用のmessagesリスト
+        """
+        messages = [
+            {"role": "system", "content": system_prompt}
+        ]
+
+        # 対話履歴を含める場合、例示を使用
+        if use_conversation_history and self.conversation_history:
+            # conversation_historyからmessages形式を構築
+            for turn in self.conversation_history:
+                if ":" in turn:
+                    role, content = turn.split(":", 1)
+                    messages.append({
+                        "role": role.strip(),
+                        "content": content.strip()
+                    })
+
+        # 現在のASR結果（user）
+        messages.append({
+            "role": "user",
+            "content": f"複数のぶつ切りの音声認識結果：{asr_text}"
+        })
+
+        # 既出のリアクションワード（assistant）
+        if backchannel_text:
+            messages.append({
+                "role": "assistant",
+                "content": f"リアクションワード：{backchannel_text}、"
+            })
+
+        # 応答生成指示（assistant）
+        messages.append({
+            "role": "assistant",
+            "content": "タメ口の応答："
+        })
+
+        return messages
+
+    def set_example_messages(self, example_list):
+        """例示用のメッセージセットを設定
+
+        Args:
+            example_list: 例示メッセージリスト
+                形式: [
+                    {"role": "user", "content": "複数のぶつ切りの音声認識結果：..."},
+                    {"role": "assistant", "content": "リアクションワード：..."},
+                    {"role": "assistant", "content": "タメ口の応答：..."},
+                    ...
+                ]
+        """
+        self.example_messages = example_list.copy() if example_list else []
+
+    def get_messages_with_examples(self, system_prompt, asr_text, backchannel_text=""):
+        """例示を含むmessages形式を構築
+
+        Args:
+            system_prompt: システムプロンプト
+            asr_text: 現在の音声認識結果テキスト
+            backchannel_text: 既に生成されたリアクションワード
+
+        Returns:
+            OpenAI API用のmessagesリスト（例示を含む）
+        """
+        messages = [
+            {"role": "system", "content": system_prompt}
+        ]
+
+        # 例示メッセージを追加（設定されている場合）
+        if hasattr(self, 'example_messages') and self.example_messages:
+            messages.extend(self.example_messages)
+
+        # 現在のASR結果（user）
+        messages.append({
+            "role": "user",
+            "content": f"複数のぶつ切りの音声認識結果：{asr_text}"
+        })
+
+        # 既出のリアクションワード（assistant）
+        if backchannel_text:
+            messages.append({
+                "role": "assistant",
+                "content": f"リアクションワード：{backchannel_text}、"
+            })
+
+        # 応答生成指示（assistant）
+        messages.append({
+            "role": "assistant",
+            "content": "タメ口の応答："
+        })
+
+        return messages
 
     def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_backchannel_at_tt=None, asr_history_2_5s=None):
         """
