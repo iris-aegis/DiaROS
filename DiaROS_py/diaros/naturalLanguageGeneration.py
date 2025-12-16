@@ -3,13 +3,13 @@
 # ============================================================
 # 【OpenAI API モデル】クラウドAPI、高速・高品質
 # MODEL_NAME = "gpt-3.5-turbo-0125"    # 587ms - 最速・最安・安定（推奨）
-# MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
+MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
-# MODEL_NAME = "gemma3:4b"             
-# MODEL_NAME = "gemma3:12b"            
-MODEL_NAME = "gemma3:27b"            
+# MODEL_NAME = "gemma3:4b"
+# MODEL_NAME = "gemma3:12b"
+# MODEL_NAME = "gemma3:27b"
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
@@ -21,8 +21,10 @@ MODEL_NAME = "gemma3:27b"
 # PROMPT_FILE_NAME = "dialog_tag_ver2.txt"          # タグ処理付き
 # PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
+PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
+# PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
 # PROMPT_FILE_NAME = "dialog_phone.txt"        # 電話対話用
 
@@ -34,7 +36,6 @@ MODEL_NAME = "gemma3:27b"
 # PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"     #
 # PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
 # PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
-PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
 # 【タイミング調整プロンプト】
 # PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用
@@ -59,7 +60,7 @@ import openai
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_ollama import ChatOllama
-from .timeTする形式をracker import get_time_tracker
+from .timeTracker import get_time_tracker
 
 class NaturalLanguageGeneration:
     def __init__(self, dm_ref=None, rnlg_ref=None):
@@ -85,10 +86,6 @@ class NaturalLanguageGeneration:
         # Second stage 処理中の first stage リクエスト管理
         self.is_generating_second_stage = False  # Second stage 生成中フラグ
         self.pending_first_stage_request = None  # 保留中の first_stage リクエスト（最新のみ保持）
-
-        # 対話履歴管理（プロンプトに埋め込む用）
-        self.conversation_history = []  # 対話履歴リスト（user/assistantのターン）
-        self.example_messages = []  # 例示用メッセージリスト（OpenAI API用）
 
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
@@ -217,139 +214,6 @@ class NaturalLanguageGeneration:
         sys.stdout.write(f'使用モデル: {self.model_name}\n')
         sys.stdout.write('=====================================================\n')
 
-    # ============================================================
-    # 対話履歴管理メソッド
-    # ============================================================
-    def add_conversation_turn(self, role, content):
-        """対話履歴に新しいターンを追加
-
-        Args:
-            role: "user" または "assistant"
-            content: メッセージ内容
-        """
-        self.conversation_history.append(f"{role}: {content}")
-
-    def set_conversation_history(self, history_list):
-        """対話履歴全体を設定（一括）
-
-        Args:
-            history_list: ["user: ...", "assistant: ...", ...] の形式
-        """
-        self.conversation_history = history_list.copy() if history_list else []
-
-    def clear_conversation_history(self):
-        """対話履歴をクリア"""
-        self.conversation_history = []
-
-    def get_conversation_history(self):
-        """対話履歴を取得（読み取り専用）"""
-        return self.conversation_history.copy()
-
-    # ============================================================
-    # OpenAI API用のmessages形式メソッド
-    # ============================================================
-    def build_messages(self, system_prompt, asr_text, backchannel_text="", use_conversation_history=False):
-        """OpenAI API用のmessages形式を構築
-
-        Args:
-            system_prompt: システムプロンプト（roleが"system"）
-            asr_text: 現在の音声認識結果テキスト
-            backchannel_text: 既に生成されたリアクションワード（省略可）
-            use_conversation_history: 対話履歴を使用するか（Trueの場合、example_messagesから追加）
-
-        Returns:
-            OpenAI API用のmessagesリスト
-        """
-        messages = [
-            {"role": "system", "content": system_prompt}
-        ]
-
-        # 対話履歴を含める場合、例示を使用
-        if use_conversation_history and self.conversation_history:
-            # conversation_historyからmessages形式を構築
-            for turn in self.conversation_history:
-                if ":" in turn:
-                    role, content = turn.split(":", 1)
-                    messages.append({
-                        "role": role.strip(),
-                        "content": content.strip()
-                    })
-
-        # 現在のASR結果（user）
-        messages.append({
-            "role": "user",
-            "content": f"複数のぶつ切りの音声認識結果：{asr_text}"
-        })
-
-        # 既出のリアクションワード（assistant）
-        if backchannel_text:
-            messages.append({
-                "role": "assistant",
-                "content": f"リアクションワード：{backchannel_text}、"
-            })
-
-        # 応答生成指示（assistant）
-        messages.append({
-            "role": "assistant",
-            "content": "タメ口の応答："
-        })
-
-        return messages
-
-    def set_example_messages(self, example_list):
-        """例示用のメッセージセットを設定
-
-        Args:
-            example_list: 例示メッセージリスト
-                形式: [
-                    {"role": "user", "content": "複数のぶつ切りの音声認識結果：..."},
-                    {"role": "assistant", "content": "リアクションワード：..."},
-                    {"role": "assistant", "content": "タメ口の応答：..."},
-                    ...
-                ]
-        """
-        self.example_messages = example_list.copy() if example_list else []
-
-    def get_messages_with_examples(self, system_prompt, asr_text, backchannel_text=""):
-        """例示を含むmessages形式を構築
-
-        Args:
-            system_prompt: システムプロンプト
-            asr_text: 現在の音声認識結果テキスト
-            backchannel_text: 既に生成されたリアクションワード
-
-        Returns:
-            OpenAI API用のmessagesリスト（例示を含む）
-        """
-        messages = [
-            {"role": "system", "content": system_prompt}
-        ]
-
-        # 例示メッセージを追加（設定されている場合）
-        if hasattr(self, 'example_messages') and self.example_messages:
-            messages.extend(self.example_messages)
-
-        # 現在のASR結果（user）
-        messages.append({
-            "role": "user",
-            "content": f"複数のぶつ切りの音声認識結果：{asr_text}"
-        })
-
-        # 既出のリアクションワード（assistant）
-        if backchannel_text:
-            messages.append({
-                "role": "assistant",
-                "content": f"リアクションワード：{backchannel_text}、"
-            })
-
-        # 応答生成指示（assistant）
-        messages.append({
-            "role": "assistant",
-            "content": "タメ口の応答："
-        })
-
-        return messages
-
     def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_backchannel_at_tt=None, asr_history_2_5s=None):
         """
         メインPCからのリクエストを処理
@@ -450,16 +314,13 @@ class NaturalLanguageGeneration:
         # sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}] 🚀 推論開始\n")
         # sys.stdout.flush()
 
-        # ★ステージに応じたプロンプト選択と推論実行
-        # Stage ごとに異なるプロンプトを使い分けて実行（同期処理）
-        if self.current_stage == 'first':
-            # First stage: dialog_first_stage.txt でリアクションワード生成
-            # ★ログ出力を削除（簡略化）
+        # ★ステージに応じた推論実行
+        # First stage と Second stage の両方で dialog_example_role.txt を使用して本応答を生成
+        # （2段階ロジックを1段階に統一）
+        if self.current_stage == 'first' or self.current_stage == 'second':
+            # First stage / Second stage: dialog_example_role.txt で本応答を直接生成
+            # ★修正：2段階から1段階に統一
             self.generate_first_stage(query)
-        elif self.current_stage == 'second':
-            # Second stage: dialog_second_stage.txt で本応答生成
-            # ★ログ出力を削除（簡略化）
-            self.generate_second_stage(query)
         else:
             # その他: 従来の _perform_simple_inference()
             self._perform_simple_inference(query)
@@ -474,51 +335,53 @@ class NaturalLanguageGeneration:
         self.current_session_id = session_id
 
     def generate_first_stage(self, query):
-        """First stage: リアクションワード生成（dialog_first_stage.txt + humanタグでASR結果を別口入力）"""
+        """First stage: 本応答を直接生成（dialog_example_role.txt を使用）"""
         start_time = datetime.now()
 
         try:
             asr_results = query if isinstance(query, list) else [str(query)]
 
-            # ★修正：音声認識結果が空の場合はリアクションワード生成を行わない
+            # ★修正：音声認識結果が空の場合は応答生成を行わない
             if not asr_results or all((not x or x.strip() == "") for x in asr_results):
                 self.first_stage_response = ""
+                self.last_reply = ""
+                self.last_source_words = []
                 timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
                 sys.stdout.write(f"[{timestamp}] First stage: ASR結果が空のためスキップ\n")
                 sys.stdout.flush()
                 return
 
-            # ★プロンプトファイル読み込み
-            prompt_build_start = datetime.now()
-            try:
-                prompt_text = self._load_first_stage_prompt()
-            except FileNotFoundError as e:
-                sys.stdout.write(f"[NLG ERROR] first_stageプロンプトが見つかりません: {e}\n")
-                sys.stdout.flush()
-                self.first_stage_response = "うん"
-                return
+            # ★プロンプトファイル読み込み（dialog_example_role.txtを使用）
+            prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
+            prompt_path = os.path.join(prompt_dir, self.prompt_file_name)
 
-            prompt_build_end = datetime.now()
-            # ★ログ出力を簡略化：プロンプト読み込みログを削除
+            try:
+                with open(prompt_path, 'r', encoding='utf-8') as f:
+                    prompt_text = f.read()
+            except FileNotFoundError as e:
+                sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {prompt_path}\n")
+                sys.stdout.flush()
+                self.first_stage_response = "申し訳ありません"
+                self.last_reply = "申し訳ありません"
+                self.last_source_words = asr_results
+                return
 
             # LLM呼び出し
             llm_start_time = datetime.now()
 
             try:
                 if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
-                    # ★Ollama API /api/chat エンドポイント（humanタグ形式）
+                    # ★Ollama API /api/chat エンドポイント
                     import requests
 
                     api_start = datetime.now()
 
-                    # humanタグで別口入力: system (プロンプト) + user (ASR結果)
+                    # system (プロンプト) + user (ASR結果)
                     asr_text = ', '.join(asr_results)
                     messages = [
                         {"role": "system", "content": prompt_text},
-                        {"role": "user", "content": f"ぶつ切りの音声認識結果: {asr_text}"}
+                        {"role": "user", "content": f"複数のぶつ切りの音声認識結果: {asr_text}"}
                     ]
-
-                    # ★ログ出力を簡略化：messages送信ログを削除
 
                     response = requests.post(
                         'http://localhost:11434/api/chat',
@@ -527,8 +390,8 @@ class NaturalLanguageGeneration:
                             'messages': messages,
                             'stream': True,
                             'options': {
-                                'temperature': 0.3,
-                                'num_predict': 10,
+                                'temperature': 0.7,
+                                'num_predict': 50,  # 本応答生成用（20文字程度）
                                 'num_ctx': 512,
                                 'num_batch': 256
                             }
@@ -539,7 +402,6 @@ class NaturalLanguageGeneration:
 
                     res = ""
                     first_token_time = None
-                    token_count = 0
 
                     for line in response.iter_lines():
                         if line:
@@ -549,44 +411,81 @@ class NaturalLanguageGeneration:
                                 token_fragment = message_data.get('content', '')
 
                                 if token_fragment:
-                                    token_count += 1
-
-                                    # Time to First Token (TTFT) 計測
                                     if first_token_time is None:
                                         first_token_time = datetime.now()
-                                        ttft_ms = (first_token_time - api_start).total_seconds() * 1000
-                                        # ★ログ出力を簡略化：TTFT計測ログを削除
 
                                     res += token_fragment
 
                                 # 完了チェック
                                 if chunk_data.get('done', False):
-                                    api_end = datetime.now()
-                                    total_time = (api_end - api_start).total_seconds() * 1000
-                                    # ★ログ出力を簡略化：中間の推論時間ログを削除
                                     break
 
                             except json.JSONDecodeError:
                                 continue
 
                 elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
-                    # OpenAI API: systemプロンプト + humanタグ（user）でASR結果
+                    # OpenAI API
                     asr_text = ', '.join(asr_results)
                     messages = [
-                        {"role": "system", "content": prompt_text},
-                        {"role": "user", "content": f"ぶつ切りの音声認識結果: {asr_text}"}
+                        {"role": "system", "content": prompt_text}
                     ]
 
-                    response = openai.chat.completions.create(
-                        model=self.model_name,
-                        messages=messages,
-                        max_completion_tokens=20,
-                        temperature=0.3
-                    )
+                    # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
+                    if self.prompt_file_name == "dialog_example_role.txt":
+                        # 1-shot例示：例示ユーザー発話
+                        messages.append({
+                            "role": "user",
+                            "content": "複数のぶつ切りの音声認識結果: 今日会社で新しい, 今日会社で新しいプロジェクトの話があって, プロジェクトの話があって最初はすごく面白そうでやってみ, すごく面白そうでやってみたいって思んだけどシメ, 思んだけど締め切れがかなりタイトだから頑張ら"
+                        })
+                        # 1-shot例示：例示応答
+                        messages.append({
+                            "role": "assistant",
+                            "content": "そうなんだ、無理しないで頑張ってね！"
+                        })
+
+                    # 現在のASR結果（user）
+                    messages.append({
+                        "role": "user",
+                        "content": f"複数のぶつ切りの音声認識結果：{asr_text}"
+                    })
+
+                    # モデルタイプ別の最適化設定
+                    if self.model_name.startswith("gpt-4.1"):
+                        # GPT-4.1系: 最速
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_completion_tokens=50,
+                            temperature=0.7
+                        )
+                    elif "chat-latest" in self.model_name:
+                        # GPT-5-chat-latest
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_completion_tokens=50
+                        )
+                    elif self.model_name.startswith("gpt-5") or self.model_name.startswith("o1"):
+                        # GPT-5/o1: 推論モデル
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_completion_tokens=500,
+                            reasoning_effort="low"
+                        )
+                    else:
+                        # GPT-4o系: 標準
+                        response = openai.chat.completions.create(
+                            model=self.model_name,
+                            messages=messages,
+                            max_tokens=50,
+                            temperature=0.7
+                        )
+
                     res = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
 
-                # リアクションワードの後処理: 改行・句読点除去
-                res = res.replace('\n', '').replace('\r', '').replace('。', '').replace('、', '').strip()
+                # 改行を除去して1行にする
+                res = res.replace('\n', '').replace('\r', '')
 
                 llm_end_time = datetime.now()
                 llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
@@ -594,19 +493,32 @@ class NaturalLanguageGeneration:
                 self.first_stage_response = res
                 # ★ROS トピック発行用に last_reply にも格納（ROS2ラッパーが監視している）
                 self.last_reply = res
+                self.last_source_words = asr_results
+
+                # タイミング情報を設定
+                self.request_id = 1
+                self.worker_name = "nlg-single"
+                self.start_timestamp_ns = int(start_time.timestamp() * 1_000_000_000)
+                self.completion_timestamp_ns = int(llm_end_time.timestamp() * 1_000_000_000)
+                self.inference_duration_ms = llm_duration
+
                 # ★簡略化：[HH:MM:SS.mmm] 形式のみ表示
                 sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}]\n")
                 sys.stdout.flush()
 
             except Exception as api_error:
-                sys.stdout.write(f"[NLG ERROR] first_stage生成エラー: {api_error}\n")
+                sys.stdout.write(f"[NLG ERROR] 応答生成エラー: {api_error}\n")
                 sys.stdout.flush()
-                self.first_stage_response = "うん"  # フォールバック
+                self.first_stage_response = "申し訳ありません"  # フォールバック
+                self.last_reply = "申し訳ありません"
+                self.last_source_words = asr_results
 
         except Exception as e:
-            sys.stdout.write(f"[NLG ERROR] first_stage処理エラー: {e}\n")
+            sys.stdout.write(f"[NLG ERROR] 応答生成処理エラー: {e}\n")
             sys.stdout.flush()
-            self.first_stage_response = "うん"  # フォールバック
+            self.first_stage_response = "申し訳ありません"  # フォールバック
+            self.last_reply = "申し訳ありません"
+            self.last_source_words = []
 
     def _load_first_stage_prompt(self):
         """dialog_first_stage.txt を読み込みます"""
@@ -978,23 +890,7 @@ class NaturalLanguageGeneration:
                     sys.stdout.write(f"[NLG ERROR] プロンプトファイル読み込みエラー: {self.prompt_file_path} - {e}\n")
                     sys.stdout.flush()
                     return
-
-                # ★プレースホルダーを埋め込む
-                # 対話履歴の整形
-                conversation_history_str = ""
-                if self.conversation_history:
-                    for turn in self.conversation_history:
-                        conversation_history_str += turn + "\n"
-
-                # 音声認識結果の整形
-                asr_results_str = "\n".join(asr_lines) if asr_lines else "認識結果なし"
-
-                # プレースホルダーを置換
-                if "{conversation_history}" in prompt:
-                    prompt = prompt.replace("{conversation_history}", conversation_history_str.rstrip())
-                if "{asr_results}" in prompt:
-                    prompt = prompt.replace("{asr_results}", asr_results_str)
-
+                
                 # LLM呼び出し
                 llm_start_time = datetime.now()
                 sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 {self.model_name}推論開始\n")
@@ -1076,11 +972,8 @@ class NaturalLanguageGeneration:
 
                     elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1"):
                         # OpenAI API（GPT-5, GPT-4, o1など）
-                        # ★messages形式で直接構築（プロンプトテンプレート + ASR + リアクションワード）
-
-                        # messages形式を構築
                         messages = [
-                            {"role": "system", "content": prompt}  # プロンプトテンプレートをsystemプロンプトとして使用
+                            {"role": "system", "content": prompt}
                         ]
 
                         # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
