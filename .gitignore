@@ -227,3 +227,11 @@ CLAUDE_md_backup_*.md
 DiaROS_ros/build/
 DiaROS_ros/install/
 DiaROS_ros/log/
+
+# JSON and database files (generated data)
+*.json
+*.db3
+
+# Temporary directories
+**/tmp/
+tmp/
