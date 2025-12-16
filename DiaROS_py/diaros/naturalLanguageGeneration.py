@@ -7,9 +7,9 @@
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
-MODEL_NAME = "gemma3:4b"             # 軽量・高速
-# MODEL_NAME = "gemma3:12b"            # 高品質
-# MODEL_NAME = "gemma3:27b"            # 最高品質
+# MODEL_NAME = "gemma3:4b"             
+# MODEL_NAME = "gemma3:12b"            
+MODEL_NAME = "gemma3:27b"            
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
@@ -34,7 +34,7 @@ MODEL_NAME = "gemma3:4b"             # 軽量・高速
 # PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"     #
 # PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
 # PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
-PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短い相槌のみ）
+PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
 # 【タイミング調整プロンプト】
 # PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用
@@ -59,7 +59,7 @@ import openai
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_ollama import ChatOllama
-from .timeTracker import get_time_tracker
+from .timeTする形式をracker import get_time_tracker
 
 class NaturalLanguageGeneration:
     def __init__(self, dm_ref=None, rnlg_ref=None):
@@ -76,11 +76,18 @@ class NaturalLanguageGeneration:
         self.last_source_words = []  # 対話生成の元にした音声認識結果を格納
 
         # 二段階応答生成用の変数
-        self.first_stage_response = ""  # first_stageで生成した相槌を保存
+        self.first_stage_response = ""  # first_stageで生成したリアクションワードを保存
         self.current_stage = "first"  # first または second（DMからのstage指定で切り替わる）
         self.turn_taking_decision_timestamp_ns = 0  # TurnTaking判定時刻（ナノ秒）
-        self.first_stage_response_cached = ""  # first_stage相槌キャッシュ
+        self.first_stage_response_cached = ""  # first_stageリアクションワードキャッシュ
         self.asr_history_2_5s = []  # 2.5秒間隔のASR結果リスト（Second stage生成用）
+
+        # Second stage 処理中の first stage リクエスト管理
+        self.is_generating_second_stage = False  # Second stage 生成中フラグ
+        self.pending_first_stage_request = None  # 保留中の first_stage リクエスト（最新のみ保持）
+
+        # 対話履歴管理（プロンプトに埋め込む用）
+        self.conversation_history = []  # 対話履歴リスト（user/assistantのターン）
 
         # ROS2 bag記録用の追加情報
         self.last_request_id = 0
@@ -128,7 +135,7 @@ class NaturalLanguageGeneration:
                 sys.stdout.write(f'[NLG] ⚠️  gpt-oss:20bは推論モデルのため、応答に時間がかかります (num_predict={num_predict})\n')
                 sys.stdout.flush()
             else:
-                num_predict = 10  # gemma3系は10トークンで統一（短い相槌用）
+                num_predict = 10  # gemma3系は10トークンで統一（短いリアクションワード用）
 
             # gpt-oss:20bの高速化設定（推論を最小限に）
             if self.model_name.startswith("gpt-oss:"):
@@ -209,13 +216,41 @@ class NaturalLanguageGeneration:
         sys.stdout.write(f'使用モデル: {self.model_name}\n')
         sys.stdout.write('=====================================================\n')
 
+    # ============================================================
+    # 対話履歴管理メソッド
+    # ============================================================
+    def add_conversation_turn(self, role, content):
+        """対話履歴に新しいターンを追加
+
+        Args:
+            role: "user" または "assistant"
+            content: メッセージ内容
+        """
+        self.conversation_history.append(f"{role}: {content}")
+
+    def set_conversation_history(self, history_list):
+        """対話履歴全体を設定（一括）
+
+        Args:
+            history_list: ["user: ...", "assistant: ...", ...] の形式
+        """
+        self.conversation_history = history_list.copy() if history_list else []
+
+    def clear_conversation_history(self):
+        """対話履歴をクリア"""
+        self.conversation_history = []
+
+    def get_conversation_history(self):
+        """対話履歴を取得（読み取り専用）"""
+        return self.conversation_history.copy()
+
     def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_backchannel_at_tt=None, asr_history_2_5s=None):
         """
         メインPCからのリクエストを処理
         words: 音声認識結果のリスト
         stage: 'first' または 'second'
         turn_taking_decision_timestamp_ns: TurnTaking判定時刻（ナノ秒）
-        first_stage_backchannel_at_tt: TurnTaking判定時に再生予定の相槌内容（Second stage用）
+        first_stage_backchannel_at_tt: TurnTaking判定時に再生予定のリアクションワード内容（Second stage用）
         asr_history_2_5s: 2.5秒間隔のASR結果リスト（Second stage生成用）
         """
         now = datetime.now()
@@ -224,10 +259,26 @@ class NaturalLanguageGeneration:
         if self.connection_error_suppress_until and now < self.connection_error_suppress_until:
             return
 
+        # ★【重要】Second stage 生成中に first_stage のリクエストが来た場合は保留
+        if self.is_generating_second_stage and stage == 'first':
+            # Second stage 生成中の first_stage リクエストを保留
+            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}] ⏸️  Second stage 生成中のため、first_stage をリクエストキューに保存\n")
+            sys.stdout.flush()
+
+            # 最新の first_stage リクエストだけを保持（上書き）
+            self.pending_first_stage_request = {
+                'words': words,
+                'turn_taking_decision_timestamp_ns': turn_taking_decision_timestamp_ns,
+                'first_stage_backchannel_at_tt': first_stage_backchannel_at_tt,
+                'asr_history_2_5s': asr_history_2_5s
+            }
+            return
+
         # ★stage情報とタイムスタンプを保存
         self.current_stage = stage
         self.turn_taking_decision_timestamp_ns = turn_taking_decision_timestamp_ns
-        # ★TT判定時の相槌を保存（Second stage用）
+        # ★TT判定時のリアクションワードを保存（Second stage用）
         # ★修正：空文字列も含めて常に更新（パラメータが渡された場合）
         if first_stage_backchannel_at_tt is not None:
             self.first_stage_response = first_stage_backchannel_at_tt
@@ -296,7 +347,7 @@ class NaturalLanguageGeneration:
         # ★ステージに応じたプロンプト選択と推論実行
         # Stage ごとに異なるプロンプトを使い分けて実行（同期処理）
         if self.current_stage == 'first':
-            # First stage: dialog_first_stage.txt で相槌生成
+            # First stage: dialog_first_stage.txt でリアクションワード生成
             # ★ログ出力を削除（簡略化）
             self.generate_first_stage(query)
         elif self.current_stage == 'second':
@@ -317,13 +368,13 @@ class NaturalLanguageGeneration:
         self.current_session_id = session_id
 
     def generate_first_stage(self, query):
-        """First stage: 相槌生成（dialog_first_stage.txt + humanタグでASR結果を別口入力）"""
+        """First stage: リアクションワード生成（dialog_first_stage.txt + humanタグでASR結果を別口入力）"""
         start_time = datetime.now()
 
         try:
             asr_results = query if isinstance(query, list) else [str(query)]
 
-            # ★修正：音声認識結果が空の場合は相槌生成を行わない
+            # ★修正：音声認識結果が空の場合はリアクションワード生成を行わない
             if not asr_results or all((not x or x.strip() == "") for x in asr_results):
                 self.first_stage_response = ""
                 timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
@@ -428,7 +479,7 @@ class NaturalLanguageGeneration:
                     )
                     res = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
 
-                # 相槌の後処理: 改行・句読点除去
+                # リアクションワードの後処理: 改行・句読点除去
                 res = res.replace('\n', '').replace('\r', '').replace('。', '').replace('、', '').strip()
 
                 llm_end_time = datetime.now()
@@ -477,6 +528,12 @@ class NaturalLanguageGeneration:
         """Second stage: turnTakingが応答判定を出したら実行"""
         start_time = datetime.now()
 
+        # ★【重要】Second stage 処理開始時にフラグを設定
+        self.is_generating_second_stage = True
+        timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
+        sys.stdout.write(f"[{timestamp}] 🔄 Second stage 処理開始\n")
+        sys.stdout.flush()
+
         try:
             # ★修正：queryが空の場合は、2.5秒間隔ASR結果またはfirst_stageのASR結果を使用
             if isinstance(query, list) and (not query or all((not x or x.strip() == "") for x in query)):
@@ -509,7 +566,7 @@ class NaturalLanguageGeneration:
             prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
 
             # ★修正：dialog_second_stage_triple_input.txt を使用（placeholder なし）
-            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage_triple_input_example.txt')
+            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage_triple_input_example_role.txt')
 
             try:
                 with open(second_stage_prompt_path, 'r', encoding='utf-8') as f:
@@ -520,22 +577,26 @@ class NaturalLanguageGeneration:
                 # ★修正：複数メッセージ方式 - 正しいロール構造で入力
                 # 1. system: システムのタスク説明
                 # 2. user: ユーザーの音声認識結果（発話）
-                # 3. assistant: システムが既に出力した相槌（第1段階の応答）
+                # 3. assistant: システムが既に出力したリアクションワード（第1段階の応答）
                 # この流れにより、LLMが対話コンテキストを正しく認識できる
 
                 # メッセージリストを構築
                 asr_text = ', '.join(asr_results) if asr_results else "[音声認識結果なし]"
-                backchannel_text = self.first_stage_response if self.first_stage_response else "[相槌なし]"
+                backchannel_text = self.first_stage_response if self.first_stage_response else "[リアクションワードなし]"
 
-                # ★修正：first_stage（相槌）の末尾に「、」がなければ追加
-                if backchannel_text and backchannel_text != "[相槌なし]":
+                # ★修正：first_stage（リアクションワード）の末尾に「、」がなければ追加
+                if backchannel_text and backchannel_text != "[リアクションワードなし]":
                     if not backchannel_text.endswith("、"):
                         backchannel_text = backchannel_text + "、"
 
                 messages = [
                     {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"複数のぶつ切りの音声認識結果：週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]"},
+                    {"role": "assistant", "content": f"リアクションワード：なるほど"},
+                    {"role": "assistant", "content": f"タメ口の応答：それなら読書とかプラモデル作りとかはどう？"},
                     {"role": "user", "content": f"複数のぶつ切りの音声認識結果：{asr_text}"},           # ★ユーザーの発話（ラベル付き）
-                    {"role": "assistant", "content": f"リアクションワード：{backchannel_text}"}  # ★システムが既に出力した相槌（ラベル付き、末尾に「、」追加）
+                    {"role": "assistant", "content": f"リアクションワード：{backchannel_text}"},  # ★システムが既に出力したリアクションワード（ラベル付き、末尾に「、」追加）
+                    {"role": "assistant", "content": f"タメ口の応答："}
                 ]
 
             except FileNotFoundError:
@@ -564,7 +625,7 @@ class NaturalLanguageGeneration:
             # ★修正：複数メッセージ方式のメッセージリストを表示
             sys.stdout.write(f"[{timestamp}] [Second Stage] LLMへ送信するメッセージ:\n")
             for i, msg in enumerate(messages, 1):
-                sys.stdout.write(f"  メッセージ{i} (role={msg['role']}): {msg['content']}\n")
+                sys.stdout.write(f"  {i} (role={msg['role']}): {msg['content']}\n")
             sys.stdout.flush()
 
             # LLM呼び出し
@@ -663,17 +724,86 @@ class NaturalLanguageGeneration:
                 sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}]\n")
                 sys.stdout.flush()
 
+                # ★【重要】Second stage 処理完了時にフラグをリセット
+                self.is_generating_second_stage = False
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了\n")
+                sys.stdout.flush()
+
+                # ★保留中の first_stage リクエストがあれば処理
+                if self.pending_first_stage_request:
+                    sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行\n")
+                    sys.stdout.flush()
+
+                    pending_req = self.pending_first_stage_request
+                    self.pending_first_stage_request = None  # 保留キューをクリア
+
+                    # 保留されていたリクエストを実行
+                    self.update(
+                        words=pending_req['words'],
+                        stage='first',
+                        turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
+                        first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                        asr_history_2_5s=pending_req['asr_history_2_5s']
+                    )
+
             except Exception as api_error:
                 sys.stdout.write(f"[NLG ERROR] second_stage生成エラー: {api_error}\n")
                 sys.stdout.flush()
-                self.last_reply = self.first_stage_response  # 相槌のみフォールバック
+                self.last_reply = self.first_stage_response  # リアクションワードのみフォールバック
                 self.last_source_words = asr_results
+
+                # ★【重要】エラー時もフラグをリセット
+                self.is_generating_second_stage = False
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（エラー）\n")
+                sys.stdout.flush()
+
+                # ★保留中の first_stage リクエストがあれば処理
+                if self.pending_first_stage_request:
+                    sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（エラー後）\n")
+                    sys.stdout.flush()
+
+                    pending_req = self.pending_first_stage_request
+                    self.pending_first_stage_request = None  # 保留キューをクリア
+
+                    # 保留されていたリクエストを実行
+                    self.update(
+                        words=pending_req['words'],
+                        stage='first',
+                        turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
+                        first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                        asr_history_2_5s=pending_req['asr_history_2_5s']
+                    )
 
         except Exception as e:
             sys.stdout.write(f"[NLG ERROR] second_stage処理エラー: {e}\n")
             sys.stdout.flush()
-            self.last_reply = self.first_stage_response  # 相槌のみフォールバック
+            self.last_reply = self.first_stage_response  # リアクションワードのみフォールバック
             self.last_source_words = asr_results
+
+            # ★【重要】外側の例外ハンドラーでもフラグをリセット
+            self.is_generating_second_stage = False
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（外部エラー）\n")
+            sys.stdout.flush()
+
+            # ★保留中の first_stage リクエストがあれば処理
+            if self.pending_first_stage_request:
+                sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（外部エラー後）\n")
+                sys.stdout.flush()
+
+                pending_req = self.pending_first_stage_request
+                self.pending_first_stage_request = None  # 保留キューをクリア
+
+                # 保留されていたリクエストを実行
+                self.update(
+                    words=pending_req['words'],
+                    stage='first',
+                    turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
+                    first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                    asr_history_2_5s=pending_req['asr_history_2_5s']
+                )
 
     def _perform_simple_inference(self, query):
         """シンプルな単一スレッド推論 (gemma3:12b使用)"""
@@ -742,7 +872,23 @@ class NaturalLanguageGeneration:
                     sys.stdout.write(f"[NLG ERROR] プロンプトファイル読み込みエラー: {self.prompt_file_path} - {e}\n")
                     sys.stdout.flush()
                     return
-                
+
+                # ★プレースホルダーを埋め込む
+                # 対話履歴の整形
+                conversation_history_str = ""
+                if self.conversation_history:
+                    for turn in self.conversation_history:
+                        conversation_history_str += turn + "\n"
+
+                # 音声認識結果の整形
+                asr_results_str = "\n".join(asr_lines) if asr_lines else "認識結果なし"
+
+                # プレースホルダーを置換
+                if "{conversation_history}" in prompt:
+                    prompt = prompt.replace("{conversation_history}", conversation_history_str.rstrip())
+                if "{asr_results}" in prompt:
+                    prompt = prompt.replace("{asr_results}", asr_results_str)
+
                 # LLM呼び出し
                 llm_start_time = datetime.now()
                 sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 {self.model_name}推論開始\n")
@@ -773,7 +919,7 @@ class NaturalLanguageGeneration:
                                     'options': {
                                         'temperature': 0.7,
                                         'top_p': 0.9,
-                                        'num_predict': 10,  # 短い相槌で高速化
+                                        'num_predict': 10,  # 短いリアクションワードで高速化
                                         'num_ctx': 4096,
                                         'num_batch': 3072
                                     }

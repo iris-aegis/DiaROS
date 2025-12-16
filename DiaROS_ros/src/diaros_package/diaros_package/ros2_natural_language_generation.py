@@ -15,7 +15,7 @@ class RosNaturalLanguageGeneration(Node):
         super().__init__('natural_language_generation')
         self.naturalLanguageGeneration = naturalLanguageGeneration
 
-        # 分散実行対応: RELIABLE QoSプロファイルを設定
+        # 分散実行対応のQoSプロファイル設定
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.RELIABLE,
             history=HistoryPolicy.KEEP_LAST,
@@ -24,7 +24,7 @@ class RosNaturalLanguageGeneration(Node):
         )
 
         self.sub_dm = self.create_subscription(Idm, 'DMtoNLG', self.dm_update, qos_profile)
-        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', qos_profile)  # NLG→SpeechSynthesis用（QoSをRELIABLEに統一）
+        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', qos_profile)  # NLG→SpeechSynthesis用
         # self.pub_nlg_dr = self.create_publisher(Inlg, 'NLGtoDR', 1)
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(0.02, self.ping)
@@ -53,10 +53,16 @@ class RosNaturalLanguageGeneration(Node):
         # ★インスタンス変数に保存（NLGで使用）
         self.asr_history_2_5s = asr_history_2_5s
 
-        # ★デバッグ：受け取ったメッセージの詳細ログ
+        # ★詳細デバッグ：受け取ったメッセージの全フィールドをログ出力
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         self.get_logger().info(
-            f"[{timestamp}] [NLG-DEBUG] DM受信: words={len(words)}件, stage='{stage}', request_id={request_id}, msg.stage属性={hasattr(msg, 'stage')}"
+            f"[{timestamp}] [NLG-DEBUG] DMから受信:\n"
+            f"  - words: {words} (長さ={len(words)})\n"
+            f"  - stage: '{stage}'\n"
+            f"  - request_id: {request_id}\n"
+            f"  - first_stage_backchannel_at_tt: '{first_stage_backchannel_at_tt}'\n"
+            f"  - asr_history_2_5s: {asr_history_2_5s} (長さ={len(asr_history_2_5s)})\n"
+            f"  - turn_taking_decision_timestamp_ns: {turn_taking_decision_timestamp_ns}"
         )
 
         # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
