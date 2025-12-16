@@ -1,0 +1,19 @@
+rosbag2_bagfile_information:
+  version: 4
+  storage_identifier: sqlite3
+  relative_file_paths:
+    - mic_only_recording_0.db3
+  duration:
+    nanoseconds: 57556397060
+  starting_time:
+    nanoseconds_since_epoch: 1748667095659002883
+  message_count: 5243
+  topics_with_message_count:
+    - topic_metadata:
+        name: /mic_audio_float32
+        type: std_msgs/msg/Float32MultiArray
+        serialization_format: cdr
+        offered_qos_profiles: ""
+      message_count: 5243
+  compression_format: ""
+  compression_mode: ""
