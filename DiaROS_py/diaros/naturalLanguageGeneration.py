@@ -1083,6 +1083,24 @@ class NaturalLanguageGeneration:
                             {"role": "system", "content": prompt}  # プロンプトテンプレートをsystemプロンプトとして使用
                         ]
 
+                        # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
+                        if self.prompt_file_name == "dialog_example_role.txt":
+                            # 1-shot例示：例示ユーザー発話
+                            messages.append({
+                                "role": "user",
+                                "content": "複数のぶつ切りの音声認識結果：週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]"
+                            })
+                            # 1-shot例示：例示リアクションワード
+                            messages.append({
+                                "role": "assistant",
+                                "content": "リアクションワード：なるほど"
+                            })
+                            # 1-shot例示：例示応答
+                            messages.append({
+                                "role": "assistant",
+                                "content": "タメ口の応答：それなら読書とかプラモデル作りとかはどう？"
+                            })
+
                         # 対話履歴/例示メッセージを含める場合
                         if hasattr(self, 'example_messages') and self.example_messages:
                             messages.extend(self.example_messages)
