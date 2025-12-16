@@ -223,3 +223,10 @@ DiaROS_imamoto/
 # Claude Code backups
 CLAUDE_md_backup_*.md
 *_conbined_archive.py
+
+# JSON and database files (generated data)
+*.json
+
+# Temporary directories
+**/tmp/
+tmp/
