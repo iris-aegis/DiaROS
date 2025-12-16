@@ -224,8 +224,10 @@ DiaROS_imamoto/
 CLAUDE_md_backup_*.md
 *_conbined_archive.py
 
-# JSON and database files (generated data)
+# JSON, YAML, and database files (generated data)
 *.json
+*.yaml
+*.yml
 
 # Temporary directories
 **/tmp/
