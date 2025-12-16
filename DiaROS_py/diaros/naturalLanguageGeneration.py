@@ -7,9 +7,9 @@
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
-# MODEL_NAME = "gemma3:4b"             
+MODEL_NAME = "gemma3:4b"             
 # MODEL_NAME = "gemma3:12b"            
-MODEL_NAME = "gemma3:27b"            
+# MODEL_NAME = "gemma3:27b"            
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
@@ -21,6 +21,7 @@ MODEL_NAME = "gemma3:27b"
 # PROMPT_FILE_NAME = "dialog_tag_ver2.txt"          # タグ処理付き
 # PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
+PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
 
@@ -34,7 +35,7 @@ MODEL_NAME = "gemma3:27b"
 # PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"     #
 # PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
 # PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
-PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
+# PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
 # 【タイミング調整プロンプト】
 # PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用
