@@ -1088,17 +1088,12 @@ class NaturalLanguageGeneration:
                             # 1-shot例示：例示ユーザー発話
                             messages.append({
                                 "role": "user",
-                                "content": "複数のぶつ切りの音声認識結果：週末に時間ができるとついついスマホを見て, 週末に時間ができるとついついスマホを見て[無音], スマホを見て一日が終わっちゃうのが嫌で, 一日が終わっちゃうのが嫌で何か新しいことをはじめたい, 何か新しいこと始めたいんだけど家の中で一人人, 家の中で一人人でも没闘できるような趣味のアイデアった, 没闘できるような趣味のアイデアってないかな[無音][無音]"
-                            })
-                            # 1-shot例示：例示リアクションワード
-                            messages.append({
-                                "role": "assistant",
-                                "content": "リアクションワード：なるほど"
+                                "content": "複数のぶつ切りの音声認識結果: 今日会社で新しい, 今日会社で新しいプロジェクトの話があって, プロジェクトの話があって最初はすごく面白そうでやってみ, すごく面白そうでやってみたいって思んだけどシメ, 思んだけど締め切れがかなりタイトだから頑張ら"
                             })
                             # 1-shot例示：例示応答
                             messages.append({
                                 "role": "assistant",
-                                "content": "タメ口の応答：それなら読書とかプラモデル作りとかはどう？"
+                                "content": "アンドロイドの応答: そうなんだ、無理しないで頑張ってね！"
                             })
 
                         # 対話履歴/例示メッセージを含める場合
@@ -1111,17 +1106,10 @@ class NaturalLanguageGeneration:
                             "content": f"複数のぶつ切りの音声認識結果：{', '.join(asr_results_for_prompt)}"
                         })
 
-                        # 既出のリアクションワード（assistant）がある場合
-                        if self.first_stage_response_cached:
-                            messages.append({
-                                "role": "assistant",
-                                "content": f"リアクションワード：{self.first_stage_response_cached}、"
-                            })
-
                         # 応答生成指示（assistant）
                         messages.append({
                             "role": "assistant",
-                            "content": "タメ口の応答："
+                            "content": "アンドロイドの応答: "
                         })
 
                         # デバッグ用ログ
