@@ -1,3 +1,9 @@
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（ステージ遷移、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 import sys
 import socket
 import time
@@ -73,8 +79,9 @@ class DialogManagement:
                 timeout=5
             )
             if response1.status_code != 200:
-                sys.stdout.write(f"[ERROR] VOICEVOX audio_query失敗: {response1.status_code}\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[ERROR] VOICEVOX audio_query失敗: {response1.status_code}\n")
+                    sys.stdout.flush()
                 return None
 
             response1_data = response1.json()
@@ -84,8 +91,9 @@ class DialogManagement:
             response1_data["postPhonemeLength"] = 0.0
 
             # デバッグ：設定確認
-            sys.stdout.write(f"[TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength={response1_data.get('prePhonemeLength')}, postPhonemeLength={response1_data.get('postPhonemeLength')}\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[TTS-DEBUG] VOICEVOX パラメータ設定: prePhonemeLength={response1_data.get('prePhonemeLength')}, postPhonemeLength={response1_data.get('postPhonemeLength')}\n")
+                sys.stdout.flush()
 
             modified_json_str = json.dumps(response1_data)
 
@@ -99,8 +107,9 @@ class DialogManagement:
                 timeout=5
             )
             if response2.status_code != 200:
-                sys.stdout.write(f"[ERROR] VOICEVOX synthesis失敗: {response2.status_code}\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[ERROR] VOICEVOX synthesis失敗: {response2.status_code}\n")
+                    sys.stdout.flush()
                 return None
 
             # ファイル保存
@@ -114,14 +123,16 @@ class DialogManagement:
                 wf.writeframes(response2.content)
 
             synthesis_duration_ms = (time.time() - synthesis_start_time) * 1000
-            sys.stdout.write(f"[TTS] First stage相槌音声合成完了 (処理時間: {synthesis_duration_ms:.1f}ms, ファイル: {output_file})\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[TTS] First stage相槌音声合成完了 (処理時間: {synthesis_duration_ms:.1f}ms, ファイル: {output_file})\n")
+                sys.stdout.flush()
 
             return output_file
 
         except Exception as e:
-            sys.stdout.write(f"[ERROR] First stage相槌音声合成エラー: {e}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[ERROR] First stage相槌音声合成エラー: {e}\n")
+                sys.stdout.flush()
             return None
 
     def play_sound(self, filename, block=True):
@@ -176,9 +187,11 @@ class DialogManagement:
         if error_file and os.path.exists(error_file):
             now = datetime.now()
             timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"\n[ERROR] {error_msg}\n")
-            sys.stdout.write(f"[{timestamp}] エラー音声を再生: {error_file}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"\n[ERROR] {error_msg}\n")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[{timestamp}] エラー音声を再生: {error_file}\n")
+                sys.stdout.flush()
 
             # エラー音声をブロッキング再生
             self.play_sound(error_file, block=True)
@@ -186,13 +199,15 @@ class DialogManagement:
             # 再生完了後
             now_end = datetime.now()
             timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp_end}] エラー音声再生完了\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[{timestamp_end}] エラー音声再生完了\n")
+                sys.stdout.flush()
 
             return True
         else:
-            sys.stdout.write(f"\n[ERROR] エラー音声ファイルが見つかりません: {error_file}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"\n[ERROR] エラー音声ファイルが見つかりません: {error_file}\n")
+                sys.stdout.flush()
             return False
 
     def __init__(self):
@@ -237,8 +252,10 @@ class DialogManagement:
         self.audio_player_path = "/home/DiaROS/DiaROS_deep_model/DiaROS_py/diaros/hai.wav"
         self.last_back_channel_play_time = 0
 
-        sys.stdout.write('DialogManagement start up.\n')
-        sys.stdout.write('=====================================================\n')
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('DialogManagement start up.\n')
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('=====================================================\n')
 
         # static_response_archive内のwavファイル一覧を取得し、ソートして保存
         self.static_response_files = sorted(
@@ -379,8 +396,9 @@ class DialogManagement:
                     self.last_response_update_asr = self.asr["you"]  # 更新時のASR結果を保存
                     # ★デバッグ：response_update が True になったことをログ出力
                     timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[{timestamp}] [DEBUG-RESPONSE-UPDATE] response_update=True に設定: asr='{self.asr['you']}'\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{timestamp}] [DEBUG-RESPONSE-UPDATE] response_update=True に設定: asr='{self.asr['you']}'\n")
+                        sys.stdout.flush()
                 self.prev_asr_you = self.asr["you"]  # 直前のASR結果は常に更新
             else:
                 # ★デバッグ：asr["you"] が空の場合
@@ -420,15 +438,19 @@ class DialogManagement:
                     self.turn_taking_decision_timestamp_ns = int(now_dt.timestamp() * 1_000_000_000)
                     timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
                     # ★視覚的なマーカーを追加してTurnTaking判定時刻を明確に表示
-                    sys.stdout.write(f"\n{'='*70}\n")
-                    sys.stdout.write(f"🔊 【TurnTaking 話者交代判定】@ {timestamp}\n")
-                    sys.stdout.write(f"{'='*70}\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"\n{'='*70}\n")
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"🔊 【TurnTaking 話者交代判定】@ {timestamp}\n")
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"{'='*70}\n")
+                        sys.stdout.flush()
 
                     # ★TurnTaking判定時点のASR履歴を保存（Second stage用）
                     self.asr_history_at_tt_decision = [entry["text"] for entry in self.asr_history]
-                    sys.stdout.write(f"[DEBUG-TT] ASR履歴を保存: {len(self.asr_history_at_tt_decision)}件\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[DEBUG-TT] ASR履歴を保存: {len(self.asr_history_at_tt_decision)}件\n")
+                        sys.stdout.flush()
 
                     # ★TurnTaking判定時の2.5秒間隔ASR結果を計算して保存
                     self.asr_history_at_tt_decision_2_5s = []
@@ -465,43 +487,49 @@ class DialogManagement:
 
                         # 古いもの→新しいものの順に並べ替え
                         self.asr_history_at_tt_decision_2_5s.reverse()
-                        sys.stdout.write(f"[DEBUG-TT] 2.5秒間隔ASR結果を保存: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
-                        sys.stdout.flush()
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write(f"[DEBUG-TT] 2.5秒間隔ASR結果を保存: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
+                            sys.stdout.flush()
                     elif self.asr["you"]:
                         # ★修正：ASR履歴が空の場合でも、最後のASR結果があれば送信（単一PC時の動作と統一）
                         self.asr_history_at_tt_decision_2_5s = [self.asr["you"]]
-                        sys.stdout.write(f"[DEBUG-TT] ASR履歴が空のため、最後のASR結果を使用: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
-                        sys.stdout.flush()
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write(f"[DEBUG-TT] ASR履歴が空のため、最後のASR結果を使用: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
+                            sys.stdout.flush()
 
                     # ★修正：First stage相槌を保存（応答有無にかかわらず）
                     # Second stage用に、TT判定時点での相槌を保存
                     self.first_stage_backchannel_at_tt_decision = self.first_stage_backchannel
                     timestamp_tt = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[TT] First stage相槌を保存: '{self.first_stage_backchannel}' @ {timestamp_tt}\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"[TT] First stage相槌を保存: '{self.first_stage_backchannel}' @ {timestamp_tt}\n")
+                        sys.stdout.flush()
 
                     # ★修正：Second stageリクエストフラグを設定（First stage再生前に設定）
                     # これにより、First stage の再生と並行して Second stage の生成が開始される
                     self.second_stage_request_pending = True
                     self.waiting_for_second_stage = True
-                    sys.stdout.write(f"[TT] Second stage リクエスト処理開始（First stage再生と並行） @ {timestamp_tt}\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"[TT] Second stage リクエスト処理開始（First stage再生と並行） @ {timestamp_tt}\n")
+                        sys.stdout.flush()
 
                     # ★修正：この TT データを処理済みとしてマーク（同じ TT データの再処理を防止）
                     last_handled_tt_time = tt_time
 
                     # First stage相槌を再生（準備がある場合）
                     if self.first_stage_backchannel_available and self.first_stage_backchannel:
-                        sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}'\n")
-                        sys.stdout.flush()
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}'\n")
+                            sys.stdout.flush()
 
                         # ★事前合成済みのfirst_stageファイルがあれば使用、なければ合成
                         if hasattr(self, 'first_stage_backchannel_wav') and os.path.exists(self.first_stage_backchannel_wav):
                             first_stage_wav_path = self.first_stage_backchannel_wav
                             now = datetime.now()
                             timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-                            sys.stdout.write(f"[TT] 事前合成済みのfirst_stage音声を使用 @ {timestamp}\n")
-                            sys.stdout.flush()
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"[TT] 事前合成済みのfirst_stage音声を使用 @ {timestamp}\n")
+                                sys.stdout.flush()
                         else:
                             # 合成済みファイルがない場合は新規合成
                             first_stage_wav_path = self.synthesize_first_stage_backchannel(self.first_stage_backchannel)
@@ -512,8 +540,9 @@ class DialogManagement:
                                 first_stage_audio = AudioSegment.from_wav(first_stage_wav_path)
                                 first_stage_duration_sec = len(first_stage_audio) / 1000.0
                             except Exception as e:
-                                sys.stdout.write(f"[ERROR] First stage音声ファイル長取得エラー: {e}\n")
-                                sys.stdout.flush()
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[ERROR] First stage音声ファイル長取得エラー: {e}\n")
+                                    sys.stdout.flush()
                                 first_stage_duration_sec = 0.5  # デフォルト値
 
                             # ★時刻を記録
@@ -521,17 +550,20 @@ class DialogManagement:
                             timestamp = now.strftime('%H:%M:%S.%f')[:-3]
 
                             # ブロッキング再生（相槌が終わるまで待つ）
-                            sys.stdout.write(f"[TT] First stage相槌再生開始: {first_stage_wav_path} @ {timestamp}\n")
-                            sys.stdout.flush()
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"[TT] First stage相槌再生開始: {first_stage_wav_path} @ {timestamp}\n")
+                                sys.stdout.flush()
                             self.play_sound(first_stage_wav_path, block=True)
 
                             now_end = datetime.now()
                             timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
-                            sys.stdout.write(f"[TT] First stage相槌再生完了 @ {timestamp_end} (長さ: {first_stage_duration_sec:.2f}秒)\n")
-                            sys.stdout.flush()
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"[TT] First stage相槌再生完了 @ {timestamp_end} (長さ: {first_stage_duration_sec:.2f}秒)\n")
+                                sys.stdout.flush()
                         else:
-                            sys.stdout.write(f"[ERROR] First stage相槌音声ファイルエラー、スキップします\n")
-                            sys.stdout.flush()
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"[ERROR] First stage相槌音声ファイルエラー、スキップします\n")
+                                sys.stdout.flush()
 
                         # ★Second stage本応答の再生チェック（First stage再生完了直後）
                         # 再生準備ができていれば、すぐに再生
@@ -546,18 +578,21 @@ class DialogManagement:
                                 second_stage_duration_sec = len(second_stage_audio) / 1000.0
 
                                 # ブロッキング再生（本応答が終わるまで待つ）
-                                sys.stdout.write(f"[TT] Second stage本応答再生開始: {second_stage_wav_path} @ {timestamp}\n")
-                                sys.stdout.flush()
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[TT] Second stage本応答再生開始: {second_stage_wav_path} @ {timestamp}\n")
+                                    sys.stdout.flush()
                                 self.play_sound(second_stage_wav_path, block=True)
 
                                 now_end = datetime.now()
                                 timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
-                                sys.stdout.write(f"[TT] Second stage本応答再生完了 @ {timestamp_end} (長さ: {second_stage_duration_sec:.2f}秒)\n")
-                                sys.stdout.flush()
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[TT] Second stage本応答再生完了 @ {timestamp_end} (長さ: {second_stage_duration_sec:.2f}秒)\n")
+                                    sys.stdout.flush()
 
                             except Exception as e:
-                                sys.stdout.write(f"[ERROR] Second stage本応答の再生エラー: {e}\n")
-                                sys.stdout.flush()
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[ERROR] Second stage本応答の再生エラー: {e}\n")
+                                    sys.stdout.flush()
                             finally:
                                 # 再生準備フラグをクリア
                                 self.second_stage_ready_to_play = False
@@ -578,8 +613,9 @@ class DialogManagement:
                 elapsed_time = (datetime.now() - self.second_stage_wait_start_time).total_seconds()
                 if elapsed_time >= self.second_stage_timeout_seconds:
                     # タイムアウト発生 → エラー音声を再生
-                    sys.stdout.write(f"\n[WARNING] Second stage生成タイムアウト検出 (待機時間: {elapsed_time:.1f}秒)\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"\n[WARNING] Second stage生成タイムアウト検出 (待機時間: {elapsed_time:.1f}秒)\n")
+                        sys.stdout.flush()
                     self.play_error_audio('timeout')
                     self.second_stage_timeout_played = True
                     self.waiting_for_second_stage = False
@@ -618,9 +654,12 @@ class DialogManagement:
                                 }
                             )
                         
-                        sys.stdout.write(f"\n{'='*50}\n")
-                        sys.stdout.write(f"[{timestamp}] 🔊 応答音声再生開始\n")
-                        sys.stdout.write(f"{'='*50}\n")
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"\n{'='*50}\n")
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"[{timestamp}] 🔊 応答音声再生開始\n")
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"{'='*50}\n")
                         
                         # 音声合成処理の詳細情報
                         if self.latest_start_timestamp_ns > 0 and self.latest_completion_timestamp_ns > 0:
@@ -632,19 +671,26 @@ class DialogManagement:
                                 return dt.strftime('%H:%M:%S.%f')[:-3]  # ミリ秒まで表示
                             
                             # 各処理の完了時刻を人間が読みやすい形式で表示
-                            sys.stdout.write(f"📊 各処理完了時刻:\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"📊 各処理完了時刻:\n")
                             if self.asr_completion_ns > 0:
-                                sys.stdout.write(f"  • ASR処理完了:     {ns_to_readable_time(self.asr_completion_ns)}\n")
-                            sys.stdout.write(f"  • NLG処理開始:     {ns_to_readable_time(self.latest_start_timestamp_ns)}\n")
-                            sys.stdout.write(f"  • NLG処理完了:     {ns_to_readable_time(self.latest_completion_timestamp_ns)}\n")
+                                if SHOW_DEBUG_LOGS:
+                                    sys.stdout.write(f"  • ASR処理完了:     {ns_to_readable_time(self.asr_completion_ns)}\n")
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"  • NLG処理開始:     {ns_to_readable_time(self.latest_start_timestamp_ns)}\n")
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"  • NLG処理完了:     {ns_to_readable_time(self.latest_completion_timestamp_ns)}\n")
                             # TTS完了時刻のデバッグ出力
                             tts_completion_val = getattr(self, 'tts_completion_ns', 0)
                             if tts_completion_val > 0:
-                                sys.stdout.write(f"  • TTS処理完了:     {ns_to_readable_time(tts_completion_val)}\n")
+                                if SHOW_DEBUG_LOGS:
+                                    sys.stdout.write(f"  • TTS処理完了:     {ns_to_readable_time(tts_completion_val)}\n")
                             else:
                                 # デバッグ：なぜTTS完了時刻が設定されていないかを確認
-                                sys.stdout.write(f"  • TTS処理完了:     未設定 (値: {tts_completion_val})\n")
-                            sys.stdout.write(f"  • 音声再生開始:     {ns_to_readable_time(current_time_ns)}\n")
+                                if SHOW_DEBUG_LOGS:
+                                    sys.stdout.write(f"  • TTS処理完了:     未設定 (値: {tts_completion_val})\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • 音声再生開始:     {ns_to_readable_time(current_time_ns)}\n")
                             
                             # 各処理にかかった時間
                             asr_processing_time = (self.asr_completion_ns - self.asr_start_ns) / 1_000_000 if self.asr_start_ns > 0 and self.asr_completion_ns > 0 else 0
@@ -656,18 +702,27 @@ class DialogManagement:
                             total_response_time = nlg_processing_time + tts_processing_time
                             synthesis_to_playback = (current_time_ns - self.latest_completion_timestamp_ns) / 1_000_000
                             
-                            sys.stdout.write(f"\n⏱️  各処理にかかった時間:\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"\n⏱️  各処理にかかった時間:\n")
                             if asr_processing_time > 0:
-                                sys.stdout.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
-                            sys.stdout.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
-                            sys.stdout.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
-                            sys.stdout.write(f"  • 総応答時間:      {total_response_time:.1f}ms (NLG+TTS)\n")
+                                if SHOW_DEBUG_LOGS:
+                                    sys.stdout.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • 総応答時間:      {total_response_time:.1f}ms (NLG+TTS)\n")
                             
                             # 処理詳細情報
-                            sys.stdout.write(f"\n📋 処理詳細:\n")
-                            sys.stdout.write(f"  • Request ID:      {self.latest_request_id}\n")
-                            sys.stdout.write(f"  • Worker:          {self.latest_worker_name}\n")
-                            sys.stdout.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"\n📋 処理詳細:\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • Request ID:      {self.latest_request_id}\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • Worker:          {self.latest_worker_name}\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
                             
                             # パフォーマンス評価
                             if total_response_time <= 1000:
@@ -676,7 +731,8 @@ class DialogManagement:
                                 perf_status = "🟡 良好"
                             else:
                                 perf_status = "🔴 要改善"
-                            sys.stdout.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
                             
                             # タイミングログファイルにも詳細情報を出力
                             log_file_path = f"/tmp/diaros_timing/timing_{self.current_session_id if TIMING_AVAILABLE and self.timing_logger and self.current_session_id else int(time.time())}.log"
@@ -707,13 +763,17 @@ class DialogManagement:
                                     f.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
                                     f.write(f"{'='*60}\n\n")
                             except Exception as e:
-                                sys.stdout.write(f"[ERROR] ログファイル書き込みエラー: {e}\n")
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[ERROR] ログファイル書き込みエラー: {e}\n")
                         else:
-                            sys.stdout.write(f"⚠️  タイミング情報が不完全です\n")
-                            sys.stdout.write(f"  • 音声長:         {duration_sec:.1f}秒\n")
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"⚠️  タイミング情報が不完全です\n")
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"  • 音声長:         {duration_sec:.1f}秒\n")
                         
-                        sys.stdout.write(f"{'='*50}\n")
-                        sys.stdout.flush()
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"{'='*50}\n")
+                            sys.stdout.flush()
                         # ...existing code...
                         self.play_sound(wav_path, False)  # ノンブロッキング再生
                         last_response_end_time = time.time() + duration_sec
@@ -722,12 +782,16 @@ class DialogManagement:
                         self.latest_synth_filename = ""
                     else:
                         # 合成音声ファイルがない場合のデバッグ情報
-                        sys.stdout.write(f"[WARNING] 合成音声ファイルが利用できません。再生をスキップします\n")
-                        sys.stdout.write(f"  latest_synth_filename: '{getattr(self, 'latest_synth_filename', 'None')}'\n")
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"[WARNING] 合成音声ファイルが利用できません。再生をスキップします\n")
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"  latest_synth_filename: '{getattr(self, 'latest_synth_filename', 'None')}'\n")
                         if hasattr(self, 'latest_synth_filename') and self.latest_synth_filename:
-                            sys.stdout.write(f"  ファイル存在確認: {os.path.exists(self.latest_synth_filename)}\n")
-                        sys.stdout.write(f"[INFO] 第2段階の音声合成待機中か、合成に失敗しています\n")
-                        sys.stdout.flush()
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"  ファイル存在確認: {os.path.exists(self.latest_synth_filename)}\n")
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"[INFO] 第2段階の音声合成待機中か、合成に失敗しています\n")
+                            sys.stdout.flush()
                 last_handled_tt_time = tt_time
             # 応答音声再生終了後にフラグをリセット
             if is_playing_response and last_response_end_time is not None and time.time() >= last_response_end_time:
@@ -770,9 +834,12 @@ class DialogManagement:
                                         }
                                     )
                                 
-                                sys.stdout.write(f"\n{'='*50}\n")
-                                sys.stdout.write(f"[{timestamp}] 🔊 応答音声再生開始（相槌後処理）\n")
-                                sys.stdout.write(f"{'='*50}\n")
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"\n{'='*50}\n")
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[{timestamp}] 🔊 応答音声再生開始（相槌後処理）\n")
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"{'='*50}\n")
                                 
                                 # 音声合成処理の詳細情報
                                 if self.latest_start_timestamp_ns > 0 and self.latest_completion_timestamp_ns > 0:
@@ -784,14 +851,20 @@ class DialogManagement:
                                         return dt.strftime('%H:%M:%S.%f')[:-3]  # ミリ秒まで表示
                                     
                                     # 各処理の完了時刻を人間が読みやすい形式で表示
-                                    sys.stdout.write(f"📊 各処理完了時刻:\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"📊 各処理完了時刻:\n")
                                     if self.asr_completion_ns > 0:
-                                        sys.stdout.write(f"  • ASR処理完了:     {ns_to_readable_time(self.asr_completion_ns)}\n")
-                                    sys.stdout.write(f"  • NLG処理開始:     {ns_to_readable_time(self.latest_start_timestamp_ns)}\n")
-                                    sys.stdout.write(f"  • NLG処理完了:     {ns_to_readable_time(self.latest_completion_timestamp_ns)}\n")
+                                        if SHOW_DEBUG_LOGS:
+                                            sys.stdout.write(f"  • ASR処理完了:     {ns_to_readable_time(self.asr_completion_ns)}\n")
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"  • NLG処理開始:     {ns_to_readable_time(self.latest_start_timestamp_ns)}\n")
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"  • NLG処理完了:     {ns_to_readable_time(self.latest_completion_timestamp_ns)}\n")
                                     if self.tts_completion_ns > 0:
-                                        sys.stdout.write(f"  • TTS処理完了:     {ns_to_readable_time(self.tts_completion_ns)}\n")
-                                    sys.stdout.write(f"  • 音声再生開始:     {ns_to_readable_time(current_time_ns)}\n")
+                                        if SHOW_DEBUG_LOGS:
+                                            sys.stdout.write(f"  • TTS処理完了:     {ns_to_readable_time(self.tts_completion_ns)}\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • 音声再生開始:     {ns_to_readable_time(current_time_ns)}\n")
                                     
                                     # 各処理にかかった時間
                                     asr_processing_time = (self.asr_completion_ns - self.asr_start_ns) / 1_000_000 if self.asr_start_ns > 0 and self.asr_completion_ns > 0 else 0
@@ -803,18 +876,27 @@ class DialogManagement:
                                     total_response_time = nlg_processing_time + tts_processing_time  # 音声再生時間を除外
                                     synthesis_to_playback = (current_time_ns - self.latest_completion_timestamp_ns) / 1_000_000
                                     
-                                    sys.stdout.write(f"\n⏱️  各処理にかかった時間:\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"\n⏱️  各処理にかかった時間:\n")
                                     if asr_processing_time > 0:
-                                        sys.stdout.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
-                                    sys.stdout.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
-                                    sys.stdout.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
-                                    sys.stdout.write(f"  • 総応答時間:      {total_response_time:.1f}ms (NLG+TTS)\n")
+                                        if SHOW_DEBUG_LOGS:
+                                            sys.stdout.write(f"  • ASR処理時間:     {asr_processing_time:.1f}ms\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • NLG処理時間:     {nlg_processing_time:.1f}ms\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • TTS処理時間:     {tts_processing_time:.1f}ms\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • 総応答時間:      {total_response_time:.1f}ms (NLG+TTS)\n")
                                     
                                     # 処理詳細情報
-                                    sys.stdout.write(f"\n📋 処理詳細:\n")
-                                    sys.stdout.write(f"  • Request ID:      {self.latest_request_id}\n")
-                                    sys.stdout.write(f"  • Worker:          {self.latest_worker_name}\n")
-                                    sys.stdout.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"\n📋 処理詳細:\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • Request ID:      {self.latest_request_id}\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • Worker:          {self.latest_worker_name}\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • 音声長:          {duration_sec:.1f}秒\n")
                                     
                                     # パフォーマンス評価
                                     if total_response_time <= 1000:
@@ -823,7 +905,8 @@ class DialogManagement:
                                         perf_status = "🟡 良好"
                                     else:
                                         perf_status = "🔴 要改善"
-                                    sys.stdout.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
                                     
                                     # タイミングログファイルにも詳細情報を出力
                                     if TIMING_AVAILABLE and self.timing_logger:
@@ -857,13 +940,17 @@ class DialogManagement:
                                                 f.write(f"  • 応答性能:        {perf_status} ({total_response_time:.1f}ms)\n")
                                                 f.write(f"{'='*60}\n\n")
                                         except Exception as e:
-                                            sys.stdout.write(f"[ERROR] ログファイル書き込みエラー: {e}\n")
+                                            if SHOW_BASIC_LOGS:
+                                                sys.stdout.write(f"[ERROR] ログファイル書き込みエラー: {e}\n")
                                 else:
-                                    sys.stdout.write(f"⚠️  タイミング情報が不完全です\n")
-                                    sys.stdout.write(f"  • 音声長:         {duration_sec:.1f}秒\n")
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"⚠️  タイミング情報が不完全です\n")
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"  • 音声長:         {duration_sec:.1f}秒\n")
                                 
-                                sys.stdout.write(f"{'='*50}\n")
-                                sys.stdout.flush()
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"{'='*50}\n")
+                                    sys.stdout.flush()
                                 # ...existing code...
                                 self.play_sound(wav_path, False)  # ノンブロッキング再生
                                 self.asr_history = []  # ★TT応答再生時のみ履歴を初期化
@@ -878,25 +965,31 @@ class DialogManagement:
                                     duration_sec = len(audio) / 1000.0
                                 except Exception:
                                     duration_sec = 2.0
-                                sys.stdout.write(f"[TT] 再生音声長 duration_sec={duration_sec}\n")
-                                sys.stdout.flush()
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[TT] 再生音声長 duration_sec={duration_sec}\n")
+                                    sys.stdout.flush()
                                 
                                 # ★応答音声再生時刻と対話生成結果を出力（静的応答）
                                 now = datetime.now()
                                 timestamp = now.strftime('%H:%M:%S.%f')[:-3]
                                 current_time_ns = int(now.timestamp() * 1_000_000_000)
                                 
-                                sys.stdout.write(f"[{timestamp}][音声再生開始] {wav_path}\n")
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[{timestamp}][音声再生開始] {wav_path}\n")
                                 if hasattr(self, 'latest_dialogue_result') and self.latest_dialogue_result:
-                                    sys.stdout.write(f"[{timestamp}][対話内容] {self.latest_dialogue_result}\n")
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"[{timestamp}][対話内容] {self.latest_dialogue_result}\n")
                                     # ★対話生成時刻との差分を計算・出力（対話生成結果がある場合のみ）
                                     start_elapsed_ms, completion_elapsed_ms = self.calculate_dialogue_timing(current_time_ns)
                                     if start_elapsed_ms is not None and completion_elapsed_ms is not None:
-                                        sys.stdout.write(f"[{timestamp}][タイミング分析] 対話生成開始から{start_elapsed_ms:.1f}ms, 完了から{completion_elapsed_ms:.1f}ms経過\n")
-                                        sys.stdout.write(f"[{timestamp}][対話生成情報] ID:{self.latest_request_id}, Worker:{self.latest_worker_name}, 推論時間:{self.latest_inference_duration_ms:.1f}ms\n")
+                                        if SHOW_DEBUG_LOGS:
+                                            sys.stdout.write(f"[{timestamp}][タイミング分析] 対話生成開始から{start_elapsed_ms:.1f}ms, 完了から{completion_elapsed_ms:.1f}ms経過\n")
+                                        if SHOW_DEBUG_LOGS:
+                                            sys.stdout.write(f"[{timestamp}][対話生成情報] ID:{self.latest_request_id}, Worker:{self.latest_worker_name}, 推論時間:{self.latest_inference_duration_ms:.1f}ms\n")
                                 else:
-                                    sys.stdout.write(f"[{timestamp}][対話内容] （静的応答）\n")
-                                sys.stdout.flush()
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"[{timestamp}][対話内容] （静的応答）\n")
+                                        sys.stdout.flush()
                                 
                                 self.play_sound(wav_path, False)  # ノンブロッキング再生
                                 self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
@@ -907,7 +1000,8 @@ class DialogManagement:
                                 is_playing_response = True
                                 next_back_channel_after_response = last_response_end_time + back_channel_cooldown_length
                             else:
-                                sys.stdout.write("[ERROR] static_response_archiveに音声ファイルがありません\n")
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write("[ERROR] static_response_archiveに音声ファイルがありません\n")
                     pending_tt_data = None
                     pending_tt_time = None
 
@@ -934,8 +1028,9 @@ class DialogManagement:
                         # 相槌音声の長さ+クールダウンだけ次の相槌を禁止
                         next_back_channel_allowed_time = last_back_channel_time + duration_sec + back_channel_cooldown_length
                     except Exception as e:
-                        sys.stdout.write(f"\n[ERROR] 相槌音声再生失敗: {e}\n")
-                        sys.stdout.flush()
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"\n[ERROR] 相槌音声再生失敗: {e}\n")
+                            sys.stdout.flush()
                 last_handled_bc_time = bc_time
 
             #現在の時刻をmsまで表示
@@ -1033,15 +1128,18 @@ class DialogManagement:
                     # ★デバッグモード：DEBUG_DM_AUDIOがtrueの場合のみ表示
                     debug_dm_audio = os.environ.get('DEBUG_DM_AUDIO', '').lower() == 'true'
                     if debug_dm_audio:
-                        sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
-                        sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
-                        sys.stdout.flush()
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
+                            sys.stdout.flush()
 
 
                     # 最新のファイル名が self.prev_response_filename と異なる場合に限り、そのファイル名を出力
                     if latest_filename != self.prev_response_filename:
                         self.prev_response_filename = latest_filename
-                        sys.stdout.write('\n1.5秒無音' + latest_filename + '\n')
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write('\n1.5秒無音' + latest_filename + '\n')
                         # filenameのファイルが存在すればファイルを開く
                         try:
                             with open(latest_filename, 'r'):
@@ -1059,7 +1157,8 @@ class DialogManagement:
                             pass
                     else:
                         self.additional_asr_start_time = datetime.now()
-                        sys.stdout.write('\nadditional start' + '\n')
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write('\nadditional start' + '\n')
                         # if os.path.exists("additional_asr_response.wav"):
                         #     self.play_sound("additional_asr_response.wav", False)
                         # print(f"The length of the audio file is {self.system_response_length} seconds.")
@@ -1079,9 +1178,11 @@ class DialogManagement:
                 # ★デバッグモード：DEBUG_DM_AUDIOがtrueの場合のみ表示
                 debug_dm_audio = os.environ.get('DEBUG_DM_AUDIO', '').lower() == 'true'
                 if debug_dm_audio:
-                    sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
-                    sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write('\n最新の音声ファイル名' + latest_filename +  '\n')
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write('\n前回の音声ファイル名' + self.prev_response_filename +  '\n')
+                        sys.stdout.flush()
 
                 # 最新のファイル名が self.prev_response_filename と異なる場合に限り、そのファイル名を出力
                 if latest_filename != self.prev_response_filename:
@@ -1089,7 +1190,8 @@ class DialogManagement:
 
                     # ★デバッグモード：Unityに応答の信号を送信（デバッグ表示）
                     if debug_dm_audio:
-                        sys.stdout.write('\napiで応答' + latest_filename + '\n')
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write('\napiで応答' + latest_filename + '\n')
                     # dummy_signalのファイルが存在するか確認
                     try:
                         with open(latest_filename, 'r'):
@@ -1108,7 +1210,8 @@ class DialogManagement:
                         #     self.play_sound("additional_asr_response.wav", False)
                 else:
                     self.additional_asr_start_time = datetime.now()
-                    sys.stdout.write('\nadditional start' + '\n')
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write('\nadditional start' + '\n')
 
     # 応答・相槌が切り替わらなくとも対話管理をさせる
     def pubDM(self):
@@ -1118,17 +1221,20 @@ class DialogManagement:
             self.pubdm_call_count = 0
         self.pubdm_call_count += 1
         if self.pubdm_call_count % 100 == 0:
-            sys.stdout.write(f"[DEBUG-pubDM] response_update={self.response_update}, asr[you]='{self.asr['you']}', asr_history_len={len(self.asr_history)}\n")
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[DEBUG-pubDM] response_update={self.response_update}, asr[you]='{self.asr['you']}', asr_history_len={len(self.asr_history)}\n")
             if len(self.asr_history) > 0:
-                sys.stdout.write(f"[DEBUG-pubDM] Latest 3 ASR entries: {self.asr_history[-3:]}\n")
-            sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write(f"[DEBUG-pubDM] Latest 3 ASR entries: {self.asr_history[-3:]}\n")
+                    sys.stdout.flush()
 
         if self.response_update is True:
             self.response_update = False
             # asr_historyとresponse_updateの値を出力
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp}][DEBUG-pubDM-SEND] response_update=True, asr_history_len={len(self.asr_history)}\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[{timestamp}][DEBUG-pubDM-SEND] response_update=True, asr_history_len={len(self.asr_history)}\n")
+                sys.stdout.flush()
 
             # 任意の秒数間隔でタイムスタンプベース選択
             words = []
@@ -1197,8 +1303,9 @@ class DialogManagement:
 
         # ★デバッグ：実際に送信される値を確認
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        sys.stdout.write(f"[{timestamp}] [DM-SECOND-STAGE] 相槌='{self.first_stage_backchannel_at_tt_decision}', ASR_2_5s_count={len(self.asr_history_at_tt_decision_2_5s)}\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write(f"[{timestamp}] [DM-SECOND-STAGE] 相槌='{self.first_stage_backchannel_at_tt_decision}', ASR_2_5s_count={len(self.asr_history_at_tt_decision_2_5s)}\n")
+            sys.stdout.flush()
 
         return {
             "words": words,
@@ -1266,55 +1373,64 @@ class DialogManagement:
                     self.first_stage_backchannel_available = True
                     now = datetime.now()
                     timestamp_synth = now.strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[DM-first_synth] First stage相槌の音声合成完了: {first_stage_wav_path} @ {timestamp_synth}\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"[DM-first_synth] First stage相槌の音声合成完了: {first_stage_wav_path} @ {timestamp_synth}\n")
+                        sys.stdout.flush()
 
                     # ★注：Second stageリクエストはTurnTaking判定時に設定される（優先度制御のため）
                 else:
                     # First stage合成失敗 → エラー音声を再生
-                    sys.stdout.write(f"[ERROR] First stage相槌の音声合成に失敗しました: {reply}\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"[ERROR] First stage相槌の音声合成に失敗しました: {reply}\n")
+                        sys.stdout.flush()
                     self.play_error_audio('first_stage')
                     self.first_stage_backchannel_available = False
             except Exception as e:
-                sys.stdout.write(f"[ERROR] First stage相槌の音声合成エラー: {e}\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[ERROR] First stage相槌の音声合成エラー: {e}\n")
+                    sys.stdout.flush()
                 # エラー音声を再生
                 self.play_error_audio('first_stage')
                 self.first_stage_backchannel_available = False
 
         elif stage == 'second':
             # Second stage本応答を保存
-            sys.stdout.write(f"[{timestamp}][DM] ⭐ Second stage応答受信: '{reply}'\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[{timestamp}][DM] ⭐ Second stage応答受信: '{reply}'\n")
+                sys.stdout.flush()
 
             # ★即座に音声合成を実行（VOICEVOX API を使用）
             second_stage_synthesis_success = False
             try:
-                sys.stdout.write(f"[{timestamp}][DM-second] 🎤 Second stage応答の音声合成開始: '{reply}'\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[{timestamp}][DM-second] 🎤 Second stage応答の音声合成開始: '{reply}'\n")
+                    sys.stdout.flush()
 
                 second_stage_wav_path = self.synthesize_first_stage_backchannel(reply)
 
-                sys.stdout.write(f"[{timestamp}][DM-second] 音声合成結果: path={second_stage_wav_path}, exists={os.path.exists(second_stage_wav_path) if second_stage_wav_path else False}\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[{timestamp}][DM-second] 音声合成結果: path={second_stage_wav_path}, exists={os.path.exists(second_stage_wav_path) if second_stage_wav_path else False}\n")
+                    sys.stdout.flush()
 
                 if second_stage_wav_path and os.path.exists(second_stage_wav_path):
                     self.latest_synth_filename = second_stage_wav_path
                     second_stage_synthesis_success = True
                     now = datetime.now()
                     timestamp_synth = now.strftime('%H:%M:%S.%f')[:-3]
-                    sys.stdout.write(f"[{timestamp_synth}][DM-second_synth] ✅ Second stage応答の音声合成完了: {second_stage_wav_path}\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"[{timestamp_synth}][DM-second_synth] ✅ Second stage応答の音声合成完了: {second_stage_wav_path}\n")
+                        sys.stdout.flush()
                 else:
                     # Second stage合成失敗 → エラー音声を再生
                     self.latest_synth_filename = ""
-                    sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答の音声合成に失敗しました: {reply}\n")
-                    sys.stdout.flush()
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答の音声合成に失敗しました: {reply}\n")
+                        sys.stdout.flush()
                     self.play_error_audio('second_stage')
             except Exception as e:
-                sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答の音声合成エラー: {e}\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[{timestamp}][ERROR] ❌ Second stage応答の音声合成エラー: {e}\n")
+                    sys.stdout.flush()
                 import traceback
                 traceback.print_exc()
                 # エラー音声を再生
@@ -1326,11 +1442,13 @@ class DialogManagement:
             if second_stage_synthesis_success:
                 # ⭐ ファイルパスをフラグとして保存のみ（再生はpubDMで実行）
                 self.second_stage_ready_to_play = True  # 再生準備完了フラグ
-                sys.stdout.write(f"[{timestamp}][DM] ✨ Second stage本応答の合成完了、再生待機中\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[{timestamp}][DM] ✨ Second stage本応答の合成完了、再生待機中\n")
+                    sys.stdout.flush()
             else:
-                sys.stdout.write(f"[{timestamp}][WARNING] ⚠️  Second stage本応答の再生をスキップします（合成失敗）\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[{timestamp}][WARNING] ⚠️  Second stage本応答の再生をスキップします（合成失敗）\n")
+                    sys.stdout.flush()
                 # ★失敗時もタイムアウトフラグをリセット
                 self.second_stage_wait_start_time = None
                 self.second_stage_timeout_played = False
@@ -1355,8 +1473,9 @@ class DialogManagement:
         self.update_asr_count += 1
         if self.update_asr_count % 100 == 0:
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp}][DEBUG-updateASR] you='{asr['you']}' (len={len(asr['you'])}), is_final={asr['is_final']}, asr_history_len={len(self.asr_history)}\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[{timestamp}][DEBUG-updateASR] you='{asr['you']}' (len={len(asr['you'])}), is_final={asr['is_final']}, asr_history_len={len(self.asr_history)}\n")
+                sys.stdout.flush()
         
         # ASRタイミング情報を記録
         current_time_ns = int(time.time_ns())
