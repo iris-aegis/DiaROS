@@ -1,3 +1,9 @@
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（ステージ開始/完了、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、受信データなど）
+
 import rclpy
 import threading
 import sys
@@ -55,24 +61,26 @@ class RosNaturalLanguageGeneration(Node):
 
         # ★詳細デバッグ：受け取ったメッセージの全フィールドをログ出力
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        self.get_logger().info(
-            f"[{timestamp}] [NLG-DEBUG] DMから受信:\n"
-            f"  - words: {words} (長さ={len(words)})\n"
-            f"  - stage: '{stage}'\n"
-            f"  - request_id: {request_id}\n"
-            f"  - first_stage_backchannel_at_tt: '{first_stage_backchannel_at_tt}'\n"
-            f"  - asr_history_2_5s: {asr_history_2_5s} (長さ={len(asr_history_2_5s)})\n"
-            f"  - turn_taking_decision_timestamp_ns: {turn_taking_decision_timestamp_ns}"
-        )
+        if SHOW_DEBUG_LOGS:
+            self.get_logger().info(
+                f"[{timestamp}] [NLG-DEBUG] DMから受信:\n"
+                f"  - words: {words} (長さ={len(words)})\n"
+                f"  - stage: '{stage}'\n"
+                f"  - request_id: {request_id}\n"
+                f"  - first_stage_backchannel_at_tt: '{first_stage_backchannel_at_tt}'\n"
+                f"  - asr_history_2_5s: {asr_history_2_5s} (長さ={len(asr_history_2_5s)})\n"
+                f"  - turn_taking_decision_timestamp_ns: {turn_taking_decision_timestamp_ns}"
+            )
 
         # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
         if words or stage == 'second':
             # ★重複リクエスト防止：現在処理中のリクエストと同じ場合はスキップ
             if request_id == self.processing_request_id and stage == self.processing_stage:
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                self.get_logger().info(
-                    f"[{timestamp}] [NLG] 重複リクエストをスキップ (request_id={request_id}, stage={stage})"
-                )
+                if SHOW_DEBUG_LOGS:
+                    self.get_logger().info(
+                        f"[{timestamp}] [NLG] 重複リクエストをスキップ (request_id={request_id}, stage={stage})"
+                    )
                 return
 
             # ★新しいリクエストの開始を記録
@@ -84,9 +92,10 @@ class RosNaturalLanguageGeneration(Node):
                 # ステージ開始ログ
                 stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                self.get_logger().info(
-                    f"[{timestamp}] [NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
-                )
+                if SHOW_BASIC_LOGS:
+                    self.get_logger().info(
+                        f"[{timestamp}] [NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
+                    )
 
             # ★【重要】update() をスレッドで非同期実行
             # ROS2 コールバックをブロックせず、複数のリクエストを並列処理可能に
@@ -134,10 +143,11 @@ class RosNaturalLanguageGeneration(Node):
             # ステージ完了ログ
             stage_name = "相槌生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            self.get_logger().info(
-                f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
-                f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
-            )
+            if SHOW_BASIC_LOGS:
+                self.get_logger().info(
+                    f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
+                    f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
+                )
 
             self.pub_nlg.publish(nlg_msg)  # NLG生成文とステージ情報をNLGtoSSトピックで送信
             # self.pub_nlg_dr.publish(nlg_msg)  # ← コメントアウト
