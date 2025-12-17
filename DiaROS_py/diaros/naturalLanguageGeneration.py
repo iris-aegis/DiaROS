@@ -24,8 +24,6 @@ MODEL_NAME = "gemma3:4b"
 # PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
-# PROMPT_FILE_NAME = "dialog_all_role.txt"          # 全機能版
-
 PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
 # PROMPT_FILE_NAME = "dialog_phone.txt"        # 電話対話用
