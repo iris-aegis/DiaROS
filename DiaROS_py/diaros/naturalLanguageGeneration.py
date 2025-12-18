@@ -24,7 +24,8 @@ MODEL_NAME = "gemma3:4b"
 # PROMPT_FILE_NAME = "dialog_example_role.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
 # PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
-PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
+PROMPT_FILE_NAME_FIRST = "dialog_first_stage.txt"     # First stage用（200ms以内達成用、短いリアクションワードのみ）
+PROMPT_FILE_NAME_SECOND = "dialog_second_stage_triple_input_example_role.txt" # Second stage用（本応答生成用）
 
 # PROMPT_FILE_NAME = "dialog_phone.txt"        # 電話対話用
 
@@ -159,6 +160,7 @@ class NaturalLanguageGeneration:
 
             self.ollama_model = ChatOllama(
                 model=self.model_name,
+                base_url="http://127.0.0.1:11434",
                 verbose=True,  # 詳細ログ有効化
                 temperature=temperature,  # 応答の多様性
                 top_p=0.9,  # サンプリング設定
@@ -192,34 +194,35 @@ class NaturalLanguageGeneration:
             raise ValueError(f"未対応のモデル: {self.model_name}")
 
         # プロンプトファイルの存在確認（複数パスの試行）
-        self.prompt_file_name = PROMPT_FILE_NAME
+        self.prompt_file_name_first = PROMPT_FILE_NAME_FIRST
+        self.prompt_file_name_second = PROMPT_FILE_NAME_SECOND
 
-        # 複数のプロンプトパスを試行（優先順）
-        possible_paths = [
-            # 1. 開発ディレクトリ（ローカル開発用）
-            os.path.join(os.path.dirname(__file__), 'prompts', self.prompt_file_name),
-            # 2. site-packagesにインストール済み（pip install実行後）
-            os.path.join(os.path.dirname(__file__), 'prompts', self.prompt_file_name),
-            # 3. 環境変数で指定されたディレクトリ
-            os.path.join(os.environ.get('DIAROS_PROMPTS_DIR', ''), self.prompt_file_name) if os.environ.get('DIAROS_PROMPTS_DIR') else None,
-        ]
-
-        self.prompt_file_path = None
-        for path in possible_paths:
-            if path and os.path.exists(path):
-                self.prompt_file_path = path
-                if SHOW_BASIC_LOGS:
-                    sys.stdout.write(f'[NLG] ✅ プロンプトファイル確認: {self.prompt_file_name} ({path})\n')
-                    sys.stdout.flush()
-                break
-
-        if not self.prompt_file_path:
+        # ヘルパー関数: プロンプトパス解決
+        def resolve_prompt_path(filename):
+            possible_paths = [
+                # 1. 開発ディレクトリ（ローカル開発用）
+                os.path.join(os.path.dirname(__file__), 'prompts', filename),
+                # 2. site-packagesにインストール済み（pip install実行後）
+                os.path.join(os.path.dirname(__file__), 'prompts', filename),
+                # 3. 環境変数で指定されたディレクトリ
+                os.path.join(os.environ.get('DIAROS_PROMPTS_DIR', ''), filename) if os.environ.get('DIAROS_PROMPTS_DIR') else None,
+            ]
+            for path in possible_paths:
+                if path and os.path.exists(path):
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f'[NLG] ✅ プロンプトファイル確認: {filename} ({path})\n')
+                        sys.stdout.flush()
+                    return path
+            
             if SHOW_BASIC_LOGS:
-                sys.stdout.write(f'[NLG WARNING] ⚠️  プロンプトファイルが見つかりません: {self.prompt_file_name}\n')
+                sys.stdout.write(f'[NLG WARNING] ⚠️  プロンプトファイルが見つかりません: {filename}\n')
                 sys.stdout.write(f'[NLG WARNING]    試行パス: {possible_paths}\n')
                 sys.stdout.flush()
             # デフォルトパスを設定（ファイルなくても続行）
-            self.prompt_file_path = os.path.join(os.path.dirname(__file__), 'prompts', self.prompt_file_name)
+            return os.path.join(os.path.dirname(__file__), 'prompts', filename)
+
+        self.prompt_file_path_first = resolve_prompt_path(self.prompt_file_name_first)
+        self.prompt_file_path_second = resolve_prompt_path(self.prompt_file_name_second)
 
         if SHOW_BASIC_LOGS:
             sys.stdout.write('NaturalLanguageGeneration (単一プロセス) start up.\n')
@@ -371,16 +374,13 @@ class NaturalLanguageGeneration:
                     sys.stdout.flush()
                 return
 
-            # ★プロンプトファイル読み込み（dialog_example_role.txtを使用）
-            prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
-            prompt_path = os.path.join(prompt_dir, self.prompt_file_name)
-
+            # ★プロンプトファイル読み込み（PROMPT_FILE_NAME_FIRSTを使用）
             try:
-                with open(prompt_path, 'r', encoding='utf-8') as f:
+                with open(self.prompt_file_path_first, 'r', encoding='utf-8') as f:
                     prompt_text = f.read()
             except FileNotFoundError as e:
                 if SHOW_BASIC_LOGS:
-                    sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {prompt_path}\n")
+                    sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {self.prompt_file_path_first}\n")
                     sys.stdout.flush()
                 self.first_stage_response = "申し訳ありません"
                 self.last_reply = "申し訳ありません"
@@ -405,7 +405,7 @@ class NaturalLanguageGeneration:
                     ]
 
                     response = requests.post(
-                        'http://localhost:11434/api/chat',
+                        'http://127.0.0.1:11434/api/chat',
                         json={
                             'model': self.model_name,
                             'messages': messages,
@@ -452,7 +452,7 @@ class NaturalLanguageGeneration:
                     ]
 
                     # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
-                    if self.prompt_file_name == "dialog_example_role.txt":
+                    if self.prompt_file_name_first == "dialog_example_role.txt":
                         # 1-shot例示：例示ユーザー発話
                         messages.append({
                             "role": "user",
@@ -608,13 +608,10 @@ class NaturalLanguageGeneration:
 
             # プロンプトファイル読み込み（複数メッセージ方式）
             prompt_load_start = datetime.now()
-            prompt_dir = os.path.join(os.path.dirname(__file__), 'prompts')
-
-            # ★修正：dialog_second_stage_triple_input.txt を使用（placeholder なし）
-            second_stage_prompt_path = os.path.join(prompt_dir, 'dialog_second_stage_triple_input_example_role.txt')
-
+            
+            # ★修正：PROMPT_FILE_NAME_SECOND を使用
             try:
-                with open(second_stage_prompt_path, 'r', encoding='utf-8') as f:
+                with open(self.prompt_file_path_second, 'r', encoding='utf-8') as f:
                     system_prompt = f.read()
 
                 # ★ログ出力を簡略化（プロンプト読み込みログを削除）
@@ -646,7 +643,7 @@ class NaturalLanguageGeneration:
 
             except FileNotFoundError:
                 if SHOW_BASIC_LOGS:
-                    sys.stdout.write(f"[NLG ERROR] second_stageプロンプトが見つかりません: {second_stage_prompt_path}\n")
+                    sys.stdout.write(f"[NLG ERROR] second_stageプロンプトが見つかりません: {self.prompt_file_path_second}\n")
                     sys.stdout.flush()
                 return
 
@@ -689,7 +686,7 @@ class NaturalLanguageGeneration:
 
                     # ★修正：複数メッセージ方式で送信（system + user1 + user2）
                     response = requests.post(
-                        'http://localhost:11434/api/chat',
+                        'http://127.0.0.1:11434/api/chat',
                         json={
                             'model': self.model_name,
                             'messages': messages,  # ★複数メッセージリストを直接使用
@@ -899,7 +896,7 @@ class NaturalLanguageGeneration:
                     "dialog_example.txt"
                 ]
 
-                if self.prompt_file_name in noise_tag_removal_prompts:
+                if self.prompt_file_name_first in noise_tag_removal_prompts:
                     # 不要なタグを除去
                     cleaned_asr_results = []
                     for asr in asr_results:
@@ -922,21 +919,21 @@ class NaturalLanguageGeneration:
 
                 # プロンプトを外部ファイルから読み込み（設定したファイル名を使用）
                 try:
-                    with open(self.prompt_file_path, 'r', encoding='utf-8') as f:
+                    with open(self.prompt_file_path_first, 'r', encoding='utf-8') as f:
                         prompt = f.read()
                     if not prompt.strip():
                         if SHOW_BASIC_LOGS:
-                            sys.stdout.write(f"[NLG ERROR] プロンプトファイルが空です: {self.prompt_file_path}\n")
+                            sys.stdout.write(f"[NLG ERROR] プロンプトファイルが空です: {self.prompt_file_path_first}\n")
                             sys.stdout.flush()
                         return
                 except FileNotFoundError:
                     if SHOW_BASIC_LOGS:
-                        sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {self.prompt_file_path}\n")
+                        sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {self.prompt_file_path_first}\n")
                         sys.stdout.flush()
                     return
                 except Exception as e:
                     if SHOW_BASIC_LOGS:
-                        sys.stdout.write(f"[NLG ERROR] プロンプトファイル読み込みエラー: {self.prompt_file_path} - {e}\n")
+                        sys.stdout.write(f"[NLG ERROR] プロンプトファイル読み込みエラー: {self.prompt_file_path_first} - {e}\n")
                         sys.stdout.flush()
                     return
                 
@@ -963,7 +960,7 @@ class NaturalLanguageGeneration:
                         try:
                             api_start_time = datetime.now()
                             api_response = requests.post(
-                                'http://localhost:11434/api/generate',
+                                'http://127.0.0.1:11434/api/generate',
                                 json={
                                     'model': self.model_name,
                                     'prompt': full_prompt,
@@ -1030,7 +1027,7 @@ class NaturalLanguageGeneration:
                         ]
 
                         # ★dialog_example_role.txt使用時は1-shot例示メッセージを追加
-                        if self.prompt_file_name == "dialog_example_role.txt":
+                        if self.prompt_file_name_first == "dialog_example_role.txt":
                             # 1-shot例示：例示ユーザー発話
                             messages.append({
                                 "role": "user",
