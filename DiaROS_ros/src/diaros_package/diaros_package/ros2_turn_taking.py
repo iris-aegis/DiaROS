@@ -3,7 +3,7 @@
 # ログレベル設定
 # ============================================================
 SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+SHOW_DEBUG_LOGS = True  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 import rclpy
 import threading
@@ -69,6 +69,14 @@ class RosTurnTaking(Node):
         push_audio_data(audio_np)
         self.recv_count += 1
         first_val = audio_np[0] if len(audio_np) > 0 else None
+        
+        # ★デバッグ：音声受信ログ（間引いて表示）
+        if SHOW_DEBUG_LOGS and self.recv_count % 100 == 0:
+            import datetime
+            timestamp = datetime.datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}][ROS_TT] mic_audio_float32受信 #{self.recv_count} (len={len(audio_np)})\n")
+            sys.stdout.flush()
+            
         # sys.stdout.write(f"[ros2_turn_taking] Received mic_audio_float32 #{self.recv_count} (len={len(audio_np)}) first={first_val}\n")
         # sys.stdout.flush()
         # print(f"[ros2_turn_taking] received buffer size: {len(audio_np)}")

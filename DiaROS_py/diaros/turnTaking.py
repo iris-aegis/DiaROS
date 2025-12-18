@@ -485,6 +485,15 @@ def TurnTaking():
                     try:
                         # webRTCVADで音声判定
                         is_speech = vad.is_speech(audio_bytes, sample_rate)
+                        
+                        # ★デバッグ：VAD判定状態（100フレームに1回など間引いて表示）
+                        if SHOW_DEBUG_LOGS:
+                            if not hasattr(model, 'debug_vad_count'):
+                                model.debug_vad_count = 0
+                            model.debug_vad_count += 1
+                            if model.debug_vad_count % 100 == 0:
+                                sys.stdout.write(f"[{timestamp_str}][TT-DEBUG] VAD: is_speech={is_speech}, speech_200ms_flag={speech_detected_for_200ms}, sound_len={len(sound)}\n")
+                                sys.stdout.flush()
 
                         if not is_speech:
                             # 無音フレーム検出
