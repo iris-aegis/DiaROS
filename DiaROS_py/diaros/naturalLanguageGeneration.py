@@ -808,7 +808,7 @@ class NaturalLanguageGeneration:
                     sys.stdout.write(traceback.format_exc())
                     sys.stdout.flush()
                 
-                # エラー時は空文字を設定（相槌の再利用はしない）
+                # エラー時は空文字を設定
                 self.last_reply = ""
                 self.last_source_words = asr_results
 
@@ -844,7 +844,7 @@ class NaturalLanguageGeneration:
                 sys.stdout.write(traceback.format_exc())
                 sys.stdout.flush()
             
-            # エラー時は空文字を設定（相槌の再利用はしない）
+            # エラー時は空文字を設定
             self.last_reply = ""
             self.last_source_words = asr_results
 

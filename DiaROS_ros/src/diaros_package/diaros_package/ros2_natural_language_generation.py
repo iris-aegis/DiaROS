@@ -1,9 +1,3 @@
-# ============================================================
-# ログレベル設定
-# ============================================================
-SHOW_BASIC_LOGS = True   # 基本ログ表示（ステージ開始/完了、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、受信データなど）
-
 import rclpy
 import threading
 import sys
@@ -15,6 +9,10 @@ from interfaces.msg import Idm
 from interfaces.msg import Inlg
 from interfaces.msg import Imm
 from diaros.naturalLanguageGeneration import NaturalLanguageGeneration
+
+# ログ出力制御用定数
+SHOW_BASIC_LOGS = False
+SHOW_DEBUG_LOGS = False
 
 class RosNaturalLanguageGeneration(Node):
     def __init__(self, naturalLanguageGeneration):
@@ -60,8 +58,8 @@ class RosNaturalLanguageGeneration(Node):
         self.asr_history_2_5s = asr_history_2_5s
 
         # ★詳細デバッグ：受け取ったメッセージの全フィールドをログ出力
-        timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         if SHOW_DEBUG_LOGS:
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             self.get_logger().info(
                 f"[{timestamp}] [NLG-DEBUG] DMから受信:\n"
                 f"  - words: {words} (長さ={len(words)})\n"
@@ -76,8 +74,8 @@ class RosNaturalLanguageGeneration(Node):
         if words or stage == 'second':
             # ★重複リクエスト防止：現在処理中のリクエストと同じ場合はスキップ
             if request_id == self.processing_request_id and stage == self.processing_stage:
-                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 if SHOW_DEBUG_LOGS:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                     self.get_logger().info(
                         f"[{timestamp}] [NLG] 重複リクエストをスキップ (request_id={request_id}, stage={stage})"
                     )
@@ -91,8 +89,8 @@ class RosNaturalLanguageGeneration(Node):
 
                 # ステージ開始ログ
                 stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
-                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 if SHOW_BASIC_LOGS:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                     self.get_logger().info(
                         f"[{timestamp}] [NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
                     )
@@ -142,8 +140,8 @@ class RosNaturalLanguageGeneration(Node):
 
             # ステージ完了ログ
             stage_name = "相槌生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
-            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             if SHOW_BASIC_LOGS:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
                     f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
                     f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
@@ -169,9 +167,11 @@ def runNLG(naturalLanguageGeneration):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):
