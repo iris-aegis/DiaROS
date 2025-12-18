@@ -804,8 +804,12 @@ class NaturalLanguageGeneration:
             except Exception as api_error:
                 if SHOW_BASIC_LOGS:
                     sys.stdout.write(f"[NLG ERROR] second_stage生成エラー: {api_error}\n")
+                    import traceback
+                    sys.stdout.write(traceback.format_exc())
                     sys.stdout.flush()
-                self.last_reply = self.first_stage_response  # リアクションワードのみフォールバック
+                
+                # エラー時は空文字を設定
+                self.last_reply = ""
                 self.last_source_words = asr_results
 
                 # ★【重要】エラー時もフラグをリセット
@@ -836,8 +840,12 @@ class NaturalLanguageGeneration:
         except Exception as e:
             if SHOW_BASIC_LOGS:
                 sys.stdout.write(f"[NLG ERROR] second_stage処理エラー: {e}\n")
+                import traceback
+                sys.stdout.write(traceback.format_exc())
                 sys.stdout.flush()
-            self.last_reply = self.first_stage_response  # リアクションワードのみフォールバック
+            
+            # エラー時は空文字を設定
+            self.last_reply = ""
             self.last_source_words = asr_results
 
             # ★【重要】外側の例外ハンドラーでもフラグをリセット
