@@ -2,7 +2,7 @@
 # ログレベル設定
 # ============================================================
 SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+SHOW_DEBUG_LOGS = True  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 import rclpy
 import threading
@@ -131,6 +131,11 @@ class RosDialogManagement(Node):
         stage = msg.stage if hasattr(msg, 'stage') else 'first'
         reply = msg.reply
         request_id = getattr(msg, 'request_id', 0)
+
+        # ★デバッグ：NLGからの受信内容
+        if SHOW_DEBUG_LOGS:
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            self.get_logger().info(f"[{timestamp}] [ROS2-DM] NLG応答受信: stage='{stage}', reply='{reply}', request_id={request_id}")
 
         # ★ステージ完了を記録
         stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"

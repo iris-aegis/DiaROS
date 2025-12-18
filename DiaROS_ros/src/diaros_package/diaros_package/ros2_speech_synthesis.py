@@ -1,22 +1,8 @@
 # ============================================================
 # ログレベル設定
 # ============================================================
-SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
-
-import rclpy
-import threading
-import sys
-from rclpy.node import Node
-from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
-from interfaces.msg import Inlg
-from interfaces.msg import Iss
-from interfaces.msg import Imm
-from diaros.speechSynthesis import SpeechSynthesis
-# from interfaces.msg import Time
-import time
-from datetime import datetime
-from diaros.timing_integration import get_timing_logger, log_tts_start, log_tts_complete, log_audio_playback_start, end_timing_session
+SHOW_BASIC_LOGS = True
+SHOW_DEBUG_LOGS = True
 
 class RosSpeechSynthesis(Node):
     def __init__(self, speechSynthesis):
@@ -45,6 +31,10 @@ class RosSpeechSynthesis(Node):
         self.tts_start_time = None
 
     def play(self, nlg):
+        if SHOW_DEBUG_LOGS:
+            sys.stdout.write(f"[ROS2-SS] 音声合成リクエスト受信: '{nlg.reply}'\n")
+            sys.stdout.flush()
+
         # ★NLGから受信したデータを辞書形式でspeechSynthesisに渡す
         nlg_data = {
             "reply": nlg.reply,

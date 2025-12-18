@@ -31,7 +31,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # ログレベル設定
 # ============================================================
 SHOW_BASIC_LOGS = True   # 基本ログ表示（音声合成、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+SHOW_DEBUG_LOGS = True  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 
 class SpeechSynthesis():
@@ -261,6 +261,10 @@ class SpeechSynthesis():
 
     def run(self, text):
         """NLGから受信したテキストを即座に音声合成し、ファイル名を返す（同期処理）"""
+        if SHOW_DEBUG_LOGS:
+            sys.stdout.write(f"[SS] 音声合成実行: '{text}'\n")
+            sys.stdout.flush()
+
         tts_file = None
         try:
             # 音声合成開始時刻を記録

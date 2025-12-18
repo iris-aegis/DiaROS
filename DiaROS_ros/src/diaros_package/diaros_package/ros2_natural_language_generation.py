@@ -11,8 +11,8 @@ from interfaces.msg import Imm
 from diaros.naturalLanguageGeneration import NaturalLanguageGeneration
 
 # ログ出力制御用定数
-SHOW_BASIC_LOGS = False
-SHOW_DEBUG_LOGS = False
+SHOW_BASIC_LOGS = True
+SHOW_DEBUG_LOGS = True
 
 class RosNaturalLanguageGeneration(Node):
     def __init__(self, naturalLanguageGeneration):
@@ -47,6 +47,12 @@ class RosNaturalLanguageGeneration(Node):
 
     def dm_update(self, msg):
         """DMからのリクエストを受信（非同期処理）"""
+        if SHOW_DEBUG_LOGS:
+            stage = getattr(msg, 'stage', 'first')
+            request_id = getattr(msg, 'request_id', 0)
+            sys.stdout.write(f"[ROS2-NLG] DMからリクエスト受信: stage='{stage}', request_id={request_id}\n")
+            sys.stdout.flush()
+
         words = list(msg.words)
         stage = getattr(msg, 'stage', 'first')  # stageフィールドを取得
         request_id = getattr(msg, 'request_id', 0)

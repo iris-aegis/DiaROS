@@ -45,8 +45,8 @@ PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短い�
 # 【テスト用プロンプト】
 # PROMPT_FILE_NAME = "remdis_test.txt"         # テスト用（シンプル）
 
-SHOW_BASIC_LOGS = False
-SHOW_DEBUG_LOGS = False
+SHOW_BASIC_LOGS = True
+SHOW_DEBUG_LOGS = True
 
 # ============================================================
 

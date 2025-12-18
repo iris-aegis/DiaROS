@@ -35,8 +35,8 @@ import glob
 # ============================================================
 # ログレベル設定
 # ============================================================
-SHOW_BASIC_LOGS = False   # 基本ログ表示（ステージ遷移、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+SHOW_BASIC_LOGS = True   # 基本ログ表示（ステージ遷移、エラーなど）
+SHOW_DEBUG_LOGS = True  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 ### タイミング統合システム ###
 try:
@@ -63,6 +63,10 @@ class DialogManagement:
     def synthesize_first_stage_backchannel(self, text):
         """First stage相槌を音声合成（VOICEVOX APIを使用）"""
         try:
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[DM-DEBUG] 音声合成リクエスト: '{text}'\n")
+                sys.stdout.flush()
+
             synthesis_start_time = time.time()
             speaker = 58
             host = "localhost"
@@ -781,6 +785,10 @@ class DialogManagement:
                     second_stage_audio = AudioSegment.from_wav(second_stage_wav_path)
                     second_stage_duration_sec = len(second_stage_audio) / 1000.0
 
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{timestamp}] [DM-DEBUG] Second stage再生試行: ファイル={second_stage_wav_path}, 長さ={second_stage_duration_sec:.2f}秒\n")
+                        sys.stdout.flush()
+
                     # ブロッキング再生（本応答が終わるまで待つ）
                     if SHOW_BASIC_LOGS:
                         sys.stdout.write(f"[TT] Second stage本応答再生開始: {second_stage_wav_path} @ {timestamp}\n")
@@ -1362,6 +1370,11 @@ class DialogManagement:
         now_dt = datetime.now()
         timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
         current_time_ns = int(now_dt.timestamp() * 1_000_000_000)
+
+        # ★デバッグ：updateNLGの受信内容
+        if SHOW_DEBUG_LOGS:
+            sys.stdout.write(f"[{timestamp}] [DM-DEBUG] updateNLG呼び出し: stage='{stage}', reply='{reply}'\n")
+            sys.stdout.flush()
 
         if stage == 'first':
             # First stage相槌を保存

@@ -57,12 +57,12 @@ def generate_launch_description():
             executable='ros2_dialog_management',
             output='screen'
         ),
-        # Node(
-        #     package='diaros_package',
-        #     executable='ros2_natural_language_generation',
-        #     output='screen',
-        #     condition=IfCondition(use_nlg)
-        # ),
+        Node(
+            package='diaros_package',
+            executable='ros2_natural_language_generation',
+            output='screen',
+            condition=IfCondition(use_nlg)
+        ),
         Node(
             package='diaros_package',
             executable='ros2_speech_synthesis',
