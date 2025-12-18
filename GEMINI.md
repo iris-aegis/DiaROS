@@ -130,26 +130,23 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 **1. NLG関連ファイルを編集する場合**:
 ```bash
-# 編集前にlocal_nlgブランチに切り替え
-git checkout local_nlg
-
-# リモートリポジトリの最新状態を確認
-git fetch origin local_nlg
-
-# ローカルとリモートの差分を確認してから取得
-git diff HEAD origin/local_nlg DiaROS_py/diaros/naturalLanguageGeneration.py \
-                               DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py \
-                               DiaROS_py/diaros/prompts/
-
-# リモートの最新を取得
-git pull origin local_nlg
+# mainブランチで編集
+git checkout main
 
 # ファイル編集...
 
-# コミット
+# コミット・プッシュ
 git add DiaROS_py/diaros/naturalLanguageGeneration.py \
         DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
 git commit -m "NLG: 修正内容"
+git push origin main
+
+# local_nlgブランチに反映
+git checkout local_nlg
+git checkout main DiaROS_py/diaros/naturalLanguageGeneration.py \
+                  DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
+git add .
+git commit -m "NLG: mainから反映"
 git push origin local_nlg
 
 # mainブランチに戻る
@@ -259,13 +256,35 @@ fi
 
 ##### 重要：NLGモジュール編集時の注意
 
-**すべての編集はDMPC Claude Codeで実施します。**
+**すべての編集はDMPC Gemini CLIで実施します。**
 
-- **NLGモジュール編集**: DMPC Claude Codeが `local_nlg` ブランチに切り替えて編集・コミット
-- **DMPC専用モジュール編集**: DMPC Claude Codeが `main` ブランチで編集・コミット
-- **NLGPC Claude Code**: 基本的に編集作業には使用せず、参照・確認のみ
+- **NLGモジュール編集**: DMPC Gemini CLIが `main` ブランチで編集・コミットし、その後 `local_nlg` ブランチにも反映（チェックアウトまたはチェリーピック）します。
+- **DMPC専用モジュール編集**: DMPC Gemini CLIが `main` ブランチで編集・コミット
+- **NLGPC Gemini CLI**: 基本的に編集作業には使用せず、参照・確認のみ
 
-**NLGPC Claude Codeを使用する場合の注意**:
+**推奨ワークフロー（NLGモジュール修正時）**:
+1. `main` ブランチでファイルを修正・コミット・プッシュ
+   ```bash
+   git checkout main
+   # 編集...
+   git add .
+   git commit -m "NLG: 修正内容"
+   git push origin main
+   ```
+2. `local_nlg` ブランチに切り替えて変更を適用・プッシュ
+   ```bash
+   git checkout local_nlg
+   git checkout main <変更したファイルパス>
+   git add .
+   git commit -m "NLG: mainブランチの変更を適用"
+   git push origin local_nlg
+   ```
+3. `main` ブランチに戻る
+   ```bash
+   git checkout main
+   ```
+
+**NLGPC Gemini CLIを使用する場合の注意**:
 - NLG関連ファイル以外（DM, ASR, BC, TT, SS など）を編集しない
 - 編集が必要な場合は、DMPC側で実施してlocal_nlgブランチにコミット
 - NLGPC側では `git pull origin local_nlg` で同期
