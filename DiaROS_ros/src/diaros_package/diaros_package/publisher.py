@@ -26,14 +26,16 @@ class Publisher(Node):
         msg.you = self.voicedialogue.log()['you']
         msg.bot = self.voicedialogue.log()['bot']
         msg.frequency = self.voicedialogue.log()['frequency']
-        print(msg.frequency, self.voicedialogue.log()['grad'], self.voicedialogue.log()['power'])
-        """
-        if abs(self.voicedialogue.log()['grad']) < 10.0 and msg.frequency < 50.0 and self.voicedialogue.log()['power'] < 0.20: 
-            print("no voice")
-        else :
-            print("xxxxxxxxxxxxxxxxxxx")
-        """
-        
+        sys.stdout.write(f"{msg.frequency} {self.voicedialogue.log()['grad']} {self.voicedialogue.log()['power']}\n")
+        sys.stdout.flush()
+                """
+                if abs(self.voicedialogue.log()['grad']) < 10.0 and msg.frequency < 50.0 and self.voicedialogue.log()['power'] < 0.20: 
+                    sys.stdout.write("no voice\n")
+                    sys.stdout.flush()
+                else :
+                    sys.stdout.write("xxxxxxxxxxxxxxxxxxx\n")
+                    sys.stdout.flush()
+                """        
         #self.get_logger().info("Pub: {0} {1} {2} {3}".format( msg.n, msg.you, msg.bot, msg.frequency ) )
         self.pub.publish(msg)
 
@@ -48,9 +50,10 @@ def work3(voice_dialogue):
 
 def shutdown(pub, voicedialogue):
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            sys.stdout.write("kill command received.\n")
+            sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

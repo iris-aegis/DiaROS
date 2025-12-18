@@ -1,3 +1,9 @@
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 import rclpy
 import threading
 import sys
@@ -26,7 +32,8 @@ class RosBackChannel(Node):
         self.timer = self.create_timer(0.01, self.publish_back_channel)  # 追加
         self.send_count = 0  # 送信回数カウンタ追加
         self.recv_count = 0  # 受信回数カウンタ追加
-        self.get_logger().info(' Listening to mic_audio_float32...')
+        if SHOW_BASIC_LOGS:
+            self.get_logger().info(' Listening to mic_audio_float32...')
 
     def listener_callback(self, msg):
         audio_np = np.array(msg.data, dtype=np.float32)
@@ -58,9 +65,11 @@ def runBackChannel():
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

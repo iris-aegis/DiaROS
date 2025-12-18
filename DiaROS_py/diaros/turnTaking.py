@@ -1,18 +1,3 @@
-### turnTaking.py ###
-""""
-仕様
-200ms以上の無音でバッファ削除 フラグを建てる
-200ms以上のバッファ && 200ms以上の無音 -> 音声をモデルに入力
-フラグが立っている状態で音声が入力される -> フラグを消してバッファに音声を貯める
-200ms未満のバッファ && 200ms以上の無音 -> バッファ削除 && フラグを建てる
-"""
-
-# ============================================================
-# ログレベル設定
-# ============================================================
-SHOW_BASIC_LOGS = True   # 基本ログ表示（ターン判定、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
-
 import numpy as np
 import webrtcvad
 import time
@@ -26,6 +11,11 @@ from transformers import Wav2Vec2ForSequenceClassification, Wav2Vec2FeatureExtra
 import transformers
 transformers.logging.set_verbosity_error()
 
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（音声合成、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 # SileroVADのインポート
 silero_vad_model = None

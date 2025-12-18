@@ -5,6 +5,12 @@ from interfaces.msg import Iasr
 from interfaces.msg import Imm
 from rclpy.node import Node
 
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 """
 言語理解モジュールを組み込む場合利用する
 (現在は音声認識結果を対話管理へ流しているだけ)
@@ -18,8 +24,9 @@ class RosNaturalLanguageUnderstanding(Node):
         self.pub_nlu = self.create_publisher(Iasr, 'NLUtoDM', 1)
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(1, self.ping)
-        sys.stdout.write('LanguageUnderstanding start up.\n')
-        sys.stdout.write('=====================================================\n')
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('LanguageUnderstanding start up.\n')
+            sys.stdout.write('=====================================================\n')
 
 
     def send(self, asr):
@@ -39,9 +46,11 @@ def runROS(pub):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

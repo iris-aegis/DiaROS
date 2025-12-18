@@ -12,6 +12,12 @@ from diaros.speechInput import stream_queue, SpeechInput
 import diaros.speechInput as speechInput_module
 from diaros.timing_integration import start_timing_session, log_audio_frame_received
 
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 class MicPublisher(Node):
     def __init__(self):
         super().__init__('speech_input')
@@ -174,8 +180,9 @@ class MicPublisher(Node):
         
         # キューが蓄積している場合の警告
         if queue_size >= 5:
-            sys.stdout.write(f"[WARNING] stream_queue蓄積: サイズ={queue_size}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[WARNING] stream_queue蓄積: サイズ={queue_size}\n")
+                sys.stdout.flush()
             # 緊急処理
             self._process_queue_immediate()
             
@@ -186,8 +193,9 @@ class MicPublisher(Node):
             self.monitor_count = 1
             
         if self.monitor_count % 50 == 0:  # 5秒ごと
-            sys.stdout.write(f"[INFO] 超高速監視モード動作中, queue_size={queue_size}, pending={len(self.pending_data)}\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[INFO] 超高速監視モード動作中, queue_size={queue_size}, pending={len(self.pending_data)}\n")
+                sys.stdout.flush()
 
 
 def runROS(node):
@@ -204,9 +212,11 @@ def runSpeechInput():
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

@@ -1,4 +1,3 @@
-# TurtTaking,back_channelのプログラムをDiaROS内に入れる開発 Unityにjsonファイルで共有する 一旦履歴諦め
 from datetime import datetime, timedelta
 import pygame
 pygame.mixer.init()
@@ -28,7 +27,12 @@ PORT = 50021
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 ###---###
 
-DEBUG = False
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（音声合成、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 
 class SpeechSynthesis():
     # ### VAD ###
@@ -129,19 +133,23 @@ class SpeechSynthesis():
             import requests
             response = requests.get('http://localhost:50021/speakers', timeout=2)
             if response.status_code == 200:
-                print("✓ VOICEVOX is running and ready")
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write("✓ VOICEVOX is running and ready\n")
+                    sys.stdout.flush()
                 return
         except Exception:
             pass
-        print("=" * 60)
-        print("⚠️  VOICEVOX ENGINE IS NOT RUNNING")
-        print("=" * 60)
-        print("Please start VOICEVOX engine manually with one of these commands:")
-        print("1. /opt/voicevox_engine/linux-nvidia/run --host 127.0.0.1 --port 50021")
-        print("2. voicevox --host 127.0.0.1 --port 50021")
-        print("=" * 60)
-        print("Speech synthesis will fail until VOICEVOX is started.")
-        print("=" * 60)
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write("=" * 60 + "\n")
+            sys.stdout.write("⚠️  VOICEVOX ENGINE IS NOT RUNNING\n")
+            sys.stdout.write("=" * 60 + "\n")
+            sys.stdout.write("Please start VOICEVOX engine manually with one of these commands:\n")
+            sys.stdout.write("1. /opt/voicevox_engine/linux-nvidia/run --host 127.0.0.1 --port 50021\n")
+            sys.stdout.write("2. voicevox --host 127.0.0.1 --port 50021\n")
+            sys.stdout.write("=" * 60 + "\n")
+            sys.stdout.write("Speech synthesis will fail until VOICEVOX is started.\n")
+            sys.stdout.write("=" * 60 + "\n")
+            sys.stdout.flush()
 
     def _check_voicevox_gpu(self):
         """VOICEVOXが起動しているか確認する（HTTP チェックで判定）"""
@@ -168,32 +176,38 @@ class SpeechSynthesis():
             )
 
             if synthesis_response.status_code == 200:
-                print("✓ VOICEVOX ENGINE is running and responding correctly")
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write("✓ VOICEVOX ENGINE is running and responding correctly\n")
+                    sys.stdout.flush()
             else:
                 raise RuntimeError("VOICEVOX synthesis failed")
 
         except RuntimeError as e:
             # RuntimeError は再スロー（VOICEVOX 起動失敗）
-            print("=" * 60)
-            print("\033[91m" + "❌ VOICEVOX IS NOT RUNNING" + "\033[0m")  # 赤色で警告
-            print("=" * 60)
-            print(f"Error: {e}")
-            print("VOICEVOX must be running for DiaROS to work.")
-            print("Please start VOICEVOX with the following command:")
-            print("  /workspace/scripts/launch/launch_voicevox_gpu.sh")
-            print("=" * 60)
-            print("DiaROS is shutting down...")
-            print("=" * 60)
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.write("\033[91m" + "❌ VOICEVOX IS NOT RUNNING" + "\033[0m" + "\n")  # 赤色で警告
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.write(f"Error: {e}\n")
+                sys.stdout.write("VOICEVOX must be running for DiaROS to work.\n")
+                sys.stdout.write("Please start VOICEVOX with the following command:\n")
+                sys.stdout.write("  /workspace/scripts/launch/launch_voicevox_gpu.sh\n")
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.write("DiaROS is shutting down...\n")
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.flush()
             raise
         except Exception as e:
-            print("=" * 60)
-            print("\033[91m" + "❌ VOICEVOX CHECK FAILED" + "\033[0m")  # 赤色で警告
-            print("=" * 60)
-            print(f"Error: {e}")
-            print("Cannot communicate with VOICEVOX.")
-            print("=" * 60)
-            print("DiaROS is shutting down...")
-            print("=" * 60)
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.write("\033[91m" + "❌ VOICEVOX CHECK FAILED" + "\033[0m" + "\n")  # 赤色で警告
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.write(f"Error: {e}\n")
+                sys.stdout.write("Cannot communicate with VOICEVOX.\n")
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.write("DiaROS is shutting down...\n")
+                sys.stdout.write("=" * 60 + "\n")
+                sys.stdout.flush()
             raise RuntimeError(f"Failed to check VOICEVOX status: {e}")
 
     def play_sound(self, filename, block=True):
@@ -218,10 +232,14 @@ class SpeechSynthesis():
                 # 時間計測: セッション終了（音声再生完了）
                 if self.current_session_id:
                     total_ms = end_timing_session(self.current_session_id, "音声再生完了")
-                    print(f"🎉 対話セッション完了: 総計時間 {total_ms:.1f}ms")
+                    if SHOW_BASIC_LOGS:
+                        sys.stdout.write(f"🎉 対話セッション完了: 総計時間 {total_ms:.1f}ms\n")
+                        sys.stdout.flush()
                     
         except Exception as e:
-            print(f"音声再生エラー: {e}")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"音声再生エラー: {e}\n")
+                sys.stdout.flush()
     
     def trim_wav(self, input_file, output_file, trim_duration=0.1):# VOICEVOXのノイズ除去用
         # 入力ファイルを開く
@@ -336,9 +354,10 @@ class SpeechSynthesis():
             synthesis_end_dt = datetime.now()
             end_timestamp_str = synthesis_end_dt.strftime('%H:%M:%S.%f')[:-3]
             # print(f"[{end_timestamp_str}][TTS] 音声合成失敗 (処理時間: {synthesis_duration_ms:.1f}ms)")
-            print('VOICEVOXerror: VOICEVOX sound is not generated. Do you launch VOICEVOX?')
-            print(e.args)
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write('VOICEVOXerror: VOICEVOX sound is not generated. Do you launch VOICEVOX?\n')
+                sys.stdout.write(f"{e.args}\n")
+                sys.stdout.flush()
             self.last_tts_file = ""
             self.speak_end = True
         return self.last_tts_file

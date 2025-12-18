@@ -1,9 +1,3 @@
-# ============================================================
-# ログレベル設定
-# ============================================================
-SHOW_BASIC_LOGS = True   # 基本ログ表示（ステージ遷移、エラーなど）
-SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
-
 import sys
 import socket
 import time
@@ -37,6 +31,12 @@ from pydub import AudioSegment
 import os
 import glob
 ###---###
+
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = False   # 基本ログ表示（ステージ遷移、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 ### タイミング統合システム ###
 try:
@@ -139,7 +139,9 @@ class DialogManagement:
         """pygame.mixerを使用して音声ファイルを再生"""
         try:
             if not os.path.exists(filename):
-                print(f"音声ファイルが見つかりません: {filename}")
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"音声ファイルが見つかりません: {filename}\n")
+                    sys.stdout.flush()
                 return False
 
             # 既存の音楽が再生中の場合は停止してメモリを解放
@@ -157,7 +159,9 @@ class DialogManagement:
 
             return True
         except Exception as e:
-            print(f"音声再生エラー: {e}")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"音声再生エラー: {e}\n")
+                sys.stdout.flush()
             return False
 
     def play_error_audio(self, error_type):
@@ -251,7 +255,6 @@ class DialogManagement:
 
         self.audio_player_path = "/home/DiaROS/DiaROS_deep_model/DiaROS_py/diaros/hai.wav"
         self.last_back_channel_play_time = 0
-
         if SHOW_BASIC_LOGS:
             sys.stdout.write('DialogManagement start up.\n')
         if SHOW_BASIC_LOGS:
@@ -634,8 +637,11 @@ class DialogManagement:
                             audio = AudioSegment.from_wav(wav_path)
                             duration_sec = len(audio) / 1000.0
                         except Exception as e:
-                            print(f"[ERROR] 合成音声ファイル読み込みエラー: {e}")
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"[ERROR] 合成音声ファイル読み込みエラー: {e}\n")
+                                sys.stdout.flush()
                             duration_sec = 2.0
+
                         # ★応答音声再生時の詳細タイミング分析
                         now_dt = datetime.now()
                         timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
@@ -813,7 +819,9 @@ class DialogManagement:
                                     audio = AudioSegment.from_wav(wav_path)
                                     duration_sec = len(audio) / 1000.0
                                 except Exception as e:
-                                    print(f"[ERROR] 合成音声ファイル読み込みエラー（pending）: {e}")
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"[ERROR] 合成音声ファイル読み込みエラー（pending）: {e}\n")
+                                        sys.stdout.flush()
                                     duration_sec = 2.0
                                 # ★応答音声再生時の詳細タイミング分析（pending処理）
                                 now_dt = datetime.now()

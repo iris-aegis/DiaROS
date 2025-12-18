@@ -8,6 +8,12 @@ from interfaces.msg import Iaa, Imm
 from diaros.acousticAnalysis import AcousticAnalysis
 import numpy as np
 
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 class RosAcousticAnalysis(Node):
     def __init__(self, acousticAnalysis):
         super().__init__('acoustic_analysis')
@@ -55,9 +61,11 @@ def runAA(acousticAnalysis):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

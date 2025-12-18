@@ -28,7 +28,8 @@ class RosModuleManager(Node):
         self.status[modName] = True
 
     def update(self):
-        print(self.status)
+        sys.stdout.write(f"{self.status}\n")
+        sys.stdout.flush()
 
         data = { 'data': json.dumps(self.status) }
         requests.post('http://localhost:3000/modstatus', data)
@@ -43,9 +44,10 @@ def runROS(pub):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            sys.stdout.write("kill command received.\n")
+            sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

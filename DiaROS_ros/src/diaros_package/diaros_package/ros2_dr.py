@@ -65,7 +65,8 @@ class RosDataReceiver(Node):
         data = { 'turn': self.turn, 
                  'asr': json.dumps(self.asr, ensure_ascii=False), 
                  'nlg': json.dumps(self.nlg, ensure_ascii=False), 'sa': json.dumps(self.sa) }
-        print(data)
+        sys.stdout.write(f"{data}\n")
+        sys.stdout.flush()
         requests.post('http://localhost:3000/data', data)
 
 
@@ -74,9 +75,10 @@ def runROS(pub):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            sys.stdout.write("kill command received.\n")
+            sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

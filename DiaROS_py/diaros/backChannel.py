@@ -23,6 +23,11 @@ pygame.mixer.init()
 stream_queue = Queue()
 back_channel_result_queue = Queue()
 THRESHOLD = 0.60
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（音声合成、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 def push_audio_data(data):
     stream_queue.put(data)
@@ -58,8 +63,9 @@ class RealtimeAizuchiPredictor:
         self.audio_level_queue = Queue()
         self.processing_time_queue = Queue()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        sys.stdout.write(f"使用デバイス: {self.device}\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write(f"使用デバイス: {self.device}\n")
+            sys.stdout.flush()
         
         try:
             # 学習時と同じ構成でモデルをロード
@@ -70,11 +76,13 @@ class RealtimeAizuchiPredictor:
             self.feature_extractor = Wav2Vec2FeatureExtractor.from_pretrained(
                 model_id
             )
-            sys.stdout.write("wav2vec2相槌予測モデルの読み込みが完了しました\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("wav2vec2相槌予測モデルの読み込みが完了しました\n")
+                sys.stdout.flush()
         except Exception as e:
-            sys.stdout.write(f"wav2vec2相槌予測モデルの読み込みに失敗しました: {e}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"wav2vec2相槌予測モデルの読み込みに失敗しました: {e}\n")
+                sys.stdout.flush()
             raise
 
     def process_chunk(self, new_chunk):
@@ -100,10 +108,11 @@ class RealtimeAizuchiPredictor:
                 # processing_time = (end_time - start_time) * 1000
                 result = (probability, 0.0)  # processing_timeを0に固定
             except Exception as e:
-                sys.stdout.write(f"処理中にエラーが発生しました: {e}\n")
-                import traceback
-                sys.stdout.write(traceback.format_exc())
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"処理中にエラーが発生しました: {e}\n")
+                    import traceback
+                    sys.stdout.write(traceback.format_exc())
+                    sys.stdout.flush()
                 result = None
             self.samples_since_last_inference = 0
         return result
@@ -166,8 +175,9 @@ class AudioPlayer:
             self.is_playing.clear()
             
         except Exception as e:
-            sys.stdout.write(f"音声再生中にエラーが発生しました: {e}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"音声再生中にエラーが発生しました: {e}\n")
+                sys.stdout.flush()
             self.is_playing.clear()
 
     def play_async(self):
@@ -180,8 +190,9 @@ def get_default_device_index():
         dev = p.get_device_info_by_index(i)
         if dev['maxInputChannels'] > 0 and dev['name'] == "default":
             default_index = i
-            sys.stdout.write(f"デフォルトデバイスインデックス: {default_index}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"デフォルトデバイスインデックス: {default_index}\n")
+                sys.stdout.flush()
             break
     p.terminate()
     if default_index is None:
@@ -190,17 +201,19 @@ def get_default_device_index():
 
 def main():
     try:
-        sys.stdout.write("\n相槌予測システムを初期化中...\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write("\n相槌予測システムを初期化中...\n")
+            sys.stdout.flush()
         predictor = RealtimeAizuchiPredictor()
         
         # last_probability = None
         # waiting_for_change = False
         
-        sys.stdout.write("相槌予測システムを開始します。Ctrl+Cで終了します。\n")
-        sys.stdout.write(f"閾値: {THRESHOLD:.2f}\n")
-        sys.stdout.write("--------------------\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write("相槌予測システムを開始します。Ctrl+Cで終了します。\n")
+            sys.stdout.write(f"閾値: {THRESHOLD:.2f}\n")
+            sys.stdout.write("--------------------\n")
+            sys.stdout.flush()
         
         BAR_MEM = 20  # バーの長さ
         YELLOW = "\033[33m"
@@ -232,9 +245,11 @@ def main():
             else:
                 time.sleep(0.01)
     except KeyboardInterrupt:
-        sys.stdout.write("\n処理を終了します...\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write("\n処理を終了します...\n")
+            sys.stdout.flush()
         predictor.stop()
     except Exception as e:
-        sys.stdout.write(f"エラーが発生しました: {e}\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write(f"エラーが発生しました: {e}\n")
+            sys.stdout.flush()

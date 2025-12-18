@@ -178,6 +178,8 @@ MODEL_ID = 'SiRoZaRuPa/japanese-HuBERT-base-VADLess-ASR-RSm'
 AUDIO_DURATION = 5  # seconds
 INPUT_LEN = int(SAMPLE_RATE * AUDIO_DURATION)
 USE_GPU = True
+SHOW_BASIC_LOGS = False
+SHOW_DEBUG_LOGS = False
 
 logging.set_verbosity_error()
 warnings.filterwarnings('ignore')
@@ -242,8 +244,9 @@ class AutomaticSpeechRecognition:
         self.model_thread = threading.Thread(target=self.recognition_thread)
         self.model_thread.daemon = True
         self.model_thread.start()
-        sys.stdout.write('ASR node start up.\n')
-        sys.stdout.write('=====================================================\n')
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('ASR node start up.\n')
+            sys.stdout.write('=====================================================\n')
 
     def update_audio(self, audio_np):
         import time
@@ -286,14 +289,15 @@ class AutomaticSpeechRecognition:
         if self.new_result:
             self.new_result = False
             # ★デバッグ: pubASR() で返される結果をログ出力
-            if not hasattr(self, 'pubASR_call_count'):
-                self.pubASR_call_count = 0
-            self.pubASR_call_count += 1
-            if self.pubASR_call_count % 10 == 0 or len(self.word) > 0:  # 認識結果がある場合は毎回表示
-                from datetime import datetime
-                timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                sys.stdout.write(f"[{timestamp_str}][DEBUG-pubASR] Returning result: '{self.word}' (len={len(self.word)}), is_final={self.is_final}\n")
-                sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                if not hasattr(self, 'pubASR_call_count'):
+                    self.pubASR_call_count = 0
+                self.pubASR_call_count += 1
+                if self.pubASR_call_count % 10 == 0 or len(self.word) > 0:  # 認識結果がある場合は毎回表示
+                    from datetime import datetime
+                    timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                    sys.stdout.write(f"[{timestamp_str}][DEBUG-pubASR] Returning result: '{self.word}' (len={len(self.word)}), is_final={self.is_final}\n")
+                    sys.stdout.flush()
             return {"you": self.word, "is_final": self.is_final}
         else:
             return None
@@ -303,7 +307,8 @@ class AutomaticSpeechRecognition:
             time.sleep(0.1)
 
     def recognition_thread(self):
-        sys.stdout.write('Loading ASR model...\n')
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('Loading ASR model...\n')
         self.tokenizer = Wav2Vec2CTCTokenizer.from_pretrained(MODEL_ID)
         self.processor = Wav2Vec2Processor.from_pretrained(MODEL_ID, tokenizer=self.tokenizer)
         self.model = AutoModelForCTC.from_pretrained(MODEL_ID)
@@ -313,8 +318,9 @@ class AutomaticSpeechRecognition:
             self.model.to(device)
         else:
             device = torch.device("cpu")
-        sys.stdout.write('ASR model loaded.\n')
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('ASR model loaded.\n')
+            sys.stdout.flush()
 
         mic_input = np.array([], dtype=np.float32)  # モデル入力用バッファ（5秒分の音声を保持）
         last_sent = ""
@@ -426,12 +432,13 @@ class AutomaticSpeechRecognition:
                     self.debug_count = 0
 
                 if self.debug_count % 50 == 0:  # 50回に1回表示
-                    from datetime import datetime
-                    timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                    min_data = int(SAMPLE_RATE * 0.1)
-                    min_new = int(SAMPLE_RATE * 0.1)
-                    sys.stdout.write(f"[{timestamp_str}][ASR_INFER_CONDITION] mic:{len(mic_input)}samples (min:{min_data}) | new:{new_audio_samples}samples (min:{min_new}) | should_infer:{should_run_inference} | queue:{self.audio_queue.qsize()}\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        from datetime import datetime
+                        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                        min_data = int(SAMPLE_RATE * 0.1)
+                        min_new = int(SAMPLE_RATE * 0.1)
+                        sys.stdout.write(f"[{timestamp_str}][ASR_INFER_CONDITION] mic:{len(mic_input)}samples (min:{min_data}) | new:{new_audio_samples}samples (min:{min_new}) | should_infer:{should_run_inference} | queue:{self.audio_queue.qsize()}\n")
+                        sys.stdout.flush()
                 
                 # 推論条件に近づいた時も表示
                 # if new_audio_samples >= 1400:  # 1600に近づいた時
@@ -444,8 +451,9 @@ class AutomaticSpeechRecognition:
                         inference_start_time = time.time()
                         from datetime import datetime
                         timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                        sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_START] mic:{len(mic_input)}samples | new_audio:{new_audio_samples}samples\n")
-                        sys.stdout.flush()
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_START] mic:{len(mic_input)}samples | new_audio:{new_audio_samples}samples\n")
+                            sys.stdout.flush()
 
                         # 最新5秒分のデータで推論（すでにmic_inputに蓄積済み）
                         inference_data = mic_input[-int(5 * SAMPLE_RATE):] if len(mic_input) >= int(5 * SAMPLE_RATE) else mic_input
@@ -499,26 +507,29 @@ class AutomaticSpeechRecognition:
                         self.new_result = True  # 追加: 新しい認識結果が得られた
                         last_sent = sentence
 
-                        sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_COMPLETE] 認識結果: '{sentence}' (遅延:{inference_duration_ms:.1f}ms)\n")
-                        sys.stdout.flush()
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"[{timestamp_str}][ASR_INFERENCE_COMPLETE] 認識結果: '{sentence}' (遅延:{inference_duration_ms:.1f}ms)\n")
+                            sys.stdout.flush()
 
                     except Exception as e:
-                        from datetime import datetime
-                        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                        sys.stdout.write(f"[{timestamp_str}][ERROR-ASR_INFERENCE] {type(e).__name__}: {str(e)}\n")
-                        import traceback
-                        sys.stdout.write(f"[{timestamp_str}][ERROR-TRACEBACK]\n{traceback.format_exc()}\n")
-                        sys.stdout.flush()
+                        if SHOW_BASIC_LOGS:
+                            from datetime import datetime
+                            timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                            sys.stdout.write(f"[{timestamp_str}][ERROR-ASR_INFERENCE] {type(e).__name__}: {str(e)}\n")
+                            import traceback
+                            sys.stdout.write(f"[{timestamp_str}][ERROR-TRACEBACK]\n{traceback.format_exc()}\n")
+                            sys.stdout.flush()
                 
                 # キューが空の場合は少し待機
                 if not new_data_found:
                     time.sleep(0.01)  # 10ms待機でCPU負荷軽減
         except Exception as e:
-            sys.stdout.write(f"[ERROR] ASR recognition_thread crashed: {e}\n")
-            sys.stdout.write(f"[ERROR] Queue size at crash: {self.audio_queue.qsize()}\n")
-            import traceback
-            sys.stdout.write(f"[ERROR] Traceback: {traceback.format_exc()}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[ERROR] ASR recognition_thread crashed: {e}\n")
+                sys.stdout.write(f"[ERROR] Queue size at crash: {self.audio_queue.qsize()}\n")
+                import traceback
+                sys.stdout.write(f"[ERROR] Traceback: {traceback.format_exc()}\n")
+                sys.stdout.flush()
             raise
 
 

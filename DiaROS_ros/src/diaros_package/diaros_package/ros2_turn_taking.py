@@ -1,4 +1,10 @@
 ### ros2_turn_taking.py ###
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 import rclpy
 import threading
 import sys
@@ -54,8 +60,9 @@ class RosTurnTaking(Node):
         self.silero_timer = self.create_timer(0.001, self.publish_silero_vad)  # 1ms間隔でSileroVAD結果をパブリッシュ
         self.iterator_timer = self.create_timer(0.001, self.publish_vad_iterator)  # 1ms間隔でVADIterator結果をパブリッシュ
         self.recv_count = 0  # 受信回数カウンタ追加
-        self.get_logger().info('[ros2_turn_taking] Listening to mic_audio_float32 and ASRtoNLU...')
-        self.get_logger().info('[ros2_turn_taking] SileroVAD (10ms) + VADIterator (32ms) monitoring topics initialized')
+        if SHOW_BASIC_LOGS:
+            self.get_logger().info('[ros2_turn_taking] Listening to mic_audio_float32 and ASRtoNLU...')
+            self.get_logger().info('[ros2_turn_taking] SileroVAD (10ms) + VADIterator (32ms) monitoring topics initialized')
 
     def listener_callback(self, msg):
         audio_np = np.array(msg.data, dtype=np.float32)
@@ -89,8 +96,9 @@ class RosTurnTaking(Node):
             publish_timestamp = publish_time.strftime('%H:%M:%S.%f')[:-3]
             self.pub_tt.publish(msg)
             
-            sys.stdout.write(f"[{queue_get_timestamp}][ROS_TT] キューから取得, [{publish_timestamp}][ROS_TT] DM向け送信完了 (result={result_value}, conf={confidence:.3f})\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[{queue_get_timestamp}][ROS_TT] キューから取得, [{publish_timestamp}][ROS_TT] DM向け送信完了 (result={result_value}, conf={confidence:.3f})\n")
+                sys.stdout.flush()
 
     def publish_silero_vad(self):
         """SileroVAD結果をROSトピックにパブリッシュ（RQT監視用）"""
@@ -128,12 +136,14 @@ class RosTurnTaking(Node):
                 
                 # デバッグ出力（状態変化時のみ）
                 if vad_result['state_changed']:
-                    sys.stdout.write(f"[{vad_result['timestamp']}][ROS_SILERO] ROSトピック送信: {status} (prob={vad_result['speech_probability']:.3f}, ratio={vad_result['speech_ratio']:.1f}%)\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{vad_result['timestamp']}][ROS_SILERO] ROSトピック送信: {status} (prob={vad_result['speech_probability']:.3f}, ratio={vad_result['speech_ratio']:.1f}%)\n")
+                        sys.stdout.flush()
                     
             except Exception as e:
-                sys.stdout.write(f"[ERROR] SileroVAD ROSパブリッシュエラー: {e}\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[ERROR] SileroVAD ROSパブリッシュエラー: {e}\n")
+                    sys.stdout.flush()
 
     def publish_vad_iterator(self):
         """VADIterator結果をROSトピックにパブリッシュ（RQT監視用）"""
@@ -175,12 +185,14 @@ class RosTurnTaking(Node):
                 
                 # デバッグ出力（状態変化時のみ）
                 if iterator_result['state_changed']:
-                    sys.stdout.write(f"[{iterator_result['timestamp']}][ROS_ITERATOR] ROSトピック送信: {status} (type={iterator_result['result_type']}, events={iterator_result['total_events']})\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{iterator_result['timestamp']}][ROS_ITERATOR] ROSトピック送信: {status} (type={iterator_result['result_type']}, events={iterator_result['total_events']})\n")
+                        sys.stdout.flush()
                     
             except Exception as e:
-                sys.stdout.write(f"[ERROR] VADIterator ROSパブリッシュエラー: {e}\n")
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f"[ERROR] VADIterator ROSパブリッシュエラー: {e}\n")
+                    sys.stdout.flush()
 
 
 def runROS(node):
@@ -191,9 +203,11 @@ def runTurnTaking():
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

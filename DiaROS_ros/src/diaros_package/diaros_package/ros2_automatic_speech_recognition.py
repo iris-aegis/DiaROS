@@ -14,6 +14,12 @@ import numpy as np
 import pygame
 from diaros.timing_integration import get_timing_logger, log_asr_start, log_asr_complete
 
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 class RosAutomaticSpeechRecognition(Node):
     def __init__(self, automaticSpeechRecognition):
         super().__init__('automatic_speech_recognition')
@@ -50,9 +56,11 @@ class RosAutomaticSpeechRecognition(Node):
             pygame.mixer.init(frequency=22050, size=-16, channels=1, buffer=256)
             self.beep_sound = None
             self._create_beep_sound()
-            sys.stdout.write('[ASR] ビープ音機能初期化完了\n')
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write('[ASR] ビープ音機能初期化完了\n')
         except Exception as e:
-            sys.stdout.write(f"[WARNING] pygame初期化失敗: {e}\n")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[WARNING] pygame初期化失敗: {e}\n")
             self.beep_sound = None
 
     def _create_beep_sound(self):
@@ -79,7 +87,8 @@ class RosAutomaticSpeechRecognition(Node):
             self.beep_sound = pygame.sndarray.make_sound(arr)
             
         except Exception as e:
-            sys.stdout.write(f"[WARNING] ビープ音生成失敗: {e}\n")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[WARNING] ビープ音生成失敗: {e}\n")
             self.beep_sound = None
 
     def _play_beep(self):
@@ -87,8 +96,9 @@ class RosAutomaticSpeechRecognition(Node):
         try:
             if self.beep_sound is not None:
                 self.beep_sound.play()
-                sys.stdout.write("[ASR_BEEP] 音声認識結果発行音を再生\n")
-                sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write("[ASR_BEEP] 音声認識結果発行音を再生\n")
+                    sys.stdout.flush()
         except Exception as e:
             # ビープ音再生エラーは無視（処理継続）
             pass
@@ -140,8 +150,9 @@ class RosAutomaticSpeechRecognition(Node):
             self.pub_asr.publish(asr)
 
             # ASR認識結果の遅延測定ログ出力
-            sys.stdout.write(f"[{timestamp_str}][🧠 ASR_OUTPUT] 認識結果: '{asr.you}' (len={len(asr.you)}) | is_final: {asr.is_final}\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[{timestamp_str}][🧠 ASR_OUTPUT] 認識結果: '{asr.you}' (len={len(asr.you)}) | is_final: {asr.is_final}\n")
+                sys.stdout.flush()
             
             # ASR結果を発行した後にビープ音を再生
             # self._play_beep()
@@ -157,9 +168,11 @@ def runASR(automaticSpeechRecognition):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

@@ -1,3 +1,9 @@
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 import rclpy
 import threading
 import sys
@@ -8,6 +14,7 @@ from interfaces.msg import Iss
 from interfaces.msg import Imm
 from diaros.speechSynthesis import SpeechSynthesis
 # from interfaces.msg import Time
+import time
 from datetime import datetime
 from diaros.timing_integration import get_timing_logger, log_tts_start, log_tts_complete, log_audio_playback_start, end_timing_session
 
@@ -152,9 +159,11 @@ def runROS(pub):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

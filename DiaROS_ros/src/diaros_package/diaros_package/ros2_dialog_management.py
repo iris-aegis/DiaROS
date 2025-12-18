@@ -1,4 +1,8 @@
-# 旧response_control
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（メッセージ送受信、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
 
 import rclpy
 import threading
@@ -57,15 +61,17 @@ class RosDialogManagement(Node):
         # ★Second stage 2.5秒間隔ASR履歴キャッシュ（NLGで使用）
         self.second_stage_asr_history_2_5s = []
 
+
     def dm_update(self, dm):
         new = { "you": dm.you, "is_final": dm.is_final, "timestamp_ns": dm.timestamp_ns }
         self.dialogManagement.updateASR(new)
 
         # ★デバッグ用：ASR結果受信ログ（毎回出力）
-        from datetime import datetime
-        timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        sys.stdout.write(f"[{timestamp_str}][DM_UPDATE-ASR] 受信: '{dm.you}' (len={len(dm.you)}) | is_final: {dm.is_final}\n")
-        sys.stdout.flush()
+        if SHOW_DEBUG_LOGS:
+            from datetime import datetime
+            timestamp_str = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            sys.stdout.write(f"[{timestamp_str}][DM_UPDATE-ASR] 受信: '{dm.you}' (len={len(dm.you)}) | is_final: {dm.is_final}\n")
+            sys.stdout.flush()
         
     def ss_update(self, ss):# test
         new = {
@@ -128,10 +134,11 @@ class RosDialogManagement(Node):
 
         # ★ステージ完了を記録
         stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
-        timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        self.get_logger().info(
-            f"[{timestamp}] [DM] NLGから{stage_name}応答受信 (request_id={request_id}): '{reply[:30]}...'"
-        )
+        if SHOW_BASIC_LOGS:
+            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            self.get_logger().info(
+                f"[{timestamp}] [DM] NLGから{stage_name}応答受信 (request_id={request_id}): '{reply[:30]}...'"
+            )
 
         nlg_data = {
             'stage': stage,
@@ -159,10 +166,11 @@ class RosDialogManagement(Node):
             self.callback_count = 0
         self.callback_count += 1
         if self.callback_count % 100 == 0:
-            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            self.get_logger().info(
-                f"[{timestamp}] [DEBUG-CALLBACK] pubDM return: update={dm_result_update}, words_count={len(words)}"
-            )
+            if SHOW_DEBUG_LOGS:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                self.get_logger().info(
+                    f"[{timestamp}] [DEBUG-CALLBACK] pubDM return: update={dm_result_update}, words_count={len(words)}"
+                )
 
         if dm_result_update is True:
             # ★毎回リクエストIDをインクリメント（重複検出の精度向上）
@@ -182,10 +190,11 @@ class RosDialogManagement(Node):
 
             # ★DM→NLG送信ログ
             stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
-            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            self.get_logger().info(
-                f"[{timestamp}] [DM] {stage_name}リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(words)})"
-            )
+            if SHOW_BASIC_LOGS:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                self.get_logger().info(
+                    f"[{timestamp}] [DM] {stage_name}リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(words)})"
+                )
 
             self.prev_word = words[0] if words else ""
             self.pub_dm.publish(dm)
@@ -195,10 +204,11 @@ class RosDialogManagement(Node):
             self.dialogManagement.second_stage_request_pending = False
 
             # ★デバッグ：second_stageリクエスト処理開始
-            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            self.get_logger().info(
-                f"[{timestamp}] [DEBUG] Second stage リクエスト処理開始"
-            )
+            if SHOW_DEBUG_LOGS:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                self.get_logger().info(
+                    f"[{timestamp}] [DEBUG] Second stage リクエスト処理開始"
+                )
 
             dm_data_second = self.dialogManagement.pubDM_second_stage()
             if dm_data_second["update"]:
@@ -225,24 +235,27 @@ class RosDialogManagement(Node):
                 self.second_stage_asr_history_2_5s = dm_data_second.get("asr_history_2_5s", [])
 
                 # ★デバッグ：送信前のメッセージ内容確認
-                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                self.get_logger().info(
-                    f"[{timestamp}] [DEBUG] Second stageメッセージ送信: stage='{msg.stage}', request_id={msg.request_id}, words={len(msg.words)}件"
-                )
+                if SHOW_DEBUG_LOGS:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    self.get_logger().info(
+                        f"[{timestamp}] [DEBUG] Second stageメッセージ送信: stage='{msg.stage}', request_id={msg.request_id}, words={len(msg.words)}件"
+                    )
 
                 # ★ログ出力
-                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                self.get_logger().info(
-                    f"[{timestamp}] [DM] 応答生成リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(msg.words)})"
-                )
+                if SHOW_BASIC_LOGS:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    self.get_logger().info(
+                        f"[{timestamp}] [DM] 応答生成リクエスト送信 (request_id={self.request_id_counter}, 入力数={len(msg.words)})"
+                    )
 
                 self.pub_dm.publish(msg)
             else:
                 # ★デバッグ：second_stage更新フラグがfalseの場合
-                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                self.get_logger().info(
-                    f"[{timestamp}] [DEBUG] Second stage 更新なし（update=False）"
-                )
+                if SHOW_DEBUG_LOGS:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    self.get_logger().info(
+                        f"[{timestamp}] [DEBUG] Second stage 更新なし（update=False）"
+                    )
 
 
     def aa_update(self, msg):
@@ -280,9 +293,11 @@ def runDM(dialogManagement):
 
 def shutdown():
     while True:
-        key = input()
+        key = sys.stdin.readline().strip()
         if key == "kill":
-            print("kill command received.")
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("kill command received.\n")
+                sys.stdout.flush()
             sys.exit()
 
 def main(args=None):

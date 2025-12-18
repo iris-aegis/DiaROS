@@ -17,7 +17,8 @@ class Listener(Node):
 
     def chatter_callback(self, msg):
         #self.get_logger().info("Relay: {0} {1} {2} {3}".format( msg.n, msg.you, msg.bot, msg.frequency ) )
-        print( "{0} {1} {2} {3}".format( msg.n, msg.you, msg.bot, msg.frequency ) )
+        sys.stdout.write( "{0} {1} {2} {3}\n".format( msg.n, msg.you, msg.bot, msg.frequency ) )
+        sys.stdout.flush()
         
         pubmsg = List()
         pubmsg.n         = msg.n
