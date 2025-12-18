@@ -1,3 +1,9 @@
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（音声入力、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 ### speechInput.py ###
 import time
 import pyaudio
@@ -16,7 +22,8 @@ ros_publisher = None
 
 class SpeechInput:
     def __init__(self, rate, chunk_size, device):
-        sys.stdout.write('speechInput start\n')
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('speechInput start\n')
         self._rate = rate
         self.chunk_size = 160  # 10ms @ 16kHz
         self._num_channels = 1
