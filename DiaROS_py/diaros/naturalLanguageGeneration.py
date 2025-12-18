@@ -338,12 +338,8 @@ class NaturalLanguageGeneration:
             # First stage のみ: dialog_example_role.txt で本応答を直接生成
             self.generate_first_stage(query)
         elif self.current_stage == 'second':
-            # Second stage: 応答生成をスキップ（first_stage_responseのみを使用）
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            if SHOW_DEBUG_LOGS:
-                sys.stdout.write(f"[{timestamp}] Second stage リクエスト受け取り → スキップ（first_stageのみで応答生成）\n")
-                sys.stdout.flush()
-            # last_reply は設定せず（前の応答を保持）
+            # Second stage: 本応答生成を実行
+            self.generate_second_stage(query)
         else:
             # その他: 従来の _perform_simple_inference()
             self._perform_simple_inference(query)
