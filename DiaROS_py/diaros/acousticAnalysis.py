@@ -1,3 +1,9 @@
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（音響分析、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 # TurtTaking,back_channelのプログラムをDiaROS内に入れる開発
 import numpy as np
 from aubio import pitch
@@ -17,7 +23,8 @@ TAIL_MARGIN = 500  # 発話終了判定のマージン（ミリ秒）
 
 class AcousticAnalysis:
     def __init__(self, rate):
-        sys.stdout.write('acousticAnalysis start\n')
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write('acousticAnalysis start\n')
         self.rate = rate
         self.pitch_o = pitch("yinfast", win_s, hop_s, rate)
         self.pitch_o.set_unit("Hz")
@@ -145,7 +152,7 @@ class AcousticAnalysis:
         # ピッチ計算
         if power > VAD_THRES_DB:
             # データの型と形状を確認するデバッグ出力を追加
-            # sys.stdout.write(f"DEBUG: chunk_resampled type: {chunk_resampled.dtype}, shape: {chunk_resampled.shape}\n")
+            if SHOW_DEBUG_LOGS:sys.stdout.write(f"DEBUG: chunk_resampled type: {chunk_resampled.dtype}, shape: {chunk_resampled.shape}\n")
             f0 = float(self.pitch_o(chunk_resampled)[0])
         else:
             f0 = float(0)
