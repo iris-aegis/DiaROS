@@ -6,6 +6,13 @@
 フラグが立っている状態で音声が入力される -> フラグを消してバッファに音声を貯める
 200ms未満のバッファ && 200ms以上の無音 -> バッファ削除 && フラグを建てる
 """
+
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示（ターン判定、エラーなど）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（詳細な処理内容、中間データなど）
+
 import numpy as np
 import webrtcvad
 import time
@@ -18,6 +25,7 @@ import torch.nn as nn
 from transformers import Wav2Vec2ForSequenceClassification, Wav2Vec2FeatureExtractor
 import transformers
 transformers.logging.set_verbosity_error()
+
 
 # SileroVADのインポート
 silero_vad_model = None
@@ -37,9 +45,13 @@ try:
                                              force_reload=False,
                                              onnx=False)
     get_speech_timestamps, save_audio, read_audio, VADIterator, collect_chunks = utils
-    print("[INFO] SileroVAD loaded successfully (including VADIterator)")
+    if SHOW_BASIC_LOGS:
+        sys.stdout.write("[INFO] SileroVAD loaded successfully (including VADIterator)\n")
+        sys.stdout.flush()
 except Exception as e:
-    print(f"[ERROR] SileroVAD load failed: {e}")
+    if SHOW_BASIC_LOGS:
+        sys.stdout.write(f"[ERROR] SileroVAD load failed: {e}\n")
+        sys.stdout.flush()
     silero_vad_model = None
     get_speech_timestamps = None
     collect_chunks = None
@@ -56,23 +68,24 @@ THRESHOLD = 0.75
 
 def push_audio_data(data):
     stream_queue.put(data)
-    # 追加: キューサイズを表示
-    # sys.stdout.write(f"[turnTaking.py] push_audio_data: stream_queue size={stream_queue.qsize()}\n")
-    sys.stdout.flush()
+    if SHOW_DEBUG_LOGS:
+        sys.stdout.write(f"[turnTaking.py] push_audio_data: stream_queue size={stream_queue.qsize()}\n")
+        sys.stdout.flush()
 
 def push_asr_result(asr_text, is_final):
     """ASR結果をキューに送信"""
     asr_result_queue.put({"text": asr_text, "is_final": is_final})
-    sys.stdout.flush()
 
 def get_audio_data():
     if not stream_queue.empty():
         data = stream_queue.get()
-        # sys.stdout.write(f"[turnTaking.py] get_audio_data: stream_queue size={stream_queue.qsize()}\n")
-        sys.stdout.flush()
+        if SHOW_DEBUG_LOGS:
+            sys.stdout.write(f"[turnTaking.py] get_audio_data: stream_queue size={stream_queue.qsize()}\n")
+            sys.stdout.flush()
         return data
-    # sys.stdout.write(f"[turnTaking.py] get_audio_data: stream_queue EMPTY\n")
-    sys.stdout.flush()
+    if SHOW_DEBUG_LOGS:
+        sys.stdout.write(f"[turnTaking.py] get_audio_data: stream_queue EMPTY\n")
+        sys.stdout.flush()
     return None
 
     
@@ -126,8 +139,9 @@ def judge_silero_3chunks(silero_model, chunks_32ms, sample_rate=16000):
         is_speech = avg_prob >= 0.5
         return is_speech, avg_prob, speech_probs
     except Exception as e:
-        sys.stdout.write(f"[ERROR] SileroVAD 3チャンク判定エラー: {e}\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write(f"[ERROR] SileroVAD 3チャンク判定エラー: {e}\n")
+            sys.stdout.flush()
         return None, 0.0, [0.0, 0.0, 0.0]
 
 def judge_silero_6chunks(silero_model, chunks_32ms, sample_rate=16000):
@@ -144,8 +158,9 @@ def judge_silero_6chunks(silero_model, chunks_32ms, sample_rate=16000):
         is_speech = avg_prob >= 0.5
         return is_speech, avg_prob, speech_probs
     except Exception as e:
-        sys.stdout.write(f"[ERROR] SileroVAD 6チャンク判定エラー: {e}\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write(f"[ERROR] SileroVAD 6チャンク判定エラー: {e}\n")
+            sys.stdout.flush()
         return None, 0.0, [0.0] * 6
 
 def TurnTaking():
@@ -217,11 +232,13 @@ def TurnTaking():
     
     if silero_tt_enabled:
         silero_vad_model.eval()
-        sys.stdout.write("[INFO] SileroVAD TurnTaking前処理システム初期化完了\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write("[INFO] SileroVAD TurnTaking前処理システム初期化完了\n")
+            sys.stdout.flush()
     else:
-        sys.stdout.write("[INFO] SileroVAD不使用、webRTCVADで実行\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write("[INFO] SileroVAD不使用、webRTCVADで実行\n")
+            sys.stdout.flush()
         # PowerベースVADに切り替え
         below_threshold_logged = False
         power_silent_start_time = None
@@ -251,10 +268,10 @@ def TurnTaking():
         # sys.stdout.flush()
     else:
         vad_iterator = None
-        sys.stdout.flush()
 
-    sys.stdout.write("[INFO] TurnTaking started\n")
-    sys.stdout.flush()
+    if SHOW_BASIC_LOGS:
+        sys.stdout.write("[INFO] TurnTaking started\n")
+        sys.stdout.flush()
 
     while True:
         try:
@@ -263,7 +280,6 @@ def TurnTaking():
                 time.sleep(0.01)
                 continue
 
-            sys.stdout.flush()
             sound = np.concatenate([sound, audiodata])
 
             # ★SileroVAD TurnTaking前処理システム（コメントアウト：VADIteratorに切り替え）
@@ -295,50 +311,57 @@ def TurnTaking():
                                 # 無声区間検出
                                 if silero_tt_silent_start_time is None:
                                     silero_tt_silent_start_time = current_time
-                                    sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 無声区間開始 (avg_prob={avg_prob:.3f})\n")
-                                    sys.stdout.flush()
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 無声区間開始 (avg_prob={avg_prob:.3f})\n")
+                                        sys.stdout.flush()
                                 else:
                                     # 100ms継続チェック
                                     silent_duration_ms = (current_time - silero_tt_silent_start_time).total_seconds() * 1000
                                     if silent_duration_ms >= 100 and not silero_tt_100ms_detected:
-                                        sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 100ms無声区間検出完了、TurnTaking実行!\n")
-                                        sys.stdout.flush()
+                                        if SHOW_BASIC_LOGS:
+                                            sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 100ms無声区間検出完了、TurnTaking実行!\n")
+                                            sys.stdout.flush()
                                         silero_tt_100ms_detected = True
-                                        
+
                                         # TurnTakingモデル実行
                                         try:
                                             process_start_time = time.perf_counter()
                                             sound_comp = sound / np.abs(sound).max()
                                             pred, probability = model.predict(sound_comp[:int(5 * sample_rate)], threshold=TurnJudgeThreshold)
                                             processing_time = (time.perf_counter() - process_start_time) * 1000
-                                            
+
                                             # 結果をキューに送信
                                             turn_taking_result_queue.put((pred, probability))
-                                            sys.stdout.write(f"[{timestamp_str}][SILERO_TT] TurnTaking完了: pred={pred}, prob={probability:.3f}, 処理時間={processing_time:.1f}ms\n")
-                                            sys.stdout.flush()
-                                            
+                                            if SHOW_BASIC_LOGS:
+                                                sys.stdout.write(f"[{timestamp_str}][SILERO_TT] TurnTaking完了: pred={pred}, prob={probability:.3f}, 処理時間={processing_time:.1f}ms\n")
+                                                sys.stdout.flush()
+
                                             # 次の状態に移行：200ms音声復帰待機
                                             silero_tt_mode = "WAITING_SPEECH_200MS"
                                             silero_tt_input_counter = 0
-                                            sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 200ms音声復帰待機モードに移行\n")
-                                            sys.stdout.flush()
-                                            
+                                            if SHOW_DEBUG_LOGS:
+                                                sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 200ms音声復帰待機モードに移行\n")
+                                                sys.stdout.flush()
+
                                         except Exception as e:
-                                            sys.stdout.write(f"[ERROR] TurnTaking実行エラー: {e}\n")
-                                            sys.stdout.flush()
+                                            if SHOW_BASIC_LOGS:
+                                                sys.stdout.write(f"[ERROR] TurnTaking実行エラー: {e}\n")
+                                                sys.stdout.flush()
                             else:
                                 # 音声検出：無声区間リセット
                                 if silero_tt_silent_start_time is not None:
-                                    sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 音声復帰、無声区間リセット (avg_prob={avg_prob:.3f})\n")
-                                    sys.stdout.flush()
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 音声復帰、無声区間リセット (avg_prob={avg_prob:.3f})\n")
+                                        sys.stdout.flush()
                                 silero_tt_silent_start_time = None
                                 silero_tt_100ms_detected = False
-                
+
                 elif silero_tt_mode == "WAITING_SPEECH_200MS":
                     # 200ms（20回の10ms入力）待機
                     if silero_tt_input_counter >= 20:
-                        sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 200ms経過、音声判定モードに移行\n")
-                        sys.stdout.flush()
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 200ms経過、音声判定モードに移行\n")
+                            sys.stdout.flush()
                         silero_tt_mode = "DETECTING_SPEECH_192MS"
                         silero_tt_input_counter = 0
                 
@@ -358,8 +381,9 @@ def TurnTaking():
                         
                         if is_speech is not None and is_speech:
                             # 音声復帰検出：無声判定モードに戻る
-                            sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 音声復帰検出、無声判定モードに戻る (avg_prob={avg_prob:.3f})\n")
-                            sys.stdout.flush()
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"[{timestamp_str}][SILERO_TT] 音声復帰検出、無声判定モードに戻る (avg_prob={avg_prob:.3f})\n")
+                                sys.stdout.flush()
                             silero_tt_mode = "DETECTING_SILENCE"
                             silero_tt_silent_start_time = None
                             silero_tt_100ms_detected = False
@@ -395,14 +419,16 @@ def TurnTaking():
                         # 状態管理
                         if speech_start and not vad_iterator_speech_detected:
                             vad_iterator_speech_detected = True
-                            sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] 音声開始検出\n")
-                            sys.stdout.flush()
+                            if SHOW_DEBUG_LOGS:
+                                sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] 音声開始検出\n")
+                                sys.stdout.flush()
 
                         elif speech_end and vad_iterator_speech_detected:
                             # VADIteratorがendイベントを返した = 既に100ms無声が検出済み
                             vad_iterator_speech_detected = False
-                            sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] 100ms無声検出完了 → TurnTaking実行!\n")
-                            sys.stdout.flush()
+                            if SHOW_BASIC_LOGS:
+                                sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] 100ms無声検出完了 → TurnTaking実行!\n")
+                                sys.stdout.flush()
 
                             # TurnTakingモデル実行（100ms削った音声で実行）
                             try:
@@ -416,8 +442,9 @@ def TurnTaking():
                                     sound_for_tt = sound  # 音声が短い場合はそのまま使用
 
                                 if len(sound_for_tt) == 0:
-                                    sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] [WARNING] 音声データが不足、TurnTakingスキップ\n")
-                                    sys.stdout.flush()
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] [WARNING] 音声データが不足、TurnTakingスキップ\n")
+                                        sys.stdout.flush()
                                 else:
                                     sound_comp = sound_for_tt / np.abs(sound_for_tt).max()
 
@@ -431,22 +458,27 @@ def TurnTaking():
 
                                     # 結果をキューに送信
                                     turn_taking_result_queue.put((pred, probability))
-                                    sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] TurnTaking完了: pred={pred}, prob={probability:.3f}, 処理時間={processing_time:.1f}ms\n")
-                                    sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] 音声長: {len(sound_for_tt)/sample_rate:.2f}s (100ms削除済み)\n")
-                                    sys.stdout.flush()
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] TurnTaking完了: pred={pred}, prob={probability:.3f}, 処理時間={processing_time:.1f}ms\n")
+                                        sys.stdout.flush()
+                                    if SHOW_DEBUG_LOGS:
+                                        sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR] 音声長: {len(sound_for_tt)/sample_rate:.2f}s (100ms削除済み)\n")
+                                        sys.stdout.flush()
 
                             except Exception as e:
-                                sys.stdout.write(f"[ERROR] VADIterator TurnTaking実行エラー: {e}\n")
-                                sys.stdout.flush()
+                                if SHOW_BASIC_LOGS:
+                                    sys.stdout.write(f"[ERROR] VADIterator TurnTaking実行エラー: {e}\n")
+                                    sys.stdout.flush()
 
                         # 詳細ログ（結果がある場合のみ）
-                        if vad_result is not None:
+                        if vad_result is not None and SHOW_DEBUG_LOGS:
                             sys.stdout.write(f"[{timestamp_str}][VAD_ITERATOR_DETAIL] 結果: {vad_result}\n")
                             sys.stdout.flush()
 
                     except Exception as e:
-                        sys.stdout.write(f"[ERROR] VADIterator処理エラー: {e}\n")
-                        sys.stdout.flush()
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"[ERROR] VADIterator処理エラー: {e}\n")
+                            sys.stdout.flush()
             
             # ★webRTCVAD TurnTaking前処理システム
             else:
@@ -468,9 +500,9 @@ def TurnTaking():
                             # 無音フレーム検出
                             if silent_start_time is None:
                                 # 無音開始
-                                # if sound_count > 0:
-                                #     sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 無音開始検出 (直前音声フレーム数: {sound_count}, 音声時間: {sound_count * frame_duration:.0f}ms, 200msフラグ: {speech_detected_for_200ms})\n")
-                                #     sys.stdout.flush()
+                                if SHOW_DEBUG_LOGS and sound_count > 0:
+                                    sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 無音開始検出 (直前音声フレーム数: {sound_count}, 音声時間: {sound_count * frame_duration:.0f}ms, 200msフラグ: {speech_detected_for_200ms})\n")
+                                    sys.stdout.flush()
                                 silent_start_time = current_time
                                 silent_count = 1
                                 sound_count = 0  # 無音開始時に音声カウントをリセット
@@ -480,13 +512,14 @@ def TurnTaking():
 
                                 # 100ms無音検出でTurnTaking実行（フレーム数ベース）
                                 # 条件: 100ms以上無音 && 200ms以上の音声が事前に検出されている && 未実行
-                                # if silent_count >= (100 / frame_duration):  # 100ms / 10ms = 10フレーム
-                                #     sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 100ms無音検出 (speech_flag={speech_detected_for_200ms}, sound_available={sound_available})\n")
-                                #     sys.stdout.flush()
+                                if SHOW_DEBUG_LOGS and silent_count >= (100 / frame_duration):  # 100ms / 10ms = 10フレーム
+                                    sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 100ms無音検出 (speech_flag={speech_detected_for_200ms}, sound_available={sound_available})\n")
+                                    sys.stdout.flush()
 
                                 if silent_count >= (100 / frame_duration) and not sound_available and speech_detected_for_200ms:
-                                    # sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 100ms無音検出完了 → TurnTaking実行!\n")
-                                    # sys.stdout.flush()
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 100ms無音検出完了 → TurnTaking実行!\n")
+                                        sys.stdout.flush()
                                     sound_available = True  # フラグを立てて再実行を防ぐ
 
                                     # TurnTakingモデル実行（100ms削った音声で実行）
@@ -501,8 +534,9 @@ def TurnTaking():
                                             sound_for_tt = sound  # 音声が短い場合はそのまま使用
 
                                         if len(sound_for_tt) == 0:
-                                            sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] [WARNING] 音声データが不足、TurnTakingスキップ\n")
-                                            sys.stdout.flush()
+                                            if SHOW_BASIC_LOGS:
+                                                sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] [WARNING] 音声データが不足、TurnTakingスキップ\n")
+                                                sys.stdout.flush()
                                         else:
                                             sound_comp = sound_for_tt / np.abs(sound_for_tt).max()
 
@@ -516,10 +550,13 @@ def TurnTaking():
 
                                             # 結果をキューに送信
                                             turn_taking_result_queue.put((pred, probability))
-                                            # sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] TurnTaking完了: pred={pred}, prob={probability:.3f}, 処理時間={processing_time:.1f}ms\n")
-                                            # sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 音声長: {len(sound_for_tt)/sample_rate:.2f}s (100ms削除済み)\n")
-                                            # sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 次のサイクルに備えてフラグをリセット\n")
-                                            # sys.stdout.flush()
+                                            if SHOW_BASIC_LOGS:
+                                                sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] TurnTaking完了: pred={pred}, prob={probability:.3f}, 処理時間={processing_time:.1f}ms\n")
+                                                sys.stdout.flush()
+                                            if SHOW_DEBUG_LOGS:
+                                                sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 音声長: {len(sound_for_tt)/sample_rate:.2f}s (100ms削除済み)\n")
+                                                sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 次のサイクルに備えてフラグをリセット\n")
+                                                sys.stdout.flush()
 
                                             # TurnTaking実行後にフラグをリセット（次のサイクルに備える）
                                             speech_detected_for_200ms = False
@@ -527,8 +564,9 @@ def TurnTaking():
                                             sound_count = 0
 
                                     except Exception as e:
-                                        sys.stdout.write(f"[ERROR] webRTC_VAD TurnTaking実行エラー: {e}\n")
-                                        sys.stdout.flush()
+                                        if SHOW_BASIC_LOGS:
+                                            sys.stdout.write(f"[ERROR] webRTC_VAD TurnTaking実行エラー: {e}\n")
+                                            sys.stdout.flush()
                                         # エラー時もフラグをリセット
                                         speech_detected_for_200ms = False
                                         sound_available = False
@@ -539,8 +577,9 @@ def TurnTaking():
                             # 200ms以上の連続音声判定（mic_input_original.py と同じロジック）
                             if silent_start_time is not None:
                                 # 無音から音声に復帰
-                                # sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 音声復帰検出、無音状態リセット (前フラグ: {speech_detected_for_200ms})\n")
-                                # sys.stdout.flush()
+                                if SHOW_DEBUG_LOGS:
+                                    sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 音声復帰検出、無音状態リセット (前フラグ: {speech_detected_for_200ms})\n")
+                                    sys.stdout.flush()
                                 silent_start_time = None
                                 silent_count = 0
                                 sound_count = 0  # 音声カウントを0にリセット（200ms再判定用）
@@ -553,25 +592,28 @@ def TurnTaking():
                             # 200ms以上の音声が連続で検出されたか判定
                             if sound_count >= (200 / frame_duration):  # 200 / 10 = 20フレーム
                                 if not speech_detected_for_200ms:
-                                    # sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 200ms以上の音声を検出 → TurnTaking実行準備完了\n")
-                                    # sys.stdout.flush()
-                                    pass
+                                    if SHOW_BASIC_LOGS:
+                                        sys.stdout.write(f"[{timestamp_str}][webRTC_VAD] 200ms以上の音声を検出 → TurnTaking実行準備完了\n")
+                                        sys.stdout.flush()
                                 speech_detected_for_200ms = True
 
                     except Exception as e:
-                        sys.stdout.write(f"[ERROR] webRTC_VAD処理エラー: {e}\n")
-                        sys.stdout.flush()
+                        if SHOW_BASIC_LOGS:
+                            sys.stdout.write(f"[ERROR] webRTC_VAD処理エラー: {e}\n")
+                            sys.stdout.flush()
             
             # 音声バッファのサイズ管理（5.1秒に制限）
             if sound.shape[0] >= int(5.1 * sample_rate):
                 sound = sound[-int(5.1 * sample_rate):]
                 
         except KeyboardInterrupt:
-            sys.stdout.write("\n[INFO] TurnTaking stopped by user\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write("\n[INFO] TurnTaking stopped by user\n")
+                sys.stdout.flush()
             break
         except Exception as e:
-            sys.stdout.write(f"[ERROR] TurnTaking main loop error: {e}\n")
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f"[ERROR] TurnTaking main loop error: {e}\n")
+                sys.stdout.flush()
             time.sleep(0.01)
             continue
