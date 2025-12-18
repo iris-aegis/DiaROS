@@ -7,9 +7,9 @@
 # MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
 # MODEL_NAME = "gpt-oss:20b"
 # 【Ollama ローカルモデル】オフライン動作、GPU必要
-MODEL_NAME = "gemma3:4b"
+# MODEL_NAME = "gemma3:4b"
 # MODEL_NAME = "gemma3:12b"
-# MODEL_NAME = "gemma3:27b"
+MODEL_NAME = "gemma3:27b"
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
@@ -382,8 +382,8 @@ class NaturalLanguageGeneration:
                 if SHOW_BASIC_LOGS:
                     sys.stdout.write(f"[NLG ERROR] プロンプトファイルが見つかりません: {self.prompt_file_path_first}\n")
                     sys.stdout.flush()
-                self.first_stage_response = "申し訳ありません"
-                self.last_reply = "申し訳ありません"
+                self.first_stage_response = ""
+                self.last_reply = ""
                 self.last_source_words = asr_results
                 return
 
@@ -532,16 +532,16 @@ class NaturalLanguageGeneration:
                 if SHOW_BASIC_LOGS:
                     sys.stdout.write(f"[NLG ERROR] 応答生成エラー: {api_error}\n")
                     sys.stdout.flush()
-                self.first_stage_response = "申し訳ありません"  # フォールバック
-                self.last_reply = "申し訳ありません"
+                self.first_stage_response = ""  # フォールバック廃止
+                self.last_reply = ""
                 self.last_source_words = asr_results
 
         except Exception as e:
             if SHOW_BASIC_LOGS:
                 sys.stdout.write(f"[NLG ERROR] 応答生成処理エラー: {e}\n")
                 sys.stdout.flush()
-            self.first_stage_response = "申し訳ありません"  # フォールバック
-            self.last_reply = "申し訳ありません"
+            self.first_stage_response = ""  # フォールバック廃止
+            self.last_reply = ""
             self.last_source_words = []
 
     def _load_first_stage_prompt(self):
@@ -1276,37 +1276,9 @@ class NaturalLanguageGeneration:
                     sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG ERROR] ❌ 推論エラー: {e}\n")
                     sys.stdout.flush()
             
-            # エラー時のフォールバック応答（固定応答のみ）
-            if is_connection_error:
-                # Ollamaサーバーエラー時は簡単な固定応答のみ
-                fallback_responses = [
-                    "そうですね。",
-                    "なるほど。", 
-                    "わかりました。",
-                    "はい。",
-                    "そうなんですね。"
-                ]
-                import random
-                fallback_response = random.choice(fallback_responses)
-                
-                self.last_reply = fallback_response
-                self.last_source_words = query if isinstance(query, list) else [str(query)]
-                
-                # フォールバック時のタイミング情報設定
-                self.request_id = 999  # 固定応答ID
-                self.worker_name = "static-fallback"
-                self.start_timestamp_ns = int(start_time.timestamp() * 1_000_000_000)
-                self.completion_timestamp_ns = int(end_time.timestamp() * 1_000_000_000)
-                self.inference_duration_ms = (end_time - start_time).total_seconds() * 1000
-                
-                if self.connection_error_count <= 3:
-                    if SHOW_BASIC_LOGS:
-                        sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG FALLBACK] 🔄 固定応答フォールバック: {fallback_response}\n")
-                        sys.stdout.flush()
-            else:
-                # その他のエラー時は空の結果を設定
-                self.last_reply = ""
-                self.last_source_words = []
+            # エラー時は空の結果を設定
+            self.last_reply = ""
+            self.last_source_words = []
 
 
     def run(self):
