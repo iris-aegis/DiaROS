@@ -773,7 +773,7 @@ class NaturalLanguageGeneration:
                 self.is_generating_second_stage = False
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 if SHOW_BASIC_LOGS:
-                    sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了\n")
+                    sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了: \"{final_response}\" (処理時間: {total_duration:.1f}ms)\n")
                     sys.stdout.flush()
 
                 # ★保留中の first_stage リクエストがあれば処理
