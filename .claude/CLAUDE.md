@@ -130,6 +130,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 **1. NLG関連ファイルを編集する場合**:
 ```bash
+# ★重要: 現在の作業ブランチを記憶（NLG編集後に戻るため）
+WORK_BRANCH=$(git branch --show-current)
+
 # 編集前にlocal_nlgブランチに切り替え
 git checkout local_nlg
 
@@ -152,12 +155,15 @@ git add DiaROS_py/diaros/naturalLanguageGeneration.py \
 git commit -m "NLG: 修正内容"
 git push origin local_nlg
 
-# mainブランチに戻る
-git checkout main
+# ★元の作業ブランチに戻る
+git checkout $WORK_BRANCH
 ```
 
 **2. 共通インターフェースファイルを編集する場合**:
 ```bash
+# ★重要: 現在の作業ブランチを記憶
+WORK_BRANCH=$(git branch --show-current)
+
 # mainブランチで編集・コミット
 git add DiaROS_ros/src/interfaces/msg/Idm.msg
 git commit -m "Fix: Idm.msgにフィールド追加"
@@ -169,20 +175,51 @@ git checkout local_nlg
 git pull origin local_nlg
 git cherry-pick $COMMIT_HASH
 git push origin local_nlg
-git checkout main
+
+# ★元の作業ブランチに戻る
+git checkout $WORK_BRANCH
 ```
 
 **3. DMPC専用ファイルを編集する場合**:
 ```bash
-# mainブランチで通常通りコミット
+# 現在のブランチでそのままコミット（ブランチ切り替え不要）
 git add .
 git commit -m "Fix: DM相槌ロジック修正"
+git push origin <現在のブランチ>
+
+# 例: mainブランチの場合
 git push origin main
+
+# 例: speech_outputブランチの場合
+git push origin speech_output
 ```
+
+#### 作業ブランチの管理
+**重要**: 新しい機能ブランチを作成した場合、NLG編集後の戻り先はそのブランチになります。
+
+**ルール**:
+1. 新しいブランチ（例: `speech_output`）で作業中に、NLG関連ファイルを編集する必要が出た場合:
+   - `local_nlg` ブランチに切り替えて編集・コミット
+   - 編集後は **元の作業ブランチ**（例: `speech_output`）に戻る
+   - **間違えて `main` には戻らない**
+
+2. 作業ブランチの記憶方法:
+   ```bash
+   # NLG編集前に現在のブランチを記憶
+   WORK_BRANCH=$(git branch --show-current)
+
+   # local_nlgで編集・コミット
+   git checkout local_nlg
+   # ...編集作業...
+   git add ... && git commit -m "..." && git push origin local_nlg
+
+   # 元の作業ブランチに戻る
+   git checkout $WORK_BRANCH
+   ```
 
 #### 重要な注意事項
 - **編集前に必ずブランチを確認**: 対象ファイルがNLG関連かを判定し、適切なブランチに切り替え
-- **編集後は必ずmainに戻る**: 次回の編集時に間違ったブランチで作業しないように
+- **編集後は作業ブランチに戻る**: 次回の編集時に間違ったブランチで作業しないように
 - **sdsmod.launch.pyは各ブランチで別管理**: DMPC（main）とNLGPC（local_nlg）で内容が異なるため、絶対にマージしない
 
 ### 現在の運用構成（NLG分散実行）
