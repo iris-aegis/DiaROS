@@ -33,6 +33,7 @@ setup(
             'ros2_dialog_management = diaros_package.ros2_dialog_management:main',
             'ros2_natural_language_generation = diaros_package.ros2_natural_language_generation:main',
             'ros2_speech_synthesis = diaros_package.ros2_speech_synthesis:main',
+            'ros2_speech_output = diaros_package.ros2_speech_output:main',
             'dr = diaros_package.ros2_dr:main',
             # 'mm = diaros_package.ros2_mm:main',
             'ros2_turn_taking = diaros_package.ros2_turn_taking:main',

@@ -55,6 +55,9 @@ class DialogManagement:
     frame_duration  = 20  # ms (30→20に短縮)
     CHUNK           = int(mic_sample_rate * frame_duration / 1000)
 
+    # 音声再生リクエスト用コールバック（ros2_dialog_management.pyで設定される）
+    audio_playback_callback = None
+
     ### 音声ファイル長計測関数 ###
     def get_audio_length(self, filename):
         audio = AudioSegment.from_wav(filename)
@@ -201,14 +204,29 @@ class DialogManagement:
                 sys.stdout.write(f"[{timestamp}] エラー音声を再生: {error_file}\n")
                 sys.stdout.flush()
 
-            # エラー音声をブロッキング再生
-            self.play_sound(error_file, block=True)
+            # エラー音声再生リクエストを送信
+            if self.audio_playback_callback:
+                try:
+                    audio = AudioSegment.from_wav(error_file)
+                    duration_sec = len(audio) / 1000.0
+                except Exception:
+                    duration_sec = 2.0
+
+                self.audio_playback_callback(
+                    audio_type="response",
+                    stage="first",
+                    wav_path=error_file,
+                    duration_sec=duration_sec,
+                    request_id=0,
+                    timestamp_ns=int(now.timestamp() * 1_000_000_000),
+                    session_id=getattr(self, 'current_session_id', '')
+                )
 
             # 再生完了後
             now_end = datetime.now()
             timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
             if SHOW_BASIC_LOGS:
-                sys.stdout.write(f"[{timestamp_end}] エラー音声再生完了\n")
+                sys.stdout.write(f"[{timestamp_end}] エラー音声再生リクエスト送信完了\n")
                 sys.stdout.flush()
 
             return True
@@ -556,16 +574,26 @@ class DialogManagement:
                             now = datetime.now()
                             timestamp = now.strftime('%H:%M:%S.%f')[:-3]
 
-                            # ブロッキング再生（相槌が終わるまで待つ）
+                            # 音声再生リクエストを送信
                             if SHOW_BASIC_LOGS:
                                 sys.stdout.write(f"[TT] First stage相槌再生開始: {first_stage_wav_path} @ {timestamp}\n")
                                 sys.stdout.flush()
-                            self.play_sound(first_stage_wav_path, block=True)
+
+                            if self.audio_playback_callback:
+                                self.audio_playback_callback(
+                                    audio_type="response",
+                                    stage="first",
+                                    wav_path=first_stage_wav_path,
+                                    duration_sec=first_stage_duration_sec,
+                                    request_id=getattr(self, 'latest_request_id', 0),
+                                    timestamp_ns=int(now.timestamp() * 1_000_000_000),
+                                    session_id=getattr(self, 'current_session_id', '')
+                                )
 
                             now_end = datetime.now()
                             timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
                             if SHOW_BASIC_LOGS:
-                                sys.stdout.write(f"[TT] First stage相槌再生完了 @ {timestamp_end} (長さ: {first_stage_duration_sec:.2f}秒)\n")
+                                sys.stdout.write(f"[TT] First stage相槌再生リクエスト送信 @ {timestamp_end} (長さ: {first_stage_duration_sec:.2f}秒)\n")
                                 sys.stdout.flush()
                         else:
                             if SHOW_BASIC_LOGS:
@@ -750,8 +778,19 @@ class DialogManagement:
                         if SHOW_BASIC_LOGS:
                             sys.stdout.write(f"{'='*50}\n")
                             sys.stdout.flush()
-                        # ...existing code...
-                        self.play_sound(wav_path, False)  # ノンブロッキング再生
+
+                        # 音声再生リクエストを送信
+                        if self.audio_playback_callback:
+                            self.audio_playback_callback(
+                                audio_type="response",
+                                stage="second",
+                                wav_path=wav_path,
+                                duration_sec=duration_sec,
+                                request_id=self.latest_request_id,
+                                timestamp_ns=current_time_ns,
+                                session_id=getattr(self, 'current_session_id', '')
+                            )
+
                         last_response_end_time = time.time() + duration_sec
                         is_playing_response = True
                         next_back_channel_after_response = last_response_end_time + back_channel_cooldown_length
@@ -789,20 +828,23 @@ class DialogManagement:
                         sys.stdout.write(f"[{timestamp}] [DM-DEBUG] Second stage再生試行: ファイル={second_stage_wav_path}, 長さ={second_stage_duration_sec:.2f}秒\n")
                         sys.stdout.flush()
 
-                    # ブロッキング再生（本応答が終わるまで待つ）
+                    # 音声再生リクエストを送信
                     if SHOW_BASIC_LOGS:
                         sys.stdout.write(f"[TT] Second stage本応答再生開始: {second_stage_wav_path} @ {timestamp}\n")
                         sys.stdout.flush()
-                    
+
                     # 再生中フラグを設定（念のため）
                     is_playing_response = True
-                    if not self.play_sound(second_stage_wav_path, block=False): # ノンブロッキング再生に変更し、下部のループで管理
-                        # 再生失敗時はフラグを戻す
-                        is_playing_response = False
-                        if SHOW_BASIC_LOGS:
-                            sys.stdout.write(f"[ERROR] Second stage本応答の再生開始に失敗しました\n")
-                            sys.stdout.flush()
-                    else:
+                    if self.audio_playback_callback:
+                        self.audio_playback_callback(
+                            audio_type="response",
+                            stage="second",
+                            wav_path=second_stage_wav_path,
+                            duration_sec=second_stage_duration_sec,
+                            request_id=getattr(self, 'latest_request_id', 0),
+                            timestamp_ns=int(now.timestamp() * 1_000_000_000),
+                            session_id=getattr(self, 'current_session_id', '')
+                        )
                         # 終了時刻を設定
                         last_response_end_time = time.time() + second_stage_duration_sec
                         next_back_channel_after_response = last_response_end_time + back_channel_cooldown_length
@@ -985,8 +1027,19 @@ class DialogManagement:
                                 if SHOW_BASIC_LOGS:
                                     sys.stdout.write(f"{'='*50}\n")
                                     sys.stdout.flush()
-                                # ...existing code...
-                                self.play_sound(wav_path, False)  # ノンブロッキング再生
+
+                                # 音声再生リクエストを送信
+                                if self.audio_playback_callback:
+                                    self.audio_playback_callback(
+                                        audio_type="response",
+                                        stage="first",  # pending応答はfirst stageとして扱う
+                                        wav_path=wav_path,
+                                        duration_sec=duration_sec,
+                                        request_id=getattr(self, 'latest_request_id', 0),
+                                        timestamp_ns=int(time.time() * 1_000_000_000),
+                                        session_id=getattr(self, 'current_session_id', '')
+                                    )
+
                                 self.asr_history = []  # ★TT応答再生時のみ履歴を初期化
                                 self.latest_synth_filename = ""
                                 last_response_end_time = time.time() + duration_sec
@@ -1024,8 +1077,19 @@ class DialogManagement:
                                     if SHOW_BASIC_LOGS:
                                         sys.stdout.write(f"[{timestamp}][対話内容] （静的応答）\n")
                                         sys.stdout.flush()
-                                
-                                self.play_sound(wav_path, False)  # ノンブロッキング再生
+
+                                # 音声再生リクエストを送信
+                                if self.audio_playback_callback:
+                                    self.audio_playback_callback(
+                                        audio_type="response",
+                                        stage="first",  # pending応答はfirst stageとして扱う
+                                        wav_path=wav_path,
+                                        duration_sec=duration_sec,
+                                        request_id=getattr(self, 'latest_request_id', 0),
+                                        timestamp_ns=int(time.time() * 1_000_000_000),
+                                        session_id=getattr(self, 'current_session_id', '')
+                                    )
+
                                 self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
                                 self.static_response_index += 1
                                 if self.static_response_index >= len(self.static_response_files):
@@ -1055,7 +1119,19 @@ class DialogManagement:
                         wav_path = f"static_back_channel_{random.randint(1, 2)}.wav"
                         audio = AudioSegment.from_wav(wav_path)
                         duration_sec = len(audio) / 1000.0
-                        self.play_sound(wav_path, False)  # ノンブロッキング相槌再生
+
+                        # 音声再生リクエストを送信
+                        if self.audio_playback_callback:
+                            self.audio_playback_callback(
+                                audio_type="backchannel",
+                                stage="first",
+                                wav_path=wav_path,
+                                duration_sec=duration_sec,
+                                request_id=0,  # 相槌にはリクエストIDなし
+                                timestamp_ns=int(time.time() * 1_000_000_000),
+                                session_id=getattr(self, 'current_session_id', '')
+                            )
+
                         last_back_channel_time = time.time()
                         is_playing_backchannel = True
                         last_backchannel_end_time = last_back_channel_time + duration_sec

@@ -14,6 +14,7 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPo
 from interfaces.msg import Iasr
 from interfaces.msg import Isa
 from interfaces.msg import Iss
+from interfaces.msg import Iso  # 音声再生リクエスト用メッセージ
 from interfaces.msg import Idm
 from interfaces.msg import Inlg  # NLG応答用メッセージを追加
 from interfaces.msg import Imm
@@ -50,6 +51,7 @@ class RosDialogManagement(Node):
         self.sub_ss = self.create_subscription(Iss, 'SStoDM', self.ss_update, qos_profile)
         self.sub_nlg = self.create_subscription(Inlg, 'NLGtoSS', self.nlg_callback, qos_profile)  # NLGからの応答を購読
         self.pub_dm = self.create_publisher(Idm, 'DMtoNLG', qos_profile)  # QoSをRELIABLEに統一
+        self.pub_so = self.create_publisher(Iso, 'DMtoSO', qos_profile)  # SpeechOutputへの音声再生リクエスト
         # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(0.001, self.callback)
         self.recv_count = 0  # 受信回数カウンタ追加
@@ -60,6 +62,9 @@ class RosDialogManagement(Node):
         self.current_request_stage = None  # 現在処理中のステージ
         # ★Second stage 2.5秒間隔ASR履歴キャッシュ（NLGで使用）
         self.second_stage_asr_history_2_5s = []
+
+        # ★音声再生リクエスト用のコールバックを設定
+        self.dialogManagement.audio_playback_callback = self.publish_audio_playback_request
 
 
     def dm_update(self, dm):
@@ -157,6 +162,37 @@ class RosDialogManagement(Node):
         }
 
         self.dialogManagement.updateNLG(nlg_data)
+
+    def publish_audio_playback_request(self, audio_type, stage, wav_path, duration_sec,
+                                      request_id, timestamp_ns, session_id):
+        """音声再生リクエストをSpeechOutputに送信
+
+        Args:
+            audio_type (str): 音声タイプ（"backchannel" | "response"）
+            stage (str): ステージ（"first" | "second"）
+            wav_path (str): 音声ファイルパス
+            duration_sec (float): 音声長（秒）
+            request_id (int): リクエストID
+            timestamp_ns (int): タイムスタンプ（ナノ秒）
+            session_id (str): セッションID
+        """
+        msg = Iso()
+        msg.audio_type = audio_type
+        msg.stage = stage
+        msg.wav_path = wav_path
+        msg.duration_sec = duration_sec
+        msg.request_id = request_id
+        msg.timestamp_ns = timestamp_ns
+        msg.session_id = session_id
+
+        self.pub_so.publish(msg)
+
+        if SHOW_DEBUG_LOGS:
+            now_dt = datetime.now()
+            timestamp = now_dt.strftime('%H:%M:%S.%f')[:-3]
+            self.get_logger().info(
+                f"[{timestamp}] [ROS2-DM] 音声再生リクエスト送信: type={audio_type}, stage={stage}, request_id={request_id}"
+            )
 
     def callback(self):
         # First stage相槌生成リクエスト

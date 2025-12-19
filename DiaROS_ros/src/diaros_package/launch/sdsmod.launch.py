@@ -71,6 +71,12 @@ def generate_launch_description():
         ),
         Node(
             package='diaros_package',
+            executable='ros2_speech_output',
+            name='ros2_speech_output',
+            output='screen'
+        ),
+        Node(
+            package='diaros_package',
             executable='ros2_turn_taking',
             output='screen'
         ),

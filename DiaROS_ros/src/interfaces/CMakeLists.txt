@@ -29,6 +29,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Idm.msg"
   "msg/Inlg.msg"
   "msg/Iss.msg"
+  "msg/Iso.msg"
   "msg/Imm.msg"
   "msg/Itt.msg"
   "msg/Ibc.msg"
