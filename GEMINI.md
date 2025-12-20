@@ -107,80 +107,81 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 このルールにより、開発サイクルを効率化し、変更履歴を常に最新に保ちます。
 
 ### ブランチ管理とファイル別コミット戦略
-**DMPC（このPC）ではmainブランチとlocal_nlgブランチを使い分けてコミットします。**
+**DMPC（このPC）では現在の作業ブランチ（例: `speech_output`）とlocal_nlgブランチを使い分けてコミットします。**
 
-#### ブランチ戦略
-- **mainブランチ**: DMPC専用モジュール（ASR, DM, BC, TT, SS など）+ 共通インターフェース
-- **local_nlgブランチ**: NLG関連モジュール + 共通インターフェース（cherry-pick）
+#### ブランチ戦略の基本原則
 
-#### NLG関連ファイルの判定と自動ブランチ切り替え
+1. **すべての変更は現在の作業ブランチ（例: `speech_output`）にコミット**
+2. **NLG関連ファイルの変更は「追加で」local_nlgブランチにもコミット**（cherry-pickまたは個別適用）
 
-**NLG関連ファイル（local_nlgブランチでコミット）**:
+#### ファイル分類
+
+**NLG関連ファイル（作業ブランチ + local_nlgブランチの両方にコミット）**:
 - `DiaROS_py/diaros/naturalLanguageGeneration.py`
 - `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`
 - `DiaROS_py/diaros/prompts/*`（プロンプトテンプレート）
 
-**共通インターフェースファイル（mainブランチでコミット → local_nlgにcherry-pick）**:
-- `DiaROS_ros/src/interfaces/msg/*.msg`（Idm.msg, Inlg.msg など）
+**NLG影響を受ける共通インターフェース（作業ブランチ + local_nlgブランチの両方にコミット）**:
+- `DiaROS_ros/src/interfaces/msg/Idm.msg`（NLGへのリクエストメッセージ）
+- `DiaROS_ros/src/interfaces/msg/Inlg.msg`（NLGからの応答メッセージ）
 
-**DMPC専用ファイル（mainブランチでコミット）**:
-- 上記以外のすべてのファイル（DM, ASR, BC, TT, SS, sdsmod.launch.py など）
+**DMPC専用ファイル（作業ブランチのみにコミット）**:
+- 上記以外のすべてのファイル（DM, ASR, BC, TT, SS, SO, sdsmod.launch.py など）
 
 #### 編集時の自動ワークフロー
 
-**1. NLG関連ファイルを編集する場合**:
+**パターン1: NLG関連ファイルを含む変更の場合**:
 ```bash
-# mainブランチで編集
-git checkout main
-
-# ファイル編集...
-
-# コミット・プッシュ
-git add DiaROS_py/diaros/naturalLanguageGeneration.py \
-        DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
-git commit -m "NLG: 修正内容"
-git push origin main
-
-# local_nlgブランチに反映
-git checkout local_nlg
-git checkout main DiaROS_py/diaros/naturalLanguageGeneration.py \
-                  DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
+# 1. 現在の作業ブランチでまずすべてコミット
 git add .
-git commit -m "NLG: mainから反映"
-git push origin local_nlg
+git commit -m "Feature/Fix: 変更内容"
+git push origin <作業ブランチ>
 
-# mainブランチに戻る
-git checkout main
-```
-
-**2. 共通インターフェースファイルを編集する場合**:
-```bash
-# mainブランチで編集・コミット
-git add DiaROS_ros/src/interfaces/msg/Idm.msg
-git commit -m "Fix: Idm.msgにフィールド追加"
-git push origin main
-
-# local_nlgブランチにもcherry-pick
+# 2. NLG関連ファイルが含まれる場合は、そのコミットをlocal_nlgにもcherry-pick
 COMMIT_HASH=$(git rev-parse HEAD)
 git checkout local_nlg
 git pull origin local_nlg
 git cherry-pick $COMMIT_HASH
 git push origin local_nlg
-git checkout main
+
+# 3. 元の作業ブランチに戻る
+git checkout <作業ブランチ>
 ```
 
-**3. DMPC専用ファイルを編集する場合**:
+**パターン2: DMPC専用ファイルのみの変更の場合**:
 ```bash
-# mainブランチで通常通りコミット
+# 現在の作業ブランチでそのままコミット（local_nlgへの反映は不要）
 git add .
 git commit -m "Fix: DM相槌ロジック修正"
-git push origin main
+git push origin <作業ブランチ>
+```
+
+**パターン3: NLG関連ファイルのみを編集する場合（作業ブランチは <作業ブランチ>）**:
+```bash
+# 現在の作業ブランチで編集・コミットし、local_nlgにも反映
+git checkout <作業ブランチ>
+# ファイル編集...
+git add DiaROS_py/diaros/naturalLanguageGeneration.py \
+        DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
+git commit -m "NLG: 修正内容"
+git push origin <作業ブランチ>
+
+# local_nlgブランチに反映
+COMMIT_HASH=$(git rev-parse HEAD)
+git checkout local_nlg
+git pull origin local_nlg
+git cherry-pick $COMMIT_HASH
+git push origin local_nlg
+
+# 元の作業ブランチに戻る
+git checkout <作業ブランチ>
 ```
 
 #### 重要な注意事項
 - **編集前に必ずブランチを確認**: 対象ファイルがNLG関連かを判定し、適切なブランチに切り替え
-- **編集後は必ずmainに戻る**: 次回の編集時に間違ったブランチで作業しないように
-- **sdsmod.launch.pyは各ブランチで別管理**: DMPC（main）とNLGPC（local_nlg）で内容が異なるため、絶対にマージしない
+- **編集後は作業ブランチに戻る**: 次回の編集時に間違ったブランチで作業しないように
+- **sdsmod.launch.pyは各ブランチで別管理**: DMPC（作業ブランチ）とNLGPC（local_nlg）で内容が異なるため、絶対にマージしない
+- **Speech Outputノード（SO）も別管理**: DMPC（作業ブランチ）とNLGPC（local_nlg）で内容が異なるため、絶対にマージしない
 
 ### 現在の運用構成（NLG分散実行）
 **このリポジトリは、NLGモジュール（自然言語生成）を別PCで実行する構成で運用されています。**
