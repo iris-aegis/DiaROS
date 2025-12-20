@@ -129,8 +129,12 @@ class SpeechOutput:
                     self.current_stage = None
                     self.current_request_id = None
                     self.playback_end_time = None
+                else:
+                    # まだ再生中の場合は、キューから取り出さずに待機
+                    time.sleep(0.01)
+                    continue
 
-            # キューから次のリクエストを取得
+            # 再生中でない場合のみキューから次のリクエストを取得
             try:
                 request = self.request_queue.get(timeout=0.1)
             except queue.Empty:
