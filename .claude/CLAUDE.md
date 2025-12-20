@@ -107,115 +107,71 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 このルールにより、開発サイクルを効率化し、変更履歴を常に最新に保ちます。
 
 ### ブランチ管理とファイル別コミット戦略
-**DMPC（このPC）ではmainブランチとlocal_nlgブランチを使い分けてコミットします。**
+**DMPC（このPC）ではすべての変更を作業ブランチにコミットし、NLG関連の変更は追加でlocal_nlgブランチにもコミットします。**
 
-#### ブランチ戦略
-- **mainブランチ**: DMPC専用モジュール（ASR, DM, BC, TT, SS など）+ 共通インターフェース
-- **local_nlgブランチ**: NLG関連モジュール + 共通インターフェース（cherry-pick）
+#### ブランチ戦略の基本原則
 
-#### NLG関連ファイルの判定と自動ブランチ切り替え
+1. **すべての変更は現在の作業ブランチ（main, speech_output等）にコミット**
+2. **NLG関連ファイルの変更は「追加で」local_nlgブランチにもコミット**（cherry-pickまたは個別適用）
 
-**NLG関連ファイル（local_nlgブランチでコミット）**:
+#### ファイル分類
+
+**NLG関連ファイル（作業ブランチ + local_nlgブランチの両方にコミット）**:
 - `DiaROS_py/diaros/naturalLanguageGeneration.py`
 - `DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py`
 - `DiaROS_py/diaros/prompts/*`（プロンプトテンプレート）
 
-**共通インターフェースファイル（mainブランチでコミット → local_nlgにcherry-pick）**:
-- `DiaROS_ros/src/interfaces/msg/*.msg`（Idm.msg, Inlg.msg など）
+**NLG影響を受ける共通インターフェース（作業ブランチ + local_nlgブランチの両方にコミット）**:
+- `DiaROS_ros/src/interfaces/msg/Idm.msg`（NLGへのリクエストメッセージ）
+- `DiaROS_ros/src/interfaces/msg/Inlg.msg`（NLGからの応答メッセージ）
 
-**DMPC専用ファイル（mainブランチでコミット）**:
-- 上記以外のすべてのファイル（DM, ASR, BC, TT, SS, sdsmod.launch.py など）
+**DMPC専用ファイル（作業ブランチのみにコミット）**:
+- 上記以外のすべてのファイル（DM, ASR, BC, TT, SS, SO, sdsmod.launch.py など）
 
-#### 編集時の自動ワークフロー
+#### 編集時のワークフロー
 
-**1. NLG関連ファイルを編集する場合**:
+**パターン1: NLG関連ファイルを含む変更の場合**:
 ```bash
-# ★重要: 現在の作業ブランチを記憶（NLG編集後に戻るため）
-WORK_BRANCH=$(git branch --show-current)
+# 1. 現在の作業ブランチでまずすべてコミット
+git add .
+git commit -m "Feature/Fix: 変更内容"
+git push origin <作業ブランチ>
 
-# 編集前にlocal_nlgブランチに切り替え
-git checkout local_nlg
-
-# リモートリポジトリの最新状態を確認
-git fetch origin local_nlg
-
-# ローカルとリモートの差分を確認してから取得
-git diff HEAD origin/local_nlg DiaROS_py/diaros/naturalLanguageGeneration.py \
-                               DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py \
-                               DiaROS_py/diaros/prompts/
-
-# リモートの最新を取得
-git pull origin local_nlg
-
-# ファイル編集...
-
-# コミット
-git add DiaROS_py/diaros/naturalLanguageGeneration.py \
-        DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
-git commit -m "NLG: 修正内容"
-git push origin local_nlg
-
-# ★元の作業ブランチに戻る
-git checkout $WORK_BRANCH
-```
-
-**2. 共通インターフェースファイルを編集する場合**:
-```bash
-# ★重要: 現在の作業ブランチを記憶
-WORK_BRANCH=$(git branch --show-current)
-
-# mainブランチで編集・コミット
-git add DiaROS_ros/src/interfaces/msg/Idm.msg
-git commit -m "Fix: Idm.msgにフィールド追加"
-git push origin main
-
-# local_nlgブランチにもcherry-pick
+# 2. NLG関連ファイルが含まれる場合は、そのコミットをlocal_nlgにもcherry-pick
 COMMIT_HASH=$(git rev-parse HEAD)
 git checkout local_nlg
 git pull origin local_nlg
 git cherry-pick $COMMIT_HASH
 git push origin local_nlg
 
-# ★元の作業ブランチに戻る
-git checkout $WORK_BRANCH
+# 3. 元の作業ブランチに戻る
+git checkout <作業ブランチ>
 ```
 
-**3. DMPC専用ファイルを編集する場合**:
+**パターン2: DMPC専用ファイルのみの変更の場合**:
 ```bash
-# 現在のブランチでそのままコミット（ブランチ切り替え不要）
+# 現在のブランチでそのままコミット（local_nlgへの反映は不要）
 git add .
 git commit -m "Fix: DM相槌ロジック修正"
-git push origin <現在のブランチ>
-
-# 例: mainブランチの場合
-git push origin main
-
-# 例: speech_outputブランチの場合
-git push origin speech_output
+git push origin <作業ブランチ>
 ```
 
-#### 作業ブランチの管理
-**重要**: 新しい機能ブランチを作成した場合、NLG編集後の戻り先はそのブランチになります。
+**パターン3: NLG関連ファイルのみを編集する場合（作業ブランチ不要）**:
+```bash
+# local_nlgブランチで直接編集・コミット
+git checkout local_nlg
+git pull origin local_nlg
 
-**ルール**:
-1. 新しいブランチ（例: `speech_output`）で作業中に、NLG関連ファイルを編集する必要が出た場合:
-   - `local_nlg` ブランチに切り替えて編集・コミット
-   - 編集後は **元の作業ブランチ**（例: `speech_output`）に戻る
-   - **間違えて `main` には戻らない**
+# ファイル編集...
 
-2. 作業ブランチの記憶方法:
-   ```bash
-   # NLG編集前に現在のブランチを記憶
-   WORK_BRANCH=$(git branch --show-current)
+git add DiaROS_py/diaros/naturalLanguageGeneration.py \
+        DiaROS_ros/src/diaros_package/diaros_package/ros2_natural_language_generation.py
+git commit -m "NLG: 修正内容"
+git push origin local_nlg
 
-   # local_nlgで編集・コミット
-   git checkout local_nlg
-   # ...編集作業...
-   git add ... && git commit -m "..." && git push origin local_nlg
-
-   # 元の作業ブランチに戻る
-   git checkout $WORK_BRANCH
-   ```
+# mainブランチに戻る
+git checkout main
+```
 
 #### 重要な注意事項
 - **編集前に必ずブランチを確認**: 対象ファイルがNLG関連かを判定し、適切なブランチに切り替え
