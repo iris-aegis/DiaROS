@@ -592,6 +592,7 @@ Python内に含まれるコア対話システムモジュール：
 - `ros2_dialog_management`: 中央対話コーディネーター
 - `ros2_natural_language_generation`: 応答生成 *(可分散実行 - `nlg`パラメータで条件付き)*
 - `ros2_speech_synthesis`: テキスト音声変換
+- `ros2_speech_output`: 音声出力ノード
 - `ros2_turn_taking`: ターンテイキング制御
 - `ros2_back_channel`: 相槌応答生成
 
