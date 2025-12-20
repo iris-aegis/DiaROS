@@ -28,14 +28,14 @@ class Publisher(Node):
         msg.frequency = self.voicedialogue.log()['frequency']
         sys.stdout.write(f"{msg.frequency} {self.voicedialogue.log()['grad']} {self.voicedialogue.log()['power']}\n")
         sys.stdout.flush()
-                """
-                if abs(self.voicedialogue.log()['grad']) < 10.0 and msg.frequency < 50.0 and self.voicedialogue.log()['power'] < 0.20: 
-                    sys.stdout.write("no voice\n")
-                    sys.stdout.flush()
-                else :
-                    sys.stdout.write("xxxxxxxxxxxxxxxxxxx\n")
-                    sys.stdout.flush()
-                """        
+        """
+        if abs(self.voicedialogue.log()['grad']) < 10.0 and msg.frequency < 50.0 and self.voicedialogue.log()['power'] < 0.20:
+            sys.stdout.write("no voice\n")
+            sys.stdout.flush()
+        else :
+            sys.stdout.write("xxxxxxxxxxxxxxxxxxx\n")
+            sys.stdout.flush()
+        """        
         #self.get_logger().info("Pub: {0} {1} {2} {3}".format( msg.n, msg.you, msg.bot, msg.frequency ) )
         self.pub.publish(msg)
 

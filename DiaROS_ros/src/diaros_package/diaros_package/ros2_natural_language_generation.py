@@ -57,7 +57,7 @@ class RosNaturalLanguageGeneration(Node):
         stage = getattr(msg, 'stage', 'first')  # stageフィールドを取得
         request_id = getattr(msg, 'request_id', 0)
         turn_taking_decision_timestamp_ns = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
-        first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時の相槌内容
+        first_stage_reaction_word_at_tt = getattr(msg, 'first_stage_reaction_word_at_tt', '')  # ★TurnTaking判定時のリアクションワード内容
         # ★2.5秒間隔ASR履歴を抽出（ROS2メッセージから）
         asr_history_2_5s = list(getattr(msg, 'asr_history_2_5s', []))
         # ★インスタンス変数に保存（NLGで使用）
@@ -71,7 +71,7 @@ class RosNaturalLanguageGeneration(Node):
                 f"  - words: {words} (長さ={len(words)})\n"
                 f"  - stage: '{stage}'\n"
                 f"  - request_id: {request_id}\n"
-                f"  - first_stage_backchannel_at_tt: '{first_stage_backchannel_at_tt}'\n"
+                f"  - first_stage_reaction_word_at_tt: '{first_stage_reaction_word_at_tt}'\n"
                 f"  - asr_history_2_5s: {asr_history_2_5s} (長さ={len(asr_history_2_5s)})\n"
                 f"  - turn_taking_decision_timestamp_ns: {turn_taking_decision_timestamp_ns}"
             )
@@ -94,7 +94,7 @@ class RosNaturalLanguageGeneration(Node):
                 self.stage_start_timestamp_ns = time.time_ns()
 
                 # ステージ開始ログ
-                stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+                stage_name = "リアクションワード生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
                 if SHOW_BASIC_LOGS:
                     timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                     self.get_logger().info(
@@ -109,8 +109,8 @@ class RosNaturalLanguageGeneration(Node):
             self.processing_stage = stage
 
             update_thread = threading.Thread(
-                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns, bc=first_stage_backchannel_at_tt, asr_2_5s=asr_history_2_5s:
-                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t, first_stage_backchannel_at_tt=bc, asr_history_2_5s=asr_2_5s),
+                target=lambda w=words, s=stage, t=turn_taking_decision_timestamp_ns, bc=first_stage_reaction_word_at_tt, asr_2_5s=asr_history_2_5s:
+                        self.naturalLanguageGeneration.update(w, stage=s, turn_taking_decision_timestamp_ns=t, first_stage_reaction_word_at_tt=bc, asr_history_2_5s=asr_2_5s),
                 daemon=True
             )
             update_thread.start()
@@ -145,7 +145,7 @@ class RosNaturalLanguageGeneration(Node):
                 stage_duration_ms = 0.0
 
             # ステージ完了ログ
-            stage_name = "相槌生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
+            stage_name = "リアクションワード生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
             if SHOW_BASIC_LOGS:
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(

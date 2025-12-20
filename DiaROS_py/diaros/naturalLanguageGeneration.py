@@ -229,13 +229,13 @@ class NaturalLanguageGeneration:
             sys.stdout.write(f'使用モデル: {self.model_name}\n')
             sys.stdout.write('=====================================================\n')
 
-    def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_backchannel_at_tt=None, asr_history_2_5s=None):
+    def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_reaction_word_at_tt=None, asr_history_2_5s=None):
         """
         メインPCからのリクエストを処理
         words: 音声認識結果のリスト
         stage: 'first' または 'second'
         turn_taking_decision_timestamp_ns: TurnTaking判定時刻（ナノ秒）
-        first_stage_backchannel_at_tt: TurnTaking判定時に再生予定のリアクションワード内容（Second stage用）
+        first_stage_reaction_word_at_tt: TurnTaking判定時に再生予定のリアクションワード内容（Second stage用）
         asr_history_2_5s: 2.5秒間隔のASR結果リスト（Second stage生成用）
         """
         now = datetime.now()
@@ -256,7 +256,7 @@ class NaturalLanguageGeneration:
             self.pending_first_stage_request = {
                 'words': words,
                 'turn_taking_decision_timestamp_ns': turn_taking_decision_timestamp_ns,
-                'first_stage_backchannel_at_tt': first_stage_backchannel_at_tt,
+                'first_stage_reaction_word_at_tt': first_stage_reaction_word_at_tt,
                 'asr_history_2_5s': asr_history_2_5s
             }
             return
@@ -266,8 +266,8 @@ class NaturalLanguageGeneration:
         self.turn_taking_decision_timestamp_ns = turn_taking_decision_timestamp_ns
         # ★TT判定時のリアクションワードを保存（Second stage用）
         # ★修正：空文字列も含めて常に更新（パラメータが渡された場合）
-        if first_stage_backchannel_at_tt is not None:
-            self.first_stage_response = first_stage_backchannel_at_tt
+        if first_stage_reaction_word_at_tt is not None:
+            self.first_stage_response = first_stage_reaction_word_at_tt
         # ★2.5秒間隔ASR結果を保存（Second stage用）
         # ★修正：空リストも含めて常に更新（パラメータが渡された場合）
         if asr_history_2_5s is not None:
@@ -790,7 +790,7 @@ class NaturalLanguageGeneration:
                         words=pending_req['words'],
                         stage='first',
                         turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
-                        first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                        first_stage_reaction_word_at_tt=pending_req['first_stage_reaction_word_at_tt'],
                         asr_history_2_5s=pending_req['asr_history_2_5s']
                     )
 
@@ -826,7 +826,7 @@ class NaturalLanguageGeneration:
                         words=pending_req['words'],
                         stage='first',
                         turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
-                        first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                        first_stage_reaction_word_at_tt=pending_req['first_stage_reaction_word_at_tt'],
                         asr_history_2_5s=pending_req['asr_history_2_5s']
                     )
 
@@ -862,7 +862,7 @@ class NaturalLanguageGeneration:
                     words=pending_req['words'],
                     stage='first',
                     turn_taking_decision_timestamp_ns=pending_req['turn_taking_decision_timestamp_ns'],
-                    first_stage_backchannel_at_tt=pending_req['first_stage_backchannel_at_tt'],
+                    first_stage_reaction_word_at_tt=pending_req['first_stage_reaction_word_at_tt'],
                     asr_history_2_5s=pending_req['asr_history_2_5s']
                 )
 

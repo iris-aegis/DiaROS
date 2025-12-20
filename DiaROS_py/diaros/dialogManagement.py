@@ -63,8 +63,8 @@ class DialogManagement:
         audio = AudioSegment.from_wav(filename)
         return len(audio) / 1000.0  # 長さを秒単位で返す
 
-    def synthesize_first_stage_backchannel(self, text):
-        """First stage相槌を音声合成（VOICEVOX APIを使用）"""
+    def synthesize_first_stage_reaction_word(self, text):
+        """First stageリアクションワードを音声合成（VOICEVOX APIを使用）"""
         try:
             if SHOW_DEBUG_LOGS:
                 sys.stdout.write(f"[DM-DEBUG] 音声合成リクエスト: '{text}'\n")
@@ -131,14 +131,14 @@ class DialogManagement:
 
             synthesis_duration_ms = (time.time() - synthesis_start_time) * 1000
             if SHOW_BASIC_LOGS:
-                sys.stdout.write(f"[TTS] First stage相槌音声合成完了 (処理時間: {synthesis_duration_ms:.1f}ms, ファイル: {output_file})\n")
+                sys.stdout.write(f"[TTS] First stageリアクションワード音声合成完了 (処理時間: {synthesis_duration_ms:.1f}ms, ファイル: {output_file})\n")
                 sys.stdout.flush()
 
             return output_file
 
         except Exception as e:
             if SHOW_BASIC_LOGS:
-                sys.stdout.write(f"[ERROR] First stage相槌音声合成エラー: {e}\n")
+                sys.stdout.write(f"[ERROR] First stageリアクションワード音声合成エラー: {e}\n")
                 sys.stdout.flush()
             return None
 
@@ -314,8 +314,8 @@ class DialogManagement:
         self.tts_completion_ns = 0
 
         # 二段階応答生成用の変数
-        self.first_stage_backchannel = ""  # NLG PCから受け取ったfirst_stageリアクションワード
-        self.first_stage_backchannel_available = False  # first_stageリアクションワードが利用可能か
+        self.first_stage_reaction_word = ""  # NLG PCから受け取ったfirst_stageリアクションワード
+        self.first_stage_reaction_word_available = False  # first_stageリアクションワードが利用可能か
         self.waiting_for_second_stage = False  # second_stage応答待ちフラグ
         self.second_stage_request_pending = False  # second_stageリクエスト保留フラグ
         self.second_stage_ready_to_play = False  # second_stage再生準備完了フラグ（合成完了）
@@ -326,8 +326,8 @@ class DialogManagement:
         # ★TurnTaking判定時のASR履歴保存（Second stage用）
         self.asr_history_at_tt_decision = []  # TurnTaking判定時点でのASR履歴を保存（全件）
         self.asr_history_at_tt_decision_2_5s = []  # TurnTaking判定時点での2.5秒間隔ASR結果を保存
-        # ★TurnTaking判定時に再生予定の First stage相槌を保存（Second stage用）
-        self.first_stage_backchannel_at_tt_decision = ""  # TurnTaking判定時に再生する相槌内容
+        # ★TurnTaking判定時に再生予定の First stageリアクションワードを保存（Second stage用）
+        self.first_stage_reaction_word_at_tt_decision = ""  # TurnTaking判定時に再生する相槌内容
     
     def calculate_dialogue_timing(self, current_time_ns):
         """対話生成開始・完了からの経過時間を計算"""
@@ -516,12 +516,12 @@ class DialogManagement:
                             sys.stdout.write(f"[DEBUG-TT] ASR履歴が空のため、最後のASR結果を使用: {len(self.asr_history_at_tt_decision_2_5s)}件\n")
                             sys.stdout.flush()
 
-                    # ★修正：First stage相槌を保存（応答有無にかかわらず）
+                    # ★修正：First stageリアクションワードを保存（応答有無にかかわらず）
                     # Second stage用に、TT判定時点での相槌を保存
-                    self.first_stage_backchannel_at_tt_decision = self.first_stage_backchannel
+                    self.first_stage_reaction_word_at_tt_decision = self.first_stage_reaction_word
                     timestamp_tt = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                     if SHOW_BASIC_LOGS:
-                        sys.stdout.write(f"[TT] First stage相槌を保存: '{self.first_stage_backchannel}' @ {timestamp_tt}\n")
+                        sys.stdout.write(f"[TT] First stageリアクションワードを保存: '{self.first_stage_reaction_word}' @ {timestamp_tt}\n")
                         sys.stdout.flush()
 
                     # ★修正：Second stageリクエストフラグを設定（First stage再生前に設定）
@@ -535,15 +535,15 @@ class DialogManagement:
                     # ★修正：この TT データを処理済みとしてマーク（同じ TT データの再処理を防止）
                     last_handled_tt_time = tt_time
 
-                    # First stage相槌を再生（準備がある場合）
-                    if self.first_stage_backchannel_available and self.first_stage_backchannel:
+                    # First stageリアクションワードを再生（準備がある場合）
+                    if self.first_stage_reaction_word_available and self.first_stage_reaction_word:
                         if SHOW_BASIC_LOGS:
-                            sys.stdout.write(f"[TT] First stage相槌再生: '{self.first_stage_backchannel}'\n")
+                            sys.stdout.write(f"[TT] First stageリアクションワード再生: '{self.first_stage_reaction_word}'\n")
                             sys.stdout.flush()
 
                         # ★事前合成済みのfirst_stageファイルがあれば使用、なければ合成
-                        if hasattr(self, 'first_stage_backchannel_wav') and os.path.exists(self.first_stage_backchannel_wav):
-                            first_stage_wav_path = self.first_stage_backchannel_wav
+                        if hasattr(self, 'first_stage_reaction_word_wav') and os.path.exists(self.first_stage_reaction_word_wav):
+                            first_stage_wav_path = self.first_stage_reaction_word_wav
                             now = datetime.now()
                             timestamp = now.strftime('%H:%M:%S.%f')[:-3]
                             if SHOW_BASIC_LOGS:
@@ -551,7 +551,7 @@ class DialogManagement:
                                 sys.stdout.flush()
                         else:
                             # 合成済みファイルがない場合は新規合成
-                            first_stage_wav_path = self.synthesize_first_stage_backchannel(self.first_stage_backchannel)
+                            first_stage_wav_path = self.synthesize_first_stage_reaction_word(self.first_stage_reaction_word)
 
                         if first_stage_wav_path and os.path.exists(first_stage_wav_path):
                             # 音声ファイル長を取得
@@ -570,7 +570,7 @@ class DialogManagement:
 
                             # 音声再生リクエストを送信
                             if SHOW_BASIC_LOGS:
-                                sys.stdout.write(f"[TT] First stage相槌再生開始: {first_stage_wav_path} @ {timestamp}\n")
+                                sys.stdout.write(f"[TT] First stageリアクションワード再生開始: {first_stage_wav_path} @ {timestamp}\n")
                                 sys.stdout.flush()
 
                             if self.audio_playback_callback:
@@ -587,15 +587,15 @@ class DialogManagement:
                             now_end = datetime.now()
                             timestamp_end = now_end.strftime('%H:%M:%S.%f')[:-3]
                             if SHOW_BASIC_LOGS:
-                                sys.stdout.write(f"[TT] First stage相槌再生リクエスト送信 @ {timestamp_end} (長さ: {first_stage_duration_sec:.2f}秒)\n")
+                                sys.stdout.write(f"[TT] First stageリアクションワード再生リクエスト送信 @ {timestamp_end} (長さ: {first_stage_duration_sec:.2f}秒)\n")
                                 sys.stdout.flush()
                         else:
                             if SHOW_BASIC_LOGS:
-                                sys.stdout.write(f"[ERROR] First stage相槌音声ファイルエラー、スキップします\n")
+                                sys.stdout.write(f"[ERROR] First stageリアクションワード音声ファイルエラー、スキップします\n")
                                 sys.stdout.flush()
 
-                        # First stage相槌をリセット
-                        self.first_stage_backchannel_available = False
+                        # First stageリアクションワードをリセット
+                        self.first_stage_reaction_word_available = False
 
                         # ★Second stage待機開始時刻を記録（タイムアウト検出用）
                         self.second_stage_wait_start_time = datetime.now()
@@ -1353,7 +1353,7 @@ class DialogManagement:
         # ★デバッグ：実際に送信される値を確認
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         if SHOW_BASIC_LOGS:
-            sys.stdout.write(f"[{timestamp}] [DM-SECOND-STAGE] 相槌='{self.first_stage_backchannel_at_tt_decision}', ASR_2_5s_count={len(self.asr_history_at_tt_decision_2_5s)}\n")
+            sys.stdout.write(f"[{timestamp}] [DM-SECOND-STAGE] 相槌='{self.first_stage_reaction_word_at_tt_decision}', ASR_2_5s_count={len(self.asr_history_at_tt_decision_2_5s)}\n")
             sys.stdout.flush()
 
         return {
@@ -1361,7 +1361,7 @@ class DialogManagement:
             "update": True,
             "stage": "second",
             "turn_taking_decision_timestamp_ns": turn_taking_decision_timestamp_ns,  # ★NLG用に時刻情報も送信
-            "first_stage_backchannel_at_tt": self.first_stage_backchannel_at_tt_decision,  # ★TT判定時の相槌内容を送信
+            "first_stage_reaction_word_at_tt": self.first_stage_reaction_word_at_tt_decision,  # ★TT判定時の相槌内容を送信
             "asr_history_2_5s": self.asr_history_at_tt_decision_2_5s  # ★2.5秒間隔ASR結果をNLGに送信（こちらのみを使用）
         }
 
@@ -1392,12 +1392,12 @@ class DialogManagement:
             sys.stdout.flush()
 
         if stage == 'first':
-            # First stage相槌を保存
-            self.first_stage_backchannel = reply
+            # First stageリアクションワードを保存
+            self.first_stage_reaction_word = reply
 
             # ★詳細な処理情報を出力（コメントアウト：TurnTaking時のみ表示）
             # sys.stdout.write(f"\n{'='*60}\n")
-            # sys.stdout.write(f"[{timestamp}] 🔊 First stage相槌生成完了\n")
+            # sys.stdout.write(f"[{timestamp}] 🔊 First stageリアクションワード生成完了\n")
             # sys.stdout.write(f"{'='*60}\n")
             # sys.stdout.write(f"📋 内容: '{reply}'\n\n")
 
@@ -1420,32 +1420,32 @@ class DialogManagement:
 
             # ★即座に音声合成を実行（バックグラウンド非同期処理）
             try:
-                first_stage_wav_path = self.synthesize_first_stage_backchannel(reply)
+                first_stage_wav_path = self.synthesize_first_stage_reaction_word(reply)
                 if first_stage_wav_path and os.path.exists(first_stage_wav_path):
                     # 合成済みファイルを保存
-                    self.first_stage_backchannel_wav = first_stage_wav_path
-                    self.first_stage_backchannel_available = True
+                    self.first_stage_reaction_word_wav = first_stage_wav_path
+                    self.first_stage_reaction_word_available = True
                     now = datetime.now()
                     timestamp_synth = now.strftime('%H:%M:%S.%f')[:-3]
                     if SHOW_BASIC_LOGS:
-                        sys.stdout.write(f"[DM-first_synth] First stage相槌の音声合成完了: {first_stage_wav_path} @ {timestamp_synth}\n")
+                        sys.stdout.write(f"[DM-first_synth] First stageリアクションワードの音声合成完了: {first_stage_wav_path} @ {timestamp_synth}\n")
                         sys.stdout.flush()
 
                     # ★注：Second stageリクエストはTurnTaking判定時に設定される（優先度制御のため）
                 else:
                     # First stage合成失敗 → エラー音声を再生
                     if SHOW_BASIC_LOGS:
-                        sys.stdout.write(f"[ERROR] First stage相槌の音声合成に失敗しました: {reply}\n")
+                        sys.stdout.write(f"[ERROR] First stageリアクションワードの音声合成に失敗しました: {reply}\n")
                         sys.stdout.flush()
                     self.play_error_audio('first_stage')
-                    self.first_stage_backchannel_available = False
+                    self.first_stage_reaction_word_available = False
             except Exception as e:
                 if SHOW_BASIC_LOGS:
-                    sys.stdout.write(f"[ERROR] First stage相槌の音声合成エラー: {e}\n")
+                    sys.stdout.write(f"[ERROR] First stageリアクションワードの音声合成エラー: {e}\n")
                     sys.stdout.flush()
                 # エラー音声を再生
                 self.play_error_audio('first_stage')
-                self.first_stage_backchannel_available = False
+                self.first_stage_reaction_word_available = False
 
         elif stage == 'second':
             # Second stage本応答を保存
@@ -1460,7 +1460,7 @@ class DialogManagement:
                     sys.stdout.write(f"[{timestamp}][DM-second] 🎤 Second stage応答の音声合成開始: '{reply}'\n")
                     sys.stdout.flush()
 
-                second_stage_wav_path = self.synthesize_first_stage_backchannel(reply)
+                second_stage_wav_path = self.synthesize_first_stage_reaction_word(reply)
 
                 if SHOW_BASIC_LOGS:
                     sys.stdout.write(f"[{timestamp}][DM-second] 音声合成結果: path={second_stage_wav_path}, exists={os.path.exists(second_stage_wav_path) if second_stage_wav_path else False}\n")

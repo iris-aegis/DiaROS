@@ -143,7 +143,7 @@ class RosDialogManagement(Node):
             self.get_logger().info(f"[{timestamp}] [ROS2-DM] NLG応答受信: stage='{stage}', reply='{reply}', request_id={request_id}")
 
         # ★ステージ完了を記録
-        stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+        stage_name = "リアクションワード生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
         if SHOW_BASIC_LOGS:
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             self.get_logger().info(
@@ -195,7 +195,7 @@ class RosDialogManagement(Node):
             )
 
     def callback(self):
-        # First stage相槌生成リクエスト
+        # First stageリアクションワード生成リクエスト
         dm = Idm()
         pub_dm_return = self.dialogManagement.pubDM()
         words = pub_dm_return['words']
@@ -225,12 +225,12 @@ class RosDialogManagement(Node):
             dm.session_id = getattr(self.dialogManagement, 'current_session_id', '')
             # ★TurnTaking判定時刻を送信（分散実行時のNLG連携用）
             dm.turn_taking_decision_timestamp_ns = getattr(self.dialogManagement, 'turn_taking_decision_timestamp_ns', 0)
-            # ★First stage用の相槌内容とASR履歴を設定
-            dm.first_stage_backchannel_at_tt = getattr(self.dialogManagement, 'first_stage_backchannel_at_tt_decision', '')
+            # ★First stage用のリアクションワード内容とASR履歴を設定
+            dm.first_stage_reaction_word_at_tt = getattr(self.dialogManagement, 'first_stage_reaction_word_at_tt_decision', '')
             dm.asr_history_2_5s = getattr(self.dialogManagement, 'asr_history_at_tt_decision_2_5s', [])
 
             # ★DM→NLG送信ログ
-            stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+            stage_name = "リアクションワード生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
             if SHOW_BASIC_LOGS:
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
@@ -268,8 +268,8 @@ class RosDialogManagement(Node):
                 msg.session_id = getattr(self.dialogManagement, 'current_session_id', '')
                 # ★TurnTaking判定時刻を送信（pubDM_second_stage()で返されるデータに含まれている）
                 msg.turn_taking_decision_timestamp_ns = dm_data_second.get("turn_taking_decision_timestamp_ns", 0)
-                # ★TurnTaking判定時に再生する相槌内容を送信（Second stage用）
-                msg.first_stage_backchannel_at_tt = dm_data_second.get("first_stage_backchannel_at_tt", "")
+                # ★TurnTaking判定時に再生するリアクションワード内容を送信（Second stage用）
+                msg.first_stage_reaction_word_at_tt = dm_data_second.get("first_stage_reaction_word_at_tt", "")
                 # ★2.5秒間隔ASR履歴をメッセージに設定（ROS2メッセージで送信）
                 msg.asr_history_2_5s = dm_data_second.get("asr_history_2_5s", [])
                 # ★2.5秒間隔ASR履歴をキャッシュに保存（ローカル参照用）
