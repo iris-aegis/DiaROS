@@ -282,12 +282,6 @@ class DialogManagement:
         if SHOW_BASIC_LOGS:
             sys.stdout.write('=====================================================\n')
 
-        # static_response_archive内のwavファイル一覧を取得し、ソートして保存
-        self.static_response_files = sorted(
-            glob.glob("static_response_archive/static_response_*.wav")
-        )
-        self.static_response_index = 0
-
         # ros2_dm.pyから受け取ったデータと受信時刻
         self.latest_tt_data = None
         self.latest_tt_time = None
@@ -320,8 +314,8 @@ class DialogManagement:
         self.tts_completion_ns = 0
 
         # 二段階応答生成用の変数
-        self.first_stage_backchannel = ""  # NLG PCから受け取ったfirst_stage相槌
-        self.first_stage_backchannel_available = False  # first_stage相槌が利用可能か
+        self.first_stage_backchannel = ""  # NLG PCから受け取ったfirst_stageリアクションワード
+        self.first_stage_backchannel_available = False  # first_stageリアクションワードが利用可能か
         self.waiting_for_second_stage = False  # second_stage応答待ちフラグ
         self.second_stage_request_pending = False  # second_stageリクエスト保留フラグ
         self.second_stage_ready_to_play = False  # second_stage再生準備完了フラグ（合成完了）
@@ -1045,61 +1039,6 @@ class DialogManagement:
                                 last_response_end_time = time.time() + duration_sec
                                 is_playing_response = True
                                 next_back_channel_after_response = last_response_end_time + back_channel_cooldown_length
-                            elif self.static_response_files:
-                                wav_path = self.static_response_files[self.static_response_index]
-                                try:
-                                    audio = AudioSegment.from_wav(wav_path)
-                                    duration_sec = len(audio) / 1000.0
-                                except Exception:
-                                    duration_sec = 2.0
-                                if SHOW_BASIC_LOGS:
-                                    sys.stdout.write(f"[TT] 再生音声長 duration_sec={duration_sec}\n")
-                                    sys.stdout.flush()
-                                
-                                # ★応答音声再生時刻と対話生成結果を出力（静的応答）
-                                now = datetime.now()
-                                timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-                                current_time_ns = int(now.timestamp() * 1_000_000_000)
-                                
-                                if SHOW_BASIC_LOGS:
-                                    sys.stdout.write(f"[{timestamp}][音声再生開始] {wav_path}\n")
-                                if hasattr(self, 'latest_dialogue_result') and self.latest_dialogue_result:
-                                    if SHOW_BASIC_LOGS:
-                                        sys.stdout.write(f"[{timestamp}][対話内容] {self.latest_dialogue_result}\n")
-                                    # ★対話生成時刻との差分を計算・出力（対話生成結果がある場合のみ）
-                                    start_elapsed_ms, completion_elapsed_ms = self.calculate_dialogue_timing(current_time_ns)
-                                    if start_elapsed_ms is not None and completion_elapsed_ms is not None:
-                                        if SHOW_DEBUG_LOGS:
-                                            sys.stdout.write(f"[{timestamp}][タイミング分析] 対話生成開始から{start_elapsed_ms:.1f}ms, 完了から{completion_elapsed_ms:.1f}ms経過\n")
-                                        if SHOW_DEBUG_LOGS:
-                                            sys.stdout.write(f"[{timestamp}][対話生成情報] ID:{self.latest_request_id}, Worker:{self.latest_worker_name}, 推論時間:{self.latest_inference_duration_ms:.1f}ms\n")
-                                else:
-                                    if SHOW_BASIC_LOGS:
-                                        sys.stdout.write(f"[{timestamp}][対話内容] （静的応答）\n")
-                                        sys.stdout.flush()
-
-                                # 音声再生リクエストを送信
-                                if self.audio_playback_callback:
-                                    self.audio_playback_callback(
-                                        audio_type="response",
-                                        stage="first",  # pending応答はfirst stageとして扱う
-                                        wav_path=wav_path,
-                                        duration_sec=duration_sec,
-                                        request_id=getattr(self, 'latest_request_id', 0),
-                                        timestamp_ns=int(time.time() * 1_000_000_000),
-                                        session_id=getattr(self, 'current_session_id', '')
-                                    )
-
-                                self.asr_history = []  # ★TT応答再生直後のみ履歴を初期化
-                                self.static_response_index += 1
-                                if self.static_response_index >= len(self.static_response_files):
-                                    self.static_response_index = 0
-                                last_response_end_time = time.time() + duration_sec
-                                is_playing_response = True
-                                next_back_channel_after_response = last_response_end_time + back_channel_cooldown_length
-                            else:
-                                if SHOW_BASIC_LOGS:
-                                    sys.stdout.write("[ERROR] static_response_archiveに音声ファイルがありません\n")
                     pending_tt_data = None
                     pending_tt_time = None
 
