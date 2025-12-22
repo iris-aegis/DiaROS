@@ -287,7 +287,8 @@ class SpeechSynthesis():
                 params=params
             )
             response1_data = response1.json()
-            response1_data["prePhonemeLength"] = 0.0
+            # ノイズ除去のため、冒頭に0.1秒の無音を追加（trim_wavで後でカット）
+            response1_data["prePhonemeLength"] = 0.1
             response1_data["postPhonemeLength"] = 0.0
             modified_json_str = json.dumps(response1_data)
             all_segments = []
