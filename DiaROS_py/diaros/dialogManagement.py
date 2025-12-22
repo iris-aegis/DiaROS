@@ -60,6 +60,16 @@ class DialogManagement:
         audio = AudioSegment.from_wav(filename)
         return len(audio) / 1000.0  # 長さを秒単位で返す
 
+    def trim_wav(self, input_file, output_file, trim_duration=0.1):
+        """VOICEVOXのノイズ除去用：音声ファイルの冒頭を指定秒数カット"""
+        with wave.open(input_file, 'rb') as input_wav:
+            params = input_wav.getparams()
+            with wave.open(output_file, 'wb') as output_wav:
+                output_wav.setparams(params)
+                trim_frames = int(trim_duration * params.framerate)
+                input_wav.readframes(trim_frames)
+                output_wav.writeframes(input_wav.readframes(params.nframes - trim_frames))
+
     def synthesize_first_stage_backchannel(self, text):
         """First stage相槌を音声合成（VOICEVOX APIを使用）"""
         try:
@@ -90,8 +100,8 @@ class DialogManagement:
 
             response1_data = response1.json()
 
-            # ★無音を0秒に設定（前後のポーズを除去）
-            response1_data["prePhonemeLength"] = 0.0
+            # ★ノイズ除去のため、冒頭に0.1秒の無音を追加（trim_wavで後でカット）
+            response1_data["prePhonemeLength"] = 0.1
             response1_data["postPhonemeLength"] = 0.0
 
             # デバッグ：設定確認
@@ -116,15 +126,20 @@ class DialogManagement:
                     sys.stdout.flush()
                 return None
 
-            # ファイル保存
+            # ファイル保存（ノイズ除去処理）
             current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
+            input_file = f'./tmp/input_first_stage_{current_time}.wav'
             output_file = f'./tmp/first_stage_{current_time}.wav'
 
-            with wave.open(output_file, 'wb') as wf:
+            # 一時ファイルに保存
+            with wave.open(input_file, 'wb') as wf:
                 wf.setnchannels(1)
                 wf.setsampwidth(2)
                 wf.setframerate(24000)
                 wf.writeframes(response2.content)
+
+            # 冒頭0.1秒をカットしてノイズ除去
+            self.trim_wav(input_file, output_file)
 
             synthesis_duration_ms = (time.time() - synthesis_start_time) * 1000
             if SHOW_BASIC_LOGS:
