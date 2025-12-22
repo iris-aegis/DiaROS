@@ -669,7 +669,27 @@ pip install -r DiaROS_ros/requirements.txt
 5. **応答生成**: dialog_management → natural_language_generation *(可分散実行)*
 6. **音声出力**: response → speech_synthesis → オーディオ出力
 7. **ターン管理**: turn_takingが話者の順番を監視・制御
-8. **相槌**: スピーチ中に適切なリスナー応答を生成
+8. **相槌（backchannel）**: ユーザーの発話**中**にbackchannelモデルで予測され再生される短い応答
+
+### リアクションワード（first_stage）と相槌（backchannel）の違い
+
+**重要**: この2つは明確に異なる概念です。
+
+#### リアクションワード（first_stage）
+- **定義**: NLGから生成される応答の最初の言葉
+- **例**: 「そうなんですね」「なるほど」「それは大変でしたね」など
+- **再生タイミング**: ユーザーの発話**終了後**、TurnTaking判定で相手ターンと判定された時
+- **生成方法**: NLGモジュール（LLM）が対話文脈から生成
+- **処理フロー**: dialog_management → natural_language_generation (first_stage) → speech_synthesis
+- **音声ファイル**: `./tmp/first_stage_*.wav`（動的生成）
+
+#### 相槌（backchannel）
+- **定義**: ユーザーの発話中に再生される短い応答
+- **例**: 「うん」「へえ」「ふーん」など
+- **再生タイミング**: ユーザーの発話**中**、backchannelモデルが適切なタイミングと判定した時
+- **生成方法**: wav2vec2ベースのbackchannel予測モデル（機械学習）
+- **処理フロー**: speech_input → back_channel (予測) → dialog_management → 音声再生
+- **音声ファイル**: `static_back_channel_*.wav`（事前録音）
 
 ### 分散実行時のアーキテクチャ
 **メインPC**: 1-4、6-8の処理を担当
@@ -680,11 +700,13 @@ pip install -r DiaROS_ros/requirements.txt
 ## プロジェクト構造
 
 ### 音声ファイルの場所
-- **相槌音声**: `DiaROS_ros/static_back_channel_*.wav`
+- **相槌音声（backchannel）**: `DiaROS_ros/static_back_channel_*.wav`（事前録音、ユーザー発話中に再生）
 - **静的応答**: `DiaROS_ros/static_response_source/static_response_*.wav`
 - **ランダム応答**: `DiaROS_ros/static_response_random/static_response_random_*.wav`
 - **長い質問サンプル**: `DiaROS_ros/static_long_question/static_long_question*.wav`
 - **合成音声**: `DiaROS_ros/tmp/*.wav`（一時ファイル、Gitに含まれない）
+  - リアクションワード（first_stage）: `first_stage_*.wav`（発話終了後の応答開始時に再生）
+  - 本応答（second_stage）: `*.wav`（リアクションワードに続く詳細な応答）
 - **システム音声**: `DiaROS_ros/start_announce.wav`、`DiaROS_ros/end_announce.wav`
 - **キャリブレーション音声**: `DiaROS_ros/power_calibration.wav`
 
@@ -718,7 +740,7 @@ scripts/
 システムにはテスト用および応答用のさまざまなオーディオファイルが含まれています：
 - **power_calibration.wav**: オーディオキャリブレーションファイル
 - **start_announce.wav / end_announce.wav**: セッション通知
-- **static_back_channel_*.wav**: 相槌応答
+- **static_back_channel_*.wav**: 相槌応答（backchannel）- ユーザー発話中に再生
 - **static_response_*.wav**: 事前録音応答
 - **static_long_question/**: 長文質問サンプル
 
