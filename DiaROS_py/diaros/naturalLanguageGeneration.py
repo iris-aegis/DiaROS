@@ -1,4 +1,12 @@
 # ============================================================
+# ログレベル設定
+# ============================================================
+# SHOW_BASIC_LOGS: 基本的なログのみ表示（ステージ完了、エラーなど重要な情報）
+# SHOW_DEBUG_LOGS: 詳細なデバッグログも表示（推論開始、TTFT、処理時間詳細など）
+SHOW_BASIC_LOGS = True   # 基本ログ表示（推奨: True）
+SHOW_DEBUG_LOGS = False  # デバッグログ表示（推奨: False、デバッグ時のみTrue）
+
+# ============================================================
 # モデル設定 - ここでモデルを切り替え
 # ============================================================
 # 【OpenAI API モデル】クラウドAPI、高速・高品質
@@ -123,14 +131,16 @@ class NaturalLanguageGeneration:
 
         if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
             # Ollama モデルの初期化（gemma3系、gpt-oss系）
-            sys.stdout.write(f'[NLG] Ollama {self.model_name}モデルを初期化中...\n')
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f'[NLG] Ollama {self.model_name}モデルを初期化中...\n')
+                sys.stdout.flush()
 
             # gpt-ossは推論モデルなので非常に大きなトークン数が必要
             if self.model_name.startswith("gpt-oss:"):
                 num_predict = 2000  # 推論トークン + 応答トークン（複雑なプロンプト対応）
-                sys.stdout.write(f'[NLG] ⚠️  gpt-oss:20bは推論モデルのため、応答に時間がかかります (num_predict={num_predict})\n')
-                sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write(f'[NLG] ⚠️  gpt-oss:20bは推論モデルのため、応答に時間がかかります (num_predict={num_predict})\n')
+                    sys.stdout.flush()
             else:
                 num_predict = 10  # gemma3系は10トークンで統一（短いリアクションワード用）
 
@@ -160,13 +170,15 @@ class NaturalLanguageGeneration:
                 keep_alive="10m",  # モデルをメモリに保持する時間（延長）
                 additional_kwargs=additional_kwargs
             )
-            sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了 (num_predict={num_predict})\n')
-            sys.stdout.flush()
+            if SHOW_BASIC_LOGS:
+                sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了 (num_predict={num_predict})\n')
+                sys.stdout.flush()
 
         elif self.model_name.startswith("gpt-") or self.model_name.startswith("o1") or self.model_name.startswith("chatgpt-"):
             # OpenAI API設定（GPT-5, GPT-4, GPT-3.5, o1など全てのOpenAIモデル）
-            sys.stdout.write(f'[NLG] OpenAI {self.model_name}モデルを初期化中...\n')
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f'[NLG] OpenAI {self.model_name}モデルを初期化中...\n')
+                sys.stdout.flush()
 
             # OpenAI APIキーを環境変数から設定
             openai.api_key = os.environ.get("OPENAI_API_KEY")
@@ -175,8 +187,9 @@ class NaturalLanguageGeneration:
                 sys.stdout.flush()
                 raise ValueError("OPENAI_API_KEY が設定されていません")
             else:
-                sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了\n')
-                sys.stdout.flush()
+                if SHOW_BASIC_LOGS:
+                    sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了\n')
+                    sys.stdout.flush()
 
         else:
             raise ValueError(f"未対応のモデル: {self.model_name}")
@@ -198,8 +211,9 @@ class NaturalLanguageGeneration:
         for path in possible_paths:
             if path and os.path.exists(path):
                 self.prompt_file_path = path
-                sys.stdout.write(f'[NLG] ✅ プロンプトファイル確認: {self.prompt_file_name} ({path})\n')
-                sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write(f'[NLG] ✅ プロンプトファイル確認: {self.prompt_file_name} ({path})\n')
+                    sys.stdout.flush()
                 break
 
         if not self.prompt_file_path:
@@ -231,9 +245,10 @@ class NaturalLanguageGeneration:
         # ★【重要】Second stage 生成中に first_stage のリクエストが来た場合は保留
         if self.is_generating_second_stage and stage == 'first':
             # Second stage 生成中の first_stage リクエストを保留
-            timestamp = now.strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp}] ⏸️  Second stage 生成中のため、first_stage をリクエストキューに保存\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                timestamp = now.strftime('%H:%M:%S.%f')[:-3]
+                sys.stdout.write(f"[{timestamp}] ⏸️  Second stage 生成中のため、first_stage をリクエストキューに保存\n")
+                sys.stdout.flush()
 
             # 最新の first_stage リクエストだけを保持（上書き）
             self.pending_first_stage_request = {
@@ -260,22 +275,23 @@ class NaturalLanguageGeneration:
         word_count = len(words) if isinstance(words, list) else 1
         timestamp = now.strftime('%H:%M:%S.%f')[:-3]
 
-        # ★ログ出力を簡略化：[HH:MM:SS.mmm] 形式に統一
-        sys.stdout.write(f"[{timestamp}] stage='{stage}' で更新\n")
-        sys.stdout.flush()
-
-        if word_count > 20:
-            sys.stdout.write(f"[{timestamp}] 大容量履歴受信: {word_count}個\n")
+        # ★デバッグログ：受信データ情報
+        if SHOW_DEBUG_LOGS:
+            sys.stdout.write(f"[{timestamp}] stage='{stage}' で更新\n")
             sys.stdout.flush()
 
-        # 最初の3個と最後の3個のみを表示（中間は省略）
-        if isinstance(words, list):
-            if word_count > 6:
-                preview_words = words[:3] + ["..."] + words[-3:]
-                sys.stdout.write(f"[{timestamp}] 履歴受信（{word_count}個）\n")
-            elif word_count > 0:
-                sys.stdout.write(f"[{timestamp}] 履歴受信（{word_count}個）\n")
-            sys.stdout.flush()
+            if word_count > 20:
+                sys.stdout.write(f"[{timestamp}] 大容量履歴受信: {word_count}個\n")
+                sys.stdout.flush()
+
+            # 最初の3個と最後の3個のみを表示（中間は省略）
+            if isinstance(words, list):
+                if word_count > 6:
+                    preview_words = words[:3] + ["..."] + words[-3:]
+                    sys.stdout.write(f"[{timestamp}] 履歴受信（{word_count}個）\n")
+                elif word_count > 0:
+                    sys.stdout.write(f"[{timestamp}] 履歴受信（{word_count}個）\n")
+                sys.stdout.flush()
 
         query = words
 
@@ -346,9 +362,10 @@ class NaturalLanguageGeneration:
             # ★修正：音声認識結果が空の場合はリアクションワード生成を行わない
             if not asr_results or all((not x or x.strip() == "") for x in asr_results):
                 self.first_stage_response = ""
-                timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
-                sys.stdout.write(f"[{timestamp}] First stage: ASR結果が空のためスキップ\n")
-                sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[{timestamp}] First stage: ASR結果が空のためスキップ\n")
+                    sys.stdout.flush()
                 return
 
             # ★プロンプトファイル読み込み
@@ -457,9 +474,14 @@ class NaturalLanguageGeneration:
                 self.first_stage_response = res
                 # ★ROS トピック発行用に last_reply にも格納（ROS2ラッパーが監視している）
                 self.last_reply = res
-                # ★簡略化：[HH:MM:SS.mmm] 形式のみ表示
-                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}]\n")
-                sys.stdout.flush()
+
+                # 基本ログ: First stage完了（相槌生成ステージ完了）
+                if SHOW_BASIC_LOGS:
+                    timestamp = llm_end_time.strftime('%H:%M:%S.%f')[:-3]
+                    # 応答文字列が長い場合は省略表示（最初の10文字 + '...'）
+                    response_display = res if len(res) <= 10 else f"{res[:10]}..."
+                    sys.stdout.write(f"[{timestamp}] [NLG] 相槌生成ステージ完了 (処理時間={llm_duration:.1f}ms, 応答='{response_display}')\n")
+                    sys.stdout.flush()
 
             except Exception as api_error:
                 sys.stdout.write(f"[NLG ERROR] first_stage生成エラー: {api_error}\n")
@@ -499,9 +521,10 @@ class NaturalLanguageGeneration:
 
         # ★【重要】Second stage 処理開始時にフラグを設定
         self.is_generating_second_stage = True
-        timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
-        sys.stdout.write(f"[{timestamp}] 🔄 Second stage 処理開始\n")
-        sys.stdout.flush()
+        if SHOW_DEBUG_LOGS:
+            timestamp = start_time.strftime('%H:%M:%S.%f')[:-3]
+            sys.stdout.write(f"[{timestamp}] 🔄 Second stage 処理開始\n")
+            sys.stdout.flush()
 
         try:
             # ★修正：queryが空の場合は、2.5秒間隔ASR結果またはfirst_stageのASR結果を使用
@@ -509,13 +532,15 @@ class NaturalLanguageGeneration:
                 # query が空 → 2.5秒間隔ASR結果を優先使用（Second stage用）
                 if self.asr_history_2_5s:
                     asr_results = self.asr_history_2_5s
-                    sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 2.5秒間隔ASR結果を使用\n")
+                        sys.stdout.flush()
                 else:
                     # asr_history_2_5s がない場合は前回のASR結果を再利用
                     asr_results = self.asr_results if self.asr_results else []
-                    sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG SECOND_STAGE] 💾 前回の ASR 結果を再利用\n")
+                        sys.stdout.flush()
             else:
                 # query が有効 → それを使用
                 asr_results = query if isinstance(query, list) else [str(query)]
@@ -573,29 +598,30 @@ class NaturalLanguageGeneration:
                 sys.stdout.flush()
                 return
 
-            # ★確認用出力：使用するASR結果とfirst_stage結果を表示
-            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            # ★デバッグログ：使用するASR結果とfirst_stage結果を表示
+            if SHOW_DEBUG_LOGS:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
 
-            # ★2.5秒間隔ASR履歴を取得（複数の優先度で取得）
-            asr_2_5s_list = []
-            # 優先度1: ROS2NLG参照から取得（ROS2メッセージから受け取った値）
-            if self.rnlg_ref and hasattr(self.rnlg_ref, 'asr_history_2_5s'):
-                asr_2_5s_list = self.rnlg_ref.asr_history_2_5s
-            # 優先度2: DM参照から取得（ローカル実行時）
-            elif self.dm_ref and hasattr(self.dm_ref, 'asr_history_at_tt_decision_2_5s'):
-                asr_2_5s_list = self.dm_ref.asr_history_at_tt_decision_2_5s
-            # 優先度3: インスタンス変数から取得
-            elif self.asr_history_2_5s:
-                asr_2_5s_list = self.asr_history_2_5s
+                # ★2.5秒間隔ASR履歴を取得（複数の優先度で取得）
+                asr_2_5s_list = []
+                # 優先度1: ROS2NLG参照から取得（ROS2メッセージから受け取った値）
+                if self.rnlg_ref and hasattr(self.rnlg_ref, 'asr_history_2_5s'):
+                    asr_2_5s_list = self.rnlg_ref.asr_history_2_5s
+                # 優先度2: DM参照から取得（ローカル実行時）
+                elif self.dm_ref and hasattr(self.dm_ref, 'asr_history_at_tt_decision_2_5s'):
+                    asr_2_5s_list = self.dm_ref.asr_history_at_tt_decision_2_5s
+                # 優先度3: インスタンス変数から取得
+                elif self.asr_history_2_5s:
+                    asr_2_5s_list = self.asr_history_2_5s
 
-            sys.stdout.write(f"[{timestamp}] [Second Stage] 2.5秒間隔ASR結果: {asr_2_5s_list}\n")
-            sys.stdout.write(f"[{timestamp}] [Second Stage] First Stage結果: '{self.first_stage_response}'\n")
+                sys.stdout.write(f"[{timestamp}] [Second Stage] 2.5秒間隔ASR結果: {asr_2_5s_list}\n")
+                sys.stdout.write(f"[{timestamp}] [Second Stage] First Stage結果: '{self.first_stage_response}'\n")
 
-            # ★修正：複数メッセージ方式のメッセージリストを表示
-            sys.stdout.write(f"[{timestamp}] [Second Stage] LLMへ送信するメッセージ:\n")
-            for i, msg in enumerate(messages, 1):
-                sys.stdout.write(f"  {i} (role={msg['role']}): {msg['content']}\n")
-            sys.stdout.flush()
+                # ★修正：複数メッセージ方式のメッセージリストを表示
+                sys.stdout.write(f"[{timestamp}] [Second Stage] LLMへ送信するメッセージ:\n")
+                for i, msg in enumerate(messages, 1):
+                    sys.stdout.write(f"  {i} (role={msg['role']}): {msg['content']}\n")
+                sys.stdout.flush()
 
             # LLM呼び出し
             llm_start_time = datetime.now()
@@ -689,20 +715,26 @@ class NaturalLanguageGeneration:
                 self.completion_timestamp_ns = int(llm_end_time.timestamp() * 1_000_000_000)
                 self.inference_duration_ms = total_duration
 
-                # ★簡略化：[HH:MM:SS.mmm] 形式のみ表示
-                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}]\n")
-                sys.stdout.flush()
+                # 基本ログ: Second stage完了（本応答生成ステージ完了）
+                if SHOW_BASIC_LOGS:
+                    timestamp = llm_end_time.strftime('%H:%M:%S.%f')[:-3]
+                    # 応答文字列が長い場合は省略表示（最初の20文字 + '...'）
+                    response_display = final_response if len(final_response) <= 20 else f"{final_response[:20]}..."
+                    sys.stdout.write(f"[{timestamp}] [NLG] 本応答生成ステージ完了 (処理時間={total_duration:.1f}ms, 応答='{response_display}')\n")
+                    sys.stdout.flush()
 
                 # ★【重要】Second stage 処理完了時にフラグをリセット
                 self.is_generating_second_stage = False
-                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了\n")
-                sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了\n")
+                    sys.stdout.flush()
 
                 # ★保留中の first_stage リクエストがあれば処理
                 if self.pending_first_stage_request:
-                    sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行\n")
+                        sys.stdout.flush()
 
                     pending_req = self.pending_first_stage_request
                     self.pending_first_stage_request = None  # 保留キューをクリア
@@ -724,14 +756,16 @@ class NaturalLanguageGeneration:
 
                 # ★【重要】エラー時もフラグをリセット
                 self.is_generating_second_stage = False
-                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（エラー）\n")
-                sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                    sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（エラー）\n")
+                    sys.stdout.flush()
 
                 # ★保留中の first_stage リクエストがあれば処理
                 if self.pending_first_stage_request:
-                    sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（エラー後）\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（エラー後）\n")
+                        sys.stdout.flush()
 
                     pending_req = self.pending_first_stage_request
                     self.pending_first_stage_request = None  # 保留キューをクリア
@@ -753,14 +787,16 @@ class NaturalLanguageGeneration:
 
             # ★【重要】外側の例外ハンドラーでもフラグをリセット
             self.is_generating_second_stage = False
-            timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（外部エラー）\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                sys.stdout.write(f"[{timestamp}] ✅ Second stage 処理完了（外部エラー）\n")
+                sys.stdout.flush()
 
             # ★保留中の first_stage リクエストがあれば処理
             if self.pending_first_stage_request:
-                sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（外部エラー後）\n")
-                sys.stdout.flush()
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write(f"[{timestamp}] ▶️  保留中の first_stage リクエストを実行（外部エラー後）\n")
+                    sys.stdout.flush()
 
                 pending_req = self.pending_first_stage_request
                 self.pending_first_stage_request = None  # 保留キューをクリア
@@ -844,7 +880,8 @@ class NaturalLanguageGeneration:
                 
                 # LLM呼び出し
                 llm_start_time = datetime.now()
-                sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 {self.model_name}推論開始\n")
+                if SHOW_DEBUG_LOGS:
+                    sys.stdout.write(f"[{llm_start_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🤖 {self.model_name}推論開始\n")
                 # LLM推論開始チェックポイント
                 if self.current_session_id:
                     self.time_tracker.add_checkpoint(self.current_session_id, "nlg", "llm_start", {
@@ -896,8 +933,9 @@ class NaturalLanguageGeneration:
                                                 if first_token_time is None:
                                                     first_token_time = datetime.now()
                                                     ttft_ms = (first_token_time - api_start_time).total_seconds() * 1000
-                                                    sys.stdout.write(f"[{first_token_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🎯 TTFT: {ttft_ms:.1f}ms\n")
-                                                    sys.stdout.flush()
+                                                    if SHOW_DEBUG_LOGS:
+                                                        sys.stdout.write(f"[{first_token_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🎯 TTFT: {ttft_ms:.1f}ms\n")
+                                                        sys.stdout.flush()
 
                                                 res += token_fragment
 
@@ -906,11 +944,12 @@ class NaturalLanguageGeneration:
                                                 llm_end_time = datetime.now()
                                                 llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
 
-                                                # メトリクス記録（詳細）
-                                                load_duration = chunk_data.get('load_duration', 0) / 1e6
-                                                prompt_eval_duration = chunk_data.get('prompt_eval_duration', 0) / 1e6
-                                                eval_duration = chunk_data.get('eval_duration', 0) / 1e6
-                                                sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ⏱️ load: {load_duration:.1f}ms, prompt: {prompt_eval_duration:.1f}ms, eval: {eval_duration:.1f}ms → total: {llm_duration:.1f}ms\n")
+                                                # メトリクス記録（詳細）- デバッグログ
+                                                if SHOW_DEBUG_LOGS:
+                                                    load_duration = chunk_data.get('load_duration', 0) / 1e6
+                                                    prompt_eval_duration = chunk_data.get('prompt_eval_duration', 0) / 1e6
+                                                    eval_duration = chunk_data.get('eval_duration', 0) / 1e6
+                                                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ⏱️ load: {load_duration:.1f}ms, prompt: {prompt_eval_duration:.1f}ms, eval: {eval_duration:.1f}ms → total: {llm_duration:.1f}ms\n")
                                                 break
                                         except json.JSONDecodeError:
                                             continue
@@ -929,9 +968,10 @@ class NaturalLanguageGeneration:
                         ]
 
                         # デバッグ用ログ
-                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字\n")
-                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] 音声認識結果数: {len(asr_results_for_prompt)}\n")
-                        sys.stdout.flush()
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] プロンプト長: {len(prompt)}文字\n")
+                            sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] 音声認識結果数: {len(asr_results_for_prompt)}\n")
+                            sys.stdout.flush()
 
                         # モデルタイプ別の最適化設定
                         if self.model_name.startswith("gpt-4.1"):
@@ -969,14 +1009,16 @@ class NaturalLanguageGeneration:
                         res = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
 
                         # デバッグ用ログ
-                        sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] API応答長: {len(res)}文字\n")
-                        sys.stdout.flush()
+                        if SHOW_DEBUG_LOGS:
+                            sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}][NLG DEBUG] API応答長: {len(res)}文字\n")
+                            sys.stdout.flush()
 
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {self.model_name}推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {self.model_name}推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
+                        sys.stdout.flush()
 
                 except Exception as api_error:
                     # API呼び出し失敗時はエラーメッセージを設定
@@ -1064,9 +1106,10 @@ class NaturalLanguageGeneration:
 
                     llm_end_time = datetime.now()
                     llm_duration = (llm_end_time - llm_start_time).total_seconds() * 1000
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {self.model_name}推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
-                    sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
-                    sys.stdout.flush()
+                    if SHOW_DEBUG_LOGS:
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] ✅ {self.model_name}推論完了 (LLM時間: {llm_duration:.1f}ms)\n")
+                        sys.stdout.write(f"[{llm_end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG VERBOSE] 生成応答: '{res}'\n")
+                        sys.stdout.flush()
 
                     if ":" in res:
                         res = res.split(":", 1)[1]
@@ -1102,8 +1145,9 @@ class NaturalLanguageGeneration:
                     "source_words": source_words
                 })
             
-            sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🏁 処理完了 (総時間: {total_duration:.1f}ms): {res}\n")
-            sys.stdout.flush()
+            if SHOW_DEBUG_LOGS:
+                sys.stdout.write(f"[{end_time.strftime('%H:%M:%S.%f')[:-3]}][NLG] 🏁 処理完了 (総時間: {total_duration:.1f}ms): {res}\n")
+                sys.stdout.flush()
             
         except Exception as e:
             end_time = datetime.now()
@@ -1169,9 +1213,10 @@ class NaturalLanguageGeneration:
 
 
     def run(self):
-        sys.stdout.write("[NLG] 単一プロセス推論システム開始 (2.5秒間隔制御)\n")
-        sys.stdout.write(f"[NLG] 使用モデル: {self.model_name}\n")
-        sys.stdout.flush()
+        if SHOW_BASIC_LOGS:
+            sys.stdout.write("[NLG] 単一プロセス推論システム開始 (2.5秒間隔制御)\n")
+            sys.stdout.write(f"[NLG] 使用モデル: {self.model_name}\n")
+            sys.stdout.flush()
 if __name__ == "__main__":
     gen = NaturalLanguageGeneration()
     gen.run()
