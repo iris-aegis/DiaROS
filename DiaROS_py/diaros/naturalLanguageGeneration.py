@@ -1172,23 +1172,6 @@ class NaturalLanguageGeneration:
         sys.stdout.write("[NLG] 単一プロセス推論システム開始 (2.5秒間隔制御)\n")
         sys.stdout.write(f"[NLG] 使用モデル: {self.model_name}\n")
         sys.stdout.flush()
-        
-        # 並列処理版をコメントアウト
-        # while True:
-        #     # 並列推論システムでは結果監視のみ
-        #     try:
-        #         # 完了した推論結果があれば処理
-        #         if not self.result_queue.empty():
-        #             result = self.result_queue.get_nowait()
-        #             # 結果処理はワーカー内で完結するため、ここでは特に処理なし
-        #     except:
-        #         pass
-        #     
-        #     time.sleep(0.01)  # 10ms待機
-        
-        # 単一プロセス版では特に無限ループは不要
-        pass
-
 if __name__ == "__main__":
     gen = NaturalLanguageGeneration()
     gen.run()
