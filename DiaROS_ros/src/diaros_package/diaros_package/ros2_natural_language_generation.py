@@ -1,3 +1,10 @@
+# ============================================================
+# ログレベル設定
+# ============================================================
+SHOW_BASIC_LOGS = True   # 基本ログ表示
+SHOW_DEBUG_LOGS = False  # デバッグログ表示
+
+
 import rclpy
 import threading
 import sys
@@ -55,6 +62,14 @@ class RosNaturalLanguageGeneration(Node):
 
         # ★詳細デバッグ：受け取ったメッセージの全フィールドをログ出力
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+        # ★タイムスタンプをナノ秒から人間が読みやすい形式に変換
+        if turn_taking_decision_timestamp_ns > 0:
+            tt_timestamp = datetime.fromtimestamp(turn_taking_decision_timestamp_ns / 1_000_000_000)
+            tt_timestamp_str = tt_timestamp.strftime('%H:%M:%S.%f')[:-3]
+            tt_display = f"[{tt_timestamp_str}] ({turn_taking_decision_timestamp_ns} ns)"
+        else:
+            tt_display = "未設定"
+
         self.get_logger().info(
             f"[{timestamp}] [NLG-DEBUG] DMから受信:\n"
             f"  - words: {words} (長さ={len(words)})\n"
@@ -62,7 +77,7 @@ class RosNaturalLanguageGeneration(Node):
             f"  - request_id: {request_id}\n"
             f"  - first_stage_backchannel_at_tt: '{first_stage_backchannel_at_tt}'\n"
             f"  - asr_history_2_5s: {asr_history_2_5s} (長さ={len(asr_history_2_5s)})\n"
-            f"  - turn_taking_decision_timestamp_ns: {turn_taking_decision_timestamp_ns}"
+            f"  - turn_taking_decision_timestamp: {tt_display}"
         )
 
         # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
