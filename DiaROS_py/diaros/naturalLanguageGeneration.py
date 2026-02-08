@@ -24,13 +24,9 @@ MODEL_NAME = "gemma3:4b"
 # PROMPT_FILE_NAME = "dialog_simple.txt"       # シンプル版（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_predict.txt"      # 発話予測付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_tag.txt"          # タグ処理付き
-# PROMPT_FILE_NAME = "dialog_tag_ver2.txt"          # タグ処理付き
 # PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
 # PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
-# PROMPT_FILE_NAME = "dialog_all_1115.txt"          # 全機能版
-
-# PROMPT_FILE_NAME = "dialog_phone.txt"        # 電話対話用
 
 # 【音声認識結果の補正・補完プロンプト】音声認識結果の修正のみ
 # PROMPT_FILE_NAME = "fix_asr_simple.txt"      # シンプル版（ノイズタグ自動除去）
@@ -41,15 +37,6 @@ MODEL_NAME = "gemma3:4b"
 # PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
 # PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
 PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
-
-# 【タイミング調整プロンプト】
-# PROMPT_FILE_NAME = "example_make_delay.txt"  # 遅延生成用
-# PROMPT_FILE_NAME = "WebRTCVAD_timing_example.txt"   # WebRTCVADタイミング例
-# PROMPT_FILE_NAME = "powerbase_timing_example.txt"   # パワーベースタイミング例
-
-# 【テスト用プロンプト】
-# PROMPT_FILE_NAME = "remdis_test.txt"         # テスト用（シンプル）
-
 # ============================================================
 
 import requests
@@ -115,14 +102,9 @@ class NaturalLanguageGeneration:
         self.time_tracker = get_time_tracker("nlg_pc")
         self.current_session_id = None
         
-        # 並列処理設定をコメントアウト（単一プロセス版）
-        # self.inference_queue = Queue()  # 推論リクエストのキュー
-        # self.result_queue = Queue()     # 推論結果のキュー
-        # self.request_counter = 0        # リクエストカウンター
         self.last_request_time = None   # 最後のリクエスト時刻
         self.last_inference_time = None # 最後の推論実行時刻
         self.inference_interval = 2.5   # 推論間隔（秒）
-        # self.executor = ThreadPoolExecutor(max_workers=3, thread_name_prefix="NLG-Worker")
         
         # モデル初期化（ファイル上部のMODEL_NAMEを使用）
         self.model_name = MODEL_NAME
@@ -221,8 +203,7 @@ class NaturalLanguageGeneration:
             # デフォルトパスを設定（ファイルなくても続行）
             self.prompt_file_path = os.path.join(os.path.dirname(__file__), 'prompts', self.prompt_file_name)
 
-        sys.stdout.write('NaturalLanguageGeneration (単一プロセス) start up.\n')
-        sys.stdout.write(f'使用モデル: {self.model_name}\n')
+        sys.stdout.write('NaturalLanguageGeneration start up.\n')
         sys.stdout.write('=====================================================\n')
 
     def update(self, words, stage='first', turn_taking_decision_timestamp_ns=0, first_stage_backchannel_at_tt=None, asr_history_2_5s=None):
@@ -316,26 +297,15 @@ class NaturalLanguageGeneration:
             self.asr_results = None
 
         # 2.5秒間隔制御を削除: 音声認識結果が来るたびにすぐ応答生成
-        # (以前の間隔制御コードはコメントアウト)
 
-        # 単一プロセス推論に変更（並列処理をコメントアウト）
-        # self.request_counter += 1
-        # request_id = self.request_counter
         request_id = 1  # 単一プロセスでは固定ID
 
-        # ★ログ形式を統一：[HH:MM:SS.mmm] のみ表示
-        # sys.stdout.write(f"[{now.strftime('%H:%M:%S.%f')[:-3]}] 🚀 推論開始\n")
-        # sys.stdout.flush()
-
-        # ★ステージに応じたプロンプト選択と推論実行
-        # Stage ごとに異なるプロンプトを使い分けて実行（同期処理）
+        # Stage ごとに異なるプロンプトを使い分けて実行
         if self.current_stage == 'first':
             # First stage: dialog_first_stage.txt でリアクションワード生成
-            # ★ログ出力を削除（簡略化）
             self.generate_first_stage(query)
         elif self.current_stage == 'second':
             # Second stage: dialog_second_stage.txt で本応答生成
-            # ★ログ出力を削除（簡略化）
             self.generate_second_stage(query)
         else:
             # その他: 従来の _perform_simple_inference()
@@ -473,12 +443,12 @@ class NaturalLanguageGeneration:
                 # ★ROS トピック発行用に last_reply にも格納（ROS2ラッパーが監視している）
                 self.last_reply = res
 
-                # 基本ログ: First stage完了（相槌生成ステージ完了）
+                # 基本ログ: First stage完了（リアクションワード生成ステージ完了）
                 if SHOW_BASIC_LOGS:
                     timestamp = llm_end_time.strftime('%H:%M:%S.%f')[:-3]
                     # 応答文字列が長い場合は省略表示（最初の10文字 + '...'）
                     response_display = res if len(res) <= 10 else f"{res[:10]}..."
-                    sys.stdout.write(f"[{timestamp}] [NLG] 相槌生成ステージ完了 (処理時間={llm_duration:.1f}ms, 応答='{response_display}')\n")
+                    sys.stdout.write(f"[{timestamp}] [NLG] リアクションワード生成ステージ完了 (処理時間={llm_duration:.1f}ms, 応答='{response_display}')\n")
                     sys.stdout.flush()
 
             except Exception as api_error:

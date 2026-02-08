@@ -54,7 +54,7 @@ class RosNaturalLanguageGeneration(Node):
         stage = getattr(msg, 'stage', 'first')  # stageフィールドを取得
         request_id = getattr(msg, 'request_id', 0)
         turn_taking_decision_timestamp_ns = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
-        first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時の相槌内容
+        first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時のリアクションワード内容
         # ★2.5秒間隔ASR履歴を抽出（ROS2メッセージから）
         asr_history_2_5s = list(getattr(msg, 'asr_history_2_5s', []))
         # ★インスタンス変数に保存（NLGで使用）
@@ -97,7 +97,7 @@ class RosNaturalLanguageGeneration(Node):
                 self.stage_start_timestamp_ns = time.time_ns()
 
                 # ステージ開始ログ
-                stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+                stage_name = "リアクションワード生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
                     f"[{timestamp}] [NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
@@ -147,7 +147,7 @@ class RosNaturalLanguageGeneration(Node):
                 stage_duration_ms = 0.0
 
             # ステージ完了ログ
-            stage_name = "相槌生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
+            stage_name = "リアクションワード生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             self.get_logger().info(
                 f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
