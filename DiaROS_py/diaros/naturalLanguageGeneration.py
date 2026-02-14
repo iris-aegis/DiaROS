@@ -7,37 +7,12 @@ SHOW_DEBUG_LOGS = False  # デバッグログ表示
 # ============================================================
 # モデル設定 - ここでモデルを切り替え
 # ============================================================
-# 【OpenAI API モデル】クラウドAPI、高速・高品質
-# MODEL_NAME = "gpt-3.5-turbo-0125"    # 587ms - 最速・最安・安定（推奨）
-# MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
-# MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
-# MODEL_NAME = "gpt-oss:20b"
-# 【Ollama ローカルモデル】オフライン動作、GPU必要
-MODEL_NAME = "gemma3:4b"             
-# MODEL_NAME = "gemma3:12b"            
-# MODEL_NAME = "gemma3:27b"            
+MODEL_NAME = "gemma3:4b"            
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
 # ============================================================
-# 【対話生成プロンプト】音声認識結果から対話応答を生成
-# PROMPT_FILE_NAME = "dialog_simple.txt"       # シンプル版（ノイズタグ自動除去）
-# PROMPT_FILE_NAME = "dialog_predict.txt"      # 発話予測付き（ノイズタグ自動除去）
-# PROMPT_FILE_NAME = "dialog_tag.txt"          # タグ処理付き
-# PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
-# PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
-# PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
-
-# 【音声認識結果の補正・補完プロンプト】音声認識結果の修正のみ
-# PROMPT_FILE_NAME = "fix_asr_simple.txt"      # シンプル版（ノイズタグ自動除去）
-# PROMPT_FILE_NAME = "fix_asr.txt"             # 標準版
-# PROMPT_FILE_NAME = "fix_asr_example.txt"     # 例示付き
-# PROMPT_FILE_NAME = "fix_asr_all.txt"     #
-# PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"     #
-# PROMPT_FILE_NAME = "fix_asr_predict.txt"     #
-# PROMPT_FILE_NAME = "remdis_test_prompt.txt"     #
-PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
-# ============================================================
+PROMPT_FILE_NAME = "dialog_first_stage.txt"
 
 import requests
 import json
@@ -336,8 +311,7 @@ class NaturalLanguageGeneration:
                     sys.stdout.flush()
                 return
 
-            # ★プロンプトファイル読み込み
-            prompt_build_start = datetime.now()
+            # プロンプトファイル読み込み
             try:
                 prompt_text = self._load_first_stage_prompt()
             except FileNotFoundError as e:
@@ -345,9 +319,6 @@ class NaturalLanguageGeneration:
                 sys.stdout.flush()
                 self.first_stage_response = "うん"
                 return
-
-            prompt_build_end = datetime.now()
-            # ★ログ出力を簡略化：プロンプト読み込みログを削除
 
             # LLM呼び出し
             llm_start_time = datetime.now()
@@ -365,8 +336,6 @@ class NaturalLanguageGeneration:
                         {"role": "system", "content": prompt_text},
                         {"role": "user", "content": f"ぶつ切りの音声認識結果: {asr_text}"}
                     ]
-
-                    # ★ログ出力を簡略化：messages送信ログを削除
 
                     response = requests.post(
                         'http://localhost:11434/api/chat',
@@ -402,16 +371,11 @@ class NaturalLanguageGeneration:
                                     # Time to First Token (TTFT) 計測
                                     if first_token_time is None:
                                         first_token_time = datetime.now()
-                                        ttft_ms = (first_token_time - api_start).total_seconds() * 1000
-                                        # ★ログ出力を簡略化：TTFT計測ログを削除
 
                                     res += token_fragment
 
                                 # 完了チェック
                                 if chunk_data.get('done', False):
-                                    api_end = datetime.now()
-                                    total_time = (api_end - api_start).total_seconds() * 1000
-                                    # ★ログ出力を簡略化：中間の推論時間ログを削除
                                     break
 
                             except json.JSONDecodeError:
@@ -513,12 +477,8 @@ class NaturalLanguageGeneration:
                 # query が有効 → それを使用
                 asr_results = query if isinstance(query, list) else [str(query)]
 
-            # ★修正：Second stageでは空のASR結果でも処理を続ける（first_stage_responseを使用するため）
             # ただしfirst_stage_responseも空の場合は返す
-            # ★ログ出力を簡略化（デバッグ情報は削除）
-
             if (not asr_results or all((not x or x.strip() == "") for x in asr_results)) and not self.first_stage_response:
-                # ★ログ出力を簡略化
                 self.last_reply = ""
                 self.last_source_words = []
                 return
@@ -534,9 +494,7 @@ class NaturalLanguageGeneration:
                 with open(second_stage_prompt_path, 'r', encoding='utf-8') as f:
                     system_prompt = f.read()
 
-                # ★ログ出力を簡略化（プロンプト読み込みログを削除）
-
-                # ★修正：複数メッセージ方式 - 正しいロール構造で入力
+                # 複数メッセージ方式で入力
                 # 1. system: システムのタスク説明
                 # 2. user: ユーザーの音声認識結果（発話）
                 # 3. assistant: システムが既に出力したリアクションワード（第1段階の応答）
@@ -603,7 +561,6 @@ class NaturalLanguageGeneration:
 
             # LLM呼び出し
             llm_start_time = datetime.now()
-            # ★ログ出力を簡略化（LLM開始メッセージを削除）
 
             try:
                 if self.model_name.startswith("gemma3:") or self.model_name.startswith("gpt-oss:"):
@@ -648,16 +605,11 @@ class NaturalLanguageGeneration:
                                     # Time to First Token (TTFT) 計測
                                     if first_token_time is None:
                                         first_token_time = datetime.now()
-                                        ttft_ms = (first_token_time - api_start).total_seconds() * 1000
-                                        # ★ログ出力を簡略化（TTFT ログ削除）
 
                                     res += token_fragment
 
                                 # 完了チェック
                                 if chunk_data.get('done', False):
-                                    api_end = datetime.now()
-                                    total_time = (api_end - api_start).total_seconds() * 1000
-                                    # ★ログ出力を簡略化（推論時間ログ削除）
                                     break
 
                             except json.JSONDecodeError:

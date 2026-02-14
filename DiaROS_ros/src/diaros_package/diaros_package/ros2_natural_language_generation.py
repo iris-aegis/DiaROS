@@ -31,9 +31,7 @@ class RosNaturalLanguageGeneration(Node):
         )
 
         self.sub_dm = self.create_subscription(Idm, 'DMtoNLG', self.dm_update, qos_profile)
-        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', qos_profile)  # NLG→SpeechSynthesis用
-        # self.pub_nlg_dr = self.create_publisher(Inlg, 'NLGtoDR', 1)
-        # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
+        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', qos_profile)
         self.timer = self.create_timer(0.02, self.ping)
         self.last_sent_reply = None
 
@@ -154,17 +152,12 @@ class RosNaturalLanguageGeneration(Node):
                 f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
             )
 
-            self.pub_nlg.publish(nlg_msg)  # NLG生成文とステージ情報をNLGtoSSトピックで送信
-            # self.pub_nlg_dr.publish(nlg_msg)  # ← コメントアウト
+            self.pub_nlg.publish(nlg_msg)
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply
 
-            # ★処理中フラグをリセット（次のリクエストを受け付けるため）
+            # 処理中フラグをリセット
             self.processing_request_id = None
             self.processing_stage = None
-
-        mm = Imm()
-        mm.mod = "nlg"
-        # self.pub_mm.publish(mm)
 
 def runROS(node):
     rclpy.spin(node)
@@ -176,7 +169,6 @@ def shutdown():
     while True:
         key = input()
         if key == "kill":
-            print("kill command received.")
             sys.exit()
 
 def main(args=None):
