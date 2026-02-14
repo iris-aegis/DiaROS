@@ -542,8 +542,18 @@ class NaturalLanguageGeneration:
                 # 3. assistant: システムが既に出力したリアクションワード（第1段階の応答）
                 # この流れにより、LLMが対話コンテキストを正しく認識できる
 
+                # ★修正：音声認識結果から不要なタグを削除
+                # dialog_second_stage_triple_input_example_role.txt使用時は[]、[雑音]、[無音]、<unk>を除去
+                cleaned_asr_results = []
+                for asr in asr_results:
+                    # []、[雑音]、[無音]、<unk>を除去
+                    cleaned = asr.replace("[]", "").replace("[Request interrupted by user]", "").replace("[雑音]", "").replace("[無音]", "").replace("<unk>", "")
+                    cleaned = cleaned.strip()
+                    if cleaned:  # 空文字列でない場合のみ追加
+                        cleaned_asr_results.append(cleaned)
+
                 # メッセージリストを構築
-                asr_text = ', '.join(asr_results) if asr_results else "[音声認識結果なし]"
+                asr_text = ', '.join(cleaned_asr_results) if cleaned_asr_results else "[音声認識結果なし]"
                 backchannel_text = self.first_stage_response if self.first_stage_response else "[リアクションワードなし]"
 
                 # ★修正：first_stage（リアクションワード）の末尾に「、」がなければ追加
