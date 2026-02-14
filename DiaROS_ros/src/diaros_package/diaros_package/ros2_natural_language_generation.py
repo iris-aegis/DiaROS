@@ -4,7 +4,6 @@
 SHOW_BASIC_LOGS = True   # 基本ログ表示
 SHOW_DEBUG_LOGS = False  # デバッグログ表示
 
-
 import rclpy
 import threading
 import sys
@@ -22,7 +21,7 @@ class RosNaturalLanguageGeneration(Node):
         super().__init__('natural_language_generation')
         self.naturalLanguageGeneration = naturalLanguageGeneration
 
-        # 分散実行対応のQoSプロファイル設定
+        # 分散実行対応: RELIABLE QoSプロファイルを設定
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.RELIABLE,
             history=HistoryPolicy.KEEP_LAST,
@@ -31,7 +30,9 @@ class RosNaturalLanguageGeneration(Node):
         )
 
         self.sub_dm = self.create_subscription(Idm, 'DMtoNLG', self.dm_update, qos_profile)
-        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', qos_profile)
+        self.pub_nlg = self.create_publisher(Inlg, 'NLGtoSS', qos_profile)  # NLG→SpeechSynthesis用（QoSをRELIABLEに統一）
+        # self.pub_nlg_dr = self.create_publisher(Inlg, 'NLGtoDR', 1)
+        # self.pub_mm = self.create_publisher(Imm, 'MM', 1)
         self.timer = self.create_timer(0.02, self.ping)
         self.last_sent_reply = None
 
@@ -52,30 +53,16 @@ class RosNaturalLanguageGeneration(Node):
         stage = getattr(msg, 'stage', 'first')  # stageフィールドを取得
         request_id = getattr(msg, 'request_id', 0)
         turn_taking_decision_timestamp_ns = getattr(msg, 'turn_taking_decision_timestamp_ns', 0)
-        first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時のリアクションワード内容
+        first_stage_backchannel_at_tt = getattr(msg, 'first_stage_backchannel_at_tt', '')  # ★TurnTaking判定時の相槌内容
         # ★2.5秒間隔ASR履歴を抽出（ROS2メッセージから）
         asr_history_2_5s = list(getattr(msg, 'asr_history_2_5s', []))
         # ★インスタンス変数に保存（NLGで使用）
         self.asr_history_2_5s = asr_history_2_5s
 
-        # ★詳細デバッグ：受け取ったメッセージの全フィールドをログ出力
+        # ★デバッグ：受け取ったメッセージの詳細ログ
         timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        # ★タイムスタンプをナノ秒から人間が読みやすい形式に変換
-        if turn_taking_decision_timestamp_ns > 0:
-            tt_timestamp = datetime.fromtimestamp(turn_taking_decision_timestamp_ns / 1_000_000_000)
-            tt_timestamp_str = tt_timestamp.strftime('%H:%M:%S.%f')[:-3]
-            tt_display = f"[{tt_timestamp_str}] ({turn_taking_decision_timestamp_ns} ns)"
-        else:
-            tt_display = "未設定"
-
         self.get_logger().info(
-            f"[{timestamp}] [NLG-DEBUG] DMから受信:\n"
-            f"  - words: {words} (長さ={len(words)})\n"
-            f"  - stage: '{stage}'\n"
-            f"  - request_id: {request_id}\n"
-            f"  - first_stage_backchannel_at_tt: '{first_stage_backchannel_at_tt}'\n"
-            f"  - asr_history_2_5s: {asr_history_2_5s} (長さ={len(asr_history_2_5s)})\n"
-            f"  - turn_taking_decision_timestamp: {tt_display}"
+            f"[{timestamp}] [NLG-DEBUG] DM受信: words={len(words)}件, stage='{stage}', request_id={request_id}, msg.stage属性={hasattr(msg, 'stage')}"
         )
 
         # ★修正：Second stageでは空のwordsでも処理を続ける（first_stage_responseを使用するため）
@@ -95,7 +82,7 @@ class RosNaturalLanguageGeneration(Node):
                 self.stage_start_timestamp_ns = time.time_ns()
 
                 # ステージ開始ログ
-                stage_name = "リアクションワード生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
+                stage_name = "相槌生成" if stage == "first" else "応答生成" if stage == "second" else "不明"
                 timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                 self.get_logger().info(
                     f"[{timestamp}] [NLG] {stage_name}ステージ開始 (request_id={request_id}, 入力数={len(words)})"
@@ -144,32 +131,41 @@ class RosNaturalLanguageGeneration(Node):
             else:
                 stage_duration_ms = 0.0
 
-            # ステージ完了ログ
-            stage_name = "リアクションワード生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
+            # ★ステージ完了ログ
+            stage_name = "相槌生成" if self.current_stage == "first" else "応答生成" if self.current_stage == "second" else "不明"
             timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            self.get_logger().info(
-                f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
-                f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
-            )
 
-            self.pub_nlg.publish(nlg_msg)
+            # ★基本ログ：応答をspeechSynthesisへ送信
+            if SHOW_BASIC_LOGS:
+                stage_display = "相槌" if self.current_stage == "first" else "応答"
+                self.get_logger().info(
+                    f"[{timestamp}] [NLG→SS] {stage_display}を NLGtoSS トピック経由で送信: '{nlg_msg.reply}' (request_id={self.current_request_id}, stage={self.current_stage})"
+                )
+
+            # ★デバッグログ：全ステージの完了情報
+            if SHOW_DEBUG_LOGS:
+                self.get_logger().info(
+                    f"[{timestamp}] [NLG] {stage_name}ステージ完了 (request_id={self.current_request_id}, "
+                    f"処理時間={stage_duration_ms:.1f}ms, 応答='{nlg_msg.reply[:30]}...' {'← お疲れ様' if len(nlg_msg.reply) > 30 else ''})"
+                )
+
+            self.pub_nlg.publish(nlg_msg)  # NLG生成文とステージ情報をNLGtoSSトピックで送信
+            # self.pub_nlg_dr.publish(nlg_msg)  # ← コメントアウト
             self.last_sent_reply = self.naturalLanguageGeneration.last_reply
 
-            # 処理中フラグをリセット
+            # ★処理中フラグをリセット（次のリクエストを受け付けるため）
             self.processing_request_id = None
             self.processing_stage = None
+
+        mm = Imm()
+        mm.mod = "nlg"
+        # self.pub_mm.publish(mm)
 
 def runROS(node):
     rclpy.spin(node)
 
 def runNLG(naturalLanguageGeneration):
     naturalLanguageGeneration.run()
-
-def shutdown():
-    while True:
-        key = input()
-        if key == "kill":
-            sys.exit()
 
 def main(args=None):
     naturalLanguageGeneration = NaturalLanguageGeneration()
@@ -186,7 +182,15 @@ def main(args=None):
 
     ros.start()
     mod.start()
-    shutdown()
+
+    # シャットダウンシグナル待機（Ctrl+C対応）
+    try:
+        ros.join()
+        mod.join()
+    except KeyboardInterrupt:
+        print("NLG shutting down...")
+        rnlg.destroy_node()
+        rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
