@@ -148,7 +148,7 @@ class NaturalLanguageGeneration:
                 keep_alive="10m",  # モデルをメモリに保持する時間（延長）
                 additional_kwargs=additional_kwargs
             )
-            if SHOW_BASIC_LOGS:
+            if SHOW_DEBUG_LOGS:
                 sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了 (num_predict={num_predict})\n')
                 sys.stdout.flush()
 
@@ -165,7 +165,7 @@ class NaturalLanguageGeneration:
                 sys.stdout.flush()
                 raise ValueError("OPENAI_API_KEY が設定されていません")
             else:
-                if SHOW_BASIC_LOGS:
+                if SHOW_DEBUG_LOGS:
                     sys.stdout.write(f'[NLG] ✅ {self.model_name}モデル初期化完了\n')
                     sys.stdout.flush()
 
@@ -430,12 +430,9 @@ class NaturalLanguageGeneration:
                 # ★ROS トピック発行用に last_reply にも格納（ROS2ラッパーが監視している）
                 self.last_reply = res
 
-                # 基本ログ: First stage完了（リアクションワード生成ステージ完了）
+                # 基本ログ: First stage完了（応答内容のみ）
                 if SHOW_BASIC_LOGS:
-                    timestamp = llm_end_time.strftime('%H:%M:%S.%f')[:-3]
-                    # 応答文字列が長い場合は省略表示（最初の10文字 + '...'）
-                    response_display = res if len(res) <= 10 else f"{res[:10]}..."
-                    sys.stdout.write(f"[{timestamp}] [NLG] リアクションワード生成ステージ完了 (処理時間={llm_duration:.1f}ms, 応答='{response_display}')\n")
+                    sys.stdout.write(f"{res}\n")
                     sys.stdout.flush()
 
             except Exception as api_error:
@@ -668,12 +665,9 @@ class NaturalLanguageGeneration:
                 self.completion_timestamp_ns = int(llm_end_time.timestamp() * 1_000_000_000)
                 self.inference_duration_ms = total_duration
 
-                # 基本ログ: Second stage完了（本応答生成ステージ完了）
+                # 基本ログ: Second stage完了（応答内容のみ）
                 if SHOW_BASIC_LOGS:
-                    timestamp = llm_end_time.strftime('%H:%M:%S.%f')[:-3]
-                    # 応答文字列が長い場合は省略表示（最初の20文字 + '...'）
-                    response_display = final_response if len(final_response) <= 20 else f"{final_response[:20]}..."
-                    sys.stdout.write(f"[{timestamp}] [NLG] 本応答生成ステージ完了 (処理時間={total_duration:.1f}ms, 応答='{response_display}')\n")
+                    sys.stdout.write(f"{final_response}\n")
                     sys.stdout.flush()
 
                 # ★【重要】Second stage 処理完了時にフラグをリセット
@@ -1166,10 +1160,7 @@ class NaturalLanguageGeneration:
 
 
     def run(self):
-        if SHOW_BASIC_LOGS:
-            sys.stdout.write("[NLG] 単一プロセス推論システム開始 (2.5秒間隔制御)\n")
-            sys.stdout.write(f"[NLG] 使用モデル: {self.model_name}\n")
-            sys.stdout.flush()
+        pass
 if __name__ == "__main__":
     gen = NaturalLanguageGeneration()
     gen.run()
