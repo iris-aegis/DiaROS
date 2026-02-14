@@ -7,12 +7,35 @@ SHOW_DEBUG_LOGS = False  # デバッグログ表示
 # ============================================================
 # モデル設定 - ここでモデルを切り替え
 # ============================================================
-MODEL_NAME = "gemma3:4b"            
+# 【OpenAI API モデル】クラウドAPI、高速・高品質
+# MODEL_NAME = "gpt-3.5-turbo-0125"    # 587ms - 最速・最安・安定（推奨）
+# MODEL_NAME = "gpt-4.1-nano"          # 604ms - 最新技術・高速
+# MODEL_NAME = "gpt-5-chat-latest"     # 708ms - GPT-5最速版・安定
+# MODEL_NAME = "gpt-oss:20b"
+# 【Ollama ローカルモデル】オフライン動作、GPU必要
+MODEL_NAME = "gemma3:4b"
+# MODEL_NAME = "gemma3:12b"
+# MODEL_NAME = "gemma3:27b"
 
 # ============================================================
 # プロンプトファイル名の設定 - ここでプロンプトを切り替え
 # ============================================================
-PROMPT_FILE_NAME = "dialog_first_stage.txt"
+# 【対話生成プロンプト】音声認識結果から対話応答を生成
+# PROMPT_FILE_NAME = "dialog_simple.txt"       # シンプル版（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_predict.txt"      # 発話予測付き（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_tag.txt"          # タグ処理付き
+# PROMPT_FILE_NAME = "dialog_explain.txt"      # 詳細説明付き（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_example.txt"      # 例示付き（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "dialog_all.txt"          # 全機能版
+# 【音声認識結果の補正・補完プロンプト】音声認識結果の修正のみ
+# PROMPT_FILE_NAME = "fix_asr_simple.txt"      # シンプル版（ノイズタグ自動除去）
+# PROMPT_FILE_NAME = "fix_asr.txt"             # 標準版
+# PROMPT_FILE_NAME = "fix_asr_example.txt"     # 例示付き
+# PROMPT_FILE_NAME = "fix_asr_all.txt"
+# PROMPT_FILE_NAME = "fix_asr_explain_fixed.txt"
+# PROMPT_FILE_NAME = "fix_asr_predict.txt"
+# PROMPT_FILE_NAME = "remdis_test_prompt.txt"
+PROMPT_FILE_NAME = "dialog_first_stage.txt"     # 200ms以内達成用（短いリアクションワードのみ）
 
 import requests
 import json
